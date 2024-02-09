@@ -14,7 +14,7 @@ class SoundEngine:
         self._client = client
 
     def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EAkActionOnEventType, game_object: int,
-                                transition_duration: int, fade_curve: EAkCurveInterpolation) -> None:
+                                transition_duration: int, fade_curve: EAkCurveInterpolation) -> dict:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
         Executes an action on all nodes that are referenced in the specified event in a Play action.
@@ -23,12 +23,13 @@ class SoundEngine:
         :param game_object: The ID of the game object.
         :param transition_duration: The fade duration in milliseconds.
         :param fade_curve: The curve to use for the fade.
+        :return: If the call succeeds, this function will return an empty dictionary.
         """
         args = {"event": event, "actionType": action_type, "gameObject": game_object,
                 "transitionDuration": transition_duration, "fadeCurve": fade_curve}
-        self._client.call("ak.soundengine.executeActionOnEvent", args)
+        return self._client.call("ak.soundengine.executeActionOnEvent", args)
 
-    def get_state(self, state_group: Name | ShortID | GUID | ProjectPath):
+    def get_state(self, state_group: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getstate.html \n
         Gets the current state of a State Group. When using setState just prior to getState, allow a brief delay (no
@@ -41,9 +42,10 @@ class SoundEngine:
         elif isinstance(state_group, ShortID):
             state_group = f"Global:{state_group}"
         args = {"stateGroup": state_group}
-        return self._client.call("ak.soundengine.getState", args).get("return")
+        results = self._client.call("ak.soundengine.getState", args).get("return")
+        return results.get("name"), results.get("id")
 
-    def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath, game_object: int):
+    def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath, game_object: int) -> tuple[str, str]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getswitch.html \n
         Gets the current state of a Switch Group for a given Game Object.
@@ -56,36 +58,65 @@ class SoundEngine:
         elif isinstance(switch_group, ShortID):
             switch_group = f"Global:{switch_group}"
         args = {"switchGroup": switch_group, "gameObject": game_object}
-        return self._client.call("ak.soundengine.getSwitch", args).get("return")
+        results = self._client.call("ak.soundengine.getSwitch", args).get("return")
+        return results.get("name"), results.get("id")
 
-    def load_bank(self, sound_bank: str | int):
+    def load_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_loadbank.html \n
         Load a SoundBank. See `AK::SoundEngine::LoadBank`.
         :param sound_bank: The name or short ID of the bank.
+        :return: Whether the operation worked
         """
         args = {"soundBank": sound_bank}
+        return self._client.call("ak.soundengine.loadBank", args) is not None
 
-    def post_event(self):
+    def post_event(self, event: Name | ShortID | GUID, game_object: int) -> int:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postevent.html \n
         Asynchronously post an Event to the sound engine (by event ID). See `AK::SoundEngine::PostEvent`.
+        :param event: The name, short ID, or GUID of the event to post.
+        :param game_object: The ID of the game object the event should be posted on.
+        :return: The Playing ID of the event.
         """
+        args = {"event": event, "gameObject": game_object}
+        return self._client.call("ak.soundengine.postEvent", args).get("return")
 
-    def post_msg_monitor(self):
+    def post_msg_monitor(self, message: str) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postmsgmonitor.html ]n
         Display a message in the Profiler's Capture Log view.
+        :param message: The message to display.
+        :return: Whether this operation worked.
         """
+        args = {"message": message}
+        return self._client.call("ak.soundengine.postMsgMonitor", args) is not None
 
-    def post_trigger(self):
+    def post_trigger(self, trigger: Name | ShortID | GUID, game_object: int = None) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_posttrigger.html \n
         Posts the specified Trigger. See `AK::SoundEngine::PostTrigger`.
+        :param trigger: The name, short ID, or GUID of the trigger to post.
+        :param game_object: The ID of the game object on which the trigger should be posted. If unspecified, the trigger
+        will be posted globally.
+        :return: Whether this operation worked.
         """
+        args = {"trigger": trigger}
+        if game_object is not None:
+            args["gameObject"] = game_object
+        return self._client.call("ak.soundengine.postTrigger", args) is not None
 
-    def register_game_obj(self):
+    def register_game_obj(self, obj_id: int, obj_name: Name) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_registergameobj.html \n
         Register a game object. Registering a game object twice does nothing. Unregistering it once unregisters
         it no matter how many times it has been registered. See `AK::SoundEngine::RegisterGameObj`.
+        :param obj_id: The ID of the game object to register.
+        :param obj_name: The name of the game object to register. This is for monitoring purposes only.
+        :return: Whether the call succeeded.
         """
+        args = {"gameObject": obj_id, "name": obj_name}
+        return self._client.call("ak.soundengine.registerGameObj", args) is not None
 
     def reset_rtpc_value(self):
         """
@@ -113,8 +144,8 @@ class SoundEngine:
 
     def set_game_object_output_bus_volume(self):
         """
-        Sets the Auxiliary Buses to route the specified game object. See
-        `AK::SoundEngine::SetGameObjectAuxSendValues`.
+        Set the output bus volume (direct) to be used for the specified game object. See
+        `AK::SoundEngine::SetGameObjectOutputBusVolume`.
         """
 
     def set_listeners(self):
@@ -182,17 +213,27 @@ class SoundEngine:
         `AK::SoundEngine::StopPlayingID`.
         """
 
-    def unload_bank(self):
+    def unload_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unloadbank.html \n
         Unload a SoundBank. See `AK::SoundEngine::UnloadBank`.
+        :param sound_bank: The name, short ID, or GUID of the bank to unload.
+        :return: Whether the operation succeeded.
         """
+        args = {"soundBank": sound_bank}
+        return self._client.call("ak.soundengine.unloadBank", args) is not None
 
-    def unregister_game_obj(self):
+    def unregister_game_obj(self, obj_id: int) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unregistergameobj.html \n
         Unregisters a game object. Registering a game object twice does nothing. Unregistering it once
         unregisters it no matter how many times it has been registered. Unregistering a game object while it is
         in use is allowed, but the control over the parameters of this game object is lost. For example,
         say a sound associated with this game object is a 3D moving sound. It stops moving when the game object
         is unregistered, and there is no way to regain control over the game object. See
         `AK::SoundEngine::UnregisterGameObj`.
+        :param obj_id: The ID of the game object to unregister.
+        :return: Whether this operation worked.
         """
+        args = {"gameObject": obj_id}
+        return self._client.call("ak.soundengine.unregisterGameObj", args) is not None
