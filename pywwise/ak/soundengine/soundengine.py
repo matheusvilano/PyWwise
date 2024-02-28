@@ -118,11 +118,20 @@ class SoundEngine:
         args = {"gameObject": obj_id, "name": obj_name}
         return self._client.call("ak.soundengine.registerGameObj", args) is not None
 
-    def reset_rtpc_value(self):
+    def reset_rtpc_value(self, rtpc: Name | ShortID | GUID, game_object: int = None) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_resetrtpcvalue.html \n
         Resets the value of a real-time parameter control to its default value, as specified in the Wwise
         project. See `AK::SoundEngine::ResetRTPCValue`.
+        :param rtpc: The name, short ID, or GUID of the RTPC parameter to reset.
+        :param game_object: The ID of the game object on which the RTPC should be reset. If not specified, the RTPC
+        value will be reset globally
+        :return: Whether this operation succeeded
         """
+        args = {"rtpc": rtpc}
+        if game_object is not None:
+            args["gameObject"] = game_object
+        return self._client.call("ak.soundengine.restRTPCValue", args) is not None
 
     def seek_on_event(self):
         """
