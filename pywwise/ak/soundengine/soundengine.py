@@ -125,67 +125,142 @@ class SoundEngine:
         project. See `AK::SoundEngine::ResetRTPCValue`.
         :param rtpc: The name, short ID, or GUID of the RTPC parameter to reset.
         :param game_object: The ID of the game object on which the RTPC should be reset. If not specified, the RTPC
-        value will be reset globally
-        :return: Whether this operation succeeded
+        value will be reset globally.
+        :return: Whether this operation succeeded.
         """
         args = {"rtpc": rtpc}
         if game_object is not None:
             args["gameObject"] = game_object
-        return self._client.call("ak.soundengine.restRTPCValue", args) is not None
+        return self._client.call("ak.soundengine.resetRTPCValue", args) is not None
 
-    def seek_on_event(self):
+    def seek_on_event(self, event: Name | ShortID | GUID, game_object: int = None, position: int = None,
+                      percent: float = None, seek_to_nearest_marker: bool = None, playing_id: int = None) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_seekonevent.html \n
         Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See
         `AK::SoundEngine::SeekOnEvent`.
+        :param event: The name, short ID, or GUID of th event parameter to seek.
+        :param game_object: The ID of the associated game object.
+        :param position: The position where playback should restart, in milliseconds.
+        :param percent: The position where playback should restart, expressed in a percentage of the total duration,
+        between 0 and 1f.
+        :param seek_to_nearest_marker: If true, the final seeking position is made equal to the nearest marker.
+        :param playing_id: Specifies the playing ID for which the seek is to be applied.
+        :return: Whether the command was queued or if the Event ID is unknown.
         """
+        args = ({"event": event, "position": position, "seekToNearestMarker": seek_to_nearest_marker,
+                 "playingID": playing_id} |
+                {"event": event, "percent": percent, "seekToNearestMarker": seek_to_nearest_marker,
+                 "playingID": playing_id})
+        if game_object is not None:
+            args["gameObject"] = game_object
+        return self._client.call("ak.soundengine.seekOnEvent", args) is not None
 
-    def set_default_listeners(self):
+    def set_default_listeners(self, listeners: []) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setdefaultlisteners.html \n
         Sets the default active listeners for all subsequent game objects that are registered. See
         `AK::SoundEngine::SetDefaultListeners`.
+        :param listeners: The array of listener game object IDs. Game objects must have been previously registered.
+        :return: Always True
         """
+        num_listeners = len(listeners)
+        args = {"listeners": listeners,"numListeners": num_listeners}
+        return self._client.call("ak.soundengine.setDefaultListeners", args) is not None
 
-    def set_game_object_aux_send_values(self):
+    def set_game_object_aux_send_values(self, game_object: int = None, aux_send_values: [] = None) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
         Sets the Auxiliary Busses to route the specified game object. See
         `AK::SoundEngine::SetGameObjectAuxSendValues`.
+        :param game_object: The ID of the game object that the auxiliary busses will route.
+        :param aux_send_values: The array of AkAuxSendValues structures.
+        :param num_send_values: The number of auxiliary busses at the pointer's address.
+        :return: Whether this operation succeeded.
         """
+        num_send_values = len(aux_send_values)
+        args = {"gameObject": game_object, "auxSendValues": aux_send_values, "numSendValues": num_send_values}
+        return self._client.call("ak.soundengine.setGameObjectAuxSendValues", args) is not None
 
-    def set_game_object_output_bus_volume(self):
+    def set_game_object_output_bus_volume(self, emitter: int, listener: int, control_value: float) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectoutputbusvolume.html
         Set the output bus volume (direct) to be used for the specified game object. See
         `AK::SoundEngine::SetGameObjectOutputBusVolume`.
+        :param emitter: The ID of the game object that is emitting.
+        :param listener: The ID of the listener.
+        :param control_value: The multiplier that attenuates or amplifies the sound.
+        :return: Whether this operation succeeded.
         """
+        args = {"emitter": emitter, "listener": listener, "controlValue": control_value}
+        return self._client.call("ak.soundengine.setGameObjectOutputBusVolume", args) is not None
 
-    def set_listeners(self):
+    def set_listeners(self, emitter: int, listeners: []) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlisteners.html
         Sets a single game object's active listeners. By default, all new game objects have no listeners active,
         but this behavior can be overridden with `SetDefaultListeners()`. Inactive listeners are not computed. See
         `AK::SoundEngine::SetListeners`.
+        :param emitter: The game object to set listeners for.
+        :param listeners: The array of listener game object IDs. Gae objects must have been previously registered.
+        :return: Whether this operation succeeded.
         """
+        num_listeners = len(listeners)
+        args = {"emitter": emitter, "listeners": listeners, "numListeners": num_listeners}
+        return self._client.call("ak.soundengine.setListeners", args) is not None
 
-    def set_listener_spatialization(self):
+    def set_listener_spatialization(self, listener: int, spatialized: bool, channel_config: int,
+                                    volume_offsets: []) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
         Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for
         each audio channel. See `AK::SoundEngine::SetListenerSpatialization`.
+        :param listener: The listener game object to set spatialization.
+        :param spatialized: Spatialization toggle.
+        :param channel_config: The channel configuration associated with parameter volumeOffsets.
+        :param volume_offsets: The array of per-speaker volume offsets, in decibels.
+        :return: Whether the message was successfully posted to the sound engine queue.
         """
+        args = {"listener": listener, "spatialized": spatialized, "channelConfig": channel_config,
+                "volumeOffsets": volume_offsets}
+        return self._client.call("ak.soundengine.setListenerSpatialization", args) is not None
 
-    def set_multiple_positions(self):
+    def set_multiple_positions(self, game_object: int, positions: [], multi_position_type: int) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setmultiplepositions.html \n
         Sets multiple positions for a single game object. Setting multiple positions for a single game object is
         a way to simulate multiple emission sources while using the resources of only one voice. This can be used
         to simulate wall openings, area sounds, or multiple objects emitting the same sound in the same area. See
         `AK::SoundEngine::SetMultiplePositions`.
+        :param game_object: The game object to have multiple positions.
+        :param positions: The array of positions to apply to the game object.
+        :param multi_position_type: The multi-position type. Range: [0,2] (SingleSource, MultiSources, MultiDirections).
+        :return: Whether the operation was successful.
         """
+        num_positions = len(positions)
+        args = {"gameObject": game_object, "positions": positions, "numPositions": num_positions,
+                "multiPositionType": multi_position_type}
+        return self._client.call("ak.soundengine.setMultiplePositions", args) is not None
 
-    def set_object_obstruction_and_occlusion(self):
+    def set_object_obstruction_and_occlusion(self, emitter: int, listener: int, obstruction_level: float,
+                                             occlusion_level: float) -> bool:
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setobjectobstructionandocclusion.html
         Set a game object's obstruction and occlusion levels. This function is used to affect how an object
         should be heard by a specific listener. See `AK::SoundEngine::SetObjectObstructionAndOcclusion`.
+        :param emitter: The game object ID of the emitter.
+        :param listener: The game object ID of the listener.
+        :param obstruction_level: The obstruction level [0.0f to 1.0f]
+        :param occlusion_level: The occlusion level [0.0f to 1.0f]
+        :return: Whether the operation was successful
         """
+        args = {"emitter": emitter, "listener": listener, "obstructionLevel": obstruction_level,
+                "occlusionLevel": occlusion_level}
+        return self._client.call("ak.soundengine.setObjectObstructionAndOcclusion", args) is not None
 
-    def set_position(self):
+    def set_position(self, game_object: int, position):
         """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
         Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
         """
 
