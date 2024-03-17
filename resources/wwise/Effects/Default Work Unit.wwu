@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D2E9BE07-C05D-4509-B011-6A8FCDC75107}" SchemaVersion="119">
+	<Effects>
+		<WorkUnit Name="Default Work Unit" ID="{D2E9BE07-C05D-4509-B011-6A8FCDC75107}" PersistMode="Standalone">
+			<ChildrenList>
+				<Effect Name="Effect_Test" ID="{2BB49B62-E20A-4D05-B960-FFDE3619BA31}" PluginName="Wwise Gain" CompanyID="0" PluginID="139" PluginType="3"/>
+			</ChildrenList>
+		</WorkUnit>
+	</Effects>
+</WwiseDocument>

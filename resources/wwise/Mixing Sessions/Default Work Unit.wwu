@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A147817B-5F5C-4EC2-900E-B53AF31A7CF9}" SchemaVersion="119">
+	<MixingSessions>
+		<WorkUnit Name="Default Work Unit" ID="{A147817B-5F5C-4EC2-900E-B53AF31A7CF9}" PersistMode="Standalone">
+			<ChildrenList>
+				<MixingSession Name="MixingSession_Test" ID="{6DB2666E-7BAB-4D05-A8C8-FFCFA7725836}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</MixingSessions>
+</WwiseDocument>
