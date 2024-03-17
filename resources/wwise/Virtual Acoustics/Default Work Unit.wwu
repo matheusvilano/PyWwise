@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D8885009-4AE6-4F96-A8FD-BB9755E726C3}" SchemaVersion="119">
+	<VirtualAcoustics>
+		<WorkUnit Name="Default Work Unit" ID="{D8885009-4AE6-4F96-A8FD-BB9755E726C3}" PersistMode="Standalone">
+			<ChildrenList>
+				<AcousticTexture Name="AcousticTexture_Test" ID="{4B867A8D-20A0-4801-836B-1D74CC131804}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</VirtualAcoustics>
+</WwiseDocument>

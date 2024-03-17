@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{AD9FBCD2-5BB4-428F-8AC8-C5BFFB9FC4ED}" SchemaVersion="119">
+	<Modulators>
+		<WorkUnit Name="Default Work Unit" ID="{AD9FBCD2-5BB4-428F-8AC8-C5BFFB9FC4ED}" PersistMode="Standalone">
+			<ChildrenList>
+				<ModulatorLfo Name="ModLfo_Test" ID="{CD42E49D-1F05-4486-8D1D-2B18CE38B224}" ShortID="284738222"/>
+				<ModulatorEnvelope Name="ModEnvelope_Test" ID="{4A8C3830-50B8-4DEF-ACF1-2882B9D1754A}" ShortID="346576688"/>
+				<ModulatorTime Name="ModTime_Test" ID="{360EF029-357D-4B64-8A7E-306CF23B03B2}" ShortID="619105355"/>
+			</ChildrenList>
+		</WorkUnit>
+	</Modulators>
+</WwiseDocument>

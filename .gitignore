@@ -229,3 +229,13 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+# Wwise
+resources/wwise/.backup/**/*
+resources/wwise/.cache/**/*
+resources/wwise/GeneratedSoundBanks/**/*
+resources/wwise/Originals/**/*.akd
+resources/wwise/**/*.prof
+resources/wwise/**/*.validationcache
+resources/wwise/**/*.wsettings
+resources/wwise/IncrementalSoundBankData.xml

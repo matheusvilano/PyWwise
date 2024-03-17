@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B0BF4B0F-22A9-4EA3-966A-90880D126F11}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="Default Work Unit" ID="{B0BF4B0F-22A9-4EA3-966A-90880D126F11}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="SwitchGroup_Test" ID="{3163C750-AD28-48C0-A652-DECFDD2840C9}">
+					<ChildrenList>
+						<Switch Name="SwitchValue_Test" ID="{05D0A833-9359-4E25-8F8E-2E1D413616D7}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

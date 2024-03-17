@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D9680866-26C8-4144-9840-70223A6CD0A6}" SchemaVersion="119">
+	<Metadatas>
+		<WorkUnit Name="Default Work Unit" ID="{D9680866-26C8-4144-9840-70223A6CD0A6}" PersistMode="Standalone">
+			<ChildrenList>
+				<Metadata Name="Metadata_Test" ID="{3D9065E1-5A69-4129-B562-096AFDC5F54F}" PluginName="Wwise System Output Settings" CompanyID="0" PluginID="900" PluginType="9"/>
+			</ChildrenList>
+		</WorkUnit>
+	</Metadatas>
+</WwiseDocument>
