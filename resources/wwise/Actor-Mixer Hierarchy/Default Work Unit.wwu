@@ -1,6 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{63311ADB-73B2-43EE-97F6-5A6731AD8F20}" SchemaVersion="119">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{63311ADB-73B2-43EE-97F6-5A6731AD8F20}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{63311ADB-73B2-43EE-97F6-5A6731AD8F20}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="VirtualFolder_Test" ID="{AB482DCB-9BD0-42D3-BA26-302D26770972}" ShortID="66897075">
+					<ChildrenList>
+						<ActorMixer Name="ActorMixer_Test" ID="{AC6D8219-026E-42B3-9500-78FA814A7338}" ShortID="842083082">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SwitchContainer Name="SwitchContainer_Test" ID="{CF6162C6-E6AA-4C83-B47A-C6689D4A4090}" ShortID="376289075">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="SwitchContainer_Test_A" ID="{704FA742-B41E-46EC-BAB3-97EFB55D2288}" ShortID="9426885">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="SwitchContainer_Test_B" ID="{E90D23A4-CA7E-42A9-B65A-CB86E020CF49}" ShortID="813277291">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+									</ChildrenList>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="SwitchContainer_Test_A" ID="{704FA742-B41E-46EC-BAB3-97EFB55D2288}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="SwitchContainer_Test_B" ID="{E90D23A4-CA7E-42A9-B65A-CB86E020CF49}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+									</GroupingInfo>
+								</SwitchContainer>
+								<Sound Name="SoundVoice_Test" ID="{39049D64-C7C2-4D6D-848A-6A740F091740}" ShortID="76119712">
+									<PropertyList>
+										<Property Name="IsVoice" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+								</Sound>
+								<Sound Name="SoundSfx_Test" ID="{082B80EF-B825-4CE2-A2B7-46850ECDE6FF}" ShortID="236491565">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+								</Sound>
+								<RandomSequenceContainer Name="SequenceContainer_Test" ID="{A57159AC-E64B-4E58-9569-7DA1AA422B25}" ShortID="2898814">
+									<PropertyList>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="SequenceContainer_Test_01" ID="{DFBECB7C-41E7-4AF3-986A-3A17577892C6}" ShortID="192558387">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="SequenceContainer_Test_02" ID="{60126E33-7229-4E1B-9220-4D6B9DAB75F9}" ShortID="39804768">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="SequenceContainer_Test_03" ID="{9DEAB974-0650-4A26-BD3A-516FB44CE041}" ShortID="806820174">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="RandomContainer_Test" ID="{C90BC3F5-AD78-489C-954D-C297EEA62E5D}" ShortID="173937654">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="RandomContainer_Test_01" ID="{2A11A310-B5F5-4CAB-90B9-AA67696D4EB9}" ShortID="552550167">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="RandomContainer_Test_02" ID="{41C1F653-A793-446B-B1DD-1AD2074F06C5}" ShortID="807554078">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="RandomContainer_Test_03" ID="{B3C5792A-646A-420F-81C1-D721BD452470}" ShortID="747102564">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<BlendContainer Name="BlendContainer_Test" ID="{1EBC0D80-23AE-4094-85EB-C315E26DF47D}" ShortID="571427951">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="BlendContainer_Test_A" ID="{AA1FBA6E-4542-4462-8BF4-C9ED43ADA221}" ShortID="787208312">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+										<Sound Name="BlendContainer_Test_B" ID="{5996F909-FFB4-4ACE-A386-DDE883B02693}" ShortID="327619616">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+											</ReferenceList>
+										</Sound>
+									</ChildrenList>
+									<BlendTrackList>
+										<BlendTrack Name="BlendTrack_Test" ID="{8B2C82C0-DBBF-4270-8DE9-C93BDB895DEF}" ShortID="317913340">
+											<PropertyList>
+												<Property Name="EnableCrossFading" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="LayerCrossFadeControlInput">
+													<ObjectRef Name="GameParameter_Test" ID="{2F6ABC49-ACB1-443B-A61C-7B47CCF840B5}" WorkUnitID="{BB816480-0030-4B6E-9820-0466D52DC8B1}"/>
+												</Reference>
+											</ReferenceList>
+											<BlendTrackAssocList>
+												<BlendTrackAssoc>
+													<ItemRef Name="BlendContainer_Test_A" ID="{AA1FBA6E-4542-4462-8BF4-C9ED43ADA221}"/>
+													<CrossfadingInfo>
+														<LeftEdgePos>0</LeftEdgePos>
+														<LeftFadingMode>Automatic</LeftFadingMode>
+														<RightEdgePos>69.75</RightEdgePos>
+														<RightFadingMode>Automatic</RightFadingMode>
+													</CrossfadingInfo>
+												</BlendTrackAssoc>
+												<BlendTrackAssoc>
+													<ItemRef Name="BlendContainer_Test_B" ID="{5996F909-FFB4-4ACE-A386-DDE883B02693}"/>
+													<CrossfadingInfo>
+														<LeftEdgePos>31.25</LeftEdgePos>
+														<LeftFadingMode>Automatic</LeftFadingMode>
+														<RightEdgePos>100</RightEdgePos>
+														<RightFadingMode>Automatic</RightFadingMode>
+													</CrossfadingInfo>
+												</BlendTrackAssoc>
+											</BlendTrackAssocList>
+										</BlendTrack>
+									</BlendTrackList>
+								</BlendContainer>
+							</ChildrenList>
+						</ActorMixer>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

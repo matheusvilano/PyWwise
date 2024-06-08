@@ -8,7 +8,7 @@ class Name(str):
 
 
 class GUID(str):
-    """A Wwise object GUID (e.g. `"{63726145-57FB-490B-B611-738BD3EFAF72}"`."""
+    """A Wwise object GUID (e.g. `"{63726145-57FB-490B-B611-738BD3EF2F72}"`."""
     
     def __new__(cls, guid: str):
         if len(guid) != 38:
@@ -24,6 +24,10 @@ class ProjectPath(str):
     """A project path (e.g. `"/Actor-Mixer Hierarchy/Default Work Unit/MyActorMixer"`)."""
     
     def __new__(cls, path: str):
+        """
+        Creates a new ProjectPath. You can think of this as a string container.
+        :param path: The project path of the Wwise object.
+        """
         if len(path) <= 0:
             raise ValueError("The provided path is empty. Must be a valid path-like string.")
         return str.__new__(cls, path)
@@ -33,6 +37,10 @@ class ShortID(int):
     """A Wwise object short ID. This is expected to be a non-negative number."""
 
     def __new__(cls, value: int):
+        """
+        Creates a new ShortID.
+        :param value: The short ID of the Wwise object.
+        """
         if value < 0:
             raise ValueError("ShortID value must be non-negative.")
         return int.__new__(cls, value)
@@ -43,7 +51,7 @@ class GameObjectID(int):
     
     def __new__(cls, obj_id: int):
         """
-        Created a new GameObjectID. This does not register a new GameObject in Wwise; it is simply an integer container.
+        Creates a new GameObjectID. This does not register a new GameObject in Wwise.
         :param obj_id: The ID of the game object.
         """
         if obj_id < 0:

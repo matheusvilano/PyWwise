@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "commands": [
+    {
+      "id": "pywwise.dev.open_wwu_with_vscode",
+      "displayName": "Open With VSCode",
+      "program": "code",
+      "args": "${filePath}",
+      "startMode": "MultipleSelectionSingleProcessSpaceSeparated",
+      "contextMenu": {
+        "basePath": "PyWwise/Dev",
+        "enabledFor": "WorkUnit",
+        "visibleFor": "WorkUnit"
+      }
+    }
+  ]
+}

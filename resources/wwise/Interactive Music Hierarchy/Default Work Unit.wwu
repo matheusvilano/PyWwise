@@ -1,6 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{2780C12E-2C30-4C1A-BFD4-B2EA8E4C2773}" SchemaVersion="119">
 	<InteractiveMusic>
-		<WorkUnit Name="Default Work Unit" ID="{2780C12E-2C30-4C1A-BFD4-B2EA8E4C2773}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{2780C12E-2C30-4C1A-BFD4-B2EA8E4C2773}" PersistMode="Standalone">
+			<ChildrenList>
+				<MusicSwitchContainer Name="MusicSwitchContainer_Test" ID="{306CD70E-1060-4754-B4D9-7A595AD3E502}" ShortID="188990294">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{A978F16E-5743-4C8A-A39C-8B1DB8A5B667}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{567EC600-050C-44DF-AB65-9121D6D05553}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicPlaylistContainer Name="MusicPlaylistContainer_Test" ID="{89E23454-3798-49C0-8C58-D50CF490CCBF}" ShortID="850509625">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{568621B4-AA46-4306-AC64-A0B5BAEC018E}" ShortID="597907361"/>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{2464BE22-C5BE-4CCF-BCB9-384EC6BFE286}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{EC0CA0B8-775C-4DAD-BA81-85AFC90AAD06}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="MusicSegment_Test" ID="{A28758CF-0B29-4FB9-9D7B-AC002F444C02}" ShortID="398977418">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="ConversionSettings_Test" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{176749EB-B1A8-4646-A346-6263D89A10C6}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="MusicTrack_Test" ID="{9A86ED1E-D60A-40A3-ADCF-106CFBFF17DB}" ShortID="127101824">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{A35E4F2D-B35E-4FB4-9A98-15C223929CF8}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{3C9591F4-DAF1-4FF8-AA2D-15E35E1822D0}"/>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{37BF122E-2E99-4B3C-AD6E-07767946ED9C}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{40C2E2AF-DDA9-4A91-BCB9-75496B4A56C3}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1000"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
+					</ChildrenList>
+				</MusicSwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
 	</InteractiveMusic>
 </WwiseDocument>
