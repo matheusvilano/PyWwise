@@ -232,6 +232,19 @@
 									</BlendTrackList>
 								</BlendContainer>
 							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="StateGroup_Test" ID="{3182E70A-1CD2-4ABD-8652-EEA2E600E4A7}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="StateValue_Test_NotNone" ID="{6341E917-4A47-4E7A-B896-1EB35D55F005}"/>
+										<CustomState Name="" ID="{55F0173D-259D-4027-9D5E-13F4F8E93251}" ShortID="410274618"/>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
 						</ActorMixer>
 					</ChildrenList>
 				</Folder>

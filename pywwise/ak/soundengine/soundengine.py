@@ -14,8 +14,8 @@ class SoundEngine:
 		self._client = client
 	
 	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EAkActionOnEventType,
-	                            game_object: GameObjectID,
-	                            transition_duration: int, fade_curve: EAkCurveInterpolation) -> dict:
+	                            game_object: GameObjectID, transition_duration: int = 0,
+	                            fade_curve: EAkCurveInterpolation = EAkCurveInterpolation.LINEAR) -> dict:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
 		Executes an action on all nodes that are referenced in the specified event in a Play action.
@@ -35,7 +35,7 @@ class SoundEngine:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getstate.html \n
 		Gets the current state of a State Group. When using setState just prior to getState, allow a brief delay (no
 		more than 10ms) for the information to update in the sound engine.
-		:param state_group: The name, short ID, or project path of the State Group.
+		:param state_group: The name, short ID, GUID, or project path of the State Group.
 		:return: The name and GUID of the active State value. If invalid, the values will be -1 and "".
 		"""
 		if isinstance(state_group, Name):
@@ -68,25 +68,26 @@ class SoundEngine:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_loadbank.html \n
 		Load a SoundBank. See `AK::SoundEngine::LoadBank`.
 		:param sound_bank: The name or short ID of the bank.
-		:return: Whether the operation worked
+		:return: Whether the operation worked. True does not mean the bank was not loaded prior.
 		"""
 		args = {"soundBank": sound_bank}
 		return self._client.call("ak.soundengine.loadBank", args) is not None
 	
-	def post_event(self, event: Name | ShortID | GUID, game_object: GameObjectID) -> int:
+	def post_event(self, event: Name | ShortID | GUID, game_object: GameObjectID = GameObjectID.get_transport()) -> int:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postevent.html \n
 		Asynchronously post an Event to the sound engine (by event ID). See `AK::SoundEngine::PostEvent`.
 		:param event: The name, short ID, or GUID of the event to post.
 		:param game_object: The ID of the game object the event should be posted on.
-		:return: The Playing ID of the event.
+		:return: The Playing ID of the event. If the call failed, this will be -1.
 		"""
 		args = {"event": event, "gameObject": game_object}
-		return self._client.call("ak.soundengine.postEvent", args).get("return")
+		results = self._client.call("ak.soundengine.postEvent", args)
+		return results.get("return") if results is not None else -1
 	
 	def post_msg_monitor(self, message: str) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postmsgmonitor.html ]n
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postmsgmonitor.html \n
 		Display a message in the Profiler's Capture Log view.
 		:param message: The message to display.
 		:return: Whether this operation worked.
@@ -244,7 +245,7 @@ class SoundEngine:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unloadbank.html \n
 		Unload a SoundBank. See `AK::SoundEngine::UnloadBank`.
 		:param sound_bank: The name, short ID, or GUID of the bank to unload.
-		:return: Whether the operation succeeded.
+		:return: Whether the operation succeeded. True does not mean the bank was previously loaded.
 		"""
 		args = {"soundBank": sound_bank}
 		return self._client.call("ak.soundengine.unloadBank", args) is not None
