@@ -25,6 +25,7 @@ class ECurveInterpolation(_IntEnum):
     LAST_FADE_CURVE = 8
     CONSTANT = 9
 
+
 class ESpeakerBitMask(_IntEnum):
     """Enumeration of common speaker bit masks."""
     
