@@ -19,7 +19,7 @@ class SoundEngineTest(unittest.TestCase):
 		self.assertTrue(results)
 	
 	def test__execute_action_on_event(self):
-		results = ak.soundengine.execute_action_on_event(EVENT__NAME, EAkActionOnEventType.STOP,
+		results = ak.soundengine.execute_action_on_event(EVENT__NAME, EActionOnEventType.STOP,
 		                                                 GameObjectID.get_transport())
 		self.assertIsInstance(results, dict)
 	
@@ -75,14 +75,17 @@ class SoundEngineTest(unittest.TestCase):
 		transport = GameObjectID.get_transport()
 		results = ak.soundengine.set_game_object_output_bus_volume(transport, transport, -6.0)
 		self.assertTrue(results)
-		
+	
 	def test__set_listeners(self):
 		transport = GameObjectID.get_transport()
 		results = ak.soundengine.set_listeners(transport, {transport})
 		self.assertTrue(results)
 	
 	def test__set_listener_spatialization(self):
-		pass
+		transport = GameObjectID.get_transport()
+		results = ak.soundengine.set_listener_spatialization(transport, True, ESpeakerBitMask.QUAD,
+		                                                     (0.0, 0.0, 0.0, 0.0))
+		self.assertTrue(results)
 	
 	def test__set_multiple_positions(self):
 		pass
@@ -94,7 +97,8 @@ class SoundEngineTest(unittest.TestCase):
 		pass
 	
 	def test__set_rtpc_value(self):
-		pass
+		results = ak.soundengine.set_rtpc_value(GAME_PARAMETER__GUID, 1.0)
+		self.assertTrue(results)
 	
 	def test__set_scaling_factor(self):
 		pass

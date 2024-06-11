@@ -150,9 +150,9 @@ STATE_GROUP__PATH = ProjectPath(r"\States\Default Work Unit\StateGroup_Test")
 STATE_GROUP__SHORT = ShortID(4122865920)
 STATE_GROUP__GUID = GUID("{3182E70A-1CD2-4ABD-8652-EEA2E600E4A7}")
 
-STATE_VALUE_NONE__NAME = Name("StateValue_Test_None")
-STATE_VALUE_NONE__PATH = ProjectPath(r"\States\Default Work Unit\StateGroup_Test\StateValue_Test_None")
-STATE_VALUE_NONE__SHORT = ShortID(1632773499)
+STATE_VALUE_NONE__NAME = Name("None")
+STATE_VALUE_NONE__PATH = ProjectPath(r"\States\Default Work Unit\StateGroup_Test\None")
+STATE_VALUE_NONE__SHORT = ShortID(748895195)
 STATE_VALUE_NONE__GUID = GUID("{77AA8245-4F64-4941-B1E0-624EEF5FF2C0}")
 
 STATE_VALUE_NOTNONE__NAME = Name("StateValue_Test_NotNone")

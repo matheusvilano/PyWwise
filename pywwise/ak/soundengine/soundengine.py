@@ -1,7 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.structs import AuxSendValue
-from pywwise.types import Name, ShortID, GUID, ProjectPath, GameObjectID
-from pywwise.enums import EAkActionOnEventType, EAkCurveInterpolation
+from pywwise.types import *
+from pywwise.enums import *
 
 
 class SoundEngine:
@@ -14,9 +14,9 @@ class SoundEngine:
 		"""
 		self._client = client
 	
-	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EAkActionOnEventType,
+	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EActionOnEventType,
 	                            game_object: GameObjectID, transition_duration: int = 0,
-	                            fade_curve: EAkCurveInterpolation = EAkCurveInterpolation.LINEAR) -> dict:
+	                            fade_curve: ECurveInterpolation = ECurveInterpolation.LINEAR) -> dict:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
 		Executes an action on all nodes that are referenced in the specified event in a Play action.
@@ -209,12 +209,21 @@ class SoundEngine:
 		args = {"emitter": emitter, "listeners": list(listeners)}
 		return self._client.call("ak.soundengine.setListeners", args) is not None
 	
-	def set_listener_spatialization(self):
+	def set_listener_spatialization(self, listener: GameObjectID, spatialized: bool, channel_config: ESpeakerBitMask,
+	                                volume_offsets: tuple[float, ...]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
 		Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for
 		each audio channel. See `AK::SoundEngine::SetListenerSpatialization`.
+		:param listener: The ID of the listener.
+		:param spatialized: Whether the listener should be spatialized.
+		:param channel_config: The channel configuration (e.g. 5.1).
+		:param volume_offsets: The volume offsets. Make sure this matches the amount of channels.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"listener": listener, "spatialized": spatialized,
+		        "channelConfig": channel_config.value, "volumeOffsets": list(volume_offsets)}
+		return self._client.call("ak.soundengine.setListenerSpatialization", args) is not None
 	
 	def set_multiple_positions(self):
 		"""
@@ -238,11 +247,20 @@ class SoundEngine:
 		Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
 		"""
 	
-	def set_rtpc_value(self):
+	def set_rtpc_value(self, rtpc: GUID | Name | ShortID, value: float,
+	                   game_obj: GameObjectID = GameObjectID.get_global()) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setrtpcvalue.html \n
 		Sets the value of a real-time parameter control. See `AK::SoundEngine::SetRTPCValue`.
+		:param rtpc: The GUID, name, or short ID of the RTPC to set a new value for.
+		:param value: The new value of the RTPC.
+		:param game_obj: If specified, the RTPC will be set locally. Else, it will be set globally.
+		:return: Whether this call succeeded. True does not necessarily mean the RTPC, value, and game object were valid.
 		"""
+		args = {"rtpc": rtpc, "value": value}
+		if game_obj is not None:
+			args["gameObject"] = game_obj
+		return self._client.call("ak.soundengine.setRTPCValue", args) is not None
 	
 	def set_scaling_factor(self):
 		"""
