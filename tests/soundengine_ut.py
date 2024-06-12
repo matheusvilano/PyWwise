@@ -91,7 +91,9 @@ class SoundEngineTest(unittest.TestCase):
 		pass
 	
 	def test__set_object_obstruction_and_occlusion(self):
-		pass
+		transport = GameObjectID.get_transport()
+		results = ak.soundengine.set_object_obstruction_and_occlusion(transport, transport, 0.0, 0.0)
+		self.assertTrue(results)
 	
 	def test__set_position(self):
 		transport = GameObjectID.get_transport()
@@ -104,19 +106,27 @@ class SoundEngineTest(unittest.TestCase):
 		self.assertTrue(results)
 	
 	def test__set_scaling_factor(self):
-		pass
+		transport = GameObjectID.get_transport()
+		results = ak.soundengine.set_scaling_factor(transport, 0.0)
+		self.assertTrue(results)
 	
 	def test__set_state(self):
-		pass
+		results = ak.soundengine.set_state(STATE_GROUP__GUID, STATE_GROUP__GUID)
+		self.assertTrue(results)
 	
 	def test__set_switch(self):
-		pass
+		transport = GameObjectID.get_transport()
+		results = ak.soundengine.set_switch(STATE_GROUP__GUID, STATE_GROUP__GUID, transport)
+		self.assertTrue(results)
 	
 	def test__stop_all(self):
-		pass
+		transport = GameObjectID.get_transport()
+		results = ak.soundengine.stop_all(transport)
+		self.assertTrue(results)
 	
 	def test__stop_playing_id(self):
-		pass
+		results = ak.soundengine.stop_playing_id(0, 0, 0)
+		self.assertTrue(results)
 	
 	def test__unregister_game_obj(self):
 		pass
