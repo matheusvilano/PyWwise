@@ -234,12 +234,21 @@ class SoundEngine:
 		`AK::SoundEngine::SetMultiplePositions`.
 		"""
 	
-	def set_object_obstruction_and_occlusion(self):
+	def set_object_obstruction_and_occlusion(self, emitter: GameObjectID, listener: GameObjectID,
+	                                         obstruction_level: float, occlusion_level: float) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setobjectobstructionandocclusion.html \n
 		Set a game object's obstruction and occlusion levels. This function is used to affect how an object
 		should be heard by a specific listener. See `AK::SoundEngine::SetObjectObstructionAndOcclusion`.
+		:param emitter: The ID of the emitter.
+		:param listener: The ID of the listener.
+		:param obstruction_level: The level of obstruction. Range: 0.0f to 1.0f.
+		:param occlusion_level: The level of occlusion. Range: 0.0f to 1.0f.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"emitter": emitter, "listener": listener, "obstructionLevel": obstruction_level,
+		        "occlusionLevel": occlusion_level}
+		return self._client.call("ak.soundengine.setObjectObstructionAndOcclusion", args) is not None
 	
 	def set_position(self):
 		"""
@@ -262,38 +271,65 @@ class SoundEngine:
 			args["gameObject"] = game_obj
 		return self._client.call("ak.soundengine.setRTPCValue", args) is not None
 	
-	def set_scaling_factor(self):
+	def set_scaling_factor(self, game_obj: GameObjectID, attenuation_scaling_factor: float) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setscalingfactor.html \n
 		Sets the scaling factor of a game object. You can modify the attenuation computations on this game object
 		to simulate sounds with a larger or smaller affected areas. See `AK::SoundEngine::SetScalingFactor`.
+		:param game_obj: The ID of the game object.
+		:param attenuation_scaling_factor: The scaling factor, where 1 means 100%, 0.5 means 50%, 2 means 200%, and so on.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"gameObject": game_obj, "attenuationScalingFactor": attenuation_scaling_factor}
+		return self._client.call("ak.soundengine.setScalingFactor", args) is not None
 	
-	def set_state(self):
+	def set_state(self, state_group: GUID | Name | ShortID, state_value: GUID | Name | ShortID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setstate.html \n
 		Sets the State of a State Group. See `AK::SoundEngine::SetState`.
+		:param state_group: The GUID, Name, or Short ID of the state group.
+		:param state_value: The GUID, Name, or Short ID of the state to set.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"stateGroup": state_group, "state": state_value}
+		return self._client.call("ak.soundengine.setState", args) is not None
 	
-	def set_switch(self):
+	def set_switch(self, switch_group: GUID | Name | ShortID, switch_value: GUID | Name | ShortID,
+	               game_obj: GameObjectID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setswitch.html \n
 		Sets the State of a Switch Group. See `AK::SoundEngine::SetSwitch`.
+		:param switch_group: The GUID, Name, or Short ID of the switch group.
+		:param switch_value: The GUID, Name, or Short ID of the switch to set.
+		:param game_obj: The ID of the game object.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"switchGroup": switch_group, "switchState": switch_value, "gameObject": game_obj}
+		return self._client.call("ak.soundengine.setSwitch", args) is not None
 	
-	def stop_all(self):
+	def stop_all(self, game_obj: GameObjectID):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopall.html \n
 		Stop playing the current content associated to the specified game object ID. If no game object is
 		specified, all sounds are stopped. See `AK::SoundEngine::StopAll`.
+		:param game_obj: The ID of the game object.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"gameObject": game_obj}
+		return self._client.call("ak.soundengine.stopAll", args) is not None
 	
-	def stop_playing_id(self):
+	def stop_playing_id(self, playing_id: int, transition_duration: int, fade_curve: int):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopplayingid.html \n
 		Stops the current content, associated to the specified playing ID, from playing. See
 		`AK::SoundEngine::StopPlayingID`.
+		:param playing_id: The Playing ID to be stopped.
+		:param transition_duration: The fade duration for the transition (ms).
+		:param fade_curve: The curve type to be used in the transition. Uses values from AkCurveInterpolation. Range: [0,9].
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
+		args = {"playingId": playing_id, "transitionDuration": transition_duration, "fadeCurve": fade_curve}
+		return self._client.call("ak.soundengine.stopPlayingID", args) is not None
 	
 	def unload_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
 		"""
@@ -315,7 +351,7 @@ class SoundEngine:
 		is unregistered, and there is no way to regain control over the game object. See
 		`AK::SoundEngine::UnregisterGameObj`.
 		:param obj_id: The ID of the game object to unregister.
-		:return: Whether this operation worked.
+		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
 		args = {"gameObject": obj_id}
 		return self._client.call("ak.soundengine.unregisterGameObj", args) is not None
