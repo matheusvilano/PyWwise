@@ -94,7 +94,10 @@ class SoundEngineTest(unittest.TestCase):
 		pass
 	
 	def test__set_position(self):
-		pass
+		transport = GameObjectID.get_transport()
+		vector = Vector3.get_zero()
+		results = ak.soundengine.set_position(transport, vector, vector, vector)
+		self.assertTrue(results)
 	
 	def test__set_rtpc_value(self):
 		results = ak.soundengine.set_rtpc_value(GAME_PARAMETER__GUID, 1.0)

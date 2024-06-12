@@ -1,5 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import AuxSendValue
+from pywwise.structs import *
 from pywwise.types import *
 from pywwise.enums import *
 
@@ -241,11 +241,21 @@ class SoundEngine:
 		should be heard by a specific listener. See `AK::SoundEngine::SetObjectObstructionAndOcclusion`.
 		"""
 	
-	def set_position(self):
+	def set_position(self, game_obj: GameObjectID, orientation_front: Vector3, orientation_top: Vector3, position: Vector3):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
 		Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
+		:param game_obj: The ID of the game object to set the position for.
+		:param orientation_front: The orientation (front).
+		:param orientation_top: The orientation (top).
+		:param position: The position to set.
+		:return: Whether the call succeeded.
 		"""
+		args = {"gameObject": game_obj, "position": dict()}
+		args["position"]["orientationFront"] = {"x": orientation_front.x, "y": orientation_front.y, "z": orientation_front.z}
+		args["position"]["orientationTop"] = {"x": orientation_top.x, "y": orientation_top.y, "z": orientation_top.z}
+		args["position"]["position"] = {"x": position.x, "y": position.y, "z": position.z}
+		return self._client.call("ak.soundengine.setPosition", args) is not None
 	
 	def set_rtpc_value(self, rtpc: GUID | Name | ShortID, value: float,
 	                   game_obj: GameObjectID = GameObjectID.get_global()) -> bool:
