@@ -1,4 +1,4 @@
-from enum import IntEnum as _IntEnum
+from enum import IntEnum as _IntEnum, StrEnum as _StrEnum
 
 
 class EActionOnEventType(_IntEnum):
@@ -80,3 +80,37 @@ class ESpeakerBitMask(_IntEnum):
     """7.1"""
     SEVEN_ONE_FOUR = SEVEN_ONE | _HEIGHT_FRONT_LEFT | _HEIGHT_FRONT_RIGHT | _HEIGHT_BACK_LEFT | _HEIGHT_BACK_RIGHT
     """7.1.4"""
+
+
+class EBasePlatform(_StrEnum):
+    """An enumeration of all available base platforms."""
+    
+    ANDROID = "Android"
+    """Android devices."""
+    
+    IOS = "iOS"
+    """iOS devices."""
+    
+    LINUX = "Linux"
+    """Linux devices."""
+    
+    MAC = "Mac"
+    """macOS devices."""
+    
+    SWITCH = "Switch"
+    """Nintendo Switch."""
+    
+    PS4 = "PS4"
+    """Sony PlayStation 4."""
+    
+    PS5 = "PS5"
+    """Sony PlayStation 5"""
+    
+    WINDOWS = "Windows"
+    """Microsoft Windows"""
+    
+    XONE = "XboxOne"
+    """Xbox One."""
+    
+    XSERIES = "XboxSeriesX"
+    """Xbox Series (S and X)."""
