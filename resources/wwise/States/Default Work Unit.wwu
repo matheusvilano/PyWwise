@@ -5,8 +5,8 @@
 			<ChildrenList>
 				<StateGroup Name="StateGroup_Test" ID="{3182E70A-1CD2-4ABD-8652-EEA2E600E4A7}">
 					<ChildrenList>
-						<State Name="None" ID="{77AA8245-4F64-4941-B1E0-624EEF5FF2C0}"/>
-						<State Name="StateValue_Test" ID="{6341E917-4A47-4E7A-B896-1EB35D55F005}"/>
+						<State Name="None" ID="{D70E0AC8-8A8D-4AEF-BE79-A2CCE3D46383}"/>
+						<State Name="StateValue_Test_NotNone" ID="{6341E917-4A47-4E7A-B896-1EB35D55F005}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

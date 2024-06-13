@@ -4,9 +4,18 @@
 		<WorkUnit Name="Default Work Unit" ID="{DAA26EDD-AE11-4B11-91E3-24B03A78CC80}" PersistMode="Standalone">
 			<ChildrenList>
 				<SoundcasterSession Name="Soundcaster_Test" ID="{58592C4B-4B1D-41E9-B3CA-86E31B8FD7B8}">
-					<RTPCValueList ShowAll="true"/>
-					<CurrentStateList ShowAll="true"/>
-					<CurrentSwitchList ShowAll="true"/>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="GameParameter_Test" ID="{2F6ABC49-ACB1-443B-A61C-7B47CCF840B5}"/>
+							<Value>50</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true">
+						<CurrentStateRef Name="None" ID="{D70E0AC8-8A8D-4AEF-BE79-A2CCE3D46383}"/>
+					</CurrentStateList>
+					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="SwitchValue_Test_A" ID="{05D0A833-9359-4E25-8F8E-2E1D413616D7}"/>
+					</CurrentSwitchList>
 				</SoundcasterSession>
 			</ChildrenList>
 		</WorkUnit>

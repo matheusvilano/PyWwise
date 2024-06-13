@@ -3,12 +3,16 @@
 	<Busses>
 		<WorkUnit Name="Default Work Unit" ID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}" PersistMode="Standalone">
 			<ChildrenList>
-				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+				<Bus Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{A0E9AC9C-4D61-4FE7-9C9E-45D1F9EFA9D4}" WorkUnitID="{97F21384-CC85-4D9D-9163-BD5B4E8A4BCF}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="AudioBus_Test" ID="{A3DB9CC8-E6C9-466D-840A-E1DB87A6029F}"/>
+						<Bus Name="AuxBus_Test" ID="{75DBAA74-71BF-4325-A30A-EED68F9A1F3C}"/>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

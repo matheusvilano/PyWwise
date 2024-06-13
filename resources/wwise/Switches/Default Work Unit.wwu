@@ -5,7 +5,8 @@
 			<ChildrenList>
 				<SwitchGroup Name="SwitchGroup_Test" ID="{3163C750-AD28-48C0-A652-DECFDD2840C9}">
 					<ChildrenList>
-						<Switch Name="SwitchValue_Test" ID="{05D0A833-9359-4E25-8F8E-2E1D413616D7}"/>
+						<Switch Name="SwitchValue_Test_A" ID="{05D0A833-9359-4E25-8F8E-2E1D413616D7}"/>
+						<Switch Name="SwitchValue_Test_B" ID="{3E0B6DA9-8565-43EE-AEF8-1D3E39E6E7C4}"/>
 					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>
