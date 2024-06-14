@@ -40,7 +40,7 @@ class AuxSendValue:
 @_dataclass
 class PlatformInfo:
 	"""Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
-
+	
 	name: str
 	"""The name of this platform."""
 	
