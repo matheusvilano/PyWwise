@@ -8,7 +8,7 @@ from constants import *
 ak = pywwise.new()
 
 
-class SoundEngineTest(unittest.TestCase):
+class AkSoundEngineTest(unittest.TestCase):
 	
 	def test__load_bank(self):
 		results = ak.soundengine.load_bank(SOUNDBANK__GUID)
