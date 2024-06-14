@@ -25,7 +25,7 @@ class Vector3:
 
 @_dataclass
 class AuxSendValue:
-	"""Data-only class representing a aux send value."""
+	"""Data-only class representing an aux send value."""
 	
 	listener: _GameObjectID
 	"""The ID of the associated listener."""
@@ -40,7 +40,7 @@ class AuxSendValue:
 @_dataclass
 class PlatformInfo:
 	"""Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
-	
+
 	name: str
 	"""The name of this platform."""
 	
