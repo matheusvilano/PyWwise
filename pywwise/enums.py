@@ -1,5 +1,4 @@
-from enum import IntEnum as _IntEnum
-from enum import StrEnum as _StrEnum
+from enum import IntEnum as _IntEnum, StrEnum as _StrEnum
 from typing import Self as _Self
 
 
@@ -153,6 +152,40 @@ class ESpeakerBitMask(_IntEnum):
 				return "Ambisonics 4th order"
 			case ESpeakerBitMask.AMBISONICS_5TH:
 				return "Ambisonics 5th order"
+
+
+class EBasePlatform(_StrEnum):
+	"""An enumeration of all available base platforms."""
+	
+	ANDROID = "Android"
+	"""Android devices."""
+	
+	IOS = "iOS"
+	"""iOS devices."""
+	
+	LINUX = "Linux"
+	"""Linux devices."""
+	
+	MAC = "Mac"
+	"""macOS devices."""
+	
+	SWITCH = "Switch"
+	"""Nintendo Switch."""
+	
+	PS4 = "PS4"
+	"""Sony PlayStation 4."""
+	
+	PS5 = "PS5"
+	"""Sony PlayStation 5"""
+	
+	WINDOWS = "Windows"
+	"""Microsoft Windows"""
+	
+	XONE = "XboxOne"
+	"""Xbox One."""
+	
+	XSERIES = "XboxSeriesX"
+	"""Xbox Series (S and X)."""
 
 
 class EBitDepth(_StrEnum):

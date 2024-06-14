@@ -1,6 +1,7 @@
 from dataclasses import dataclass as _dataclass
 from pathlib import Path as _Path
 from pywwise.types import Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID
+from pywwise.enums import EBasePlatform as _EBasePlatform
 
 
 @_dataclass
@@ -34,6 +35,21 @@ class AuxSendValue:
 	
 	control_value: float
 	"""The intended value."""
+
+
+@_dataclass
+class PlatformInfo:
+	"""Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
+	
+	name: str
+	"""The name of this platform."""
+	
+	base_platform: _EBasePlatform
+	"""The base platform."""
+	
+	def __hash__(self):
+		""":return: The PlatformInfo hash."""
+		return hash(self.name)
 
 
 @_dataclass
