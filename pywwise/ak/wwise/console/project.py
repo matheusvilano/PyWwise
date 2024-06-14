@@ -18,9 +18,10 @@ class Project:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_close.html \n
 		Closes the current project. This operation is synchronous.
-		:return: True if there was a project open, false otherwise.
+		:return: True if there was a project open and it closed successfully; otherwise, false.
 		"""
-		return self._client.call("ak.wwise.console.project.close")["hadProjectOpen"]
+		results = self._client.call("ak.wwise.console.project.close")
+		return results.get("hadProjectOpen", False) if results is not None else False
 	
 	def create(self, project_path: _Path,
 	           platforms: set[_PlatformInfo] = (_PlatformInfo("Windows", _EBasePlatform.WINDOWS),),
