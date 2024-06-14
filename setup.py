@@ -29,5 +29,5 @@ setuptools.setup(
 		},
 		python_requires=">=3.12",
 		url="https://github.com/matheusvilano/PyWwise.git",
-		version="0.0.0",
+		version="0.0.1",
 )
