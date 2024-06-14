@@ -36,7 +36,7 @@ class Project:
 		default language. When multiple languages are specified, the first one becomes the default language.
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully created.
 		"""
-		args = {"path": project_path, "platforms": list(), "languages": [language for language in languages]}
+		args = {"path": str(project_path), "platforms": list(), "languages": [language for language in languages]}
 		for platform in platforms:
 			args["platforms"].append({"name": platform.name, "basePlatform": platform.base_platform})
 		return self._client.call("ak.wwise.console.project.create", args) is not None
@@ -52,6 +52,6 @@ class Project:
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully opened.
 		"""
 		migration_action = "migrate" if is_migration_allowed else "fail"
-		args = {"path": project_path, "onMigrationRequired": migration_action, "autoCheckOutToSourceControl": auto_checkout}
+		args = {"path": str(project_path), "onMigrationRequired": migration_action, "autoCheckOutToSourceControl": auto_checkout}
 		return self._client.call("ak.wwise.console.project.open", args) is not None
 		
