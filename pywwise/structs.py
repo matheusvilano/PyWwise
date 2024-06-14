@@ -50,7 +50,7 @@ class PlatformInfo:
 	def __hash__(self):
 		""":return: The PlatformInfo hash."""
 		return hash(self.name)
-	
+
 
 @_dataclass
 class ExternalSourceInfo:

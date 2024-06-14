@@ -155,37 +155,37 @@ class ESpeakerBitMask(_IntEnum):
 
 
 class EBasePlatform(_StrEnum):
-    """An enumeration of all available base platforms."""
-    
-    ANDROID = "Android"
-    """Android devices."""
-    
-    IOS = "iOS"
-    """iOS devices."""
-    
-    LINUX = "Linux"
-    """Linux devices."""
-    
-    MAC = "Mac"
-    """macOS devices."""
-    
-    SWITCH = "Switch"
-    """Nintendo Switch."""
-    
-    PS4 = "PS4"
-    """Sony PlayStation 4."""
-    
-    PS5 = "PS5"
-    """Sony PlayStation 5"""
-    
-    WINDOWS = "Windows"
-    """Microsoft Windows"""
-    
-    XONE = "XboxOne"
-    """Xbox One."""
-    
-    XSERIES = "XboxSeriesX"
-    """Xbox Series (S and X)."""
+	"""An enumeration of all available base platforms."""
+	
+	ANDROID = "Android"
+	"""Android devices."""
+	
+	IOS = "iOS"
+	"""iOS devices."""
+	
+	LINUX = "Linux"
+	"""Linux devices."""
+	
+	MAC = "Mac"
+	"""macOS devices."""
+	
+	SWITCH = "Switch"
+	"""Nintendo Switch."""
+	
+	PS4 = "PS4"
+	"""Sony PlayStation 4."""
+	
+	PS5 = "PS5"
+	"""Sony PlayStation 5"""
+	
+	WINDOWS = "Windows"
+	"""Microsoft Windows"""
+	
+	XONE = "XboxOne"
+	"""Xbox One."""
+	
+	XSERIES = "XboxSeriesX"
+	"""Xbox Series (S and X)."""
 
 
 class EBitDepth(_StrEnum):
