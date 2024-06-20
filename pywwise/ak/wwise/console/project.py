@@ -1,7 +1,5 @@
 from pathlib import Path as _Path
-
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise.enums import EBasePlatform as _EBasePlatform
 from pywwise.structs import PlatformInfo as _PlatformInfo
 

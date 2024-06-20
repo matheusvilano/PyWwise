@@ -3,6 +3,7 @@ from pywwise.ak.wwise.core.audio import Audio as _Audio
 from pywwise.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
 from pywwise.ak.wwise.core.log import Log as _Log
 from pywwise.ak.wwise.core.object import Object as _Object
+from pywwise.ak.wwise.core.project import Project as _Project
 from pywwise.ak.wwise.core.profiler import Profiler as _Profiler
 from pywwise.ak.wwise.core.remote import Remote as _Remote
 from pywwise.ak.wwise.core.sound import Sound as _Sound
@@ -27,6 +28,7 @@ class Core:
         self.log = _Log(client)
         self.object = _Object(client)
         self.profiler = _Profiler(client)
+        self.project = _Project(client)
         self.remote = _Remote(client)
         self.sound = _Sound(client)
         self.soundbank = _SoundBank(client)
@@ -54,11 +56,3 @@ class Core:
         directories.
         """
         return self._client.call("ak.wwise.core.getProjectInfo")
-
-    class Project:
-        """ak.wwise.core.project"""
-
-        def save(self):
-            """
-            Saves the current project.
-            """
