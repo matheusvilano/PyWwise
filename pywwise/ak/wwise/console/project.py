@@ -1,7 +1,9 @@
-from waapi import WaapiClient as _WaapiClient
 from pathlib import Path as _Path
-from pywwise.structs import PlatformInfo as _PlatformInfo
+
+from waapi import WaapiClient as _WaapiClient
+
 from pywwise.enums import EBasePlatform as _EBasePlatform
+from pywwise.structs import PlatformInfo as _PlatformInfo
 
 
 class Project:
@@ -30,8 +32,8 @@ class Project:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n
 		Creates, saves and opens new empty project, specified by path and platform. The project has no
 		factory setting WorkUnit. This operation is synchronous.
-		:param project_path: The path to the project WPROJ file. Example: "C:\Projects\MyProject\MyProject.wproj".
-		:param platforms: Specifies the platform(s) supported by the new project. If not specified, only Windows is used. 
+		:param project_path: The path to the project WPROJ file. Example: "C:/Projects/MyProject/MyProject.wproj".
+		:param platforms: Specifies the platform(s) supported by the new project. If not specified, only Windows is used.
 		:param languages: Array of languages to creates for this project. If not specified, English(US) becomes the
 		default language. When multiple languages are specified, the first one becomes the default language.
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully created.

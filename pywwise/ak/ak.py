@@ -1,5 +1,7 @@
 from typing import Any as _Any
+
 from waapi import WaapiClient as _WaapiClient, SequentialThreadExecutor as _SequentialThreadExecutor
+
 from pywwise.ak.soundengine import SoundEngine as _SoundEngine
 from pywwise.ak.wwise import Wwise as _Wwise
 
@@ -17,3 +19,7 @@ class Ak:
         self._client = _WaapiClient(url, allow_exception, callback_executor)
         self.soundengine = _SoundEngine(self._client)
         self.wwise = _Wwise(self._client)
+    
+    def __del__(self):
+        """Disconnect from Wwise."""
+        self._client.disconnect()
