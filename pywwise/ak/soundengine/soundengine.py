@@ -254,7 +254,7 @@ class SoundEngine:
 		return self._client.call("ak.soundengine.setObjectObstructionAndOcclusion", args) is not None
 	
 	def set_position(self, game_obj: _GameObjectID, orientation_front: _Vector3, orientation_top: _Vector3,
-	                 position: _Vector3):
+	                 position: _Vector3) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
 		Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
