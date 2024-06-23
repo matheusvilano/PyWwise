@@ -1,6 +1,5 @@
 import unittest
 import pywwise
-from pprint	import pprint
 from pywwise.enums import *
 from pywwise.types import *
 from pywwise.structs import *
