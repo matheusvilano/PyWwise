@@ -457,3 +457,7 @@ class EReturnOptions(_StrEnum):
 	
 	WORK_UNIT_TYPE = "workunit:type"  # same as "workunitType"
 	"""The type of Work Unit (e.g. actual Work Unit vs Physical Folder). This assumes the object in question is a Work Unit."""
+
+	def __hash__(self) -> int:
+		""":return: The enum value, hashed."""
+		return self.value.__hash__()

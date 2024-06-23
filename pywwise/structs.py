@@ -22,8 +22,9 @@ class Vector3:
 		""":return: A Vector3 instance with x, y, and z all set to 0.0."""
 		return Vector3(0.0, 0.0, 0.0)
 
+
 @_dataclass
-class CaptureRect:
+class Rect:
 	"""Data-only screen capture rectangle."""
 	
 	x: int
@@ -41,7 +42,8 @@ class CaptureRect:
 	@staticmethod
 	def get_zero():
 		""":return: A captureRect instance with x, y, width, and height all set to 0."""
-		return CaptureRect(0, 0, 0, 0)
+		return Rect(0, 0, 0, 0)
+
 
 @_dataclass
 class AuxSendValue:
