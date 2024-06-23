@@ -25,7 +25,7 @@ class Vector3:
 
 @_dataclass
 class Rect:
-	"""Data-only screen capture rectangle."""
+	"""Data-only representation of a rectangle. In some contexts, the position (x, y) can be discarded/ignored."""
 	
 	x: int
 	"""Left position of capture region."""
