@@ -32,25 +32,29 @@ class UI:
         """
         return self._client.call("ak.wwise.ui.bringToForeground")
 
-    def capture_screen(self, view_name: str, view_selection_channel: int, capture_rect: _Rect, output_path: _SystemPath = None) -> tuple[str, str]:
+    def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: _Rect = None, output_path: _SystemPath = None) -> tuple[str, str]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
         Captures a part of the Wwise UI relative to a view.
         :param view_name: The name of the view as displayed in Wwise UI. By default, the whole UI is captured.
         :param view_selection_channel: The selection channel of the view. Can be a value of 1, 2, 3 or 4. By default,
-        the current selection channel of the view is detected automatically.
+        the current selection channel of the view is detected automatically. If the specified value is out of bounds,
+        the value will be clamped.
         :param capture_rect: The capture region. By default, the whole view is captured.
         :param output_path: If specified, a PNG image will be created at the specified location. If only directory
         names are specified (e.g. "C:/Users/PyWwise/Pictures"), the file name will be the current system date and time.
         :return: The underlying image data format and the encoded image data (Base64).
         """
-        if not (1 <= view_selection_channel <= 4):
-            print("Error. View Selection Channel out of bounds. Using default value of 1")
-        view_selection_channel = 1
+        args = {}
 
-        args = {"viewName": view_name, "viewSelectionChannel": view_selection_channel,
-                "rect": {"x": capture_rect.x, "y": capture_rect.y, "width": capture_rect.width,
-                         "height": capture_rect.height}}
+        if view_name is not None:
+            args["viewName"] = view_name
+        if view_selection_channel is not None:
+            args["viewSelectionChannel"] = max(min(view_selection_channel, 4), 1)
+        if capture_rect is not None:
+            args["rect"] = {"x": capture_rect.x, "y": capture_rect.y, "width": capture_rect.width,
+                            "height": capture_rect.height}
+
         results = self._client.call("ak.wwise.ui.captureScreen", args)
         content_type, content_base = results.get("contentType"), results.get("contentBase64")
 
