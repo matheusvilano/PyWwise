@@ -5,7 +5,7 @@ from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.ui.commands import Commands as _Commands
 from pywwise.ak.wwise.ui.project import Project as _Project
-from pywwise.structs import Rect as _CaptureRect
+from pywwise.structs import Rect as _Rect
 from pywwise.enums import EReturnOptions as _EReturnOptions
 from pywwise.types import (GUID as _GUID, Name as _Name, ShortID as _ShortID,
                            ProjectPath as _ProjectPath, SystemPath as _SystemPath)
@@ -32,7 +32,7 @@ class UI:
         """
         return self._client.call("ak.wwise.ui.bringToForeground")
 
-    def capture_screen(self, view_name: str, view_selection_channel: int, capture_rect: _CaptureRect, output_path: _SystemPath = None) -> tuple[str, str]:
+    def capture_screen(self, view_name: str, view_selection_channel: int, capture_rect: _Rect, output_path: _SystemPath = None) -> tuple[str, str]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
         Captures a part of the Wwise UI relative to a view.
