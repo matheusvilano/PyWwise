@@ -1,3 +1,6 @@
+from pathlib import Path as SystemPath
+
+
 class Name(str):
 	"""A Wwise object Name. This is usually intended to be used with unique objects (e.g. State Groups)."""
 	

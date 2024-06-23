@@ -24,6 +24,28 @@ class Vector3:
 
 
 @_dataclass
+class Rect:
+	"""Data-only representation of a rectangle. In some contexts, the position (x, y) can be discarded/ignored."""
+	
+	x: int
+	"""Left position of capture region."""
+	
+	y: int
+	"""Top position of capture region."""
+	
+	width: int
+	"""Width of capture region."""
+	
+	height: int
+	"""Height of capture region."""
+	
+	@staticmethod
+	def get_zero():
+		""":return: A captureRect instance with x, y, width, and height all set to 0."""
+		return Rect(0, 0, 0, 0)
+
+
+@_dataclass
 class AuxSendValue:
 	"""Data-only class representing an aux send value."""
 	
