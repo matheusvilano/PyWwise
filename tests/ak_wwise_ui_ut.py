@@ -8,7 +8,7 @@ from constants import *
 ak = pywwise.new()
 
 
-class AkWwiseUiUiTest(unittest.TestCase):
+class AkWwiseUiTest(unittest.TestCase):
 	
 	def test__bring_to_foreground(self):
 		results = ak.wwise.ui.bring_to_foreground()
