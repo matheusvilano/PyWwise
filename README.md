@@ -18,27 +18,12 @@ When working with a single connection, the PyWwise convention is to name the con
 
 ```python
 import pywwise
-from pathlib import Path  # this is a Python built-in library commonly used in PyWwise
-
-ak = pywwise.new()  # the default URL is "ws://127.0.0.1:8080/waapi"
-ak.wwise.debug.generate_tone_wav(Path("C:/Users/leozin/Documents/WwiseTests/TestTone.wav"))
-```
-
-## Module: `pywwise.enums`
-PyWwise has many enumerations that help WAAPI users obey certain constraints of Wwise. Here is an example: 
-
-```python
-import pywwise
-from pywwise.enums import EBitDepth, ESampleRate  # common PyWwise enums to help with "quantized" parameters
-from pathlib import Path  # this is a Python built-in library commonly used in PyWwise
+from pywwise.types import SystemPath  # this is an alias of pathlib.Path, which is commonly used in PyWwise
 
 ak = pywwise.new()  # the default URL is "ws://127.0.0.1:8080/waapi"
 
-path = Path("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
-bit_depth = EBitDepth.INT_16  # Wwise only supports 16-bit integer and 32-bit float; EBitDepth enumerates those options.
-sample_rate = ESampleRate.SR_44100  # Wwise only supports certain sample rates; ESampleRate enumerates all options.
-
-ak.wwise.debug.generate_tone_wav(path, bit_depth, sample_rate)
+path = SystemPath("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
+ak.wwise.debug.generate_tone_wav(path)
 ```
 
 ## Module: `pywwise.types`
@@ -56,6 +41,23 @@ ak = pywwise.new()  # the default URL is "ws://127.0.0.1:8080/waapi"
 # GUID will validate the value and throw a ValueError in case something is wrong
 active_state: tuple[str, str] = ak.soundengine.get_state(GUID("{3182E70A-1CD2-4ABD-8652-EEA2E600E4A7}"))
 print(active_state)
+```
+
+## Module: `pywwise.enums`
+PyWwise has many enumerations that help WAAPI users obey certain constraints of Wwise. Here is an example: 
+
+```python
+import pywwise
+from pywwise.enums import EBitDepth, ESampleRate  # common PyWwise enums to help with "quantized" parameters
+from pywwise.types import SystemPath  # this is an alias of pathlib.Path, which is commonly used in PyWwise
+
+ak = pywwise.new()  # the default URL is "ws://127.0.0.1:8080/waapi"
+
+path = SystemPath("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
+bit_depth = EBitDepth.INT_16  # Wwise only supports 16-bit integer and 32-bit float; EBitDepth enumerates those options.
+sample_rate = ESampleRate.SR_44100  # Wwise only supports certain sample rates; ESampleRate enumerates all options.
+
+ak.wwise.debug.generate_tone_wav(path, bit_depth, sample_rate)
 ```
 
 ## Module: `pywwise.structs`
