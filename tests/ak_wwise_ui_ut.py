@@ -16,7 +16,7 @@ class AkWwiseUiTest(unittest.TestCase):
 	
 	def test__capture_screen(self):
 		capture_rect = Rect(0, 0, 1080, 1920)
-		output_path = SystemPath(r"C:\Users\juanf\OneDrive\Pictures\Test.png")
+		output_path = RESOURCES_PROJECT__PATH / "Captures" / "Test.png"
 		results = ak.wwise.ui.capture_screen("Batch Rename", 1, capture_rect, output_path)
 		self.assertIsInstance(results, tuple)
 		self.assertEqual(len(results), 2)

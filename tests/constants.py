@@ -1,5 +1,8 @@
 from pywwise.types import *
 
+WWISE_PROJECT__PATH = SystemPath(__file__).parent / ".." / "resources" / "wwise" / "PyWwise.wproj"
+RESOURCES_PROJECT__PATH = SystemPath(__file__).parent / ".." / "resources"
+
 ACOUSTIC_TEXTURE__NAME = Name("AcousticTexture_Test")
 ACOUSTIC_TEXTURE__PATH = ProjectPath(r"\Virtual Acoustics\Default Work Unit\AcousticTexture_Test")
 ACOUSTIC_TEXTURE__SHORT = ShortID(887562500)
