@@ -8,6 +8,12 @@ benefits in using PyWwise; the three main highlights are:
 - Object-Oriented
 - Fully Documented
 
+## Installation
+
+PyWwise is available on the [Python Package Index](https://pypi.org/project/pywwise/), and so it is recommended to 
+install it via `pip`. Using CMD, Terminal, PowerShell, or any command-line interface of your choice, run the command 
+`pip install pywwise` to install the latest version of PyWwise.
+
 ## Usage
 
 Getting started with PyWwise is easy, as it exposes only a select amount of modules. The first step is always to import 
