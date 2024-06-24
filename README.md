@@ -10,9 +10,20 @@ benefits in using PyWwise; the three main highlights are:
 
 ## Usage
 
-Getting started with PyWwise is easy, as it exposes only a select amount of modules.
+Getting started with PyWwise is easy, as it exposes only a select amount of modules. The first step is always to import 
+`pywwise` and initialize a connection to an instance of Wwise using the factory function `new`. After that, you will 
+likely need some imports from `pywwise.types`, `pywwise.enums`, and/or `pywwise.structs`, depending on what WAAPI 
+functions and/or topics you are looking to use. PyWwise is fully documented, so each function or topic will let you 
+know what will be needed.
 
-## Module: `pywwise`
+Since PyWwise is entirely based on WAAPI and the [`waapi-client`](https://pypi.org/project/waapi-client/) package, you 
+may use the official [Wwise Authoring API Reference](https://www.audiokinetic.com/en/library/edge/?source=SDK&id=waapi_index.html), 
+which is maintained by Audiokinetic. Their documentation provides a complete list of functions and topics which are all 
+supported and reflected by PyWwise.
+
+## Modules
+
+### Initialization: `pywwise`
 This is where the factory function `new` exists; this functions establishes a connection with an instance of Wwise. 
 When working with a single connection, the PyWwise convention is to name the connection "ak". Here is a simple example:
 
@@ -26,7 +37,7 @@ path = SystemPath("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
 ak.wwise.debug.generate_tone_wav(path)
 ```
 
-## Module: `pywwise.types`
+### Core Types: `pywwise.types`
 This is where helper types such as `Name`, `GUID`, `ShortID`, and `ProjectPath` exist. As you get familiar with PyWwise, 
 you will notice that many functions use specialized PyWwise types instead of primitives such as `str`. This is to 
 maximize readability and deploy some error checking (e.g. the constructor in `GUID` checks to see if the provided value 
@@ -43,7 +54,7 @@ active_state: tuple[str, str] = ak.soundengine.get_state(GUID("{3182E70A-1CD2-4A
 print(active_state)
 ```
 
-## Module: `pywwise.enums`
+### Enumerations: `pywwise.enums`
 PyWwise has many enumerations that help WAAPI users obey certain constraints of Wwise. Here is an example: 
 
 ```python
@@ -60,7 +71,7 @@ sample_rate = ESampleRate.SR_44100  # Wwise only supports certain sample rates; 
 ak.wwise.debug.generate_tone_wav(path, bit_depth, sample_rate)
 ```
 
-## Module: `pywwise.structs`
+### Dataclasses: `pywwise.structs`
 This is where object-oriented data containers live, in the form of dataclasses (a feature of Python). Examples include 
 `Vector3` (which is commonly used to represent a point in 3D space) and `PlatformInfo` (which represents a platform 
 entry in Wwise's Platform Manager).
