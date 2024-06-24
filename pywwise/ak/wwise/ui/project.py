@@ -53,8 +53,8 @@ class Project:
         self._client.call("ak.wwise.ui.project.create", args)
         return path.exists()
 
-    def open(self, path: _SystemPath, is_migration_required: bool = False, bypass_save: bool = None,
-             auto_checkout_to_source_control: bool = None) -> bool:
+    def open(self, path: _SystemPath, is_migration_required: bool = False, bypass_save: bool = True,
+             auto_checkout_to_source_control: bool = True) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
         Opens a project, specified by path. Please refer to `ak.wwise.core.project.loaded` for further
@@ -68,15 +68,12 @@ class Project:
         :return Returns whether the project was open.
         """
         args = {}
-        if path.exists():
-            args = {"path": str(path)}
-            migration_action = "migrate" if is_migration_required else "fail"
-            args["onMigrationRequired"] = migration_action
-            if bypass_save is not None:
-                args["bypassSave"] = bypass_save
-            if auto_checkout_to_source_control is not None:
-                args["autoCheckoutToSourceControl"] = auto_checkout_to_source_control
-            self._client.call("ak.wwise.ui.project.open", args)
-            return True
-        else:
+        if not path.exists():
             return False
+        args = {"path": str(path)}
+        migration_action = "migrate" if is_migration_required else "fail"
+        args["onMigrationRequired"] = migration_action
+        args["bypassSave"] = bypass_save
+        args["autoCheckoutToSourceControl"] = auto_checkout_to_source_control
+        self._client.call("ak.wwise.ui.project.open", args)
+        return True
