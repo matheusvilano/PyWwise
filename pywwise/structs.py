@@ -1,7 +1,8 @@
 from dataclasses import dataclass as _dataclass
 from pathlib import Path as _Path
-from pywwise.types import Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID
-from pywwise.enums import EBasePlatform as _EBasePlatform
+from pywwise.types import (Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID,
+                           ProjectPath as _ProjectPath)
+from pywwise.enums import EBasePlatform as _EBasePlatform, EObjectType as _EObjectType
 
 
 @_dataclass
@@ -86,3 +87,20 @@ class ExternalSourceInfo:
 	
 	output: _Path
 	"""The output path of the external source's WEM (after conversions)."""
+
+
+@_dataclass
+class WwiseObjectInfo:
+	"""Data-only class storing core information about a Wwise object."""
+	
+	guid: _GUID
+	"""The GUID of the wwise object."""
+	
+	name: _Name
+	"""The name of the Wwise object. Depending on the type, it may be unique."""
+	
+	type: _EObjectType
+	"""The Wwise object type."""
+
+	path: _ProjectPath
+	"""The project path of the Wwise object."""
