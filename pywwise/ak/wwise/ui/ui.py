@@ -23,7 +23,7 @@ class UI:
         self.commands = _Commands(client)
         self.project = _Project(client)
 
-    def bring_to_foreground(self):
+    def bring_to_foreground(self) -> None:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
         Bring Wwise main window to foreground. Refer to `SetForegroundWindow` and `AllowSetForegroundWindow`
