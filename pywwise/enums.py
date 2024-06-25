@@ -461,3 +461,22 @@ class EReturnOptions(_StrEnum):
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
 		return self.value.__hash__()
+
+
+class EStartMode(_StrEnum):
+	"""An enumeration of command add-on start options available in the Wwise Authoring API."""
+
+	SINGLE_SELECTION_SINGLE_PROCESS = "SingleSelectionSingleProcess"
+	"""SingleSelectionSingleProcess: only support single selection, starts the program once."""
+
+	MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED = "MultipleSelectionSingleProcess"
+	"""MultipleSelectionSingleProcessSpaceSeparated: program is started once with variables expanded to space separated 
+	arguments, each enclosed in double-quotes."""
+
+	MULTIPLE_SELECTION_MULTIPLE_PROCESSES = "MultipleSelectionMultipleProcesses"
+	"""MultipleSelectionMultipleProcesses: program is started once per selected item, in parallel. Each running instance 
+	receives one selected item."""
+
+	def __hash__(self) -> int:
+		""":return: The enum value, hashed."""
+		return self.value.__hash__()
