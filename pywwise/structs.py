@@ -1,8 +1,10 @@
-from dataclasses import dataclass as _dataclass
+from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
+from typing import Any as _Any
 from pywwise.types import (Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID,
                            ProjectPath as _ProjectPath)
-from pywwise.enums import EBasePlatform as _EBasePlatform, EObjectType as _EObjectType
+from pywwise.enums import (EBasePlatform as _EBasePlatform, EObjectType as _EObjectType,
+                           EReturnOptions as _EReturnOptions)
 
 
 @_dataclass
@@ -104,3 +106,7 @@ class WwiseObjectInfo:
 
 	path: _ProjectPath
 	"""The project path of the Wwise object."""
+	
+	other: dict[str | _EReturnOptions, _Any] = _field(default_factory=dict)
+	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
+	EReturnOptions instead."""
