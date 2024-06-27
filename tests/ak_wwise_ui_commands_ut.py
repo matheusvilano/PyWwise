@@ -1,10 +1,11 @@
 import unittest
+import time
 import pywwise
 from pywwise.enums import *
 from pywwise.types import *
 from pywwise.structs import *
 from constants import *
-import time
+
 
 ak = pywwise.new()
 
