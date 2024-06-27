@@ -24,7 +24,7 @@ class Project:
 		return results.get("hadProjectOpen", False) if results is not None else False
 	
 	def create(self, project_path: _Path,
-	           platforms: set[_PlatformInfo] = (_PlatformInfo("Windows", _EBasePlatform.WINDOWS),),
+	           platforms: set[_PlatformInfo] = None,
 	           languages: tuple[str, ...] = tuple("English(US)")) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n
@@ -36,6 +36,8 @@ class Project:
 		default language. When multiple languages are specified, the first one becomes the default language.
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully created.
 		"""
+		if platforms is None:
+			platforms = {_PlatformInfo("Windows", _EBasePlatform.WINDOWS)}
 		args = {"path": str(project_path), "platforms": list(), "languages": [language for language in languages]}
 		for platform in platforms:
 			args["platforms"].append({"name": platform.name, "basePlatform": platform.base_platform})

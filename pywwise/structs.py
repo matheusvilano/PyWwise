@@ -1,4 +1,4 @@
-from dataclasses import dataclass as _dataclass
+from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from pywwise.types import Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID
 from pywwise.enums import EBasePlatform as _EBasePlatform, EStartMode as _EStartMode
@@ -170,3 +170,36 @@ class CommandInfo:
 
 	main_menu: CommandMainMenuInfo
 	"""If present, specify how the command is added to Wwise main menus. If empty, no main menu entry is added."""
+
+@_dataclass
+class SoundBankInfo:
+
+	name: str
+	"""The name of the SoundBank to generate, a temporary SoundBank will be created if the SoundBank doesn't exists."""
+
+	events: list[str] = None
+	"""List of events to include in this SoundBank. Not required if the bank already exists."""
+
+	aux_busses: list[str] = None
+	"""List of AuxBus to include in this SoundBank."""
+
+	inclusions: list[str] = None
+	"""List of inclusion type to use for this SoundBank. Not required if the bank already exists."""
+
+	rebuild: bool = False
+	"""Force rebuild of this particular SoundBank. Default value: false."""
+
+	def __hash__(self) -> int:
+		""":return: The SoundBankInfo hash."""
+		return hash(self.name)
+	
+	@property
+	def dictionary(self) -> dict[str, bool | str | list[str]]:
+		dict_repr = {"name": self.name, "rebuild": self.rebuild}
+		if self.events is not None:
+			dict_repr["events"] = self.events
+		if self.aux_busses is not None:
+			dict_repr["auxBusses"] = self.aux_busses
+		if self.inclusions is not None:
+			dict_repr["inclusions"] = self.inclusions
+		return dict_repr
