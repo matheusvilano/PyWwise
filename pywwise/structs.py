@@ -110,3 +110,7 @@ class WwiseObjectInfo:
 	other: dict[str | _EReturnOptions, _Any] = _field(default_factory=dict)
 	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
 	EReturnOptions instead."""
+	
+	def __hash__(self):
+		""":return: The WwiseObjectInfo hash."""
+		return hash(self.guid)
