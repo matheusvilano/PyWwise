@@ -2,6 +2,7 @@ from waapi import WaapiClient as _WaapiClient
 from pywwise.structs import WwiseObjectInfo as _WwiseObjectInfo
 from pywwise.structs import PlatformInfo as _PlatformInfo, CommandInfo as _CommandInfo
 from pywwise.types import GUID as _GUID, ShortID as _ShortID, ProjectPath as _ProjectPath, Name as _Name
+from pywwise.enums import ECommand as _ECommand
 
 
 class Commands:
@@ -14,7 +15,7 @@ class Commands:
         """
         self._client = client
 
-    def get_commands(self) -> dict[str]:
+    def get_commands(self) -> list[str]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_getcommands.html \n
         Gets the list of commands.
@@ -23,7 +24,7 @@ class Commands:
         results = self._client.call("ak.wwise.ui.commands.getCommands")
         return results.get("commands")
 
-    def execute(self, command: str, objects: set[_WwiseObjectInfo | _GUID | _ProjectPath | _Name | _ShortID] = None,
+    def execute(self, command: _ECommand, objects: set[_WwiseObjectInfo | _GUID | _ProjectPath | _Name | _ShortID] = None,
                 platforms: set[_PlatformInfo | _Name | _GUID] = None, value: str | float | bool = None) -> None:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
