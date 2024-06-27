@@ -7,8 +7,8 @@ from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.ui.commands import Commands as _Commands
 from pywwise.ak.wwise.ui.project import Project as _Project
 from pywwise.structs import Rect as _Rect, WwiseObjectInfo as _WwiseObjectInfo
-from pywwise.enums import EReturnOptions as _EReturnOptions
-from pywwise.types import (GUID as _GUID, Name as _Name, SystemPath as _SystemPath)
+from pywwise.enums import EReturnOptions as _EReturnOptions, EObjectType as _EObjectType
+from pywwise.types import GUID as _GUID, Name as _Name, SystemPath as _SystemPath, ProjectPath as _ProjectPath
 from pywwise.decorators import callback as _callback
 
 
@@ -99,8 +99,7 @@ class UI:
 		return content_type, content_base
 	
 	def get_selected_objects(self, return_options: set[_EReturnOptions] = None, platform: str = None,
-	                         language: str = None) -> tuple[
-		                                                  tuple[_GUID, _Name, dict[_EReturnOptions, _Any]], ...] | None:
+	                         language: str = None) -> tuple[_WwiseObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
@@ -110,32 +109,35 @@ class UI:
 		current platform.
 		:param language: If specified, this function will get information from the specified language instead of the
 		current language.
-		:returns: For each selected object, its GUID, its Name, and a dictionary containing the requested return
-		options. When accessing the values in the dictionary, use the EReturnOptions enum as the keys.
+		:returns: For each selected object, a WwiseObjectInfo containing an object's GUID, name, path, type, and a
+		dictionary containing additional information (requested via `return_options`). When accessing the values in the
+		dictionary, use the EReturnOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		args = {}
-		options = {"return": [_EReturnOptions.GUID, _EReturnOptions.NAME]}
+		returns = (_EReturnOptions.GUID, _EReturnOptions.NAME, _EReturnOptions.TYPE, _EReturnOptions.PATH)
+		options = {"return": set(returns)}  # to ensure only unique values
+		
 		if return_options is not None:
-			options["return"].extend(return_options)
+			options["return"].update(return_options)
 		if platform is not None:
 			options["platform"] = platform
 		if language is not None:
 			options["language"] = language
 		
-		results = self._client.call("ak.wwise.ui.getSelectedObjects", args, options=options)
-		if not results or results is None:
-			return None
-		results = results.get("objects")
+		options["return"] = [ret for ret in options["return"]]  # must be a list for JSON serialization
 		
-		# A list of selected objects (more specifically, their information). The example below represents a dual-selection with no specified EReturnOptions.
-		# [("{63311ADB-73B2-43EE-97F6-5A6731AD8F20}", "MySoundObject_01"), ("{13421ADB-7AB3-BBA3-23F6-GA67H1HDAF90}", "MySoundObject_02")
-		objects = list[tuple[_GUID, _Name, dict[_EReturnOptions, _Any]], ...]()
+		results = self._client.call("ak.wwise.ui.getSelectedObjects", {}, options=options)
+		results = results.get("objects") if results is not None else None
+		if results is None:
+			return ()
+		
+		objects = list[_WwiseObjectInfo]()
 		
 		for result in results:
 			guid = _GUID(result[_EReturnOptions.GUID])
 			name = _Name(result[_EReturnOptions.NAME])
-			options = {key: value for key, value in result.items() if
-			           key != _EReturnOptions.GUID.value and key != _EReturnOptions.NAME.value}
-			objects.append((guid, name, options))
+			typename = _EObjectType.from_type_name(result[_EReturnOptions.TYPE])
+			path = _ProjectPath(result[_EReturnOptions.PATH])
+			other = {key: value for key, value in result.items() if key not in returns}
+			objects.append(_WwiseObjectInfo(guid, name, typename, path, other))
 		
 		return tuple(objects)

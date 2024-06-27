@@ -110,7 +110,7 @@ class WwiseObjectInfo:
 	path: _ProjectPath
 	"""The project path of the Wwise object."""
 
-	other: dict[str | _EReturnOptions, _Any] = _field(default_factory=dict)
+	other: dict[_EReturnOptions | str, _Any] = _field(default_factory=dict)
 	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
 	EReturnOptions instead."""
 

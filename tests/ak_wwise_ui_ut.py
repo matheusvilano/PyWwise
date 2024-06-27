@@ -25,16 +25,17 @@ class AkWwiseUiTest(unittest.TestCase):
 		self.assertTrue(output_path.exists())
 	
 	def test__get_selected_objects(self):
-		objects = ak.wwise.ui.get_selected_objects(platform="Windows", lang="English(US)")
-		if objects is not None:
-			self.assertGreaterEqual(len(objects), 1)
-			self.assertEqual(len(objects[0]), 3)  # guid, name, {}
-		objects = ak.wwise.ui.get_selected_objects({EReturnOptions.WORK_UNIT, EReturnOptions.TYPE}, "Windows",
-		                                           "English(US)")
-		if objects is not None:
-			self.assertGreaterEqual(len(objects), 1)
-			self.assertEqual(len(objects[0]), 3)  # guid, name, {work_unit, type}
-			self.assertEqual(len(objects[0][2]), 2)
+		objects = ak.wwise.ui.get_selected_objects(platform="Windows", language="English(US)")
+		self.assertIsNotNone(objects)
+		self.assertGreaterEqual(len(objects), 1)
+		self.assertEqual(len(objects[0].other), 0)  # guid, name, type, path, {}
+		print(objects)
+		return_options = {EReturnOptions.WORK_UNIT, EReturnOptions.TYPE}
+		objects = ak.wwise.ui.get_selected_objects(return_options, "Windows", "English(US)")
+		self.assertIsNotNone(objects)
+		self.assertGreaterEqual(len(objects), 1)
+		self.assertEqual(len(objects[0].other), 1)  # guid, name, type, path, {work_unit}
+		print(objects)
 	
 	def test__selection_changed(self):
 		def _(objects):
