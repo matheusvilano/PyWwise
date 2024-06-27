@@ -22,7 +22,8 @@ class AkWwiseUiCommandsTest(unittest.TestCase):
 		objects = {GUID("{2A11A310-B5F5-4CAB-90B9-AA67696D4EB9}"), GUID("{41C1F653-A793-446B-B1DD-1AD2074F06C5}")}
 		result = ak.wwise.ui.commands.execute("FindInProjectExplorerSelectionChannel1", objects)
 		self.assertIsNotNone(result)
-		result = ak.wwise.ui.commands.execute("GenerateAllSoundbanksCurrentPlatformAutoClose", None, {GUID("{2DD3590C-441E-4896-A802-77C4EF7EAD5C}")})
+		result = ak.wwise.ui.commands.execute("GenerateAllSoundbanksCurrentPlatformAutoClose", None,
+		                                      {GUID("{2DD3590C-441E-4896-A802-77C4EF7EAD5C}")})
 		self.assertIsNotNone(result)
 		result = ak.wwise.ui.commands.execute("GenerateAllSoundbanksCurrentPlatformAutoClose", None)
 		self.assertIsNotNone(result)
@@ -30,12 +31,18 @@ class AkWwiseUiCommandsTest(unittest.TestCase):
 		self.assertIsNotNone(result)
 
 	def test__register(self):
-		result = ak.wwise.ui.commands.register()
-		self.assertIsNone(result)
+		context_menu = ContextMenuInfo(base_path="Editors", enabled_for={EObjectType.SOUND, EObjectType.WORK_UNIT})
+		main_menu = MainMenuInfo(main_menu_base_path="Extra")
+		open_in_vscode = CommandInfo(id="ak.edit_in_vscode", display_name="Edit in Visual Studio Code",
+		                             default_shortcut="C", program="Code",
+		                             start_mode=EStartMode.MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED,
+		                             args="${filePath}", cwd=None, context_menu=context_menu, main_menu=main_menu)
+		result = ak.wwise.ui.commands.register({open_in_vscode})
+		self.assertIsNotNone(result)
 
 	def test__unregister(self):
-		result = ak.wwise.ui.commands.unregister()
-		self.assertIsNone(result)
+		result = ak.wwise.ui.commands.unregister({"ak.edit_in_vscode"})
+		self.assertIsNotNone(result)
 
 
 if __name__ == '__main__':

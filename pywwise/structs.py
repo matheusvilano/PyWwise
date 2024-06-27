@@ -127,11 +127,11 @@ class ContextMenuInfo:
 	base_path: str = None
 	"""Defines a forward-separated path for the parent sub menus. If empty, the menu is inserted at the first level."""
 
-	visible_for: str = None
+	visible_for: set[_EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
-	enabled_for: str = None
+	enabled_for: set[_EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
@@ -141,14 +141,14 @@ class ContextMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		dictionary = dict()
+		local_serialization = dict()
 		if self.base_path is not None:
-			dictionary["basePath"] = self.base_path
+			local_serialization["basePath"] = self.base_path
 		if self.visible_for is not None:
-			dictionary["visibleFor"] = self.visible_for
+			local_serialization["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
 		if self.enabled_for is not None:
-			dictionary["enabledFor"] = self.enabled_for
-		return dictionary
+			local_serialization["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
+		return local_serialization
 
 
 @_dataclass
@@ -165,9 +165,9 @@ class MainMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		dictionary = dict()
-		dictionary["mainMenuBasePath"] = self.main_menu_base_path
-		return dictionary
+		local_serialization = dict()
+		local_serialization["basePath"] = self.main_menu_base_path
+		return local_serialization
 
 
 @_dataclass
@@ -230,27 +230,27 @@ class CommandInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str | bool | ContextMenuInfo | MainMenuInfo]:
-		dictionary = dict()
-		dictionary["id"] = self.id
-		dictionary["displayName"] = self.display_name
-		dictionary["redirectOutputs"] = self.redirect_outputs
-		dictionary["startMode"] = self.start_mode
+		local_serialization = dict()
+		local_serialization["id"] = self.id
+		local_serialization["displayName"] = self.display_name
+		local_serialization["redirectOutputs"] = self.redirect_outputs
+		local_serialization["startMode"] = self.start_mode.value
 		if self.program is not None:
-			dictionary["program"] = self.program
+			local_serialization["program"] = self.program
 		if self.lua_script is not None:
-			dictionary["luaScript"] = self.lua_script
+			local_serialization["luaScript"] = self.lua_script
 		if self.lua_paths is not None:
-			dictionary["luaPaths"] = self.lua_paths
+			local_serialization["luaPaths"] = self.lua_paths
 		if self.lua_selected_return is not None:
-			dictionary["luaSelectedReturn"] = self.lua_selected_return
+			local_serialization["luaSelectedReturn"] = self.lua_selected_return
 		if self.args is not None:
-			dictionary["args"] = self.args
+			local_serialization["args"] = self.args
 		if self.cwd is not None:
-			dictionary["cwd"] = self.cwd
+			local_serialization["cwd"] = self.cwd
 		if self.default_shortcut is not None:
-			dictionary["defaultShortcut"] = self.default_shortcut
+			local_serialization["defaultShortcut"] = self.default_shortcut
 		if self.context_menu is not None:
-			dictionary["contextMenu"] = self.context_menu.dictionary
+			local_serialization["contextMenu"] = self.context_menu.dictionary
 		if self.main_menu is not None:
-			dictionary["mainMenu"] = self.main_menu.dictionary
-		return dictionary
+			local_serialization["mainMenu"] = self.main_menu.dictionary
+		return local_serialization

@@ -91,6 +91,8 @@ class Commands:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
         Unregisters an array of add-on UI commands.
+        :param commands: A set of add-on commands. Can either be a string containing the add-on command ID or a full
+        Add-on Command Info instance.
         """
         if commands is None:
             return

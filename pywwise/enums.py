@@ -579,7 +579,7 @@ class EStartMode(_StrEnum):
 	SINGLE_SELECTION_SINGLE_PROCESS = "SingleSelectionSingleProcess"
 	"""SingleSelectionSingleProcess: only support single selection, starts the program once."""
 
-	MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED = "MultipleSelectionSingleProcess"
+	MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED = "MultipleSelectionSingleProcessSpaceSeparated"
 	"""MultipleSelectionSingleProcessSpaceSeparated: program is started once with variables expanded to space separated 
 	arguments, each enclosed in double-quotes."""
 
