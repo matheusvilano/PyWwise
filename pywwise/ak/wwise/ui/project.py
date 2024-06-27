@@ -67,7 +67,6 @@ class Project:
         operation for affected work units and for the project. **Defaults to true.**
         :return Returns whether the project was open.
         """
-        args = {}
         if not path.exists():
             return False
         args = {"path": str(path)}
