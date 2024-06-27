@@ -1,6 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.structs import ExternalSourceInfo as _ExternalSourceInfo
-from pywwise.types import Name as _Name, ShortID as _ShortID, GUID as _GUID, ProjectPath as _ProjectPath
+from pywwise.types import Name as _Name, ShortID as _ShortID, GUID as _GUID, ProjectPath as _ProjectPath, FilePath as _FilePath
 
 class SoundBank:
     """ak.wwise.core.soundbank"""
@@ -46,7 +46,7 @@ class SoundBank:
         args = {"soundbank": soundbank}
         results =  self._client.call("ak.wwise.core.soundbank.getInclusions", args).get("return")
 
-    def process_definition_files(self, files: []) -> bool:
+    def process_definition_files(self, files: set[_FilePath]) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_processdefinitionfiles.html \n
         Imports SoundBank definitions from the specified file. Multiple files can be specified. See the

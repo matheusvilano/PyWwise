@@ -16,7 +16,7 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 
     def test__process_definition_files(self):
         import pathlib
-        path = pathlib.Path("C:/Users/hojun/Documents/SoundBank_DefinitionFile_Test.txt")
+        path = pathlib.Path("C:/Users/hojun/Documents/SoundBank_DefinitionFile_Test.csv")
         results = ak.wwise.core.soundbank.process_definition_files(path)
         self.assertTrue(results)
 
