@@ -1,4 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
+from simplevent import RefEvent as _RefEvent
+from pywwise.types import GUID as _GUID, Name as _Name, ProjectPath as _ProjectPath
 
 
 class Audio:

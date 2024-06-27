@@ -1,7 +1,10 @@
-from dataclasses import dataclass as _dataclass
+from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from pywwise.types import Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID
-from pywwise.enums import EBasePlatform as _EBasePlatform
+from typing import Any as _Any
+from pywwise.types import (Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID,
+                           ProjectPath as _ProjectPath)
+from pywwise.enums import (EBasePlatform as _EBasePlatform, EObjectType as _EObjectType,
+                           EReturnOptions as _EReturnOptions)
 
 
 @_dataclass
@@ -86,3 +89,24 @@ class ExternalSourceInfo:
 	
 	output: _Path
 	"""The output path of the external source's WEM (after conversions)."""
+
+
+@_dataclass
+class WwiseObjectInfo:
+	"""Data-only class storing core information about a Wwise object."""
+	
+	guid: _GUID
+	"""The GUID of the wwise object."""
+	
+	name: _Name
+	"""The name of the Wwise object. Depending on the type, it may be unique."""
+	
+	type: _EObjectType
+	"""The Wwise object type."""
+
+	path: _ProjectPath
+	"""The project path of the Wwise object."""
+	
+	other: dict[str | _EReturnOptions, _Any] = _field(default_factory=dict)
+	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
+	EReturnOptions instead."""

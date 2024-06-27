@@ -1,4 +1,4 @@
-from enum import IntEnum as _IntEnum, StrEnum as _StrEnum
+from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 
 
 class EActionOnEventType(_IntEnum):
@@ -290,7 +290,7 @@ class ESampleRate(_IntEnum):
 	
 	SR_300 = 300
 	"""300Hz"""
-	
+
 
 class EWaveform(_StrEnum):
 	"""An enumeration of the default waveforms available in Wwise."""
@@ -457,7 +457,118 @@ class EReturnOptions(_StrEnum):
 	
 	WORK_UNIT_TYPE = "workunit:type"  # same as "workunitType"
 	"""The type of Work Unit (e.g. actual Work Unit vs Physical Folder). This assumes the object in question is a Work Unit."""
-
+	
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
 		return self.value.__hash__()
+
+
+class EObjectType(tuple[int, int, str], _Enum):
+	"""An enumeration of class IDs for all different Wwise objects."""
+	
+	ACOUSTIC_TEXTURE = 72, 4718608, "AcousticTexture"
+	ACTION = 5, 327696, "Action"
+	ACTION_EXCEPTION = 76, 4980752, "ActionException"
+	ACTOR_MIXER = 8, 524304, "ActorMixer"
+	ATTENUATION = 41, 2686992, "Attenuation"
+	AUDIO_DEVICE = 71, 4653072, "AudioDevice"
+	AUDIO_SOURCE = 0, 16, "AudioSource"
+	AUX_BUS = 61, 3997712, "AuxBus"
+	BLEND_CONTAINER = 29, 1900560, "BlendContainer"
+	BLEND_TRACK = 30, 1966096, "BlendTrack"
+	BUS = 21, 1376272, "Bus"
+	CONTROL_SURFACE_BINDING = 67, 4390928, "ControlSurfaceBinding"
+	CONTROL_SURFACE_BINDING_GROUP = 68, 4456464, "ControlSurfaceBindingGroup"
+	CONTROL_SURFACE_SESSION = 66, 4325392, "ControlSurfaceSession"
+	CONVERSION = 55, 3604496, "Conversion"
+	CURVE = 14, 917520, "Curve"
+	CUSTOM_STATE = 79, 5177360, "CustomState"
+	DIALOGUE_EVENT = 46, 3014672, "DialogueEvent"
+	EFFECT = 17, 1114128, "Effect"
+	EFFECT_SLOT = 84, 5505040, "EffectSlot"
+	EVENT = 4, 262160, "Event"
+	EXTERNAL_SOURCE = 57, 3735568, "ExternalSource"
+	EXTERNAL_SOURCE_FILE = 56, 3670032, "ExternalSourceFile"
+	FOLDER = 2, 131088, "Folder"
+	GAME_PARAMETER = 23, 1507344, "GameParameter"
+	LANGUAGE = 75, 4915216, "Language"
+	MARKER = 82, 5373968, "Marker"
+	METADATA = 81, 5308432, "Metadata"
+	MIDI_FILE_SOURCE = 80, 5242896, "MidiFileSource"
+	MIDI_PARAMETER = 63, 4128784, "MidiParameter"
+	MIXING_SESSION = 53, 3473424, "MixingSession"
+	MODIFIER = 15, 983056, "Modifier"
+	MODULATOR_ENVELOPE = 65, 4259856, "ModulatorEnvelope"
+	MODULATOR_LFO = 64, 4194320, "ModulatorLfo"
+	MODULATOR_TIME = 78, 5111824, "ModulatorTime"
+	MULTI_SWITCH_ENTRY = 83, 655360016, "MultiSwitchEntry"
+	MUSIC_CLIP = 60, 3932176, "MusicClip"
+	MUSIC_CLIP_MIDI = 62, 4063248, "MusicClipMidi"
+	MUSIC_CUE = 59, 3866640, "MusicCue"
+	MUSIC_EVENT_CUE = 77, 5046288, "MusicEventCue"
+	MUSIC_FADE = 39, 2555920, "MusicFade"
+	MUSIC_PLAYLIST_CONTAINER = 34, 2228240, "MusicPlaylistContainer"
+	MUSIC_PLAYLIST_ITEM = 36, 2359312, "MusicPlaylistItem"
+	MUSIC_SEGMENT = 27, 1769488, "MusicSegment"
+	MUSIC_STINGER = 38, 2490384, "MusicStinger"
+	MUSIC_SWITCH_CONTAINER = 35, 2293776, "MusicSwitchContainer"
+	MUSIC_TRACK = 28, 1835024, "MusicTrack"
+	MUSIC_TRACK_SEQUENCE = 58, 3801104, "MusicTrackSequence"
+	MUSIC_TRANSITION = 37, 2424848, "MusicTransition"
+	OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssoc"
+	PANNER = 42, 2752528, "Panner"
+	PATH_2D = 11, 720912, "Path2d"
+	PLATFORM = 69, 4522000, "Platform"
+	PLUGIN_DATA_SOURCE = 54, 3538960, "PluginDataSource"
+	POSITION = 12, 786448, "Position"
+	PROJECT = 3, 196624, "Project"
+	QUERY = 32, 2097168, "Query"
+	RANDOM_SEQUENCE_CONTAINER = 9, 589840, "RandomSequenceContainer"
+	RTPC = 22, 1441808, "Rtpc"
+	SEARCH_CRITERIA = 33, 2162704, "SearchCriteria"
+	SOUND = 1, 65552, "Sound"
+	SOUND_BANK = 18, 1179664, "SoundBank"
+	SOUNDCASTER_SESSION = 26, 1703952, "SoundcasterSession"
+	SOURCE_PLUGIN = 16, 1048592, "SourcePlugin"
+	STATE = 6, 393232, "State"
+	STATE_GROUP = 7, 458768, "StateGroup"
+	SWITCH = 20, 1310736, "Switch"
+	SWITCH_CONTAINER = 10, 655376, "SwitchContainer"
+	SWITCH_GROUP = 19, 1245200, "SwitchGroup"
+	TRIGGER = 40, 2621456, "Trigger"
+	USER_PROJECT_SETTINGS = 51, 3342352, "UserProjectSettings"
+	WORK_UNIT = 25, 1638416, "WorkUnit"
+	
+	@classmethod
+	def from_plugin_id(cls, plugin_id: int):
+		for member in cls:
+			if member.get_plugin_id() == plugin_id:
+				return member
+		raise ValueError(f"No {cls.__name__} member with plugin_id={plugin_id}")
+	
+	@classmethod
+	def from_class_id(cls, class_id: int):
+		for member in cls:
+			if member.get_class_id() == class_id:
+				return member
+		raise ValueError(f"No {cls.__name__} member with class_id={class_id}")
+	
+	@classmethod
+	def from_type_name(cls, type_name: str):
+		for member in cls:
+			if member.get_type_name() == type_name:
+				return member
+		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
+
+	def get_plugin_id(self) -> int:
+		""":return: The Wwise object type's PluginID."""
+		return self.value[0]
+	
+	def get_class_id(self) -> int:
+		""":return: The Wwise object type's ClassID."""
+		return self.value[1]
+	
+	def get_type_name(self) -> str:
+		""":return: The Wwise object type's name, as a string."""
+		return self.value[2]
+	
