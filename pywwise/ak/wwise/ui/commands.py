@@ -39,7 +39,7 @@ class Commands:
         args = {"command": command, "objects": list(), "platforms": list(), "value": None}
 
         if objects is not None:
-            for object in objects:
+            for wwise_object in objects:
                 return
         if platforms is not None:
             for platform in platforms:
@@ -70,7 +70,7 @@ class Commands:
 
         return self._client.call("ak.wwise.ui.commands.register", args)
 
-    def unregister(self, commands: set[_CommandInfo] = None) -> None:
+    def unregister(self, commands: set[_CommandInfo.id] = None) -> None:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
         Unregisters an array of add-on UI commands.
@@ -81,6 +81,6 @@ class Commands:
         args = {"commands": list()}
 
         for command in commands:
-            args["commands"].append(command.id)
+            args["commands"].append(command)
 
         return self._client.call("ak.wwise.ui.commands.unregister", args)
