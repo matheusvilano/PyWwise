@@ -40,6 +40,10 @@ class UI:
 	
 	@_callback
 	def _on_selection_changed(self, **kwargs):
+		"""
+		Callback function for the selectionChanged event.
+		:param kwargs: The event data.
+		"""
 		objects = list[_WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
 			objects.append(_WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]))
