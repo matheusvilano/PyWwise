@@ -1,6 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import WwiseObjectInfo as _WwiseObjectInfo
-from pywwise.structs import PlatformInfo as _PlatformInfo, CommandInfo as _CommandInfo
+from pywwise.structs import PlatformInfo as _PlatformInfo, CommandInfo as _CommandInfo, WwiseObjectInfo as _WwiseObjectInfo
 from pywwise.types import GUID as _GUID, ShortID as _ShortID, ProjectPath as _ProjectPath, Name as _Name
 from pywwise.enums import ECommand as _ECommand
 
@@ -15,17 +14,17 @@ class Commands:
         """
         self._client = client
 
-    def get_commands(self) -> list[str]:
+    def get_commands(self) -> tuple[str, ...]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_getcommands.html \n
         Gets the list of commands.
-        :return: The set of available commands.
+        :return: A tuple containing the available commands. If empty, the call failed.
         """
-        results = self._client.call("ak.wwise.ui.commands.getCommands")
-        return results.get("commands")
+        commands = self._client.call("ak.wwise.ui.commands.getCommands").get("commands")
+        return tuple(commands) if commands is not None else ()
 
     def execute(self, command: _ECommand, objects: set[_WwiseObjectInfo | _GUID | _ProjectPath | _Name | _ShortID] = None,
-                platforms: set[_PlatformInfo | _Name | _GUID] = None, value: str | float | bool = None) -> None:
+                platforms: set[_PlatformInfo | _Name | _GUID] = None, value: str | float | bool = None) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
         Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise
@@ -40,6 +39,7 @@ class Commands:
         platforms as arguments. Refer to the commands for more information.
         :param value: A value to pass to the command. Some commands can take a value as an argument. **Can be Null,
         String, Float, or Bool**. Refer to the commands for more information.
+        :return: Whether the call succeeded.
         """
         if command is None:
             return
@@ -67,15 +67,16 @@ class Commands:
         if value is not None:
             args["value"] = value
 
-        return self._client.call("ak.wwise.ui.commands.execute", args)
+        return self._client.call("ak.wwise.ui.commands.execute", args) is not None
 
-    def register(self, commands: set[_CommandInfo] = None) -> None:
+    def register(self, commands: set[_CommandInfo]) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_register.html \n
         Registers an array of add-on commands. Registered commands remain until the Wwise process is
         terminated. Refer to Defining Command Add-ons for more information about registering commands.
         Also refer to `ak.wwise.ui.commands.executed`.
         :param commands: An array of add-on commands. Data for the commands to be registered.
+        :return: Whether the call succeeded.
         """
         if commands is None:
             return
@@ -85,14 +86,15 @@ class Commands:
         for command in commands:
             args["commands"].append(command.dictionary)
 
-        return self._client.call("ak.wwise.ui.commands.register", args)
+        return self._client.call("ak.wwise.ui.commands.register", args) is not None
 
-    def unregister(self, commands: set[_CommandInfo | str] = None) -> None:
+    def unregister(self, commands: set[_CommandInfo | str]) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
         Unregisters an array of add-on UI commands.
         :param commands: A set of add-on commands. Can either be a string containing the add-on command ID or a full
         Add-on Command Info instance.
+        :return: Whether the call succeeded.
         """
         if commands is None:
             return
@@ -105,4 +107,4 @@ class Commands:
             else:
                 args["commands"].append(str(command))
 
-        return self._client.call("ak.wwise.ui.commands.unregister", args)
+        return self._client.call("ak.wwise.ui.commands.unregister", args) is not None
