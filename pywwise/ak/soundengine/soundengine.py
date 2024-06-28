@@ -1,9 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import Vector3 as _Vector3, AuxSendValue as _AuxSendValue
-from pywwise.types import Name as _Name, ShortID as _ShortID, GUID as _GUID, GameObjectID as _GameObjectID, \
-	ProjectPath as _ProjectPath, PlayingID as _PlayingID
-from pywwise.enums import ESpeakerBitMask as _ESpeakerBitMask, EActionOnEventType as _EActionOnEventType, \
-	ECurveInterpolation as _ECurveInterpolation
+from pywwise.structs import Vector3, AuxSendValue
+from pywwise.types import Name, ShortID, GUID, GameObjectID, ProjectPath, PlayingID
+from pywwise.enums import ESpeakerBitMask, EActionOnEventType, ECurveInterpolation
 
 
 class SoundEngine:
@@ -16,9 +14,9 @@ class SoundEngine:
 		"""
 		self._client = client
 	
-	def execute_action_on_event(self, event: _Name | _ShortID | _GUID, action_type: _EActionOnEventType,
-	                            game_object: _GameObjectID, transition_duration: int = 0,
-	                            fade_curve: _ECurveInterpolation = _ECurveInterpolation.LINEAR) -> dict:
+	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EActionOnEventType,
+	                            game_object: GameObjectID, transition_duration: int = 0,
+	                            fade_curve: ECurveInterpolation = ECurveInterpolation.LINEAR) -> dict:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
 		Executes an action on all nodes that are referenced in the specified event in a Play action.
@@ -33,7 +31,7 @@ class SoundEngine:
 		        "transitionDuration": transition_duration, "fadeCurve": fade_curve}
 		return self._client.call("ak.soundengine.executeActionOnEvent", args)
 	
-	def get_state(self, state_group: _Name | _ShortID | _GUID | _ProjectPath) -> tuple[str, str]:
+	def get_state(self, state_group: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getstate.html \n
 		Gets the current state of a State Group. When using setState just prior to getState, allow a brief delay (no
@@ -41,15 +39,15 @@ class SoundEngine:
 		:param state_group: The name, short ID, GUID, or project path of the State Group.
 		:return: The name and GUID of the active State value. If invalid, the values will be -1 and "".
 		"""
-		if isinstance(state_group, _Name):
+		if isinstance(state_group, Name):
 			state_group = f"StateGroup:{state_group}"
-		elif isinstance(state_group, _ShortID):
+		elif isinstance(state_group, ShortID):
 			state_group = f"Global:{state_group}"
 		args = {"stateGroup": state_group}
 		results = self._client.call("ak.soundengine.getState", args).get("return")
 		return results.get("name"), results.get("id")
 	
-	def get_switch(self, switch_group: _Name | _ShortID | _GUID | _ProjectPath, game_object: _GameObjectID) -> tuple[
+	def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath, game_object: GameObjectID) -> tuple[
 		str, str]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getswitch.html \n
@@ -58,15 +56,15 @@ class SoundEngine:
 		:param game_object: The ID of the game object. Switches are always encapsulated by game objects.
 		:return: The name and GUID of the active Switch value.
 		"""
-		if isinstance(switch_group, _Name):
+		if isinstance(switch_group, Name):
 			switch_group = f"SwitchGroup:{switch_group}"
-		elif isinstance(switch_group, _ShortID):
+		elif isinstance(switch_group, ShortID):
 			switch_group = f"Global:{switch_group}"
 		args = {"switchGroup": switch_group, "gameObject": game_object}
 		results = self._client.call("ak.soundengine.getSwitch", args).get("return")
 		return results.get("name"), results.get("id")
 	
-	def load_bank(self, sound_bank: _Name | _ShortID | _GUID) -> bool:
+	def load_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_loadbank.html \n
 		Load a SoundBank. See `AK::SoundEngine::LoadBank`.
@@ -76,8 +74,8 @@ class SoundEngine:
 		args = {"soundBank": sound_bank}
 		return self._client.call("ak.soundengine.loadBank", args) is not None
 	
-	def post_event(self, event: _Name | _ShortID | _GUID,
-	               game_object: _GameObjectID = _GameObjectID.get_transport()) -> int:
+	def post_event(self, event: Name | ShortID | GUID,
+	               game_object: GameObjectID = GameObjectID.get_transport()) -> int:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postevent.html \n
 		Asynchronously post an Event to the sound engine (by event ID). See `AK::SoundEngine::PostEvent`.
@@ -99,7 +97,7 @@ class SoundEngine:
 		args = {"message": message}
 		return self._client.call("ak.soundengine.postMsgMonitor", args) is not None
 	
-	def post_trigger(self, trigger: _Name | _ShortID | _GUID, game_object: _GameObjectID = None) -> bool:
+	def post_trigger(self, trigger: Name | ShortID | GUID, game_object: GameObjectID = None) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_posttrigger.html \n
 		Posts the specified Trigger. See `AK::SoundEngine::PostTrigger`.
@@ -113,7 +111,7 @@ class SoundEngine:
 			args["gameObject"] = game_object
 		return self._client.call("ak.soundengine.postTrigger", args) is not None
 	
-	def register_game_obj(self, obj_id: _GameObjectID, obj_name: _Name) -> bool:
+	def register_game_obj(self, obj_id: GameObjectID, obj_name: Name) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_registergameobj.html \n
 		Register a game object. Registering a game object twice does nothing. Unregistering it once unregisters
@@ -125,7 +123,7 @@ class SoundEngine:
 		args = {"gameObject": obj_id, "name": obj_name}
 		return self._client.call("ak.soundengine.registerGameObj", args) is not None
 	
-	def reset_rtpc_value(self, rtpc: _Name | _GUID | _ShortID, game_object: _GameObjectID) -> bool:
+	def reset_rtpc_value(self, rtpc: Name | GUID | ShortID, game_object: GameObjectID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/2023.1.4_8496/?source=SDK&id=ak_soundengine_resetrtpcvalue.html \n
 		Resets the value of a real-time parameter control to its default value, as specified in the Wwise
@@ -137,8 +135,8 @@ class SoundEngine:
 		args = {"rtpc": rtpc, "gameObject": game_object}
 		return self._client.call("ak.soundengine.resetRTPCValue", args) is not None
 	
-	def seek_on_event(self, event: _Name | _GUID | _ShortID, game_object: _GameObjectID, position: int | float,
-	                  seek_to_nearest_marker: bool = False, playing_id: _PlayingID = 0) -> bool:
+	def seek_on_event(self, event: Name | GUID | ShortID, game_object: GameObjectID, position: int | float,
+	                  seek_to_nearest_marker: bool = False, playing_id: PlayingID = 0) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_seekonevent.html \n
 		Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See
@@ -156,7 +154,7 @@ class SoundEngine:
 		        "seekToNearestMarker": seek_to_nearest_marker, "playingId": playing_id}
 		return self._client.call("ak.soundengine.seekOnEvent", args) is not None
 	
-	def set_default_listeners(self, listeners: set[_GameObjectID]) -> bool:
+	def set_default_listeners(self, listeners: set[GameObjectID]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setdefaultlisteners.html \n
 		Sets the default active listeners for all subsequent game objects that are registered. See
@@ -167,8 +165,8 @@ class SoundEngine:
 		args = {"listeners": list(listeners), "numListeners": len(listeners)}
 		return self._client.call("ak.soundengine.setDefaultListeners", args) is not None
 	
-	def set_game_object_aux_send_values(self, game_obj: _GameObjectID,
-	                                    aux_send_values: tuple[_AuxSendValue, ...]) -> bool:
+	def set_game_object_aux_send_values(self, game_obj: GameObjectID,
+	                                    aux_send_values: tuple[AuxSendValue, ...]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
 		Sets the Auxiliary Busses to route the specified game object. See `AK::SoundEngine::SetGameObjectAuxSendValues`.
@@ -183,7 +181,7 @@ class SoundEngine:
 			                              "controlValue": aux_send_value.control_value})
 		return self._client.call("ak.soundengine.setGameObjectOutputBusVolume", args) is not None
 	
-	def set_game_object_output_bus_volume(self, emitter: _GameObjectID, listener: _GameObjectID,
+	def set_game_object_output_bus_volume(self, emitter: GameObjectID, listener: GameObjectID,
 	                                      control_value: float) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectoutputbusvolume.html \n
@@ -198,7 +196,7 @@ class SoundEngine:
 		args = {"emitter": emitter, "listener": listener, "controlValue": control_value}
 		return self._client.call("ak.soundengine.setGameObjectAuxSendValues", args) is not None
 	
-	def set_listeners(self, emitter: _GameObjectID, listeners: set[_GameObjectID]) -> bool:
+	def set_listeners(self, emitter: GameObjectID, listeners: set[GameObjectID]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlisteners.html \n
 		Sets a single game object's active listeners. By default, all new game objects have no listeners active,
@@ -212,7 +210,7 @@ class SoundEngine:
 		args = {"emitter": emitter, "listeners": list(listeners)}
 		return self._client.call("ak.soundengine.setListeners", args) is not None
 	
-	def set_listener_spatialization(self, listener: _GameObjectID, spatialized: bool, channel_config: _ESpeakerBitMask,
+	def set_listener_spatialization(self, listener: GameObjectID, spatialized: bool, channel_config: ESpeakerBitMask,
 	                                volume_offsets: tuple[float, ...]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
@@ -237,7 +235,7 @@ class SoundEngine:
 		`AK::SoundEngine::SetMultiplePositions`.
 		"""
 	
-	def set_object_obstruction_and_occlusion(self, emitter: _GameObjectID, listener: _GameObjectID,
+	def set_object_obstruction_and_occlusion(self, emitter: GameObjectID, listener: GameObjectID,
 	                                         obstruction_level: float, occlusion_level: float) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setobjectobstructionandocclusion.html \n
@@ -253,8 +251,8 @@ class SoundEngine:
 		        "occlusionLevel": occlusion_level}
 		return self._client.call("ak.soundengine.setObjectObstructionAndOcclusion", args) is not None
 	
-	def set_position(self, game_obj: _GameObjectID, orientation_front: _Vector3, orientation_top: _Vector3,
-	                 position: _Vector3) -> bool:
+	def set_position(self, game_obj: GameObjectID, orientation_front: Vector3, orientation_top: Vector3,
+	                 position: Vector3) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
 		Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
@@ -271,8 +269,8 @@ class SoundEngine:
 		args["position"]["position"] = {"x": position.x, "y": position.y, "z": position.z}
 		return self._client.call("ak.soundengine.setPosition", args) is not None
 	
-	def set_rtpc_value(self, rtpc: _GUID | _Name | _ShortID, value: float,
-	                   game_obj: _GameObjectID = _GameObjectID.get_global()) -> bool:
+	def set_rtpc_value(self, rtpc: GUID | Name | ShortID, value: float,
+	                   game_obj: GameObjectID = GameObjectID.get_global()) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setrtpcvalue.html \n
 		Sets the value of a real-time parameter control. See `AK::SoundEngine::SetRTPCValue`.
@@ -286,7 +284,7 @@ class SoundEngine:
 			args["gameObject"] = game_obj
 		return self._client.call("ak.soundengine.setRTPCValue", args) is not None
 	
-	def set_scaling_factor(self, game_obj: _GameObjectID, attenuation_scaling_factor: float) -> bool:
+	def set_scaling_factor(self, game_obj: GameObjectID, attenuation_scaling_factor: float) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setscalingfactor.html \n
 		Sets the scaling factor of a game object. You can modify the attenuation computations on this game object
@@ -298,7 +296,7 @@ class SoundEngine:
 		args = {"gameObject": game_obj, "attenuationScalingFactor": attenuation_scaling_factor}
 		return self._client.call("ak.soundengine.setScalingFactor", args) is not None
 	
-	def set_state(self, state_group: _GUID | _Name | _ShortID, state_value: _GUID | _Name | _ShortID) -> bool:
+	def set_state(self, state_group: GUID | Name | ShortID, state_value: GUID | Name | ShortID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setstate.html \n
 		Sets the State of a State Group. See `AK::SoundEngine::SetState`.
@@ -309,8 +307,8 @@ class SoundEngine:
 		args = {"stateGroup": state_group, "state": state_value}
 		return self._client.call("ak.soundengine.setState", args) is not None
 	
-	def set_switch(self, switch_group: _GUID | _Name | _ShortID, switch_value: _GUID | _Name | _ShortID,
-	               game_obj: _GameObjectID) -> bool:
+	def set_switch(self, switch_group: GUID | Name | ShortID, switch_value: GUID | Name | ShortID,
+	               game_obj: GameObjectID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setswitch.html \n
 		Sets the State of a Switch Group. See `AK::SoundEngine::SetSwitch`.
@@ -322,7 +320,7 @@ class SoundEngine:
 		args = {"switchGroup": switch_group, "switchState": switch_value, "gameObject": game_obj}
 		return self._client.call("ak.soundengine.setSwitch", args) is not None
 	
-	def stop_all(self, game_obj: _GameObjectID):
+	def stop_all(self, game_obj: GameObjectID):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopall.html \n
 		Stop playing the current content associated to the specified game object ID. If no game object is
@@ -333,7 +331,7 @@ class SoundEngine:
 		args = {"gameObject": game_obj}
 		return self._client.call("ak.soundengine.stopAll", args) is not None
 	
-	def stop_playing_id(self, playing_id: _PlayingID, transition_duration: int, fade_curve: int):
+	def stop_playing_id(self, playing_id: PlayingID, transition_duration: int, fade_curve: int):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopplayingid.html \n
 		Stops the current content, associated to the specified playing ID, from playing. See
@@ -346,7 +344,7 @@ class SoundEngine:
 		args = {"playingId": playing_id, "transitionDuration": transition_duration, "fadeCurve": fade_curve}
 		return self._client.call("ak.soundengine.stopPlayingID", args) is not None
 	
-	def unload_bank(self, sound_bank: _Name | _ShortID | _GUID) -> bool:
+	def unload_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unloadbank.html \n
 		Unload a SoundBank. See `AK::SoundEngine::UnloadBank`.
