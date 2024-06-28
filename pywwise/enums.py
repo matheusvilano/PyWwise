@@ -336,7 +336,8 @@ class EReturnOptions(_StrEnum):
 	"""The amount of children. This accounts for Audio Sources."""
 	
 	CLASS_ID = "classId"
-	"""The class ID (e.g. the ClassID of AuxBus is 3997712). Refer to the Wwise Objects Reference for more information."""
+	"""The class ID (e.g. the ClassID of AuxBus is 3997712). Refer to the Wwise Objects Reference for more
+	information."""
 	
 	CONVERTED_WEM_FILE_PATH = "convertedWemFilePath"  # same as "convertedFilePath"
 	"""The path of the converted file (WEM)."""
@@ -363,7 +364,8 @@ class EReturnOptions(_StrEnum):
 	"""Whether the object is implicitly muted (e.g. soloed parent)."""
 	
 	IS_INCLUDED = "isIncluded"
-	"""Whether the object is included. Not being included means it will not be converted or included in SoundBanks or other data."""
+	"""Whether the object is included. Not being included means it will not be converted or included in SoundBanks or
+	other data."""
 	
 	IS_PLAYABLE = "isPlayable"
 	"""Whether the object is playable (e.g. a Sound object is playable)."""
@@ -456,7 +458,8 @@ class EReturnOptions(_StrEnum):
 	"""Whether the Work Unit is dirty (has unsaved changes). This assumes the object in question is a Work Unit."""
 	
 	WORK_UNIT_TYPE = "workunit:type"  # same as "workunitType"
-	"""The type of Work Unit (e.g. actual Work Unit vs Physical Folder). This assumes the object in question is a Work Unit."""
+	"""The type of Work Unit (e.g. actual Work Unit vs Physical Folder). This assumes the object in question is a Work
+	Unit."""
 	
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
