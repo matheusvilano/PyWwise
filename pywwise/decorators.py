@@ -22,15 +22,18 @@ def callback(func):
 
 def debug_build_only(func):
 	"""
-	A decorator for PyWwise debug-only functions. Checks `is_debug_build` (or, alternatively, `_is_debug_build`); if
-	None or False, the decorated function will NOT be called. \n
+	A decorator for PyWwise debug-only functions. Checks the owner object's `is_debug_build` (or, alternatively,
+	`_is_debug_build`); if `None` or `False`, the decorated function will NOT be called. Note: if there is no owner
+	object, the check defaults to `None`. \n
 	:param func: The function to decorate.
 	:return: The decorated function.
 	"""
 	
-	def wrapper(self, **kwargs):
-		flag = getattr(self, "is_debug") if hasattr(self, "is_debug") else getattr(self, "_is_debug", None)
+	def wrapper(self, *args, **kwargs):
+		flag = getattr(self, "is_debug_build") \
+			if hasattr(self, "is_debug_build") \
+			else getattr(self, "_is_debug_build", None)
 		if flag is True:
-			return func(self, **kwargs)
+			return func(self, *args, **kwargs)
 	
 	return wrapper
