@@ -46,7 +46,11 @@ class UI:
 		"""
 		objects = list[_WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
-			objects.append(_WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]))
+			guid = _GUID(obj["id"])
+			name = _Name(obj["name"])
+			typename = _EObjectType.from_type_name(obj["type"])
+			path = _ProjectPath(obj["path"])
+			objects.append(_WwiseObjectInfo(guid, name, typename, path))
 		self.selection_changed(tuple(objects))
 	
 	def bring_to_foreground(self) -> None:
