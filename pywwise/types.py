@@ -1,8 +1,8 @@
-from pathlib import Path
+from pathlib import Path as _Path
 from uuid import UUID as _UUID
 from typing import Literal as _Literal, TypeAlias as _TypeAlias
 
-SystemPath: _TypeAlias = Path
+SystemPath: _TypeAlias = _Path
 
 
 class Name(str):
