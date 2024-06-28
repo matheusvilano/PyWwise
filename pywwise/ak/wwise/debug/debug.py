@@ -1,3 +1,4 @@
+from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.types import SystemPath
@@ -44,17 +45,17 @@ class Debug:
 		                   kwargs["callstack"], kwargs.get("message", ""))
 	
 	@debug_build_only
-	def enable_asserts(self, enable: bool):
+	def enable_asserts(self, enable: bool) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableasserts.html \n
 		Enables debug assertions. Every call to enableAsserts with 'false' increments the ref count. Calling
 		with true decrements the ref count. **This is only available with Debug builds**.
 		:param enable: Whether to enable debug assertions.
-		:return: Whether the call succeeded.
+		:return: A flag indicated whether the call succeeded.
 		"""
-		return self._client.call("ak.wwise.debug.enableAsserts", {"enable": enable})
+		return self._client.call("ak.wwise.debug.enableAsserts", {"enable": enable}) is not None
 	
-	def enable_automation_mode(self, enable: bool):
+	def enable_automation_mode(self, enable: bool) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableautomationmode.html \n
 		Enables or disables the automation mode for Wwise. This reduces the potential interruptions caused by
@@ -63,13 +64,15 @@ class Debug:
 		:param enable: Whether to enable automation mode.
 		:return: Whether the call succeeded.
 		"""
+		return self._client.call("ak.wwise.debug.enableAutomationMode", {"enable": enable}) is not None
 	
 	def generate_tone_wav(self, path: SystemPath, bit_depth: EBitDepth = EBitDepth.INT_16,
 	                      sample_rate: ESampleRate = ESampleRate.SR_44100,
 	                      channel_config: ESpeakerBitMask = ESpeakerBitMask.MONO, attack_time: float = 0.0,
 	                      sustain_time: float = 1.0, sustain_level: float = 0.0, release_time: float = 0.0,
-	                      waveform: EWaveform = EWaveform.SILENCE, frequency: float = 440.0):
+	                      waveform: EWaveform = EWaveform.SILENCE, frequency: float = 440.0) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_generatetonewav.html \n
 		Generate a WAV file playing a tone with a simple envelope and save it to the specified location. This
 		is provided as a utility to generate test WAV files.
 		:param path: The path where to store the generated WAV file.
@@ -91,23 +94,36 @@ class Debug:
 		        "releaseTime": release_time, "waveform": waveform.value, "frequency": max(1.0, min(frequency, 22000.0))}
 		return self._client.call("ak.wwise.debug.generateToneWAV", args) is not None
 	
-	def get_wal_tree(self):
+	def get_wal_tree(self) -> dict[str, dict[str, dict[str, _Any]]]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_getwaltree.html \n
 		Retrieves the WAL tree, which describes the nodes that are synchronized in the Sound Engine. Private
 		use only.
 		"""
+		return self._client.call("ak.wwise.debug.getWalTree").get("return", dict())
 	
-	def restart_waapi_servers(self):
+	def restart_waapi_servers(self) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_restartwaapiservers.html \n
 		Restart WAAPI servers. For internal use only.
+		:return: Whether the call succeeded.
 		"""
+		return self._client.call("ak.wwise.debug.restartWaapiServers") is not None
 	
-	def test_assert(self):
+	@debug_build_only
+	def test_assert(self) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_testassert.html \n
 		Private use only.
+		:return: Whether the call succeeded.
 		"""
+		return self._client.call("ak.wwise.debug.testAssert") is not None
 	
-	def test_crash(self):
+	@debug_build_only
+	def test_crash(self) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_testcrash.html \n
 		Private use only.
+		:return: Whether the call succeeded.
 		"""
+		return self._client.call("ak.wwise.debug.testCrash") is not None
