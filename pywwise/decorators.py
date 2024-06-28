@@ -35,5 +35,6 @@ def debug_build_only(func):
 			else getattr(self, "_is_debug_build", None)
 		if flag is True:
 			return func(self, *args, **kwargs)
+		return False
 	
 	return wrapper
