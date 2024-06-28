@@ -1,7 +1,9 @@
 from waapi import WaapiClient as _WaapiClient
+from simplevent import RefEvent as _RefEvent
 from pathlib import Path as _Path
-from pywwise.enums import EBitDepth as _EBitDepth, ESampleRate as _ESampleRate, ESpeakerBitMask as _ESpeakerBitMask, \
-	EWaveform as _EWaveform
+from pywwise.enums import (EBitDepth as _EBitDepth, ESampleRate as _ESampleRate, ESpeakerBitMask as _ESpeakerBitMask,
+                           EWaveform as _EWaveform)
+from pywwise.decorators import callback as _callback
 
 
 class Debug:
@@ -13,6 +15,29 @@ class Debug:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+		
+		self.assert_failed = _RefEvent(str, str, int, str, str)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_assertfailed.html
+		\nSent when an assert has failed. This is only available in Debug builds.
+		\n**Event Data**
+		\n- The expression that failed.
+		\n- The name of the source file.
+		\n- The line number.
+		\n- The callstack from the location of the assert.
+		\n- An explanatory message accompanying the assert. May be empty.
+		"""
+		
+		self._assert_failed = self._client.subscribe("ak.wwise.debug.assertFailed")
+	
+	@_callback
+	def _on_assert_failed(self, **kwargs):
+		"""
+		Callback function for the `assertFailed` event.
+		:param kwargs: The event data.
+		"""
+		self.assert_failed(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
+		                   kwargs["callstack"], kwargs.get("message", ""))
 	
 	def enable_asserts(self):
 		"""
