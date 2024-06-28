@@ -1,6 +1,8 @@
-from pathlib import Path as SystemPath  # DO NOT REMOVE
+from pathlib import Path
 from uuid import UUID as _UUID
-from typing import Literal as _Literal
+from typing import Literal as _Literal, TypeAlias as _TypeAlias
+
+SystemPath: _TypeAlias = Path
 
 
 class Name(str):
@@ -27,7 +29,7 @@ class GUID(str):
 			return True
 		except ValueError:
 			return False
-		
+	
 	@staticmethod
 	def get_zero() -> _Literal["{00000000-0000-0000-0000-000000000000}"]:
 		""":return: A string containing the default "zero" GUID."""
