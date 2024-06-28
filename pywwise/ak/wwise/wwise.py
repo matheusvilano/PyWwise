@@ -8,13 +8,15 @@ from pywwise.ak.wwise.ui import UI as _UI
 class Wwise:
     """ak.wwise"""
 
-    def __init__(self, client: _WaapiClient):
+    def __init__(self, client: _WaapiClient, is_debug_build: bool = False):
         """
         Constructor.
         :param client: The WAAPI client to use.
+        :param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only
+		functions/topics are required.
         """
         self._client = client
         self.console = _Console(client)
         self.core = _Core(client)
-        self.debug = _Debug(client)
+        self.debug = _Debug(client, is_debug_build)
         self.ui = _UI(client)
