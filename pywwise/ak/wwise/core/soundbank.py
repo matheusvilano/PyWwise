@@ -91,7 +91,7 @@ class SoundBank:
         :param files: An array of SoundBank definition files.
         :return: Whether the call succeeded.
         """
-        args = {"files": list(files), "numFiles": len(files)}
+        args = {"files": [str(file) for file in files]}
         return self._client.call("ak.wwise.core.soundbank.processDefinitionFiles", args) is not None
 
     def set_inclusions(self):
