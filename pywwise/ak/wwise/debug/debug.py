@@ -1,25 +1,28 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
-from pathlib import Path as _Path
-from pywwise.enums import (EBitDepth as _EBitDepth, ESampleRate as _ESampleRate, ESpeakerBitMask as _ESpeakerBitMask,
-                           EWaveform as _EWaveform)
-from pywwise.decorators import callback as _callback
+from pywwise.types import SystemPath
+from pywwise.enums import EBitDepth, ESampleRate, ESpeakerBitMask, EWaveform
+from pywwise.decorators import callback, debug_build_only
 
 
 class Debug:
 	"""ak.wwise.debug"""
 	
-	def __init__(self, client: _WaapiClient):
+	def __init__(self, client: _WaapiClient, is_debug_build: bool = False):
 		"""
 		Constructor.
 		:param client: The WAAPI client to use.
+		:param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only
+		functions/topics are required.
 		"""
 		self._client = client
+		
+		self._is_debug_build = is_debug_build
 		
 		self.assert_failed = _RefEvent(str, str, int, str, str)
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_assertfailed.html
-		\nSent when an assert has failed. This is only available in Debug builds.
+		\nSent when an assert has failed. **This is only available in Debug builds**.
 		\n**Event Data**
 		\n- The expression that failed.
 		\n- The name of the source file.
@@ -28,9 +31,10 @@ class Debug:
 		\n- An explanatory message accompanying the assert. May be empty.
 		"""
 		
-		self._assert_failed = self._client.subscribe("ak.wwise.debug.assertFailed")
+		if self._is_debug_build:
+			self._assert_failed = self._client.subscribe("ak.wwise.debug.assertFailed", self._on_assert_failed)
 	
-	@_callback
+	@callback
 	def _on_assert_failed(self, **kwargs):
 		"""
 		Callback function for the `assertFailed` event.
@@ -39,24 +43,32 @@ class Debug:
 		self.assert_failed(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
 		                   kwargs["callstack"], kwargs.get("message", ""))
 	
-	def enable_asserts(self):
+	@debug_build_only
+	def enable_asserts(self, enable: bool):
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableasserts.html \n
 		Enables debug assertions. Every call to enableAsserts with 'false' increments the ref count. Calling
-		with true decrements the ref count. This is only available with Debug builds.
+		with true decrements the ref count. **This is only available with Debug builds**.
+		:param enable: Whether to enable debug assertions.
+		:return: Whether the call succeeded.
 		"""
+		return self._client.call("ak.wwise.debug.enableAsserts", {"enable": enable})
 	
-	def enable_automation_mode(self):
+	def enable_automation_mode(self, enable: bool):
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableautomationmode.html \n
 		Enables or disables the automation mode for Wwise. This reduces the potential interruptions caused by
 		message boxes and dialogs. For instance, enabling the automation mode silently accepts: project
 		migration, project load log, EULA acceptance, project licence display and generic message boxes.
+		:param enable: Whether to enable automation mode.
+		:return: Whether the call succeeded.
 		"""
 	
-	def generate_tone_wav(self, path: _Path, bit_depth: _EBitDepth = _EBitDepth.INT_16,
-	                      sample_rate: _ESampleRate = _ESampleRate.SR_44100,
-	                      channel_config: _ESpeakerBitMask = _ESpeakerBitMask.MONO, attack_time: float = 0.0,
+	def generate_tone_wav(self, path: SystemPath, bit_depth: EBitDepth = EBitDepth.INT_16,
+	                      sample_rate: ESampleRate = ESampleRate.SR_44100,
+	                      channel_config: ESpeakerBitMask = ESpeakerBitMask.MONO, attack_time: float = 0.0,
 	                      sustain_time: float = 1.0, sustain_level: float = 0.0, release_time: float = 0.0,
-	                      waveform: _EWaveform = _EWaveform.SILENCE, frequency: float = 440.0):
+	                      waveform: EWaveform = EWaveform.SILENCE, frequency: float = 440.0):
 		"""
 		Generate a WAV file playing a tone with a simple envelope and save it to the specified location. This
 		is provided as a utility to generate test WAV files.
