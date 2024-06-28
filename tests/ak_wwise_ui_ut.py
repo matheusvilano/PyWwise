@@ -40,11 +40,10 @@ class AkWwiseUiTest(unittest.TestCase):
 	def test__selection_changed(self):
 		def _(objects):
 			print(objects)
-		
 		ak.wwise.ui.selection_changed += _
+		self.assertEqual(len(ak.wwise.ui.selection_changed), 1)
 		import time
 		time.sleep(30)
-		self.assertEqual(len(ak.wwise.ui.selection_changed), 1)
 
 
 if __name__ == '__main__':

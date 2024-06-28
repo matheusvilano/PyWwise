@@ -25,7 +25,7 @@ class UI:
 		self.commands = _Commands(client)
 		self.project = _Project(client)
 		
-		self.selection_changed = _RefEvent(tuple)
+		self.selection_changed = _RefEvent(tuple[_WwiseObjectInfo, ...])
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html \n
 		**Description**: Sent when the selection changes in the project. \n
@@ -36,7 +36,6 @@ class UI:
 		                                        _EReturnOptions.TYPE, _EReturnOptions.PATH]}
 		self._selection_changed = self._client.subscribe("ak.wwise.ui.selectionChanged", self._on_selection_changed,
 		                                                 selection_changed_options)
-		self._selection_changed.bind(self._on_selection_changed)
 	
 	@_callback
 	def _on_selection_changed(self, **kwargs):
