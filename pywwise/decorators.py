@@ -4,7 +4,7 @@ def callback(func):
 	least one subscriber, it will be broadcast. For the decorated function to work properly: \n
 	- its name should start with the prefix `_on_` (e.g. `_on_event_happened`).
 	- its associated event should have the same name, minus the prefix `_on_` (e.g. `event_happened`).
-	- both the decorated function and the associated event should be encapulated within the same object.
+	- both the decorated function and the associated event should be encapsulated within the same object.
 	:param func: The function to decorate.
 	:return: The decorated function.
 	"""
@@ -15,6 +15,22 @@ def callback(func):
 			raise NameError(f"Function '{func.__name__}' missing associated event: '{func.__name__[4:]}'.")
 		if len(event) > 0:
 			kwargs["event"] = event
-			func(self, **kwargs)
+			return func(self, **kwargs)
+	
+	return wrapper
+
+
+def debug_build_only(func):
+	"""
+	A decorator for PyWwise debug-only functions. Checks `is_debug_build` (or, alternatively, `_is_debug_build`); if
+	None or False, the decorated function will NOT be called. \n
+	:param func: The function to decorate.
+	:return: The decorated function.
+	"""
+	
+	def wrapper(self, **kwargs):
+		flag = getattr(self, "is_debug") if hasattr(self, "is_debug") else getattr(self, "_is_debug", None)
+		if flag is True:
+			return func(self, **kwargs)
 	
 	return wrapper
