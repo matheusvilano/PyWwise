@@ -1,4 +1,6 @@
-from pathlib import Path as SystemPath
+from pathlib import Path as SystemPath  # DO NOT REMOVE
+from uuid import UUID as _UUID
+from typing import Literal as _Literal
 
 
 class Name(str):
@@ -14,15 +16,22 @@ class GUID(str):
 	"""A Wwise object GUID (e.g. `"{63726145-57FB-490B-B611-738BD3EF2F72}"`."""
 	
 	def __new__(cls, guid: str):
-		if len(guid) != 38:
-			raise ValueError("GUID string must have exactly 38 characters.")
-		if guid[0] != '{' or guid[-1] != '}':
-			raise ValueError(
-				"GUID string format is incorrect. The string must be enclosed in curly brackets ('{' and '}').")
-		if guid[9] != '-' or guid[14] != '-' or guid[19] != '-' or guid[24] != '-':
-			raise ValueError(
-				"GUID string format is incorrect. Indexes 9, 14, 19, and 24 should all contain a dash (`-`).")
+		if (guid[0] != '{' or guid[-1] != '}') or not cls.validate(guid):
+			raise ValueError(f"Wrong GUID format. Expected format is: \"{cls.get_zero()}\" (alphanumerical).")
 		return str.__new__(cls, guid)
+	
+	@classmethod
+	def validate(cls, value: str):
+		try:
+			_UUID(value, version=4)
+			return True
+		except ValueError:
+			return False
+		
+	@staticmethod
+	def get_zero() -> _Literal["{00000000-0000-0000-0000-000000000000}"]:
+		""":return: A string containing the default "zero" GUID."""
+		return "{00000000-0000-0000-0000-000000000000}"
 
 
 class ProjectPath(str):
@@ -64,7 +73,7 @@ class GameObjectID(int):
 		return int.__new__(cls, obj_id)
 	
 	@classmethod
-	def get_global(cls):
+	def get_global(cls) -> int:
 		"""
 		Specialized factory function. Useful for scripts that target all game objects.
 		:return: A new GameObjectID containing the default Global game object ID.
@@ -72,7 +81,7 @@ class GameObjectID(int):
 		return int.__new__(cls, (1 << 64) - 1)  # That expression equals the max uint64 value.
 	
 	@classmethod
-	def get_transport(cls):
+	def get_transport(cls) -> int:
 		"""
 		Specialized factory function. Useful for scripts where the target game object is Wwise's transport.
 		:return: A new GameObjectID containing the default Transport game object ID.
