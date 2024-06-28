@@ -27,9 +27,10 @@ class UI:
 		
 		self.selection_changed = _RefEvent(tuple[_WwiseObjectInfo, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html \n
-		**Description**: Sent when the selection changes in the project. \n
-		**Event Data**: the GUID and Name of each selected Wwise object, in the form of a tuple of tuples.
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
+		\nSent when the selection changes in the project.
+		\n**Event Data**:
+		\n- A tuple of WwiseObjectInfo instances (each containing a GUID, a name, a type, and a path).
 		"""
 		
 		selection_changed_options = {"return": [_EReturnOptions.GUID, _EReturnOptions.NAME,
@@ -40,7 +41,7 @@ class UI:
 	@_callback
 	def _on_selection_changed(self, **kwargs):
 		"""
-		Callback function for the selectionChanged event.
+		Callback function for the `selectionChanged` event.
 		:param kwargs: The event data.
 		"""
 		objects = list[_WwiseObjectInfo]()

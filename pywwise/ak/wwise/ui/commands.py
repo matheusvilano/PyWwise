@@ -19,11 +19,12 @@ class Commands:
 		
 		self.executed = _RefEvent(_ECommand, tuple[_WwiseObjectInfo, ...], tuple[str, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_executed.html \n
-		**Description**: Sent when a command is executed. The objects for which the command is executed are sent in the
-		publication. \n
-		**Event Data**: the command that was executed, a tuple of objects for which the command was executed (if any),
-		and a tuple of platforms (GUID or name) for which the command was executed. \n
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_executed.html
+		\nSent when a command is executed. The objects for which the command is executed are sent in the publication.
+		\n**Event Data**:
+		\n- The command that was executed.
+		\n- A tuple of objects (WwiseObjectInfo instances) for which the command was executed. May be empty.
+		\n- A tuple of platforms (GUID or name, as a string) for which the command was executed.
 		"""
 		
 		executed_options = {"return": [_EReturnOptions.GUID, _EReturnOptions.NAME,
@@ -33,6 +34,10 @@ class Commands:
 	
 	@_callback
 	def _on_executed(self, **kwargs):
+		"""
+		Callback function for the `executed` event.
+		:param kwargs: The event data.
+		"""
 		command = _ECommand.from_name(kwargs["command"])
 		objs = tuple([_WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
