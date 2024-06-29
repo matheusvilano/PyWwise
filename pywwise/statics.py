@@ -20,3 +20,12 @@ class EnumUtils:
 			if member == enum_value:
 				return member
 		raise ValueError(f"No {_EnumType.__name__} member with value {enum_value}")
+
+
+class JsonUtils:
+	"""A static class containing useful utility functions for dictionaries that represent JSON objects."""
+
+	@staticmethod
+	def from_object(obj: _Any):
+		raise NotImplementedError("This function is not implemented yet. For this functionality, try using the "
+		                          "`dictionary` property of structs, if available.")
