@@ -1,15 +1,14 @@
 from datetime import datetime as _datetime
 from os import makedirs as _makedirs
 from base64 import b64decode as _b64decode
-from typing import Any as _Any
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.ui.commands import Commands as _Commands
 from pywwise.ak.wwise.ui.project import Project as _Project
-from pywwise.structs import Rect as _Rect, WwiseObjectInfo as _WwiseObjectInfo
-from pywwise.enums import EReturnOptions as _EReturnOptions, EObjectType as _EObjectType
-from pywwise.types import GUID as _GUID, Name as _Name, SystemPath as _SystemPath, ProjectPath as _ProjectPath
-from pywwise.decorators import callback as _callback
+from pywwise.structs import Rect, WwiseObjectInfo
+from pywwise.enums import EReturnOptions, EObjectType
+from pywwise.types import GUID, Name, SystemPath, ProjectPath
+from pywwise.decorators import callback
 
 
 class UI:
@@ -25,7 +24,7 @@ class UI:
 		self.commands = _Commands(client)
 		self.project = _Project(client)
 		
-		self.selection_changed = _RefEvent(tuple[_WwiseObjectInfo, ...])
+		self.selection_changed = _RefEvent(tuple[WwiseObjectInfo, ...])
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
 		\nSent when the selection changes in the project.
@@ -33,24 +32,24 @@ class UI:
 		\n- A tuple of WwiseObjectInfo instances (each containing a GUID, a name, a type, and a path).
 		"""
 		
-		selection_changed_options = {"return": [_EReturnOptions.GUID, _EReturnOptions.NAME,
-		                                        _EReturnOptions.TYPE, _EReturnOptions.PATH]}
+		selection_changed_options = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
+		                                        EReturnOptions.TYPE, EReturnOptions.PATH]}
 		self._selection_changed = self._client.subscribe("ak.wwise.ui.selectionChanged", self._on_selection_changed,
 		                                                 selection_changed_options)
 	
-	@_callback
+	@callback
 	def _on_selection_changed(self, **kwargs):
 		"""
 		Callback function for the `selectionChanged` event.
 		:param kwargs: The event data.
 		"""
-		objects = list[_WwiseObjectInfo]()
+		objects = list[WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
-			guid = _GUID(obj["id"])
-			name = _Name(obj["name"])
-			typename = _EObjectType.from_type_name(obj["type"])
-			path = _ProjectPath(obj["path"])
-			objects.append(_WwiseObjectInfo(guid, name, typename, path))
+			guid = GUID(obj["id"])
+			name = Name(obj["name"])
+			typename = EObjectType.from_type_name(obj["type"])
+			path = ProjectPath(obj["path"])
+			objects.append(WwiseObjectInfo(guid, name, typename, path))
 		self.selection_changed(tuple(objects))
 	
 	def bring_to_foreground(self) -> None:
@@ -62,8 +61,8 @@ class UI:
 		"""
 		return self._client.call("ak.wwise.ui.bringToForeground")
 	
-	def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: _Rect = None,
-	                   output_path: _SystemPath = None) -> tuple[str, str]:
+	def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: Rect = None,
+	                   output_path: SystemPath = None) -> tuple[str, str]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
 		Captures a part of the Wwise UI relative to a view.
@@ -102,8 +101,8 @@ class UI:
 		
 		return content_type, content_base
 	
-	def get_selected_objects(self, return_options: set[_EReturnOptions] = None, platform: str = None,
-	                         language: str = None) -> tuple[_WwiseObjectInfo, ...]:
+	def get_selected_objects(self, return_options: set[EReturnOptions] = None, platform: str = None,
+	                         language: str = None) -> tuple[WwiseObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
@@ -117,7 +116,7 @@ class UI:
 		dictionary containing additional information (requested via `return_options`). When accessing the values in the
 		dictionary, use the EReturnOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		returns = (_EReturnOptions.GUID, _EReturnOptions.NAME, _EReturnOptions.TYPE, _EReturnOptions.PATH)
+		returns = (EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH)
 		options = {"return": set(returns)}  # to ensure only unique values
 		
 		if return_options is not None:
@@ -134,14 +133,14 @@ class UI:
 		if results is None:
 			return ()
 		
-		objects = list[_WwiseObjectInfo]()
+		objects = list[WwiseObjectInfo]()
 		
 		for result in results:
-			guid = _GUID(result[_EReturnOptions.GUID])
-			name = _Name(result[_EReturnOptions.NAME])
-			typename = _EObjectType.from_type_name(result[_EReturnOptions.TYPE])
-			path = _ProjectPath(result[_EReturnOptions.PATH])
+			guid = GUID(result[EReturnOptions.GUID])
+			name = Name(result[EReturnOptions.NAME])
+			typename = EObjectType.from_type_name(result[EReturnOptions.TYPE])
+			path = ProjectPath(result[EReturnOptions.PATH])
 			other = {key: value for key, value in result.items() if key not in returns}
-			objects.append(_WwiseObjectInfo(guid, name, typename, path, other))
+			objects.append(WwiseObjectInfo(guid, name, typename, path, other))
 		
 		return tuple(objects)
