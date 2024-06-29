@@ -4,7 +4,7 @@ from pywwise.structs import PlatformInfo, CommandInfo, WwiseObjectInfo
 from pywwise.types import GUID, ShortID, ProjectPath, Name
 from pywwise.enums import ECommand, EReturnOptions
 from pywwise.decorators import callback
-from pywwise.statics import EnumUtils
+from pywwise.statics import EnumStatics
 
 
 class Commands:
@@ -38,7 +38,7 @@ class Commands:
 		Callback function for the `executed` event.
 		:param kwargs: The event data.
 		"""
-		command = EnumUtils.from_value(ECommand, kwargs["command"])
+		command = EnumStatics.from_value(ECommand, kwargs["command"])
 		objs = tuple([WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
 		self.executed(command, objs, platforms)

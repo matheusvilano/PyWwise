@@ -1,10 +1,11 @@
 from enum import Enum as _Enum
 from typing import TypeVar as _TypeVar, Type as _Type, Any as _Any
+from pywwise.metas import StaticMeta
 
 _EnumType = _TypeVar("_EnumType", bound=_Enum)
 
 
-class EnumUtils:
+class EnumStatics(metaclass=StaticMeta):
 	"""A static class containing useful utility functions for enums."""
 	
 	@staticmethod
@@ -22,7 +23,7 @@ class EnumUtils:
 		raise ValueError(f"No {_EnumType.__name__} member with value {enum_value}")
 
 
-class JsonUtils:
+class JsonStatics(metaclass=StaticMeta):
 	"""A static class containing useful utility functions for dictionaries that represent JSON objects."""
 
 	@staticmethod
