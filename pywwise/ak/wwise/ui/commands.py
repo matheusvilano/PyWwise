@@ -1,10 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
-from pywwise.structs import (PlatformInfo as _PlatformInfo, CommandInfo as _CommandInfo,
-                             WwiseObjectInfo as _WwiseObjectInfo)
-from pywwise.types import GUID as _GUID, ShortID as _ShortID, ProjectPath as _ProjectPath, Name as _Name
-from pywwise.enums import ECommand as _ECommand, EReturnOptions as _EReturnOptions
-from pywwise.decorators import callback as _callback
+from pywwise.structs import PlatformInfo, CommandInfo, WwiseObjectInfo
+from pywwise.types import GUID, ShortID, ProjectPath, Name
+from pywwise.enums import ECommand, EReturnOptions
+from pywwise.decorators import callback
+from pywwise.statics import EnumUtils
 
 
 class Commands:
@@ -17,7 +17,7 @@ class Commands:
 		"""
 		self._client = client
 		
-		self.executed = _RefEvent(_ECommand, tuple[_WwiseObjectInfo, ...], tuple[str, ...])
+		self.executed = _RefEvent(ECommand, tuple[WwiseObjectInfo, ...], tuple[str, ...])
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_executed.html
 		\nSent when a command is executed. The objects for which the command is executed are sent in the publication.
@@ -27,19 +27,19 @@ class Commands:
 		\n- A tuple of platforms (GUID or name, as a string) for which the command was executed.
 		"""
 		
-		executed_options = {"return": [_EReturnOptions.GUID, _EReturnOptions.NAME,
-		                               _EReturnOptions.TYPE, _EReturnOptions.PATH]}
+		executed_options = {"return": [EReturnOptions.GUID.value, EReturnOptions.NAME.value,
+		                               EReturnOptions.TYPE.value, EReturnOptions.PATH.value]}
 		self._executed = self._client.subscribe("ak.wwise.ui.commands.executed", self._on_executed,
 		                                        executed_options)
 	
-	@_callback
+	@callback
 	def _on_executed(self, **kwargs):
 		"""
 		Callback function for the `executed` event.
 		:param kwargs: The event data.
 		"""
-		command = _ECommand.from_name(kwargs["command"])
-		objs = tuple([_WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
+		command = EnumUtils.from_value(ECommand, kwargs["command"])
+		objs = tuple([WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
 		self.executed(command, objs, platforms)
 	
@@ -52,9 +52,9 @@ class Commands:
 		commands = self._client.call("ak.wwise.ui.commands.getCommands").get("commands")
 		return tuple(commands) if commands is not None else ()
 	
-	def execute(self, command: _ECommand,
-	            objects: set[_WwiseObjectInfo | _GUID | _ProjectPath | _Name | _ShortID] = None,
-	            platforms: set[_PlatformInfo | _Name | _GUID] = None, value: str | float | bool = None) -> bool:
+	def execute(self, command: ECommand,
+	            objects: set[WwiseObjectInfo | GUID | ProjectPath | Name | ShortID] = None,
+	            platforms: set[PlatformInfo | Name | GUID] = None, value: str | float | bool = None) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
 		Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise
@@ -79,27 +79,27 @@ class Commands:
 		if objects is not None:
 			for wwise_object in objects:
 				match wwise_object:
-					case _WwiseObjectInfo():
+					case WwiseObjectInfo():
 						args["objects"].append(wwise_object.guid)
-					case _GUID() | _ProjectPath() | _Name():
+					case GUID() | ProjectPath() | Name():
 						args["objects"].append(wwise_object)
-					case _ShortID():
+					case ShortID():
 						args["objects"].append(f"Global:{wwise_object}")
 					case _:
 						args["objects"].append(str(wwise_object))
 		if platforms is not None:
 			for platform in platforms:
 				match platform:
-					case _GUID() | _Name():
+					case GUID() | Name():
 						args["platforms"].append(platform)
-					case _PlatformInfo():
+					case PlatformInfo():
 						args["platforms"].append(platform.guid)
 		if value is not None:
 			args["value"] = value
 		
 		return self._client.call("ak.wwise.ui.commands.execute", args) is not None
 	
-	def register(self, commands: set[_CommandInfo]) -> bool:
+	def register(self, commands: set[CommandInfo]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_register.html \n
 		Registers an array of add-on commands. Registered commands remain until the Wwise process is
@@ -118,7 +118,7 @@ class Commands:
 		
 		return self._client.call("ak.wwise.ui.commands.register", args) is not None
 	
-	def unregister(self, commands: set[_CommandInfo | str]) -> bool:
+	def unregister(self, commands: set[CommandInfo | str]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
 		Unregisters an array of add-on UI commands.
@@ -132,7 +132,7 @@ class Commands:
 		args = {"commands": list()}
 		
 		for command in commands:
-			if isinstance(command, _CommandInfo):
+			if isinstance(command, CommandInfo):
 				args["commands"].append(command.id)
 			else:
 				args["commands"].append(str(command))
