@@ -1285,9 +1285,19 @@ class ECommand(_StrEnum):
 	USE_ONLINE_DOCUMENTATION = "UseOnlineDocumentation"
 	"""Selects Wwise website as a documentation source."""
 
-	@classmethod
-	def from_name(cls, type_name: str):
-		for member in cls:
-			if member == type_name:
-				return member
-		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
+
+class EImportOperation(_StrEnum):
+	"""An enumeration of possible import operations."""
+	
+	CREATE_NEW_OBJECT = "CreateNewObject"
+	"""Creation of a new object."""
+	
+	REPLACE_FILE = "ReplaceFile"
+	"""Replacement of an already-existing original asset."""
+	
+	LOCALIZE = "Localize"
+	"""Localization."""
+	
+	REPLACE_OBJECT = "ReplaceObject"
+	"""Replacement of an already-existing Wwise object."""
+	
