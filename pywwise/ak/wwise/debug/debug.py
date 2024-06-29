@@ -99,8 +99,10 @@ class Debug:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_getwaltree.html \n
 		Retrieves the WAL tree, which describes the nodes that are synchronized in the Sound Engine. Private
 		use only.
+		:return: If the call succeeded, the WAL tree; else, an empty dictionary.
 		"""
-		return self._client.call("ak.wwise.debug.getWalTree").get("return", dict())
+		results = self._client.call("ak.wwise.debug.getWalTree")
+		return results.get("return", dict()) if results is not None else dict()
 	
 	def restart_waapi_servers(self) -> bool:
 		"""
