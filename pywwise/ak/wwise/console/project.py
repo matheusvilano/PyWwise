@@ -1,7 +1,7 @@
 from pathlib import Path as _Path
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import EBasePlatform as _EBasePlatform
-from pywwise.structs import PlatformInfo as _PlatformInfo
+from pywwise.enums import EBasePlatform
+from pywwise.structs import PlatformInfo
 
 
 class Project:
@@ -24,7 +24,7 @@ class Project:
 		return results.get("hadProjectOpen", False) if results is not None else False
 	
 	def create(self, project_path: _Path,
-	           platforms: set[_PlatformInfo] = (_PlatformInfo("Windows", _EBasePlatform.WINDOWS),),
+	           platforms: set[PlatformInfo] = (PlatformInfo("Windows", EBasePlatform.WINDOWS),),
 	           languages: tuple[str, ...] = tuple("English(US)")) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n
