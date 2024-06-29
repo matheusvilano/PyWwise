@@ -27,6 +27,12 @@ class JsonStatics(metaclass=StaticMeta):
 	"""A static class containing useful utility functions for dictionaries that represent JSON objects."""
 
 	@staticmethod
-	def from_object(obj: _Any):
+	def from_object(obj: _Any) -> dict:
+		"""
+		Creates a JSON-like dictionary based on the provided object's `__dict__`.
+		:param obj: The object to use when creating the dictionary.
+		:return: A JSON-like dictionary representing the provided object.
+		:raise: NotImplementedError - this function is tentative and is still in the works.
+		"""
 		raise NotImplementedError("This function is not implemented yet. For this functionality, try using the "
 		                          "`dictionary` property of structs, if available.")
