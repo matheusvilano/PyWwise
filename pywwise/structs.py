@@ -92,6 +92,13 @@ class ExternalSourceInfo:
 	
 	output: _Path
 	"""The output path of the external source's WEM (after conversions)."""
+	
+	@property
+	def dictionary(self) -> dict[str, str]:
+		as_dict = {"input": self.input, "platform": self.platform}
+		if self.output is not None:
+			as_dict['output'] = self.output
+		return as_dict
 
 
 @_dataclass
@@ -141,14 +148,14 @@ class ContextMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		local_serialization = dict()
+		as_dict = dict()
 		if self.base_path is not None:
-			local_serialization["basePath"] = self.base_path
+			as_dict["basePath"] = self.base_path
 		if self.visible_for is not None:
-			local_serialization["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
+			as_dict["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
 		if self.enabled_for is not None:
-			local_serialization["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
-		return local_serialization
+			as_dict["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
+		return as_dict
 
 
 @_dataclass
@@ -165,9 +172,9 @@ class MainMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		local_serialization = dict()
-		local_serialization["basePath"] = self.main_menu_base_path
-		return local_serialization
+		as_dict = dict()
+		as_dict["basePath"] = self.main_menu_base_path
+		return as_dict
 
 
 @_dataclass
@@ -230,27 +237,72 @@ class CommandInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str | bool | ContextMenuInfo | MainMenuInfo]:
-		local_serialization = dict()
-		local_serialization["id"] = self.id
-		local_serialization["displayName"] = self.display_name
-		local_serialization["redirectOutputs"] = self.redirect_outputs
-		local_serialization["startMode"] = self.start_mode.value
+		as_dict = dict()
+		as_dict["id"] = self.id
+		as_dict["displayName"] = self.display_name
+		as_dict["redirectOutputs"] = self.redirect_outputs
+		as_dict["startMode"] = self.start_mode.value
 		if self.program is not None:
-			local_serialization["program"] = self.program
+			as_dict["program"] = self.program
 		if self.lua_script is not None:
-			local_serialization["luaScript"] = self.lua_script
+			as_dict["luaScript"] = self.lua_script
 		if self.lua_paths is not None:
-			local_serialization["luaPaths"] = self.lua_paths
+			as_dict["luaPaths"] = self.lua_paths
 		if self.lua_selected_return is not None:
-			local_serialization["luaSelectedReturn"] = self.lua_selected_return
+			as_dict["luaSelectedReturn"] = self.lua_selected_return
 		if self.args is not None:
-			local_serialization["args"] = self.args
+			as_dict["args"] = self.args
 		if self.cwd is not None:
-			local_serialization["cwd"] = self.cwd
+			as_dict["cwd"] = self.cwd
 		if self.default_shortcut is not None:
-			local_serialization["defaultShortcut"] = self.default_shortcut
+			as_dict["defaultShortcut"] = self.default_shortcut
 		if self.context_menu is not None:
-			local_serialization["contextMenu"] = self.context_menu.dictionary
+			as_dict["contextMenu"] = self.context_menu.dictionary
 		if self.main_menu is not None:
-			local_serialization["mainMenu"] = self.main_menu.dictionary
-		return local_serialization
+			as_dict["mainMenu"] = self.main_menu.dictionary
+		return as_dict
+
+
+@_dataclass
+class SoundBankInfo:
+    name: str
+    """The name of the SoundBank to generate, a temporary SoundBank will be created if the SoundBank doesn't exists."""
+
+    events: list[str] = None
+    """List of events to include in this SoundBank. Not required if the bank already exists."""
+
+    aux_busses: list[str] = None
+    """List of AuxBus to include in this SoundBank."""
+
+    inclusions: list[str] = None
+    """List of inclusion type to use for this SoundBank. Not required if the bank already exists."""
+
+    rebuild: bool = False
+    """Force rebuild of this particular SoundBank. Default value: false."""
+
+    def __hash__(self) -> int:
+        """:return: The SoundBankInfo hash."""
+        return hash(self.name)
+
+    @property
+    def dictionary(self) -> dict[str, bool | str | list[str]]:
+        as_dict = {"name": self.name, "rebuild": self.rebuild}
+        if self.events is not None:
+            as_dict["events"] = self.events
+        if self.aux_busses is not None:
+            as_dict["auxBusses"] = self.aux_busses
+        if self.inclusions is not None:
+            as_dict["inclusions"] = self.inclusions
+        return as_dict
+    
+class Inclusions:
+	object: str
+	"""The ID (GUID) of the object to add to / remove from the SoundBank's inclusion list."""
+	
+	filter: list[str]
+	"""Specifies what relations are being included. Possible Values: events, structures, media"""
+	
+	def dictionary(self) -> dict[str, list[str]]:
+		as_dict = {"object": self.object, "filter": self.filter}
+		return as_dict
+	
