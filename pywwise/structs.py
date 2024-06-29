@@ -1,10 +1,8 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any
-from pywwise.types import (Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID,
-                           ProjectPath as _ProjectPath)
-from pywwise.enums import (EBasePlatform as _EBasePlatform, EObjectType as _EObjectType,
-                           EStartMode as _EStartMode, EReturnOptions as _EReturnOptions)
+from pywwise.types import Name, GUID, ShortID, GameObjectID, ProjectPath
+from pywwise.enums import EBasePlatform, EObjectType, EStartMode, EReturnOptions
 
 
 @_dataclass
@@ -44,7 +42,7 @@ class Rect:
 	
 	@staticmethod
 	def get_zero():
-		""":return: A captureRect instance with x, y, width, and height all set to 0."""
+		""":return: A CaptureRect instance with x, y, width, and height all set to 0."""
 		return Rect(0, 0, 0, 0)
 
 
@@ -52,10 +50,10 @@ class Rect:
 class AuxSendValue:
 	"""Data-only class representing an aux send value."""
 	
-	listener: _GameObjectID
+	listener: GameObjectID
 	"""The ID of the associated listener."""
 	
-	aux_bus: _GUID | _Name | _ShortID
+	aux_bus: GUID | Name | ShortID
 	"""The GUID, name, or short ID of the Aux Bus."""
 	
 	control_value: float
@@ -69,10 +67,10 @@ class PlatformInfo:
 	name: str
 	"""The name of this platform."""
 	
-	base_platform: _EBasePlatform
+	base_platform: EBasePlatform
 	"""The base platform."""
 
-	guid: _GUID = None
+	guid: GUID = None
 	"""The GUID of this platform."""
 
 	def __hash__(self):
@@ -87,7 +85,7 @@ class ExternalSourceInfo:
 	input: _Path
 	"""The path where the external source's WAV file is located."""
 	
-	platform: _Name | _GUID
+	platform: Name | GUID
 	"""The name or GUID of the platform this external source is associated with."""
 	
 	output: _Path
@@ -98,19 +96,19 @@ class ExternalSourceInfo:
 class WwiseObjectInfo:
 	"""Data-only class storing core information about a Wwise object."""
 
-	guid: _GUID
+	guid: GUID
 	"""The GUID of the wwise object."""
 
-	name: _Name
+	name: Name
 	"""The name of the Wwise object. Depending on the type, it may be unique."""
 
-	type: _EObjectType
+	type: EObjectType
 	"""The Wwise object type."""
 
-	path: _ProjectPath
+	path: ProjectPath
 	"""The project path of the Wwise object."""
 
-	other: dict[_EReturnOptions | str, _Any] = _field(default_factory=dict)
+	other: dict[EReturnOptions | str, _Any] = _field(default_factory=dict)
 	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
 	EReturnOptions instead."""
 
@@ -127,11 +125,11 @@ class ContextMenuInfo:
 	base_path: str = None
 	"""Defines a forward-separated path for the parent sub menus. If empty, the menu is inserted at the first level."""
 
-	visible_for: set[_EObjectType] = None
+	visible_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
-	enabled_for: set[_EObjectType] = None
+	enabled_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
@@ -141,14 +139,14 @@ class ContextMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		local_serialization = dict()
+		as_dict = dict()
 		if self.base_path is not None:
-			local_serialization["basePath"] = self.base_path
+			as_dict["basePath"] = self.base_path
 		if self.visible_for is not None:
-			local_serialization["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
+			as_dict["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
 		if self.enabled_for is not None:
-			local_serialization["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
-		return local_serialization
+			as_dict["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
+		return as_dict
 
 
 @_dataclass
@@ -165,9 +163,9 @@ class MainMenuInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str]:
-		local_serialization = dict()
-		local_serialization["basePath"] = self.main_menu_base_path
-		return local_serialization
+		as_dict = dict()
+		as_dict["basePath"] = self.main_menu_base_path
+		return as_dict
 
 
 @_dataclass
@@ -197,7 +195,7 @@ class CommandInfo:
 	"""Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script 
 	in a lua table array in wa_args.selected. Several values provided for the option."""
 
-	start_mode: _EStartMode = _EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
+	start_mode: EStartMode = EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
 	"""Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user 
 	interface."""
 
@@ -230,27 +228,27 @@ class CommandInfo:
 
 	@property
 	def dictionary(self) -> dict[str, str | bool | ContextMenuInfo | MainMenuInfo]:
-		local_serialization = dict()
-		local_serialization["id"] = self.id
-		local_serialization["displayName"] = self.display_name
-		local_serialization["redirectOutputs"] = self.redirect_outputs
-		local_serialization["startMode"] = self.start_mode.value
+		as_dict = dict()
+		as_dict["id"] = self.id
+		as_dict["displayName"] = self.display_name
+		as_dict["redirectOutputs"] = self.redirect_outputs
+		as_dict["startMode"] = self.start_mode.value
 		if self.program is not None:
-			local_serialization["program"] = self.program
+			as_dict["program"] = self.program
 		if self.lua_script is not None:
-			local_serialization["luaScript"] = self.lua_script
+			as_dict["luaScript"] = self.lua_script
 		if self.lua_paths is not None:
-			local_serialization["luaPaths"] = self.lua_paths
+			as_dict["luaPaths"] = self.lua_paths
 		if self.lua_selected_return is not None:
-			local_serialization["luaSelectedReturn"] = self.lua_selected_return
+			as_dict["luaSelectedReturn"] = self.lua_selected_return
 		if self.args is not None:
-			local_serialization["args"] = self.args
+			as_dict["args"] = self.args
 		if self.cwd is not None:
-			local_serialization["cwd"] = self.cwd
+			as_dict["cwd"] = self.cwd
 		if self.default_shortcut is not None:
-			local_serialization["defaultShortcut"] = self.default_shortcut
+			as_dict["defaultShortcut"] = self.default_shortcut
 		if self.context_menu is not None:
-			local_serialization["contextMenu"] = self.context_menu.dictionary
+			as_dict["contextMenu"] = self.context_menu.dictionary
 		if self.main_menu is not None:
-			local_serialization["mainMenu"] = self.main_menu.dictionary
-		return local_serialization
+			as_dict["mainMenu"] = self.main_menu.dictionary
+		return as_dict
