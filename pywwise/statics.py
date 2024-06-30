@@ -1,5 +1,7 @@
 from enum import Enum as _Enum
-from typing import TypeVar as _TypeVar, Type as _Type, Any as _Any
+from re import findall as _re_findall, match as _re_match, split as _re_split
+from typing import Any as _Any, Type as _Type, TypeVar as _TypeVar
+from pywwise.enums import ECaseStyle
 from pywwise.metas import StaticMeta
 
 _EnumType = _TypeVar("_EnumType", bound=_Enum)
