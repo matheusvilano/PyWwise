@@ -562,7 +562,7 @@ class EObjectType(tuple[int, int, str], _Enum):
 			if member.get_type_name() == type_name:
 				return member
 		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
-
+	
 	def get_plugin_id(self) -> int:
 		""":return: The Wwise object type's PluginID."""
 		return self.value[0]
@@ -578,18 +578,18 @@ class EObjectType(tuple[int, int, str], _Enum):
 
 class EStartMode(_StrEnum):
 	"""An enumeration of command add-on start options available in the Wwise Authoring API."""
-
+	
 	SINGLE_SELECTION_SINGLE_PROCESS = "SingleSelectionSingleProcess"
 	"""SingleSelectionSingleProcess: only support single selection, starts the program once."""
-
+	
 	MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED = "MultipleSelectionSingleProcessSpaceSeparated"
 	"""MultipleSelectionSingleProcessSpaceSeparated: program is started once with variables expanded to space separated 
 	arguments, each enclosed in double-quotes."""
-
+	
 	MULTIPLE_SELECTION_MULTIPLE_PROCESSES = "MultipleSelectionMultipleProcesses"
 	"""MultipleSelectionMultipleProcesses: program is started once per selected item, in parallel. Each running instance 
 	receives one selected item."""
-
+	
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
 		return self.value.__hash__()
@@ -598,690 +598,690 @@ class EStartMode(_StrEnum):
 class ECommand(_StrEnum):
 	"""An enumeration of all Wwise commands. Please keep in mind that the commands in this enumeration might be slightly
 	inaccurate if you are using a version of Wwise that is not verified and tested with PyWwise."""
-
+	
 	ACTIVATE_NEXT_FLOATING_VIEW = "ActivateNextFloatingView"
 	"""Activates the next floating view."""
-
+	
 	ACTIVATE_PREVIOUS_FLOATING_VIEW = "ActivatePreviousFloatingView"
 	"""Activates the previous floating view."""
-
+	
 	CHECK_PROJECT_FILES = "CheckProjectFiles"
 	"""Scans for Project and Work Unit files that have changed on disk."""
-
+	
 	CLOSE_CURRENT_OBJECT_TAB = "CloseCurrentObjectTab"
 	"""Close the current object tab."""
-
+	
 	CLOSE_OBJECT_TABS_TO_THE_RIGHT = "CloseObjectTabsToTheRight"
 	"""Close the object tabs to the right."""
-
+	
 	CLOSE_OTHER_OBJECT_TABS = "CloseOtherObjectTabs"
 	"""Close the other object tabs."""
-
+	
 	CLOSE_PROJECT = "CloseProject"
 	"""Closes the project."""
-
+	
 	CLOSE_VIEW = "CloseView"
 	"""Closes the active view."""
-
+	
 	CONVERT = "Convert"
 	"""Shows the Convert dialog for the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	CONVERT_ALL_PLATFORM = "ConvertAllPlatform"
 	"""Converts the specified objects on all platforms. \n	
 	**Parameter**: objects - an array of objects"""
-
+	
 	CONVERT_CURRENT_PLATFORM = "ConvertCurrentPlatform"
 	"""Converts the specified objects on the specified platform. If not specified, it uses the current platform or 
 	current selected objects. \n
 	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
-
+	
 	CONVERT_SFX_TO_VOICE = "ConvertSFXToVoice"
 	"""Converts the specified objects to Sound Voice objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	CONVERT_TO_SOUND_SFX = "ConvertToSoundSFX"
 	"""Converts the specified objects to Sound SFX objects.	\n
 	**Parameter**: objects - an array of objects"""
-
+	
 	COPY_GUI_DS_PATHS_TO_CLIPBOARD = "CopyGUIDsPathsToClipboard"
 	"""Copies the unique IDs (GUID) of the specified objects to clipboard. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	COPY_PATHS_TO_CLIPBOARD = "CopyPathsToClipboard"
 	"""Copies the Wwise project paths of the specified objects to clipboard. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	COPY_SHORT_IDS_TO_CLIPBOARD = "CopyShortIDsToClipboard"
 	"""Copies the short IDs (unsigned 32 bit) of the specified objects to clipboard. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	COPY_WAQL_TO_CLIPBOARD = "CopyWAQLToClipboard"
 	"""Generates a WAQL query with the specified object paths and copies it to clipboard. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	CREATE_IN_GAC = "CreateInGAC"
 	"""Creates the associated Nuendo objects for the specified objects using Game Audio Connect. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	CREATE_NEW_SOUNDBANK = "CreateNewSoundbank"
 	"""Creates a new SoundBank."""
-
+	
 	DETACH_CURRENT_OBJECT_TAB = "DetachCurrentObjectTab"
 	"""Detach the current object tab."""
-
+	
 	DUPLICATE_CURRENT_OBJECT_TAB = "DuplicateCurrentObjectTab"
 	"""Duplicate the current object tab."""
-
+	
 	EDIT_USER_PREFERENCES = "EditUserPreferences"
 	"""Shows the User Preferences dialog for editing."""
-
+	
 	FIND_IN_PROJECT_EXPLORER_NEW_PINNED_VIEW = "FindInProjectExplorerNewPinnedView"
 	"""Finds the specified object in the Project Explorer (New Pinned View). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL1 = "FindInProjectExplorerSelectionChannel1"
 	"""Finds the specified object in the Project Explorer (Selection Channel 1). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL2 = "FindInProjectExplorerSelectionChannel2"
 	"""Finds the specified object in the Project Explorer (Selection Channel 2). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL3 = "FindInProjectExplorerSelectionChannel3"
 	"""Finds the specified object in the Project Explorer (Selection Channel 3). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL4 = "FindInProjectExplorerSelectionChannel4"
 	"""Finds the specified object in the Project Explorer (Selection Channel 4). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	FOCUS_NEXT = "FocusNext"
 	"""Focuses the next control in the current view."""
-
+	
 	FOCUS_PREVIOUS = "FocusPrevious"
 	"""Focuses the previous control in the current view."""
-
+	
 	FORCE_SAVE_PROJECT = "ForceSaveProject"
 	"""Makes all Work Units dirty and saves the project."""
-
+	
 	GENERATE_ALL_SOUNDBANKS_ALL_PLATFORMS = "GenerateAllSoundbanksAllPlatforms"
 	"""Generates all SoundBanks on all platforms."""
-
+	
 	GENERATE_ALL_SOUNDBANKS_ALL_PLATFORMS_AUTO_CLOSE = "GenerateAllSoundbanksAllPlatformsAutoClose"
 	"""Generates all SoundBanks on all platforms (Progress dialog is closed automatically at the end of operation)."""
-
+	
 	GENERATE_ALL_SOUNDBANKS_CURRENT_PLATFORM = "GenerateAllSoundbanksCurrentPlatform"
 	"""Generates all SoundBanks on the specified platform. If not specified, it uses the current platform. \n
 	**Parameter**: platforms - an array of platforms (array of GUID string)"""
-
+	
 	GENERATE_ALL_SOUNDBANKS_CURRENT_PLATFORM_AUTO_CLOSE = "GenerateAllSoundbanksCurrentPlatformAutoClose"
 	"""Generates all SoundBanks on the specified platform. If not specified, it uses the current platform 
 	(Progress dialog is closed automatically at the end of operation). \n
 	**Parameter**: platforms - an array of platforms (array of GUID string)"""
-
+	
 	GENERATE_SELECTED_SOUNDBANKS_ALL_PLATFORMS = "GenerateSelectedSoundbanksAllPlatforms"
 	"""Generates the specified SoundBank objects on all platforms. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	GENERATE_SELECTED_SOUNDBANKS_ALL_PLATFORMS_AUTO_CLOSE = "GenerateSelectedSoundbanksAllPlatformsAutoClose"
 	"""Generates the specified SoundBank objects on all platforms (Progress dialog is closed automatically at the end 
 	of operation). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	GENERATE_SELECTED_SOUNDBANKS_CURRENT_PLATFORM = "GenerateSelectedSoundbanksCurrentPlatform"
 	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current 
 	platform or current selected objects. \n
 	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
-
+	
 	GENERATE_SELECTED_SOUNDBANKS_CURRENT_PLATFORM_AUTO_CLOSE = "GenerateSelectedSoundbanksCurrentPlatformAutoClose"
 	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current 
 	platform or current selected objects (Progress dialog is closed automatically at the end of operation). \n 
 	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
-
+	
 	GENERATE_SOUNDBANKS_WITH_CURRENT_SETTINGS = "GenerateSoundbanksWithCurrentSettings"
 	"""Generates SoundBanks using the current SoundBank Manager settings (Progress dialog is closed automatically at 
 	the end of operation)."""
-
+	
 	HELP = "Help"
 	"""Shows the Wwise Help."""
-
+	
 	INSPECT = "Inspect"
 	"""Inspects the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	INSPECT_NEXT = "InspectNext"
 	"""Inspects the next object inspected."""
-
+	
 	INSPECT_PARENT = "InspectParent"
 	"""Inspects the parent of the currently inspected object."""
-
+	
 	INSPECT_PREVIOUS = "InspectPrevious"
 	"""Inspects the previous object inspected."""
-
+	
 	KEEP_OPEN_CURRENT_OBJECT_TAB = "KeepOpenCurrentObjectTab"
 	"""Keep Open the current object tab."""
-
+	
 	LOAD_PRESET = "LoadPreset"
 	"""Shows the Load Preset dialog for the active view."""
-
+	
 	LOAD_THEME_CLASSIC = "LoadThemeClassic"
 	"""Loads the classic theme."""
-
+	
 	LOAD_THEME_DARK = "LoadThemeDark"
 	"""Loads the dark theme."""
-
+	
 	LOAD_THEME_LIGHT = "LoadThemeLight"
 	"""Loads the light theme."""
-
+	
 	LOAD_UNLOADED_WORK_UNITS = "LoadUnloadedWorkUnits"
 	"""Loads currently unloaded Work Units."""
-
+	
 	MAXIMIZE_OBJECT_TAB_DEFAULT_VIEW = "MaximizeObjectTabDefaultView"
 	"""Maximize the current default view of the object tabs."""
-
+	
 	MAXIMIZE_VIEW = "MaximizeView"
 	"""Maximizes the active view."""
-
+	
 	MINIMIZE_OBJECT_TAB_DEFAULT_VIEW = "MinimizeObjectTabDefaultView"
 	"""Minimize the current default view of the object tabs."""
-
+	
 	MINIMIZE_VIEW = "MinimizeView"
 	"""Minimizes the active view."""
-
+	
 	MOVE_CURRENT_OBJECT_TAB_TO_THE_LEFT = "MoveCurrentObjectTabToTheLeft"
 	"""Move the current tab to the left."""
-
+	
 	MOVE_CURRENT_OBJECT_TAB_TO_THE_RIGHT = "MoveCurrentObjectTabToTheRight"
 	"""Move the current tab to the right."""
-
+	
 	MUTE = "Mute"
 	"""Mutes the specified objects, or current selection if no object specified. \n
 	**Parameter**: value - True or False to set the Mute state. If unspecified, the Mute state will be toggled.
 	**Parameter**: objects - an array of objects"""
-
+	
 	NEW_PROJECT = "NewProject"
 	"""Shows the New Project dialog."""
-
+	
 	NEXT_OBJECT_TAB = "NextObjectTab"
 	"""Navigate to the next object tab."""
-
+	
 	NEXT_PERF_FRAME = "NextPerfFrame"
 	"""Goes to next audio frame in Performance Graph."""
-
+	
 	OPEN_CONTAINING_FOLDER_SOUNDBANK = "OpenContainingFolderSoundbank"
 	"""Opens a Windows Explorer window on the Containing folder of specified objects's SoundBank files.	\n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_CONTAINING_FOLDER_WAV = "OpenContainingFolderWAV"
 	"""Opens a Windows Explorer window on the Containing folder of specified objects's wav files. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_CONTAINING_FOLDER_WORK_UNIT = "OpenContainingFolderWorkUnit"
 	"""Opens a Windows Explorer window on the Containing folder of specified objects's Work Units. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_EXTERNAL_EDITOR = "OpenInExternalEditor"
 	"""Opens the specified objects in the first (index 0) External Editor. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_EXTERNAL_EDITOR1 = "OpenInExternalEditor1"
 	"""Opens the specified objects in the second (index 1) External Editor. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_EXTERNAL_EDITOR2 = "OpenInExternalEditor2"
 	"""Opens the specified objects in the third (index 2) External Editor. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_EXTERNAL_EDITOR3 = "OpenInExternalEditor3"
 	"""Opens the specified objects in the fourth (index 3) External Editor. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_EXTERNAL_EDITOR4 = "OpenInExternalEditor4"
 	"""Opens the specified objects in the fifth (index 4) External Editor. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_GAC = "OpenInGAC"
 	"""Opens the specified objects in Nuendo using Game Audio Connect. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_NEW_TAB = "OpenInNewTab"
 	"""Inspects the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_NEW_WINDOW = "OpenInNewWindow"
 	"""Inspects the specified objects in a new window. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_IN_WWISE_WAVE_VIEWER = "OpenInWwiseWaveViewer"
 	"""Opens specified objects in the Wwise Wave Viewer. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	OPEN_PROJECT = "OpenProject"
 	"""Shows the Open Project dialog."""
-
+	
 	PIN_VIEW = "PinView"
 	"""Pins the active view."""
-
+	
 	POPOUT_OBJECT_TAB_DEFAULT_VIEW = "PopoutObjectTabDefaultView"
 	"""Maximize the current default view of the object tabs"""
-
+	
 	PREVIOUS_OBJECT_TAB = "PreviousObjectTab"
 	"""Natigate to the previous object tab."""
-
+	
 	PREVIOUS_PERF_FRAME = "PreviousPerfFrame"
 	"""Goes to previous audio frame in Performance Graph."""
-
+	
 	PROFILER_FILTER_CLEAR_ALL = "ProfilerFilterClearAll"
 	"""Clears all filters."""
-
+	
 	PROFILER_FILTER_CLEAR_CURRENT_VIEW = "ProfilerFilterClearCurrentView"
 	"""Clears the profiler filter of the current view."""
-
+	
 	PROFILER_FILTER_EXCLUDE_OBJECT_NAME_FROM_CURRENT = "ProfilerFilterExcludeObjectNameFromCurrent"
 	"""Adds the name of the selected object as an exclude to the filter text of the current view."""
-
+	
 	PROFILER_FILTER_PROMOTE_CURRENT_TO_ALL = "ProfilerFilterPromoteCurrentToAll"
 	"""Copies the profiler filter of the current view to all other filters."""
-
+	
 	PROFILER_FILTER_SET_NAME_TO_CURRENT = "ProfilerFilterSetNameToCurrent"
 	"""Sets the name of the selected object as the filter text of the current view."""
-
+	
 	PROFILER_FILTER_SET_PIPELINE_I_D = "ProfilerFilterSetPipelineID"
 	"""Sets the profiler text filter to match a specific pipeline ID."""
-
+	
 	PROFILER_FILTER_SET_SELECTED_OBJECT_TO_CURRENT = "ProfilerFilterSetSelectedObjectToCurrent"
 	"""Sets the currently selected object in the profiler filter of the current view."""
-
+	
 	PROFILER_FILTER_TOGGLE_CURRENT_MUTE_SOLO = "ProfilerFilterToggleCurrentMuteSolo"
 	"""Toggles ON/OFF the mute/solo filtering in the current view."""
-
+	
 	PROFILER_FILTER_TOGGLE_CURRENT_SHOW_NOTHING_WHEN_EMPTY = "ProfilerFilterToggleCurrentShowNothingWhenEmpty"
 	"""Toggles ON/OFF the Show Nothing when filter is empty."""
-
+	
 	PROFILER_FILTER_TOGGLE_LOCAL_GLOBAL = "ProfilerFilterToggleLocalGlobal"
 	"""Toggles the profiler filter of the current view between link and unlink modes."""
-
+	
 	REDO = "Redo"
 	"""Redoes the last undone operation."""
-
+	
 	RELOAD_COMMAND_ADDONS = "ReloadCommandAddons"
 	"""Reloads all the custom command files in all the corresponding directories."""
-
+	
 	RELOAD_CURRENT_THEME = "ReloadCurrentTheme"
 	"""Reloads the current user interface theme from disk. This is useful when implementing new themes."""
-
+	
 	RESET_ALL_MUTES = "ResetAllMutes"
 	"""Resets all mutes currently active."""
-
+	
 	RESET_ALL_SOLOS = "ResetAllSolos"
 	"""Resets all solos currently active."""
-
+	
 	RESTORE_VIEW = "RestoreView"
 	"""Restores the active view."""
-
+	
 	SAVE_ALL_COUNTERS = "SaveAllCounters"
 	"""Dumps the Performance Counters to a file."""
-
+	
 	SAVE_PRESET = "SavePreset"
 	"""Shows the Load Preset dialog for the active view."""
-
+	
 	SAVE_PROJECT = "SaveProject"
 	"""Saves the project."""
-
+	
 	SEARCH = "Search"
 	"""Puts the focus on the search box. \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_COMMANDS = "SearchCommands"
 	"""Puts the focus on the search box and enables the command search mode."""
-
+	
 	SEARCH_IN_CTRL = "SearchInCtrl"
 	"""Opens the search box in the currently active control."""
-
+	
 	SEARCH_IN_CURRENT_VIEW = "SearchInCurrentView"
 	"""Searches in the Current View if it has a search field. \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER = "SearchInProjectExplorer"
 	"""Searches in the Project Explorer (first available view). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER_NEW_PINNED_VIEW = "SearchInProjectExplorerNewPinnedView"
 	"""Searches in the Project Explorer (New Pinned View). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL1 = "SearchInProjectExplorerSelectionChannel1"
 	"""Searches in the Project Explorer (Selection Channel 1). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL2 = "SearchInProjectExplorerSelectionChannel2"
 	"""Searches in the Project Explorer (Selection Channel 2). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL3 = "SearchInProjectExplorerSelectionChannel3"
 	"""Searches in the Project Explorer (Selection Channel 3). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL4 = "SearchInProjectExplorerSelectionChannel4"
 	"""Searches in the Project Explorer (Selection Channel 4). \n
 	**Parameter**: value - the text (string) to be used for the search field"""
-
+	
 	SELECT_ONLINE_DOCUMENTATION = "SelectOnlineDocumentation"
 	"""Selects CHM file as a documentation source."""
-
+	
 	SET_COLOR = "SetColor"
 	"""Shows the Color Picker dialog for the specific objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SET_PROPERTY_SHEET_SPLIT_MODE_COLUMN = "SetPropertySheetSplitModeColumn"
 	"""Sets the property sheet split mode to columns."""
-
+	
 	SET_PROPERTY_SHEET_SPLIT_MODE_NO = "SetPropertySheetSplitModeNo"
 	"""Sets the property sheet split mode to not split."""
-
+	
 	SET_PROPERTY_SHEET_SPLIT_MODE_ROW = "SetPropertySheetSplitModeRow"
 	"""Sets the property sheet split mode to rows."""
-
+	
 	SHOW_AUDIO_FILE_CACHE_CLEAR_DIALOG = "ShowAudioFileCacheClearDialog"
 	"""Shows the Clear Audio File Cache dialog."""
-
+	
 	SHOW_AUDIO_FILES_CONVERSION_DIALOG = "ShowAudioFilesConversionDialog"
 	"""Shows the Audio File Conversion dialog."""
-
+	
 	SHOW_AUDIO_FILES_IMPORTER = "ShowAudioFilesImporter"
 	"""Shows the Audio File Importer dialog."""
-
+	
 	SHOW_AUDIO_PREFERENCES = "ShowAudioPreferences"
 	"""Shows the Audio Preferences dialog."""
-
+	
 	SHOW_BATCH_RENAME = "ShowBatchRename"
 	"""Shows the Batch Rename View, with the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_BUG_REPORT = "ShowBugReport"
 	"""Shows the Bug Report page."""
-
+	
 	SHOW_CONTACT_AK = "ShowContactAK"
 	"""Shows AK's Contact Us page."""
-
+	
 	SHOW_CONTEXTUAL_HELP = "ShowContextualHelp"
 	"""Shows the Contextual Help View for a specified property. \n
 	**Parameter**: property - a pointer to a single CProp object"""
-
+	
 	SHOW_CONTROL_SURFACES_DLG = "ShowControlSurfacesDlg"
 	"""Shows the Control Surfaces Settings dialog."""
-
+	
 	SHOW_DEFAULT_OBJECT_VALUES = "ShowDefaultObjectValues"
 	"""Shows the Default Object Values dialog."""
-
+	
 	SHOW_DETAILS = "ShowDetails"
 	"""Shows the details view with the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_FILE_MANAGER = "ShowFileManager"
 	"""Shows the File Manager dialog."""
-
+	
 	SHOW_GAC_SETTINGS = "ShowGACSettings"
 	"""Shows the Nuendo Game Audio Connect setting."""
-
+	
 	SHOW_GAME_OBJECTS_VOICE_EXPLORER = "ShowGameObjectsVoiceExplorer"
 	"""Focuses the Voice Explorer on the specified game object(s). \n
 	**Parameter**: gameObjectIds - Ids of the game objects to show/select"""
-
+	
 	SHOW_KEYBOARD_SHORTCUTS = "ShowKeyboardShortcuts"
 	"""Shows the Keyboard Shortcuts dialog."""
-
+	
 	SHOW_LANGUAGES = "ShowLanguages"
 	"""Shows the Language Manager dialog."""
-
+	
 	SHOW_LEGAL_NOTICES = "ShowLegalNotices"
 	"""Shows the legal notices dialog."""
-
+	
 	SHOW_LICENSE_MGR = "ShowLicenseMgr"
 	"""Shows the License Manager dialog."""
-
+	
 	SHOW_LIST_VIEW = "ShowListView"
 	"""Shows the List View on the specified objects. \n
 	**Parameter**: objects - an array of objects value - the text (string) to be used for the search field"""
-
+	
 	SHOW_MULTI_EDITOR = "ShowMultiEditor"
 	"""Shows the Multi Editor view on the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_OBSTRUCTION_OCCLUSION_SETTINGS = "ShowObstructionOcclusionSettings"
 	"""Shows the Project Settings dialog on the Obstruction/Occlusion tab."""
-
+	
 	SHOW_PASTE_PROPERTIES = "ShowPasteProperties"
 	"""Shows the Paste Properties view on the specified object. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_PLATFORM_MANAGER = "ShowPlatformManager"
 	"""Shows the Platform Manager dialog."""
-
+	
 	SHOW_PROFILER_SETTINGS = "ShowProfilerSettings"
 	"""Shows the Profiler Settings dialog."""
-
+	
 	SHOW_PROJECT_SETTINGS = "ShowProjectSettings"
 	"""Shows the Project Settings dialog."""
-
+	
 	SHOW_PROPERTY_HELP = "ShowPropertyHelp"
 	"""Shows the Property Help View for a specified property. Deprecated, see ShowContextualHelp.
 	**Parameter**: property - a pointer to a single CProp object."""
-
+	
 	SHOW_REFERENCE_VIEW = "ShowReferenceView"
 	"""Shows the Reference View with the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_REMOTE_CONNECTIONS = "ShowRemoteConnections"
 	"""Shows the Remote Connections dialog."""
-
+	
 	SHOW_SCHEMATIC_VIEW = "ShowSchematicView"
 	"""Shows the Schematic View on the specified objects. \n
 	**Parameter**: value - the text (string) to be used for the search field objects - an array of objects"""
-
+	
 	SHOW_SOUND_BANK_DEFINITION_IMPORTER = "ShowSoundBankDefinitionImporter"
 	"""Shows the Sound Bank Definition Importer dialog."""
-
+	
 	SHOW_SOUNDBANK_SETTINGS = "ShowSoundbankSettings"
 	"""Shows the Project settings dialog, SoundBanks tab."""
-
+	
 	SHOW_SOURCE_EDITOR = "ShowSourceEditor"
 	"""Shows the Source Editor on the specified objects. \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SHOW_SPLASH_SCREEN = "ShowSplashScreen"
 	"""Shows the initial Wwise loading screen (with the current software version)."""
-
+	
 	SHOW_USER_PREFERENCES = "ShowUserPreferences"
 	"""Shows the User Preferences dialog."""
-
+	
 	SHOW_USER_PROJECT_SETTINGS = "ShowUserProjectSettings"
 	"""Deprecated, see ShowDefaultObjectValues."""
-
+	
 	SHOW_USER_SOUNDBANK_SETTINGS = "ShowUserSoundbankSettings"
 	"""Shows the user SoundBank settings dialog."""
-
+	
 	SHOW_VIEW_SETTINGS = "ShowViewSettings"
 	"""Shows the view settings for the active view."""
-
+	
 	SHOW_VOICE_ASSETS_IMPORTER = "ShowVoiceAssetsImporter"
 	"""Shows the Voice Asset Importer dialog."""
-
+	
 	SHOW_VOICE_INSPECTOR = "ShowVoiceInspector"
 	"""Shows the Voice Inspector on the specified object. \n
 	**Parameter**: objects - an array of objects voices - an array of voice (pipeline) Ids"""
-
+	
 	SHOW_VOICES_VOICE_EXPLORER = "ShowVoicesVoiceExplorer"
 	"""Focuses the Voice Explorer on the specified voice(s). \n
 	**Parameter**: voiceIds - Ids of the voices to show/select"""
-
+	
 	SHOW_WWISE_HELP = "ShowWwiseHelp"
 	"""Shows the Wwise Help."""
-
+	
 	SHOW_WWISE_KNOWLEDGE_BASE = "ShowWwiseKnowledgeBase"
 	"""Shows the Wwise Community Q&A."""
-
+	
 	SHOW_WWISE_SDK_DOCUMENTATION = "ShowWwiseSDKDocumentation"
 	"""Shows the Wwise SDK documentation."""
-
+	
 	SOLO = "Solo"
 	"""Solos the specified objects, or current selection if no object specified. \n
 	**Parameter**: value - True or False to set the Solo state. If unspecified, the Solo state will be toggled.
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_ADD_WAV = "SourceControlAddWAV"
 	"""Calls the Add command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_ADD_WWU = "SourceControlAddWWU"
 	"""Calls the Add command for the Work Units associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_CHECKOUT_WAV = "SourceControlCheckoutWAV"
 	"""Calls the Checkout command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_CHECKOUT_WWU = "SourceControlCheckoutWWU"
 	"""Calls the Checkout command for the Work Units associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_COMMIT_WAV = "SourceControlCommitWAV"
 	"""Calls the Commit command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_COMMIT_WWU = "SourceControlCommitWWU"
 	"""Calls the Commit/Submit command for the Work Units associated with the specified objects on the Source Control
 	plug-in (Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_DIFF_WAV = "SourceControlDiffWAV"
 	"""Calls the Diff command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_DIFF_WWU = "SourceControlDiffWWU"
 	"""Calls the Diff command for the Work Units associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_REFRESH_ICONS = "SourceControlRefreshIcons"
 	"""Refreshes the project status and the Source Control icons on Work Units."""
-
+	
 	SOURCE_CONTROL_REVERT_WAV = "SourceControlRevertWAV"
 	"""Calls the Revert command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_REVERT_WWU = "SourceControlRevertWWU"
 	"""Calls the Revert command for the Work Units associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_UPDATE_WAV = "SourceControlUpdateWAV"
 	"""Calls the Update command for the wav files associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SOURCE_CONTROL_UPDATE_WWU = "SourceControlUpdateWWU"
 	"""Calls the Update command for the Work Units associated with the specified objects on the Source Control plug-in
 	(Perforce, SVN, etc). \n
 	**Parameter**: objects - an array of objects"""
-
+	
 	SPLIT_CURRENT_TAB_TO_THE_RIGHT = "SplitCurrentTabToTheRight"
 	"""Split the current tab, creating a new tab panel to the right."""
-
+	
 	START_CAPTURE = "StartCapture"
 	"""Starts a profiling capture, does nothing if already started."""
-
+	
 	START_STOP_CAPTURE = "StartStopCapture"
 	"""Starts a profiling capture, or stops it if already started."""
-
+	
 	STOP_CAPTURE = "StopCapture"
 	"""Stops a profiling capture, does nothing if already stopped."""
-
+	
 	TOGGLE_EXPAND_COLLAPSE = "ToggleExpandCollapse"
 	"""Toggles Expand/Collapse for the active floating view."""
-
+	
 	TOGGLE_FOLLOW_CAPTURE = "ToggleFollowCapture"
 	"""Toggles the Show Live Data button in the toolbar."""
-
+	
 	TOGGLE_FOLLOW_OBJECT_SELECTION_IN_PROJECT_EXPLORER = "ToggleFollowObjectSelectionInProjectExplorer"
 	"""Toggles the automatic following of object selection in Project Explorer."""
-
+	
 	TRANSPORT_DISABLE_MONITOR = "TransportDisableMonitor"
 	"""Disables the inclusion button in the Transport Control."""
-
+	
 	TRANSPORT_DISABLE_ORIGINAL = "TransportDisableOriginal"
 	"""Disables the Original button in the Transport Control."""
-
+	
 	TRANSPORT_DISPLAY_RTPC = "TransportDisplayRTPC"
 	"""Switches the Transport Control to display Game Parameters."""
-
+	
 	TRANSPORT_DISPLAY_STATES = "TransportDisplayStates"
 	"""Switches the Transport Control to display States."""
-
+	
 	TRANSPORT_DISPLAY_SWITCHES = "TransportDisplaySwitches"
 	"""Switches the Transport Control to display Switches."""
-
+	
 	TRANSPORT_DISPLAY_TRIGGERS = "TransportDisplayTriggers"
 	"""Switches the Transport Control to display Triggers."""
-
+	
 	TRANSPORT_ENABLE_MONITOR = "TransportEnableMonitor"
 	"""Enables the inclusion button in the Transport Control."""
-
+	
 	TRANSPORT_ENABLE_ORIGINAL = "TransportEnableOriginal"
 	"""Enables the Original button in the Transport Control."""
-
+	
 	TRANSPORT_PAUSE = "TransportPause"
 	"""Pauses the object currently in playback in the Transport Control."""
-
+	
 	TRANSPORT_PIN = "TransportPin"
 	"""Pins or unpins the Transport Control currently loaded object."""
-
+	
 	TRANSPORT_PIN_SELECTED = "TransportPinSelected"
 	"""Pins the specified object, or current selection if no object is specified, to the Transport Control."""
-
+	
 	TRANSPORT_PLAY_DIRECTLY = "TransportPlayDirectly"
 	"""Plays the object currently loaded in the Transport Control by bypassing properties that have an influence on the
 	sound, such as the volume."""
-
+	
 	TRANSPORT_PLAY_STOP = "TransportPlayStop"
 	"""Plays the object currently loaded in the Transport Control. If the playback is in progress, it stops the
 	playback."""
-
+	
 	TRANSPORT_RESET = "TransportReset"
 	"""Resets the Transport Control playback and internal states."""
-
+	
 	TRANSPORT_TOGGLE_MONITOR = "TransportToggleMonitor"
 	"""Toggles the inclusion button in the Transport Control."""
-
+	
 	TRANSPORT_TOGGLE_ORIGINAL = "TransportToggleOriginal"
 	"""Toggles the Original button in the Transport Control."""
-
+	
 	UNDO = "Undo"
 	"""Undoes the last operation in the queue."""
-
+	
 	USE_AUDIO_OUTPUT_SYSTEM5 = "UseAudioOutputSystem5"
 	"""Selects 5.1 as audio output system."""
-
+	
 	USE_AUDIO_OUTPUT_SYSTEM7 = "UseAudioOutputSystem7"
 	"""Selects 7.1 as audio output system."""
-
+	
 	USE_AUDIO_OUTPUT_SYSTEM_DEFAULT = "UseAudioOutputSystemDefault"
 	"""Selects default audio output system."""
-
+	
 	USE_AUDIO_OUTPUT_SYSTEM_STEREO_HEADPHONES = "UseAudioOutputSystemStereoHeadphones"
 	"""Selects stereo headphones as audio output system."""
-
+	
 	USE_AUDIO_OUTPUT_SYSTEM_STEREO_SPEAKERS = "UseAudioOutputSystemStereoSpeakers"
 	"""Selects stereo speakers as audio output system."""
-
+	
 	USE_ONLINE_DOCUMENTATION = "UseOnlineDocumentation"
 	"""Selects Wwise website as a documentation source."""
 
@@ -1300,4 +1300,22 @@ class EImportOperation(_StrEnum):
 	
 	REPLACE_OBJECT = "ReplaceObject"
 	"""Replacement of an already-existing Wwise object."""
+
+
+class ECaseStyle(_StrEnum):
+	"""Enumeration of common case styles."""
 	
+	CAMEL = r"^[a-z]+[A-Za-z]*$"
+	"""Tokens separated by capitalization, first word NOT capitalized (e.g. 'camelCase')."""
+	
+	KEBAB = r"^[a-z]+(-[a-z]+)*$"
+	"""Tokens separated by hyphens (`-`; e.g. 'kebab-case')."""
+	
+	PASCAL = r"^[A-Z][a-zA-Z]+$"
+	"""Tokens separated by capitalization, first word capitalized (e.g. 'PascalCase')."""
+	
+	SNAKE = r"^_?[a-z]+(_[a-z]+)*$"
+	"""Tokens separated by underscores (`_`; 'snake_case' or '_snake_case'), all lower-case."""
+	
+	UPPER = r"^_?[A-Z]+(_[A-Z]+)*$"
+	"""Tokens separated by underscores (`_`; 'UPPER_CASE' or '_UPPER_CASE'), all upper-case."""

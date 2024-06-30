@@ -52,6 +52,6 @@ class Project:
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully opened.
 		"""
 		migration_action = "migrate" if is_migration_allowed else "fail"
-		args = {"path": str(project_path), "onMigrationRequired": migration_action, "autoCheckOutToSourceControl": auto_checkout}
+		args = {"path": str(project_path), "onMigrationRequired": migration_action,
+		        "autoCheckOutToSourceControl": auto_checkout}
 		return self._client.call("ak.wwise.console.project.open", args) is not None
-		

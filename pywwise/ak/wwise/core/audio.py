@@ -1,6 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
-from pywwise.types import GUID, Name, ProjectPath
 from pywwise.decorators import callback
 from pywwise.enums import EReturnOptions
 
@@ -33,7 +32,6 @@ class Audio:
 		Callback function for the `imported` event.
 		:param kwargs: The event data.
 		"""
-		# operation =
 	
 	def import_files(self):
 		"""

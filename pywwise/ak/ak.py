@@ -1,5 +1,5 @@
 from typing import Any as _Any
-from waapi import WaapiClient as _WaapiClient, SequentialThreadExecutor as _SequentialThreadExecutor
+from waapi import SequentialThreadExecutor as _SequentialThreadExecutor, WaapiClient as _WaapiClient
 from pywwise.ak.soundengine import SoundEngine as _SoundEngine
 from pywwise.ak.wwise import Wwise as _Wwise
 

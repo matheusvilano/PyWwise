@@ -1,6 +1,6 @@
 from pathlib import Path as _Path
-from uuid import UUID as _UUID
 from typing import Literal as _Literal, TypeAlias as _TypeAlias
+from uuid import UUID as _UUID
 
 SystemPath: _TypeAlias = _Path
 
