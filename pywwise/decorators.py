@@ -23,18 +23,48 @@ def callback(func):
 def debug_build_only(func):
 	"""
 	A decorator for PyWwise debug-only functions. Checks the owner object's `is_debug_build` (or, alternatively,
-	`_is_debug_build`); if `None` or `False`, the decorated function will NOT be called. Note: if there is no owner
-	object, the check defaults to `None`. \n
+	`_is_debug_build`); if `None` or `False`, the decorated function will NOT be called and an exception is raised.
+	Note: if there is no owner object, the check defaults to `None`. \n
 	:param func: The function to decorate.
+	:raise: NameError - if `is_debug_build` does not exist.
+	:raise: ValueError - if `is_debug_build` is False.
 	:return: The decorated function.
 	"""
+	attr_name = "is_debug_build"
 	
 	def wrapper(self, *args, **kwargs):
-		flag = getattr(self, "is_debug_build") \
-			if hasattr(self, "is_debug_build") \
-			else getattr(self, "_is_debug_build", None)
+		flag = getattr(self, attr_name) \
+			if hasattr(self, attr_name) \
+			else getattr(self, f"_{attr_name}", None)
+		if flag is None:
+			raise NameError(f"Object '{self}' does not have an attribute named '{attr_name}'.")
 		if flag is True:
-			return func(self, *args, **kwargs)
-		return False
+			raise ValueError(f"Debug function called on a non-debug instance of 'Ak'.")
+		return func(self, *args, **kwargs)
+	
+	return wrapper
+
+
+def console_instance_only(func):
+	"""
+	A decorator for functions that can only be called on a console instance of Wwise. Checks the owner object's
+	`is_console_instance` (or, alternatively, `_is_console_instance`); if `None` or `False`, the decorated function will
+	NOT be called and an exception is raised. Note: if there is no owner object, the check defaults to `None`. \n
+	:param func: The function to decorate.
+	:raise: NameError - if `is_console_instance` does not exist.
+	:raise: ValueError - if `is_console_instance` is False.
+	:return: The decorated function.
+	"""
+	attr_name = "is_console_instance"
+	
+	def wrapper(self, *args, **kwargs):
+		flag = getattr(self, attr_name) \
+			if hasattr(self, attr_name) \
+			else getattr(self, f"_{attr_name}", None)
+		if flag is None:
+			raise NameError(f"Object '{self}' does not have an attribute named '{attr_name}'.")
+		if flag is True:
+			raise ValueError(f"Debug function called on a non-console instance of 'Ak'.")
+		return func(self, *args, **kwargs)
 	
 	return wrapper
