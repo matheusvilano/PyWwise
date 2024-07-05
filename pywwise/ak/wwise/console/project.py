@@ -1,5 +1,6 @@
 from pathlib import Path as _Path
 from waapi import WaapiClient as _WaapiClient
+from pywwise.decorators import console_instance_only
 from pywwise.enums import EBasePlatform
 from pywwise.structs import PlatformInfo
 
@@ -7,13 +8,16 @@ from pywwise.structs import PlatformInfo
 class Project:
 	"""ak.wwise.console.project"""
 	
-	def __init__(self, client: _WaapiClient):
+	def __init__(self, client: _WaapiClient, is_console_instance: bool = False):
 		"""
 		Constructor.
 		:param client: The WAAPI client to use.
+		:param is_console_instance: Should be set to true if the instance of Wwise is running in a console window.
 		"""
 		self._client = client
+		self._is_console_instance = is_console_instance
 	
+	@console_instance_only
 	def close(self) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_close.html \n
@@ -23,6 +27,7 @@ class Project:
 		results = self._client.call("ak.wwise.console.project.close")
 		return results.get("hadProjectOpen", False) if results is not None else False
 	
+	@console_instance_only
 	def create(self, project_path: _Path,
 	           platforms: set[PlatformInfo] = (PlatformInfo("Windows", EBasePlatform.WINDOWS),),
 	           languages: tuple[str, ...] = tuple("English(US)")) -> bool:
@@ -41,6 +46,7 @@ class Project:
 			args["platforms"].append({"name": platform.name, "basePlatform": platform.base_platform})
 		return self._client.call("ak.wwise.console.project.create", args) is not None
 	
+	@console_instance_only
 	def open(self, project_path: _Path, is_migration_allowed: bool, auto_checkout: bool) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_open.html \n
