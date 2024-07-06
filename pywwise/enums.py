@@ -1319,3 +1319,48 @@ class ECaseStyle(_StrEnum):
 	
 	UPPER = r"^_?[A-Z]+(_[A-Z]+)*$"
 	"""Tokens separated by underscores (`_`; 'UPPER_CASE' or '_UPPER_CASE'), all upper-case."""
+
+
+class ELogChannel(_StrEnum):
+	"""An enumeration of Wwise log channels."""
+	
+	SOUNDBANK_GENERATE = "soundbankGenerate"
+	"""Log channel for messages related to the generation of SoundBanks."""
+	
+	CONVERSION = "conversion"
+	"""Log channel for messages related to conversions."""
+	
+	COPY_PLATFORM_SETTINGS = "copyPlatformSettings"
+	"""Log channel for messages related to platform settings."""
+	
+	WAAPI = "waapi"
+	"""Log channel for messages related to the Wwise Authoring API."""
+	
+	PROJECT_LOAD = "projectLoad"
+	"""Log channel for messages related to project data."""
+	
+	GENERAL = "general"
+	"""Log channel for general messages."""
+	
+	SOURCE_CONTROL = "sourceControl"
+	"""Log channel for messaged related to source control."""
+	
+	LUA = "lua"
+	"""Log channel for messages related to Lua scripts."""
+
+
+class ELogSeverity(_StrEnum):
+	"""An enumeration of log item severity levels."""
+	
+	MESSAGE = "Message"
+	"""Does not affect the integrity of the current operation."""
+	
+	WARNING = "Warning"
+	"""Might affect the integrity of the current operation."""
+	
+	ERROR = "Error"
+	"""Affects the integrity of the current operation."""
+	
+	FATAL_ERROR = "FatalError"
+	"""Prevents the completion of the current operation."""
+	
