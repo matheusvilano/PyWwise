@@ -1,7 +1,7 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any
-from pywwise.enums import EBasePlatform, EObjectType, EReturnOptions, EStartMode
+from pywwise.enums import EBasePlatform, ELogSeverity, EObjectType, EReturnOptions, EStartMode
 from pywwise.types import GameObjectID, GUID, Name, ProjectPath, ShortID
 
 
@@ -252,3 +252,21 @@ class CommandInfo:
 		if self.main_menu is not None:
 			as_dict["mainMenu"] = self.main_menu.dictionary
 		return as_dict
+
+
+@_dataclass
+class LogItem:
+
+	severity: ELogSeverity
+	"""The severity of the message."""
+	
+	time: int
+	"""Number of seconds elapsed since midnight (00:00:00), January 1, 1970, Coordinated Universal Time (UTC),
+	according to the system clock."""
+	
+	id: str
+	"""The message ID for the log item."""
+	
+	description: str
+	"""The description of the log item."""
+	
