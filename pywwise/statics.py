@@ -24,6 +24,15 @@ class EnumStatics(metaclass=StaticMeta):
 				return member
 		raise ValueError(f"No {_EnumType.__name__} member with value {enum_value}")
 
+	@staticmethod
+	def get_all_members(enum_type: _Type[_EnumType]) -> tuple[_EnumType, ...]:
+		"""
+		Gets all members of an enum type.
+		:param enum_type: The enum type to get all members from.
+		:return: A tuple containing all members of an enum type.
+		"""
+		return tuple(member for member in enum_type)
+	
 
 class StringStatics(metaclass=StaticMeta):
 	"""A static class containing useful utility functions for strings."""
