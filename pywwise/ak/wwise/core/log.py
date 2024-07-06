@@ -41,18 +41,50 @@ class Log:
 		               description=kwargs["item"]["message"])
 		self.item_added(channel, item)
 	
-	def add_item(self):
+	def add_item(self, message: str, severity: ELogSeverity = ELogSeverity.MESSAGE,
+	             channel: ELogChannel = ELogChannel.GENERAL) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_additem.html \n
 		Adds a new item to the logs on the specified channel.
+		:param message: The text of the message to add.
+		:param severity: The severity of the message to add.
+		:param channel: The channel on which to add the message.
+		:return: Whether the call succeeded.
 		"""
+		args = {"message": message, "severity": severity.value, "channel": channel.value}
+		return self._client.call("ak.wwise.core.log.addItem", args) is not None
 	
-	def clear(self):
+	def clear(self, channels: ELogChannel | set[ELogChannel] = None) -> bool:
 		"""
-		Clears the logs on the specified channel.
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_clear.html \n
+		Clears the logs on one or more channels.
+		:param channels: The channel or channels to clear.
+		:return: Whether the call succeeded.
 		"""
+		if channels is None:
+			channels = tuple(EnumStatics.get_all_members(ELogChannel))
+		elif isinstance(channels, ELogChannel):
+			channels = (channels,)  # convert single value to a collection, so the loop below still works
+		
+		returns = list[bool]()
+		for channel in channels:
+			args = {"channel": channel}
+			returns.append(self._client.call("ak.wwise.core.log.clear", args) is not None)
+		
+		return all(returns)
 	
-	def get(self):
+	def get(self, channel: ELogChannel = ELogChannel.GENERAL) -> tuple[LogItem, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_get.html \n
 		Retrieves the latest log for a specific channel. Refer to `ak.wwise.core.log.item_added` to be
 		notified when an item is added to the log. The log is empty when used in WwiseConsole.
+		:param channel: The channel to clear.
+		:return: A tuple of log items. May be empty.
 		"""
+		args = {"channel": channel.value}
+		result = self._client.call("ak.wwise.core.log.get", args)
+		return tuple(LogItem(severity=EnumStatics.from_value(ELogSeverity, item["severity"]),
+		                     time=item["time"],
+		                     id=item["messageId"],
+		                     description=item["message"])
+		             for item in result.get("items", ()))
