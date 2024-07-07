@@ -1,4 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
+from simplevent import RefEvent as _RefEvent
 
 
 class Object:
@@ -10,6 +11,21 @@ class Object:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+		
+		# TODO: implement topics
+		self._attenuation_curve_changed: _RefEvent
+		self._attenuation_curve_link_changed: _RefEvent
+		self._child_added: _RefEvent
+		self._child_added: _RefEvent
+		self._child_removed: _RefEvent
+		self._created: _RefEvent
+		self._curve_changed: _RefEvent
+		self._name_changed: _RefEvent
+		self._notes_changed: _RefEvent
+		self._post_deleted: _RefEvent
+		self._pre_deleted: _RefEvent
+		self._property_changed: _RefEvent
+		self._reference_changed: _RefEvent
 	
 	def copy(self):
 		"""
