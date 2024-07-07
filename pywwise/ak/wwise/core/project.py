@@ -24,6 +24,11 @@ class Project:
 		"""
 		
 		self._saved = self._client.subscribe("ak.wwise.core.project.saved", self._on_saved)
+		
+		# TODO: implement topics
+		self.loaded: _RefEvent
+		self.post_closed: _RefEvent
+		self.pre_closed: _RefEvent
 	
 	@callback
 	def _on_saved(self, **kwargs):
