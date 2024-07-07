@@ -60,15 +60,16 @@ class Commands:
 		Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise
 		Authoring Command Identifiers for the available commands.
 		:param command: The ID of the command to execute. Refer to Wwise Authoring Command Identifiers for the lists of
-		commands.
+						commands.
 		:param objects: For commands that take objects as arguments. This set should contain the GUID, project path,
-		name, and/or short ID of the Wwise objects being passed to the command to be executed. NOTE: although Name and
-		ShortID are both supported, they are NOT recommended. For a Name, you will need to follow the format "Type:Name"
-		(e.g. Name("Event:PlayMySound")); for ShortID, only "global" types (e.g. State Groups) will work.
+						name, and/or short ID of the Wwise objects being passed to the command to be executed. NOTE:
+						although Name and ShortID are both supported, they are NOT recommended. For a Name, you will
+						need to follow the format "Type:Name" (e.g. Name("Event:PlayMySound")); for ShortID, only
+						"global" types (e.g. State Groups) will work.
 		:param platforms: An array of platform. Each platform is a GUID or a Name. Some commands can take
-		platforms as arguments. Refer to the commands for more information.
+						  platforms as arguments. Refer to the commands for more information.
 		:param value: A value to pass to the command. Some commands can take a value as an argument. **Can be Null,
-		String, Float, or Bool**. Refer to the commands for more information.
+					  String, Float, or Bool**. Refer to the commands for more information.
 		:return: Whether the call succeeded.
 		"""
 		if command is None:
@@ -123,7 +124,7 @@ class Commands:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
 		Unregisters an array of add-on UI commands.
 		:param commands: A set of add-on commands. Can either be a string containing the add-on command ID or a full
-		Add-on Command Info instance.
+						 Add-on Command Info instance.
 		:return: Whether the call succeeded.
 		"""
 		if commands is None:
