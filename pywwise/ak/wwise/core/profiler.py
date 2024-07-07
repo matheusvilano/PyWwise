@@ -1,4 +1,6 @@
+from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
+from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 
 
 class Profiler:
@@ -10,6 +12,14 @@ class Profiler:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+		self.capture_log = _CaptureLog(client)
+		
+		# TODO: implement topics
+		self.game_object_registered: _RefEvent
+		self.game_object_reset: _RefEvent
+		self.game_object_unregistered: _RefEvent
+		self.state_changed: _RefEvent
+		self.switch_changed: _RefEvent
 	
 	def enable_profiler_data(self):
 		"""
