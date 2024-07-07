@@ -23,7 +23,7 @@ class Sound:
 		:param sound: The GUID or the project path of the sound for which to set the active source.
 		:param source: The GUID or the project path of the source.
 		:param platform: The platform on which to execute this operation. By default, the active platform in the Wwise
-		instance will be used.
+						 instance will be used.
 		:return: Whether the call succeeded.
 		"""
 		args = {"sound": f"{EObjectType.SOUND}{sound}" if isinstance(sound, Name) else sound,
