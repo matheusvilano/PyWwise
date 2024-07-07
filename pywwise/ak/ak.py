@@ -16,7 +16,7 @@ class Ak:
 		:param callback_executor: Executor strategy for event callbacks.
 		:param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only.
 		:param is_console_instance: Should be set to true if the instance of Wwise is running in a console window.
-		functions/topics are required.
+									functions/topics are required.
 		"""
 		self._client = _WaapiClient(url, allow_exception, callback_executor)
 		self.soundengine = _SoundEngine(self._client)
