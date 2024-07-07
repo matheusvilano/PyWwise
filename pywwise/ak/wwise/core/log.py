@@ -1,6 +1,5 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise.decorators import callback
 from pywwise.enums import ELogChannel, ELogSeverity
 from pywwise.statics import EnumStatics
