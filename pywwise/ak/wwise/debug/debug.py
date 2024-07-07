@@ -14,7 +14,7 @@ class Debug:
 		Constructor.
 		:param client: The WAAPI client to use.
 		:param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only
-		functions/topics are required.
+							   functions/topics are required.
 		"""
 		self._client = client
 		
@@ -85,20 +85,21 @@ class Debug:
 		:param release_time: The release time of the sound to generate.
 		:param waveform: The waveform of the sound to generate.
 		:param frequency: The frequency of the sound to generate. This is clamped to the range [1.0, 22000.0].
-		:return: Whether the call succeeded. Although True means the file likely got generated successfully, it is not
-		a guarantee.
+		:return: Whether the call succeeded and the file was created successfully.
 		"""
+		if path.exists():
+			raise ValueError("The provided path already exists.")
 		args = {"path": str(path), "bitDepth": bit_depth.value, "sampleRate": sample_rate.value,
 		        "channelConfig": channel_config.get_name(), "attackTime": attack_time,
 		        "sustainTime": sustain_time, "sustainLevel": max(-100.0, min(sustain_level, 0.0)),
 		        "releaseTime": release_time, "waveform": waveform.value, "frequency": max(1.0, min(frequency, 22000.0))}
-		return self._client.call("ak.wwise.debug.generateToneWAV", args) is not None
+		self._client.call("ak.wwise.debug.generateToneWAV", args)
+		return path.exists()
 	
 	def get_wal_tree(self) -> dict[str, dict[str, dict[str, _Any]]]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_getwaltree.html \n
-		Retrieves the WAL tree, which describes the nodes that are synchronized in the Sound Engine. Private
-		use only.
+		Retrieves the WAL tree, which describes the nodes that are synchronized in the Sound Engine. Private use only.
 		:return: If the call succeeded, the WAL tree; else, an empty dictionary.
 		"""
 		results = self._client.call("ak.wwise.debug.getWalTree")
