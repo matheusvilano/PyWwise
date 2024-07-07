@@ -103,7 +103,7 @@ class SoundEngine:
 		Posts the specified Trigger. See `AK::SoundEngine::PostTrigger`.
 		:param trigger: The name, short ID, or GUID of the trigger to post.
 		:param game_object: The ID of the game object on which the trigger should be posted. If unspecified, the trigger
-		will be posted globally.
+							will be posted globally.
 		:return: Whether this operation worked. True does not mean IDs were all valid.
 		"""
 		args = {"trigger": trigger}
@@ -142,8 +142,9 @@ class SoundEngine:
 		Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See
 		`AK::SoundEngine::SeekOnEvent`.
 		:param event: The name, GUID, or short ID of the event to seek on.
-		:param game_object: The ID of the GameObject that owns (encapsulates) the event. Note: this API uses uint32; this
-		type has a maximum valid value is `4294967295`, therefore the default Transport and Global IDs are NOT supported.
+		:param game_object: The ID of the GameObject that owns (encapsulates) the event. Note: this API uses uint32;
+							this type has a maximum valid value is `4294967295`, therefore the default Transport and
+							Global IDs are NOT supported.
 		:param position: The position where to seek. Note: `int` implies milliseconds; `float` implies percentage.
 		:param seek_to_nearest_marker: If true, the final seeking position is made equal to the nearest marker.
 		:param playing_id: The playing ID for which the seek if to be applied.
@@ -169,7 +170,7 @@ class SoundEngine:
 	                                    aux_send_values: tuple[AuxSendValue, ...]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
-		Sets the Auxiliary Busses to route the specified game object. See `AK::SoundEngine::SetGameObjectAuxSendValues`.
+		Sets the Auxiliary Buses to route the specified game object. See `AK::SoundEngine::SetGameObjectAuxSendValues`.
 		:param game_obj: The game object ID associated with this operation.
 		:param aux_send_values: The aux send values to set.
 		:return: Whether the call succeeded. True does not mean the volume necessarily changed (e.g. invalid IDs).
@@ -190,7 +191,7 @@ class SoundEngine:
 		:param emitter: The ID of the emitter game object.
 		:param listener: The ID of the listener game object.
 		:param control_value: A multiplier where 0 means silence and 1 means no change. Therefore, values between 0 and
-		1 attenuate the sound, and values greater than 1 amplify it.
+							  1 attenuate the sound, and values greater than 1 amplify it.
 		:return: Whether the call succeeded. True does not mean the volume necessarily changed (e.g. invalid IDs).
 		"""
 		args = {"emitter": emitter, "listener": listener, "controlValue": control_value}
@@ -205,7 +206,7 @@ class SoundEngine:
 		:param emitter: The ID of the emitter Game Object to set listeners for.
 		:param listeners: The ID of the listeners being set.
 		:return: Whether the call succeeded. Note: passing unregistered IDs will cause no change, but the function will
-		still return True.
+				 still return True.
 		"""
 		args = {"emitter": emitter, "listeners": list(listeners)}
 		return self._client.call("ak.soundengine.setListeners", args) is not None
