@@ -23,7 +23,7 @@ class EnumStatics(metaclass=StaticMeta):
 			if member == enum_value:
 				return member
 		raise ValueError(f"No {_EnumType.__name__} member with value {enum_value}")
-
+	
 	@staticmethod
 	def get_all_members(enum_type: _Type[_EnumType]) -> tuple[_EnumType, ...]:
 		"""
@@ -32,7 +32,7 @@ class EnumStatics(metaclass=StaticMeta):
 		:return: A tuple containing all members of an enum type.
 		"""
 		return tuple(member for member in enum_type)
-	
+
 
 class StringStatics(metaclass=StaticMeta):
 	"""A static class containing useful utility functions for strings."""
@@ -44,7 +44,7 @@ class StringStatics(metaclass=StaticMeta):
 		enumerated in `pywwise.enums.ECaseStyle`.
 		:param text: The string to validate.
 		:return: Whether the string is formatted in accordance to one of the common case styles (see
-		`pywwise.enums.ECaseStyle` for a complete list).
+				 `pywwise.enums.ECaseStyle` for a complete list).
 		"""
 		for case in ECaseStyle:
 			if _re_match(case, text):
