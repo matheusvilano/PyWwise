@@ -52,14 +52,15 @@ class UI:
 			objects.append(WwiseObjectInfo(guid, name, typename, path))
 		self.selection_changed(tuple(objects))
 	
-	def bring_to_foreground(self) -> None:
+	def bring_to_foreground(self) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
 		Bring Wwise main window to foreground. Refer to `SetForegroundWindow` and `AllowSetForegroundWindow`
 		on MSDN for more information on the restrictions. Refer to `ak.wwise.core.get_info` to obtain the
 		Wwise process ID for `AllowSetForegroundWindow`.
+		:return: Whether the call succeeded.
 		"""
-		return self._client.call("ak.wwise.ui.bringToForeground")
+		return self._client.call("ak.wwise.ui.bringToForeground") is not None
 	
 	def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: Rect = None,
 	                   output_path: SystemPath = None) -> tuple[str, str]:
@@ -68,11 +69,12 @@ class UI:
 		Captures a part of the Wwise UI relative to a view.
 		:param view_name: The name of the view as displayed in Wwise UI. By default, the whole UI is captured.
 		:param view_selection_channel: The selection channel of the view. Can be a value of 1, 2, 3 or 4. By default,
-		the current selection channel of the view is detected automatically. If the specified value is out of bounds,
-		the value will be clamped.
+									   the current selection channel of the view is detected automatically. If the
+									   specified value is out of bounds, the value will be clamped.
 		:param capture_rect: The capture region. By default, the whole view is captured.
 		:param output_path: If specified, a PNG image will be created at the specified location. If only directory
-		names are specified (e.g. "C:/Users/PyWwise/Pictures"), the file name will be the current system date and time.
+							names are specified (e.g. "C:/Users/PyWwise/Pictures"), the file name will be the current
+							system date and time.
 		:return: The underlying image data format and the encoded image data (Base64).
 		"""
 		args = {}
@@ -107,14 +109,15 @@ class UI:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
 		:param return_options: The additional return options. By default, this function returns only the GUID and Name
-		of the selected objects.
+							   of the selected objects.
 		:param platform: If specified, this function will get information from the specified platform instead of the
-		current platform.
+						 current platform.
 		:param language: If specified, this function will get information from the specified language instead of the
-		current language.
+						 current language.
 		:returns: For each selected object, a WwiseObjectInfo containing an object's GUID, name, path, type, and a
-		dictionary containing additional information (requested via `return_options`). When accessing the values in the
-		dictionary, use the EReturnOptions enum as the keys. If this function call fails, an empty tuple is returned.
+				  dictionary containing additional information (requested via `return_options`). When accessing the
+				  values in the dictionary, use the EReturnOptions enum as the keys. If this function call fails, an
+				  empty tuple is returned.
 		"""
 		returns = (EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH)
 		options = {"return": set(returns)}  # to ensure only unique values
