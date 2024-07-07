@@ -1363,4 +1363,3 @@ class ELogSeverity(_StrEnum):
 	
 	FATAL_ERROR = "FatalError"
 	"""Prevents the completion of the current operation."""
-	
