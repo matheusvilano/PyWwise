@@ -1,3 +1,4 @@
+from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 
 from pywwise.structs import SwitchContainerAssignment
@@ -13,6 +14,10 @@ class SwitchContainer:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+		
+		# TODO: implement topics
+		self.assignment_added: _RefEvent
+		self.assignment_removed: _RefEvent
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
 		"""
