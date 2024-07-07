@@ -1,3 +1,4 @@
+from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 
 
@@ -10,6 +11,9 @@ class Transport:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+		
+		# TODO: implement topics
+		self.state_changed: _RefEvent
 	
 	def create(self):
 		"""
