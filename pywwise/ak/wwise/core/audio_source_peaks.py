@@ -23,15 +23,15 @@ class AudioSourcePeaks:
 		If getCrossChannelPeaks is true, only one binary string represents the peaks across all channels globally.
 		:param source: The GUID, name, or project path of the Audio Source to get the min and max peaks from.
 		:param time_from: The start time, in seconds, of the section of the audio source for which peaks are required.
-		This number must be smaller than timeTo. Range: [0,*]
+						  This number must be smaller than timeTo. Range: [0,*]
 		:param time_to: The end time, in seconds, of the section of the audio source for which peaks are required. This
-		number must be larger than timeFrom. Range: [0,*]
+						number must be larger than timeFrom. Range: [0,*]
 		:param num_peaks: The number of peaks that are required (minimum 1). Range: [1,4294967295]
 		:param cross_channel_peaks: When true, peaks are calculated globally across channels, instead of per channel.
 		:returns: A tuple containing the binary strings representing the peaks, the amount of channels, the maximum
-		absolute value, the length of the tuple, the size of the data in the tuple, and the description of the channel
-		configuration. **Refer to the Audiokinetic documentation for more detailed information**. NOTE: if the call
-		fails, this function will return an empty tuple.
+				  absolute value, the length of the tuple, the size of the data in the tuple, and the description of
+				  the channel configuration. **Refer to the Audiokinetic documentation for more detailed information**.
+				  NOTE: if the call fails, this function will return an empty tuple.
 		"""
 		time_from = max(time_from, 0)
 		time_to = max(time_to, 0)
@@ -64,9 +64,9 @@ class AudioSourcePeaks:
 		:param num_peaks: The number of peaks that are required (minimum 1). Range: [1,4294967295]
 		:param cross_channel_peaks: When true, peaks are calculated globally across channels, instead of per channel.
 		:returns: A tuple containing the binary strings representing the peaks, the amount of channels, the maximum
-		absolute value, the length of the tuple, the size of the data in the tuple, and the description of the channel
-		configuration. **Refer to the Audiokinetic documentation for more detailed information**. NOTE: if the call
-		fails, this function will return an empty tuple.
+				  absolute value, the length of the tuple, the size of the data in the tuple, and the description of
+				  the channel configuration. **Refer to the Audiokinetic documentation for more detailed information**.
+				  NOTE: if the call fails, this function will return an empty tuple.
 		"""
 		num_peaks = max(num_peaks, 1)
 		
