@@ -36,9 +36,11 @@ class Project:
 		Creates, saves and opens new empty project, specified by path and platform. The project has no
 		factory setting WorkUnit. This operation is synchronous.
 		:param project_path: The path to the project WPROJ file. Example: "C:/Projects/MyProject/MyProject.wproj".
-		:param platforms: Specifies the platform(s) supported by the new project. If not specified, only Windows is used.
+		:param platforms: Specifies the platform(s) supported by the new project. If not specified, only Windows is
+						  used.
 		:param languages: Array of languages to creates for this project. If not specified, English(US) becomes the
-		default language. When multiple languages are specified, the first one becomes the default language.
+						  default language. When multiple languages are specified, the first one becomes the default
+						  language.
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully created.
 		"""
 		args = {"path": str(project_path), "platforms": list(), "languages": [language for language in languages]}
@@ -54,7 +56,7 @@ class Project:
 		:param project_path: The path to the project WPROJ file.
 		:param is_migration_allowed: Whether migration is allowed.
 		:param auto_checkout: Determines if Wwise automatically performs a Checkout source control
-		operation for affected work units and for the project. Defaults to true.
+							  operation for affected work units and for the project. Defaults to true.
 		:return: Whether the call succeeded. True does not necessarily mean the project was successfully opened.
 		"""
 		migration_action = "migrate" if is_migration_allowed else "fail"
