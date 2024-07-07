@@ -1,6 +1,5 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise.decorators import callback
 from pywwise.types import SystemPath
 
