@@ -1,5 +1,7 @@
 from unittest import main
-
+from pywwise.enums import *
+from pywwise.types import *
+from pywwise.structs import *
 from constants import *
 from testclass import PyWwiseTest
 
