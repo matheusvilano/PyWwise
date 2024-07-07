@@ -270,3 +270,12 @@ class LogItem:
 	description: str
 	"""The description of the log item."""
 	
+	
+@_dataclass
+class SwitchContainerAssignment:
+
+	child: GUID
+	"""The child object of a Switch Container, which is linked (assigned) to a State or Switch value."""
+
+	state_or_switch: GUID
+	"""The State or Switch value to switch the child object is linked (assigned) to."""
