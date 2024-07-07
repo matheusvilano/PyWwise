@@ -1,6 +1,5 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise.structs import SwitchContainerAssignment
 from pywwise.types import GUID, ProjectPath
 
@@ -26,9 +25,9 @@ class SwitchContainer:
 		the child to a state or switch in the Assigned Objects view. The child is always added at the end for each
 		state.
 		:param child: The GUID or project path of the object to assign to a State or Switch. This object must be a
-		child of a Switch Container.
+					  child of a Switch Container.
 		:param state_or_switch: The GUID or path of the State or Switch with which to assign. Must be the child of the
-		Switch Group or State Group that is currently set for the Switch Container.
+								Switch Group or State Group that is currently set for the Switch Container.
 		:return: Whether the call succeeded. Will return `False` if the assignment already exists.
 		"""
 		args = {"child": child, "stateOrSwitch": state_or_switch}
@@ -40,7 +39,7 @@ class SwitchContainer:
 		Returns the list of assignments between a Switch Container's children and states.
 		:param switch_container: The GUID or project path of the Switch Container from which to get assignments.
 		:return: A tuple of `SwitchContainerAssignment` instances. May be empty (if there are no valid assignments or
-		if the call failed).
+				 if the call failed).
 		"""
 		results = self._client.call("ak.wwise.core.switchContainer.getAssignments", {"id": switch_container})
 		if results is None:
@@ -53,9 +52,9 @@ class SwitchContainer:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_removeassignment.html \n
 		Removes an assignment between a Switch Container's child and a State or Switch.
 		:param child: The GUID or project path of the object assigned to State or Switch. This object must be a child
-		of a Switch Container.
+					  of a Switch Container.
 		:param state_or_switch: The GUID or path of the State or Switch in the assignment. Must be the child of the
-		Switch Group or State Group that is currently set for the Switch Container.
+								Switch Group or State Group that is currently set for the Switch Container.
 		:return: Whether the call succeeded. Will return `False` if the assignment does not exist.
 		"""
 		args = {"child": child, "stateOrSwitch": state_or_switch}
