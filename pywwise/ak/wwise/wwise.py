@@ -14,7 +14,7 @@ class Wwise:
 		Constructor.
 		:param client: The WAAPI client to use.
 		:param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only
-		functions/topics are required.
+							   functions/topics are required.
 		:param is_console_instance: Should be set to true if the instance of Wwise is running in a console window.
 		"""
 		self._client = client
