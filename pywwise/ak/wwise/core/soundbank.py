@@ -1,4 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
+from simplevent import RefEvent as _RefEvent
 
 
 class SoundBank:
@@ -10,6 +11,10 @@ class SoundBank:
 		:param client: The WAAPI client to use.
 		"""
 		self._client = client
+	
+		# TODO: implement topics
+		self.generated: _RefEvent
+		self.generation_done: _RefEvent
 	
 	def convert_external_sources(self):
 		"""
