@@ -31,7 +31,7 @@ class CaptureLog:
 	@callback
 	def _on_item_added(self, **kwargs):
 		"""
-		Callback function for the `item_added` event.
+		Callback function for the `itemAdded` event.
 		:param kwargs: The event data.
 		"""
 		#
