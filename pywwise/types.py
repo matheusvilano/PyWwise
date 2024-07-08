@@ -12,6 +12,10 @@ class Name(str):
 		if len(name) <= 0:
 			raise ValueError("The provided name string is empty.")
 		return str.__new__(cls, name)
+	
+	@classmethod
+	def get_null(cls) -> _Literal["\0"]:
+		return "\0"
 
 
 class GUID(str):
