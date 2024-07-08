@@ -1368,6 +1368,12 @@ class ELogSeverity(_StrEnum):
 class ECaptureLogItemType(_StrEnum):
 	"""An enumeration of capture log item types."""
 	
+	ERROR = "Error"
+	"""Error capture log item."""
+	
+	WARNING = "Warning"
+	"""Warning capture log item."""
+	
 	NOTIFICATION = "Notification"
 	"""Notification capture log item type."""
 	
@@ -1423,7 +1429,7 @@ class ECaptureLogItemType(_StrEnum):
 	"""GameObjectRegistration capture log item type."""
 
 
-class ECaptureLogSeverity:
+class ECaptureLogSeverity(_StrEnum):
 	"""An enumeration of capture log item types."""
 	
 	NORMAL = "Normal"
