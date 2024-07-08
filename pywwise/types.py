@@ -61,9 +61,17 @@ class ShortID(int):
 		Creates a new ShortID.
 		:param value: The short ID of the Wwise object.
 		"""
-		if value < 0:
-			raise ValueError("ShortID value must be non-negative.")
+		if value < 0 and value != -1:
+			raise ValueError("ShortID value must be non-negative (or -1, if representing an invalid ShortID).")
 		return int.__new__(cls, value)
+	
+	@classmethod
+	def get_invalid(cls) -> _Literal[-1]:
+		"""
+		Use when the intention is to represent an "invalid" short ID.
+		:return: `-1`, which represents an invalid playing ID.
+		"""
+		return -1
 
 
 class GameObjectID(int):
@@ -105,3 +113,11 @@ class GameObjectID(int):
 
 class PlayingID(int):
 	"""A Playing ID, which represents an instance generated from an Event. A negative means the ID is invalid."""
+	
+	@classmethod
+	def get_invalid(cls) -> _Literal[-1]:
+		"""
+		Use when the intention is to represent an "invalid" playing ID.
+		:return: `-1`, which represents an invalid playing ID.
+		"""
+		return -1
