@@ -275,6 +275,8 @@ class LogItem:
 
 @_dataclass
 class SwitchContainerAssignment:
+	"""Represents a switch container assigned (the relationship between a child object and a state/switch)."""
+	
 	child: GUID
 	"""The child object of a Switch Container, which is linked (assigned) to a State or Switch value."""
 	
