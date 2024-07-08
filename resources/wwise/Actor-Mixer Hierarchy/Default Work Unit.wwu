@@ -23,6 +23,9 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
 										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="SwitchGroup_Test" ID="{3163C750-AD28-48C0-A652-DECFDD2840C9}" WorkUnitID="{B0BF4B0F-22A9-4EA3-966A-90880D126F11}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="SwitchContainer_Test_A" ID="{704FA742-B41E-46EC-BAB3-97EFB55D2288}" ShortID="9426885">
