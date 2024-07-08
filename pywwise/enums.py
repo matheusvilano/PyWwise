@@ -1421,3 +1421,16 @@ class ECaptureLogItemType(_StrEnum):
 	
 	GAME_OBJECT_REGISTRATION = "GameObjectRegistration"
 	"""GameObjectRegistration capture log item type."""
+
+
+class ECaptureLogSeverity:
+	"""An enumeration of capture log item types."""
+	
+	NORMAL = "Normal"
+	"""Normal execution."""
+	
+	MESSAGE = "Message"
+	"""Shown in yellow in the capture log."""
+	
+	ERROR = "Error"
+	"""Shown in red in the capture log."""
