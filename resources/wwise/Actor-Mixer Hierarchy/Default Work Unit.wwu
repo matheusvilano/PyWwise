@@ -79,6 +79,18 @@
 											<ObjectRef Name="Master" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{24D8EC29-56DD-4932-8713-12AA2C257A3B}"/>
 										</Reference>
 									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{DE0D999E-DE86-4465-B730-34B4C7DA8821}" ShortID="573758527" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineDuration" Type="Real32" Value="0.667"/>
+												<Property Name="SineGain" Type="Real32" Value="0"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{DE0D999E-DE86-4465-B730-34B4C7DA8821}" Platform="Linked"/>
+									</ActiveSourceList>
 								</Sound>
 								<RandomSequenceContainer Name="SequenceContainer_Test" ID="{A57159AC-E64B-4E58-9569-7DA1AA422B25}" ShortID="2898814">
 									<PropertyList>
