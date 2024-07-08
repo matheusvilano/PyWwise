@@ -1363,3 +1363,61 @@ class ELogSeverity(_StrEnum):
 	
 	FATAL_ERROR = "FatalError"
 	"""Prevents the completion of the current operation."""
+
+
+class ECaptureLogItemType(_StrEnum):
+	"""An enumeration of capture log item types."""
+	
+	NOTIFICATION = "Notification"
+	"""Notification capture log item type."""
+	
+	INTERACTIVE_MUSIC = "InteractiveMusic"
+	"""InteractiveMusic capture log item type."""
+	
+	MIDI = "Midi"
+	"""Midi capture log item type."""
+	
+	EXTERNAL_SOURCE = "ExternalSource"
+	"""ExternalSource capture log item type."""
+	
+	MARKER = "Marker"
+	"""Marker capture log item type."""
+	
+	STATE = "State"
+	"""State capture log item type."""
+	
+	SWITCH = "Switch"
+	"""Switch capture log item type."""
+	
+	SET_PARAMETER = "SetParameter"
+	"""SetParameter capture log item type."""
+	
+	PARAMETER_CHANGED = "ParameterChanged"
+	"""ParameterChanged capture log item type."""
+	
+	BANK = "Bank"
+	"""Bank capture log item type."""
+	
+	PREPARE = "Prepare"
+	"""Prepare capture log item type."""
+	
+	EVENT = "Event"
+	"""Event capture log item type."""
+	
+	DIALOGUE_EVENT_RESOLVED = "DialogueEventResolved"
+	"""DialogueEventResolved capture log item type."""
+	
+	ACTION_TRIGGERED = "ActionTriggered"
+	"""ActionTriggered capture log item type."""
+	
+	ACTION_DELAYED = "ActionDelayed"
+	"""ActionDelayed capture log item type."""
+	
+	MESSAGE = "Message"
+	"""Message capture log item type."""
+	
+	API_CALL = "APICall"
+	"""APICall capture log item type."""
+	
+	GAME_OBJECT_REGISTRATION = "GameObjectRegistration"
+	"""GameObjectRegistration capture log item type."""
