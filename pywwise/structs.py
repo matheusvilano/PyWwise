@@ -3,7 +3,7 @@ from pathlib import Path as _Path
 from typing import Any as _Any
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode
-from pywwise.types import GameObjectID, GUID, Name, ProjectPath, ShortID
+from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
 @_dataclass
@@ -299,11 +299,14 @@ class CaptureLogItem:
 	severity: ECaptureLogSeverity
 	"""The severity of the message."""
 	
-	object_id: GUID = GUID.get_zero()
+	wwise_object_id: GUID = GUID.get_zero()
 	"""The GUID of the object for the entry."""
 	
-	object_name: Name = Name.get_null()
+	wwise_object_name: Name = Name.get_null()
 	"""The name of the object for the entry."""
+	
+	wwise_object_short: ShortID = ShortID.get_invalid()
+	"""The short ID of the object for the entry."""
 	
 	game_object_id: GameObjectID = GameObjectID.get_invalid()
 	"""The game object ID for the entry."""
@@ -311,5 +314,8 @@ class CaptureLogItem:
 	game_object_name: Name = Name.get_null()
 	"""The game object name for the entry."""
 
+	playing_id: PlayingID = PlayingID.get_invalid()
+	"""The playing ID for the entry."""
+
 	error_code_name: str = ""
-	"""The error code name for the entry."""
+	"""The error code name for the entry (e.g. `ErrorCode_VoiceStarting`)."""
