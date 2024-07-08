@@ -1,7 +1,8 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any
-from pywwise.enums import EBasePlatform, ELogSeverity, EObjectType, EReturnOptions, EStartMode
+from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
+	EReturnOptions, EStartMode
 from pywwise.types import GameObjectID, GUID, Name, ProjectPath, ShortID
 
 
@@ -279,3 +280,36 @@ class SwitchContainerAssignment:
 	
 	state_or_switch: GUID
 	"""The State or Switch value to switch the child object is linked (assigned) to."""
+
+
+@_dataclass
+class CaptureLogItem:
+	"""A console log item."""
+	
+	type: ECaptureLogItemType
+	"""The type of the capture log item."""
+	
+	time: int
+	"""Number of seconds elapsed since midnight (00:00:00), January 1, 1970, Coordinated Universal Time (UTC),
+	according to the system clock."""
+	
+	description: str
+	"""The description of the log item."""
+	
+	severity: ECaptureLogSeverity
+	"""The severity of the message."""
+	
+	object_id: GUID = GUID.get_zero()
+	"""The GUID of the object for the entry."""
+	
+	object_name: Name = Name.get_null()
+	"""The name of the object for the entry."""
+	
+	game_object_id: GameObjectID = GameObjectID.get_invalid()
+	"""The game object ID for the entry."""
+	
+	game_object_name: Name = Name.get_null()
+	"""The game object name for the entry."""
+
+	error_code_name: str = ""
+	"""The error code name for the entry."""
