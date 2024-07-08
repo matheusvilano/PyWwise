@@ -1,6 +1,8 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import SwitchContainerAssignment
+from pywwise.decorators import callback
+from pywwise.enums import EReturnOptions
+from pywwise.structs import SwitchContainerAssignment, WwiseObjectInfo
 from pywwise.types import GUID, ProjectPath
 
 
@@ -14,9 +16,62 @@ class SwitchContainer:
 		"""
 		self._client = client
 		
-		# TODO: implement topics
-		self.assignment_added: _RefEvent
-		self.assignment_removed: _RefEvent
+		assignment_event_args = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
+		                                    EReturnOptions.TYPE, EReturnOptions.PATH]}
+		
+		self.assignment_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
+		\nSent when an assignment is added to a Switch Container.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Switch Container where a new assignment was added.
+		\n- A WwiseObjectInfo instance representing the child object that was assigned.
+		\n- A WwiseObjectInfo instance representing the State or Switch to which the child object was assigned.
+		"""
+		
+		self._assignment_added = self._client.subscribe("ak.wwise.core.switchContainer.assignmentAdded",
+		                                                self._on_assignment_added, assignment_event_args)
+		
+		self.assignment_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
+		\nSent when an assignment is removed from a Switch Container.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Switch Container where an assignment was removed.
+		\n- A WwiseObjectInfo instance representing the child object that was part of the removed assignment.
+		\n- A WwiseObjectInfo instance representing the State or Switch to which the child object was assigned.
+		"""
+		
+		self._assignment_added = self._client.subscribe("ak.wwise.core.switchContainer.assignmentRemoved",
+		                                                self._on_assignment_removed, assignment_event_args)
+	
+	@callback
+	def _on_assignment_added(self, **kwargs):
+		"""
+		Callback function for the `assignmentAdded` event.
+		:param kwargs: The event data.
+		"""
+		container = kwargs["switchContainer"]
+		container = WwiseObjectInfo(container["id"], container["name"], container["type"], container["path"])
+		child = kwargs["child"]
+		child = WwiseObjectInfo(child["id"], child["name"], child["type"], child["path"])
+		sync = kwargs["stateOrSwitch"]
+		sync = WwiseObjectInfo(sync["id"], sync["name"], sync["type"], sync["path"])
+		self.assignment_added(container, child, sync)
+	
+	@callback
+	def _on_assignment_removed(self, **kwargs):
+		"""
+		Callback function for the `assignmentRemoved` event.
+		:param kwargs: The event data.
+		"""
+		container = kwargs["switchContainer"]
+		container = WwiseObjectInfo(container["id"], container["name"], container["type"], container["path"])
+		child = kwargs["child"]
+		child = WwiseObjectInfo(child["id"], child["name"], child["type"], child["path"])
+		sync = kwargs["stateOrSwitch"]
+		sync = WwiseObjectInfo(sync["id"], sync["name"], sync["type"], sync["path"])
+		self.assignment_removed(container, child, sync)
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
 		"""
