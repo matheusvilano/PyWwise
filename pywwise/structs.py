@@ -256,6 +256,8 @@ class CommandInfo:
 
 @_dataclass
 class LogItem:
+	"""A log item."""
+	
 	severity: ELogSeverity
 	"""The severity of the message."""
 	
