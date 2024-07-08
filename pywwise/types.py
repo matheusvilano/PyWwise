@@ -74,8 +74,8 @@ class GameObjectID(int):
 		Creates a new GameObjectID. This does not register a new GameObject in Wwise.
 		:param obj_id: The ID of the game object.
 		"""
-		if obj_id < 0:
-			raise ValueError("GameObject value must be non-negative")
+		if obj_id < 0 and obj_id != -1:
+			raise ValueError("GameObject value must be non-negative (or -1 if representing an invalid ID).")
 		return int.__new__(cls, obj_id)
 	
 	@classmethod
@@ -93,6 +93,14 @@ class GameObjectID(int):
 		:return: A new GameObjectID containing the default Transport game object ID.
 		"""
 		return int.__new__(cls, (1 << 64) - 2)  # That expression equals the max uint64 value - 1.
+	
+	@classmethod
+	def get_invalid(cls) -> _Literal[-1]:
+		"""
+		Use when the intention is to represent an "invalid" game object ID.
+		:return: `-1`, which represents an invalid game object ID.
+		"""
+		return -1
 
 
 class PlayingID(int):
