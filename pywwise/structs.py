@@ -1,6 +1,6 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any
+from typing import Any as _Any, Literal as _Literal
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
@@ -321,3 +321,41 @@ class CaptureLogItem:
 	
 	error_code_name: str = ""
 	"""The error code name for the entry (e.g. `ErrorCode_VoiceStarting`)."""
+
+
+@_dataclass
+class SoundBankData:
+	"""A dataclass that represents a SoundBank (the actual data)."""
+	
+	b64data: str
+	"""Data of the SoundBank encoded in base64."""
+	
+	size: int
+	"""Size of the SoundBank data when decoded."""
+
+
+@_dataclass
+class SoundBankGenerationInfo:
+	"""Contains information about a SoundBank's generation."""
+	
+	sound_bank: WwiseObjectInfo
+	"""The generated SoundBank."""
+	
+	platform: Name
+	"""The name of the platform for which the SoundBank was generated."""
+	
+	language: Name = Name.get_null()
+	"""The name of the language for which the SoundBank was generated. Only present when generating a SoundBank for a
+	specific language."""
+	
+	bank_data: SoundBankData = _field(default=SoundBankData)
+	"""SoundBank data object containing the actual data encoded in base64 and the size."""
+	
+	banks_info: list[dict[str, _Any]] = _field(default_factory=list)
+	"""All the info for the generated SoundBank."""
+	
+	plugins_info: dict[str, str | list[dict[str, str]]] = _field(default_factory=dict)
+	"""PluginInfo file info."""
+	
+	error_message: str = ""
+	"""The error message, if an error occurred. Only present if an error occurred."""
