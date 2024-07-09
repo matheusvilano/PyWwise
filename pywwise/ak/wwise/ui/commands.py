@@ -2,7 +2,7 @@ from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.structs import PlatformInfo, CommandInfo, WwiseObjectInfo
 from pywwise.types import GUID, ShortID, ProjectPath, Name
-from pywwise.enums import ECommand, EReturnOptions
+from pywwise.enums import ECommand, EObjectType, EReturnOptions
 from pywwise.decorators import callback
 from pywwise.statics import EnumStatics
 
@@ -53,7 +53,7 @@ class Commands:
 		return tuple(commands) if commands is not None else ()
 	
 	def execute(self, command: ECommand,
-	            objects: set[WwiseObjectInfo | GUID | ProjectPath | Name | ShortID] = None,
+	            objects: tuple[WwiseObjectInfo | GUID | ProjectPath | ShortID | tuple[EObjectType, Name]] = None,
 	            platforms: set[PlatformInfo | Name | GUID] = None, value: str | float | bool = None) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
@@ -61,11 +61,11 @@ class Commands:
 		Authoring Command Identifiers for the available commands.
 		:param command: The ID of the command to execute. Refer to Wwise Authoring Command Identifiers for the lists of
 						commands.
-		:param objects: For commands that take objects as arguments. This set should contain the GUID, project path,
-						name, and/or short ID of the Wwise objects being passed to the command to be executed. NOTE:
-						although Name and ShortID are both supported, they are NOT recommended. For a Name, you will
-						need to follow the format "Type:Name" (e.g. Name("Event:PlayMySound")); for ShortID, only
-						"global" types (e.g. State Groups) will work.
+		:param objects: For commands that take objects as arguments. This set should contain the GUID or project path
+						of the Wwise objects being passed to the command to be executed. Name and ShortID are both
+						supported, but are NOT recommended, as they will only work with "global" types (e.g. State
+						Groups, Events, etc.). To use a Name, you will need to pass a tuple containing the object type
+						and the actual name; for ShortID, only "global" types (e.g. State Groups) will work.
 		:param platforms: An array of platform. Each platform is a GUID or a Name. Some commands can take
 						  platforms as arguments. Refer to the commands for more information.
 		:param value: A value to pass to the command. Some commands can take a value as an argument. **Can be Null,
@@ -84,8 +84,10 @@ class Commands:
 						args["objects"].append(wwise_object.guid)
 					case GUID() | ProjectPath() | Name():
 						args["objects"].append(wwise_object)
-					case ShortID():
+					case ShortID():  # "Global:0123456789"
 						args["objects"].append(f"Global:{wwise_object}")
+					case tuple():  # "Type:Name"
+						args["objects"].append(f"{wwise_object[0].value}:{wwise_object[1]}")
 					case _:
 						args["objects"].append(str(wwise_object))
 		if platforms is not None:
