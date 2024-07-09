@@ -51,18 +51,20 @@ class SwitchContainer:
 		Callback function for the `assignmentAdded` event.
 		:param kwargs: The event data.
 		"""
-		container = kwargs["switchContainer"]
-		container = WwiseObjectInfo(container["id"], container["name"], container["type"], container["path"])
-		child = kwargs["child"]
-		child = WwiseObjectInfo(child["id"], child["name"], child["type"], child["path"])
-		sync = kwargs["stateOrSwitch"]
-		sync = WwiseObjectInfo(sync["id"], sync["name"], sync["type"], sync["path"])
-		self.assignment_added(container, child, sync)
+		self.assignment_added(*self._on_assignment_changed(**kwargs))
 	
 	@callback
 	def _on_assignment_removed(self, **kwargs):
 		"""
 		Callback function for the `assignmentRemoved` event.
+		:param kwargs: The event data.
+		"""
+		self.assignment_removed(*self._on_assignment_changed(**kwargs))
+	
+	@staticmethod
+	def _on_assignment_changed(**kwargs) -> tuple[WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo]:
+		"""
+		Utility function for the `assignmentAdded` and `assignmentRemoved` events.
 		:param kwargs: The event data.
 		"""
 		container = kwargs["switchContainer"]
@@ -71,7 +73,7 @@ class SwitchContainer:
 		child = WwiseObjectInfo(child["id"], child["name"], child["type"], child["path"])
 		sync = kwargs["stateOrSwitch"]
 		sync = WwiseObjectInfo(sync["id"], sync["name"], sync["type"], sync["path"])
-		self.assignment_removed(container, child, sync)
+		return container, child, sync
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
 		"""
