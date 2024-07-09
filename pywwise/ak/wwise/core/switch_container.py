@@ -46,20 +46,22 @@ class SwitchContainer:
 		                                                self._on_assignment_removed, assignment_args)
 	
 	@callback
-	def _on_assignment_added(self, **kwargs):
+	def _on_assignment_added(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `assignmentAdded` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		self.assignment_added(*self._on_assignment_changed(**kwargs))
+		event(*self._on_assignment_changed(**kwargs))
 	
 	@callback
-	def _on_assignment_removed(self, **kwargs):
+	def _on_assignment_removed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `assignmentRemoved` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		self.assignment_removed(*self._on_assignment_changed(**kwargs))
+		event(*self._on_assignment_changed(**kwargs))
 	
 	@staticmethod
 	def _on_assignment_changed(**kwargs) -> tuple[WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo]:

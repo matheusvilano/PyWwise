@@ -44,9 +44,10 @@ class SoundBank:
 		                                               self._on_generation_done)
 	
 	@callback
-	def _on_generated(self, **kwargs):
+	def _on_generated(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `generated` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		sound_bank = kwargs["soundbank"]
@@ -58,18 +59,19 @@ class SoundBank:
 		banks_info = kwargs.get("bankInfo", list())
 		plugins_info = kwargs.get("pluginInfo", dict())
 		error_message = kwargs.get("error", "")
-		self.generated(SoundBankGenerationInfo(sound_bank, platform, language, bank_data,
-		                                       banks_info, plugins_info, error_message))
+		event(SoundBankGenerationInfo(sound_bank, platform, language, bank_data,
+		                              banks_info, plugins_info, error_message))
 	
 	@callback
-	def _on_generation_done(self, **kwargs):
+	def _on_generation_done(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `generationDone` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		items = [LogItem(severity=EnumStatics.from_value(ELogSeverity, item["severity"]), time=item["time"],
 		                 id=item["messageId"], description=item["message"]) for item in kwargs.get("logs", ())]
-		self.generation_done(tuple(items))
+		event(tuple(items))
 	
 	def convert_external_sources(self):
 		"""

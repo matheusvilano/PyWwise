@@ -36,13 +36,14 @@ class Debug:
 			self._assert_failed = self._client.subscribe("ak.wwise.debug.assertFailed", self._on_assert_failed)
 	
 	@callback
-	def _on_assert_failed(self, **kwargs):
+	def _on_assert_failed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `assertFailed` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		self.assert_failed(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
-		                   kwargs["callstack"], kwargs.get("message", ""))
+		event(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
+		      kwargs["callstack"], kwargs.get("message", ""))
 	
 	@debug_build_only
 	def enable_asserts(self, enable: bool) -> bool:

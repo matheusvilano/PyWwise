@@ -38,9 +38,10 @@ class UI:
 		                                                 selection_changed_options)
 	
 	@callback
-	def _on_selection_changed(self, **kwargs):
+	def _on_selection_changed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `selectionChanged` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		objects = list[WwiseObjectInfo]()
@@ -50,7 +51,7 @@ class UI:
 			typename = EObjectType.from_type_name(obj["type"])
 			path = ProjectPath(obj["path"])
 			objects.append(WwiseObjectInfo(guid, name, typename, path))
-		self.selection_changed(tuple(objects))
+		event(tuple(objects))
 	
 	def bring_to_foreground(self) -> bool:
 		"""

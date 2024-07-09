@@ -17,7 +17,6 @@ class CaptureLog:
 		"""
 		self._client = client
 		
-		# TODO: implement topics
 		self.item_added = _RefEvent(CaptureLogItem)
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_capturelog_itemadded.html
@@ -29,12 +28,12 @@ class CaptureLog:
 		self._item_added = self._client.subscribe("ak.wwise.core.profiler.captureLog.itemAdded", self._on_item_added)
 	
 	@callback
-	def _on_item_added(self, **kwargs):
+	def _on_item_added(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `itemAdded` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		#
 		item_type = EnumStatics.from_value(ECaptureLogItemType, str(kwargs["type"]).replace(" ", ""))
 		time_seconds = kwargs["time"]
 		description = kwargs["description"]
@@ -46,5 +45,5 @@ class CaptureLog:
 		game_obj_name = Name(kwargs["gameObjectName"]) if "gameObjectName" in kwargs else Name.get_null()
 		playing_id = PlayingID(kwargs["playingId"]) if "playingId" in kwargs else PlayingID.get_invalid()
 		error_code_name = kwargs.get("errorCodeName", "")
-		self.item_added(CaptureLogItem(item_type, time_seconds, description, severity, wwise_obj_id, wwise_obj_name,
-		                               wwise_obj_short, game_obj_id, game_obj_name, playing_id, error_code_name))
+		event(CaptureLogItem(item_type, time_seconds, description, severity, wwise_obj_id, wwise_obj_name,
+		                     wwise_obj_short, game_obj_id, game_obj_name, playing_id, error_code_name))
