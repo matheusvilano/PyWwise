@@ -16,8 +16,8 @@ class SwitchContainer:
 		"""
 		self._client = client
 		
-		assignment_event_args = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
-		                                    EReturnOptions.TYPE, EReturnOptions.PATH]}
+		assignment_args = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
+		                              EReturnOptions.TYPE, EReturnOptions.PATH]}
 		
 		self.assignment_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
 		"""
@@ -30,7 +30,7 @@ class SwitchContainer:
 		"""
 		
 		self._assignment_added = self._client.subscribe("ak.wwise.core.switchContainer.assignmentAdded",
-		                                                self._on_assignment_added, assignment_event_args)
+		                                                self._on_assignment_added, assignment_args)
 		
 		self.assignment_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
 		"""
@@ -43,7 +43,7 @@ class SwitchContainer:
 		"""
 		
 		self._assignment_added = self._client.subscribe("ak.wwise.core.switchContainer.assignmentRemoved",
-		                                                self._on_assignment_removed, assignment_event_args)
+		                                                self._on_assignment_removed, assignment_args)
 	
 	@callback
 	def _on_assignment_added(self, **kwargs):
