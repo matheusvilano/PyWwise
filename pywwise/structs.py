@@ -315,9 +315,9 @@ class CaptureLogItem:
 	
 	game_object_name: Name = Name.get_null()
 	"""The game object name for the entry."""
-
+	
 	playing_id: PlayingID = PlayingID.get_invalid()
 	"""The playing ID for the entry."""
-
+	
 	error_code_name: str = ""
 	"""The error code name for the entry (e.g. `ErrorCode_VoiceStarting`)."""
