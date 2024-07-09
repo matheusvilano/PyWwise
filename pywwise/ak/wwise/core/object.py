@@ -16,7 +16,6 @@ class Object:
 		self.attenuation_curve_changed: _RefEvent
 		self.attenuation_curve_link_changed: _RefEvent
 		self.child_added: _RefEvent
-		self.child_added: _RefEvent
 		self.child_removed: _RefEvent
 		self.created: _RefEvent
 		self.curve_changed: _RefEvent
