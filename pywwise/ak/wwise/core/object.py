@@ -58,9 +58,24 @@ class Object:
 		self._child_added = self._client.subscribe("ak.wwise.core.object.childAdded",
 		                                           self._on_child_added, return_options)
 		
+		self.child_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		\nSent when an object is removed from the children of another object.
+		\n*Event Data**:
+		\n- A WwiseObjectInfo instance representing the child object that got removed.
+		\n- A WwiseObjectInfo instance representing the former parent of the child object.
+		"""
+		
+		self._child_removed = self._client.subscribe("ak.wwise.core.object.childRemoved",
+		                                             self._on_child_removed, return_options)
+		
+		self.created = _RefEvent(WwiseObjectInfo)
+		
+		self._created = self._client.subscribe("ak.wwise.core.object.created",
+		                                       self._on_created, return_options)
+		
 		# TODO: implement topics
-		self.child_removed: _RefEvent
-		self.created: _RefEvent
 		self.curve_changed: _RefEvent
 		self.name_changed: _RefEvent
 		self.notes_changed: _RefEvent
@@ -90,7 +105,7 @@ class Object:
 	@staticmethod
 	def _on_attenuation_event(**kwargs) -> tuple[WwiseObjectInfo, EAttenuationCurveType]:
 		"""
-		Utility function for the `assignmentAdded` and `assignmentRemoved` events.
+		Utility function for the `attenuationCurveChanged` and `attenuationCurveLinkChanged` events.
 		:param kwargs: The event data.
 		:return: The event data, processed.
 		"""
@@ -109,6 +124,24 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
+		event(*self._on_child_event(**kwargs))
+		
+	@callback
+	def _on_child_removed(self, event, **kwargs):
+		"""
+		Callback function for the `childRemoved` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_child_event(**kwargs))
+	
+	@staticmethod
+	def _on_child_event(**kwargs) -> tuple[WwiseObjectInfo, WwiseObjectInfo]:
+		"""
+		Utility function for the `childAdded` and `childRemoved` events.
+		:param kwargs: The event data.
+		:return: The event data, processed.
+		"""
 		child = kwargs["child"]
 		child = WwiseObjectInfo(GUID(child["id"]),
 		                        Name(child["name"]),
@@ -119,7 +152,20 @@ class Object:
 		                         Name(parent["name"]),
 		                         EObjectType.from_type_name(parent["type"]),
 		                         ProjectPath(parent["path"]))
-		event(child, parent)
+		return child, parent
+	
+	@callback
+	def _on_created(self, event, **kwargs):
+		"""
+		Callback function for the `created` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = kwargs["object"]
+		event(WwiseObjectInfo(GUID(obj["id"]),
+		                      Name(obj["name"]),
+		                      EObjectType.from_type_name(obj["type"]),
+		                      ProjectPath(obj["path"])))
 	
 	def copy(self):
 		"""
