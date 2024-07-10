@@ -1,5 +1,9 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
+from pywwise.decorators import callback
+from pywwise.enums import EAttenuationCurveType, EReturnOptions
+from pywwise.statics import EnumStatics
+from pywwise.structs import WwiseObjectInfo
 
 
 class Object:
@@ -12,9 +16,36 @@ class Object:
 		"""
 		self._client = client
 		
+		return_options = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
+		                             EReturnOptions.TYPE, EReturnOptions.PATH]}
+		
+		self.attenuation_curve_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvechanged.html
+		\nSent when an attenuation curve is changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
+		\n- The type of the curve that changed.
+		"""
+		
+		self._attenuation_curve_changed = self._client.subscribe(
+			"ak.wwise.core.object.attenuationCurveChanged",
+			self._on_attenuation_curve_changed, return_options)
+		
+		self.attenuation_curve_link_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvelinkchanged.html
+		\nSent when an attenuation curve's link/unlink is changed. NOTE: this event often multi-triggers.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
+		\n- The type of the curve that had its link changed.
+		"""
+		
+		self._attenuation_curve_link_changed = self._client.subscribe(
+			"ak.wwise.core.object.attenuationCurveLinkChanged",
+			self._on_attenuation_curve_link_changed, return_options)
+		
 		# TODO: implement topics
-		self.attenuation_curve_changed: _RefEvent
-		self.attenuation_curve_link_changed: _RefEvent
 		self.child_added: _RefEvent
 		self.child_removed: _RefEvent
 		self.created: _RefEvent
@@ -25,6 +56,36 @@ class Object:
 		self.pre_deleted: _RefEvent
 		self.property_changed: _RefEvent
 		self.reference_changed: _RefEvent
+	
+	@callback
+	def _on_attenuation_curve_changed(self, event, **kwargs):
+		"""
+		Callback function for the `attenuationCurveChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_attenuation_event(**kwargs))
+	
+	@callback
+	def _on_attenuation_curve_link_changed(self, event, **kwargs):
+		"""
+		Callback function for the `attenuationCurveLinkChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_attenuation_event(**kwargs))
+	
+	@staticmethod
+	def _on_attenuation_event(**kwargs) -> tuple[WwiseObjectInfo, EAttenuationCurveType]:
+		"""
+		Utility function for the `assignmentAdded` and `assignmentRemoved` events.
+		:param kwargs: The event data.
+		:return: The event data, processed.
+		"""
+		attenuation = kwargs["attenuation"]
+		info = WwiseObjectInfo(attenuation["id"], attenuation["name"], attenuation["type"], attenuation["path"])
+		curve = EnumStatics.from_value(EAttenuationCurveType, kwargs["curveType"])
+		return info, curve
 	
 	def copy(self):
 		"""
