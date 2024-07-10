@@ -82,7 +82,7 @@ class SoundBank:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
 		Retrieves a SoundBank's inclusion list.
-		:param sound_bank: The GUID, name, or project path of the SoundBank to add an inclusion to.
+		:param sound_bank: The GUID, name, or project path of the SoundBank to get inclusions from.
 		:return: An array of SoundBank inclusions.
 		"""
 		args = {"soundbank": f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}"}
@@ -107,7 +107,7 @@ class SoundBank:
 		Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions'
 		argument modifies the SoundBank's inclusion list; 'inclusions' may be added to / removed from /
 		replace the SoundBank's inclusion list.
-		:param sound_bank: The ID of the SoundBank to add an inclusion to.
+		:param sound_bank: The GUID, name, or project path of the SoundBank to add an inclusion to.
 		:param operation: Determines how the 'inclusions' argument is used to modify the SoundBank's inclusion list.
 		:param inclusions: An array of SoundBank inclusions.
 		:return: Whether the call succeeded.
