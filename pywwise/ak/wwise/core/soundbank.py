@@ -1,5 +1,4 @@
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise.enums import EObjectType, EInclusionOperation, EInclusionFilter
 from pywwise.structs import ExternalSourceInfo, SoundBankInfo, SoundBankInclusion
 from pywwise.types import Name, ShortID, GUID, ProjectPath, SystemPath
