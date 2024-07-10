@@ -296,6 +296,8 @@ class SoundBankInfo:
     
 @_dataclass
 class SoundBankInclusion:
+	"""Represents a SoundBank inclusion row."""
+	
 	obj: GUID | tuple[EObjectType, Name] | ProjectPath
 	"""The GUID, ProjectPath, or Name of the object to add/remove from the SoundBank's inclusion list.
 	NOTE: Name is only supported for globally-unique names (e.g. Events, State Groups, etc.)."""
@@ -304,10 +306,12 @@ class SoundBankInclusion:
 	"""Specifies what relations are being included. Possible Values: events, structures, media"""
 	
 	def __hash__(self) -> int:
+		""":return: The instance, hashed."""
 		return hash(self.obj)
 	
 	@property
 	def dictionary(self) -> dict[str, list[str]]:
+		""":return: The instance, represented as a dictionary."""
 		as_dict = {"object": self.obj if not isinstance(self.obj, tuple) else f"{self.obj[0].get_type_name()}:{self.obj[1]}",
 		           "filter": list(set(self.filters))}
 		return as_dict
