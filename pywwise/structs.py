@@ -1,10 +1,9 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any
-from pywwise.types import (Name as _Name, GUID as _GUID, ShortID as _ShortID, GameObjectID as _GameObjectID,
-                           ProjectPath as _ProjectPath)
-from pywwise.enums import (EBasePlatform as _EBasePlatform, EObjectType as _EObjectType,
-                           EStartMode as _EStartMode, EReturnOptions as _EReturnOptions)
+from typing import Any as _Any, Literal as _Literal
+from pywwise.enums import EBasePlatform, EObjectType, \
+	EReturnOptions, EStartMode, EInclusionFilter
+from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
 @_dataclass
@@ -52,10 +51,10 @@ class Rect:
 class AuxSendValue:
 	"""Data-only class representing an aux send value."""
 	
-	listener: _GameObjectID
+	listener: GameObjectID
 	"""The ID of the associated listener."""
 	
-	aux_bus: _GUID | _Name | _ShortID
+	aux_bus: GUID | Name | ShortID
 	"""The GUID, name, or short ID of the Aux Bus."""
 	
 	control_value: float
@@ -69,10 +68,10 @@ class PlatformInfo:
 	name: str
 	"""The name of this platform."""
 	
-	base_platform: _EBasePlatform
+	base_platform: EBasePlatform
 	"""The base platform."""
 
-	guid: _GUID = None
+	guid: GUID = None
 	"""The GUID of this platform."""
 
 	def __hash__(self):
@@ -87,7 +86,7 @@ class ExternalSourceInfo:
 	input: _Path
 	"""The path where the external source's WAV file is located."""
 	
-	platform: _Name | _GUID
+	platform: Name | GUID
 	"""The name or GUID of the platform this external source is associated with."""
 	
 	output: _Path
@@ -105,19 +104,19 @@ class ExternalSourceInfo:
 class WwiseObjectInfo:
 	"""Data-only class storing core information about a Wwise object."""
 
-	guid: _GUID
+	guid: GUID
 	"""The GUID of the wwise object."""
 
-	name: _Name
+	name: Name
 	"""The name of the Wwise object. Depending on the type, it may be unique."""
 
-	type: _EObjectType
+	type: EObjectType
 	"""The Wwise object type."""
 
-	path: _ProjectPath
+	path: ProjectPath
 	"""The project path of the Wwise object."""
 
-	other: dict[_EReturnOptions | str, _Any] = _field(default_factory=dict)
+	other: dict[EReturnOptions | str, _Any] = _field(default_factory=dict)
 	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
 	EReturnOptions instead."""
 
@@ -134,11 +133,11 @@ class ContextMenuInfo:
 	base_path: str = None
 	"""Defines a forward-separated path for the parent sub menus. If empty, the menu is inserted at the first level."""
 
-	visible_for: set[_EObjectType] = None
+	visible_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
-	enabled_for: set[_EObjectType] = None
+	enabled_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
 
@@ -152,9 +151,9 @@ class ContextMenuInfo:
 		if self.base_path is not None:
 			as_dict["basePath"] = self.base_path
 		if self.visible_for is not None:
-			as_dict["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
+			as_dict["visibleFor"] = ",".join([obj.get_typeName() for obj in self.visible_for])
 		if self.enabled_for is not None:
-			as_dict["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
+			as_dict["enabledFor"] = ",".join([obj.get_typeName() for obj in self.enabled_for])
 		return as_dict
 
 
@@ -185,7 +184,7 @@ class CommandInfo:
 	"""Defines a human readable unique ID for the command. To reduce risk of ID conflicts, please use a concatenation of 
 	the author name, the product name and the command name (e.g. 'mv.pywwise.do_something)."""
 
-	display_name: str
+	displayName: str
 	"""Defines the name displayed in the user interface. (e.g. Do Something)"""
 
 	program: str = None
@@ -204,7 +203,7 @@ class CommandInfo:
 	"""Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script 
 	in a lua table array in wa_args.selected. Several values provided for the option."""
 
-	start_mode: _EStartMode = _EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
+	start_mode: EStartMode = EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
 	"""Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user 
 	interface."""
 
@@ -239,7 +238,7 @@ class CommandInfo:
 	def dictionary(self) -> dict[str, str | bool | ContextMenuInfo | MainMenuInfo]:
 		as_dict = dict()
 		as_dict["id"] = self.id
-		as_dict["displayName"] = self.display_name
+		as_dict["displayName"] = self.displayName
 		as_dict["redirectOutputs"] = self.redirect_outputs
 		as_dict["startMode"] = self.start_mode.value
 		if self.program is not None:
@@ -295,14 +294,21 @@ class SoundBankInfo:
             as_dict["inclusions"] = self.inclusions
         return as_dict
     
-class SoundBankInclusions:
-	obj: str
-	"""The ID (GUID) of the object to add to / remove from the SoundBank's inclusion list."""
+@_dataclass
+class SoundBankInclusion:
+	obj: GUID | tuple[EObjectType, Name] | ProjectPath
+	"""The GUID, ProjectPath, or Name of the object to add/remove from the SoundBank's inclusion list.
+	NOTE: Name is only supported for globally-unique names (e.g. Events, State Groups, etc.)."""
 	
-	filt: list[str]
+	filters: list[EInclusionFilter]
 	"""Specifies what relations are being included. Possible Values: events, structures, media"""
 	
+	def __hash__(self) -> int:
+		return hash(self.obj)
+	
+	@property
 	def dictionary(self) -> dict[str, list[str]]:
-		as_dict = {"object": self.obj, "filter": self.filt}
+		as_dict = {"object": self.obj if not isinstance(self.obj, tuple) else f"{self.obj[0].get_type_name()}:{self.obj[1]}",
+		           "filter": list(set(self.filters))}
 		return as_dict
 	

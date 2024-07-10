@@ -1291,3 +1291,30 @@ class ECommand(_StrEnum):
 			if member == type_name:
 				return member
 		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
+
+
+class EInclusionOperation(_StrEnum):
+	"""An enumeration of inclusion operations. Useful when getting/setting inclusions in SoundBanks."""
+	
+	ADD = "add"
+	"""`Add` operation."""
+	
+	REMOVE = "remove"
+	"""`Remove` operation."""
+	
+	REPLACE = "replace"
+	"""`Replace` operation."""
+
+
+class EInclusionFilter(_StrEnum):
+	"""An enumeration of inclusion filters. Useful when getting/setting inclusions in SoundBanks."""
+	
+	EVENTS = "events"
+	"""Inclusion filter for events."""
+	
+	STRUCTURES = "structures"
+	"""Inclusion filter for structures (e.g. the hierarchy and assignments of a Switch Container)."""
+	
+	MEDIA = "media"
+	"""Inclusion filter for media (the actual WAV/WEM files that are played at runtime)."""
+	

@@ -1,7 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
 
-from pywwise.enums import EObjectType
-from pywwise.structs import ExternalSourceInfo, SoundBankInfo, SoundBankInclusions
+from pywwise.enums import EObjectType, EInclusionOperation, EInclusionFilter
+from pywwise.structs import ExternalSourceInfo, SoundBankInfo, SoundBankInclusion
 from pywwise.types import Name, ShortID, GUID, ProjectPath, SystemPath
 
 
@@ -101,8 +101,8 @@ class SoundBank:
 		args = {"files": [str(file) for file in files]}
 		return self._client.call("ak.wwise.core.soundbank.processDefinitionFiles", args) is not None
 	
-	def set_inclusions(self, sound_bank: Name | GUID | ProjectPath, operation: str,
-	                   inclusions: set[SoundBankInclusions]):
+	def set_inclusions(self, sound_bank: Name | GUID | ProjectPath, operation: EInclusionOperation,
+	                   inclusions: tuple[SoundBankInclusion]) -> bool:
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_setinclusions.html \n
         Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions'
@@ -113,6 +113,6 @@ class SoundBank:
         :param inclusions: An array of SoundBank inclusions.
         :return: Whether the call succeeded.
         """
-		args = {"soundbank": f"{EObjectType.SOUND_BANK.value}:{sound_bank}", "operation": operation,
-		        "inclusions": inclusions}
+		args = {"soundbank": f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}" if isinstance(sound_bank, Name) else sound_bank,
+		        "operation": operation, "inclusions": [inclusion.dictionary for inclusion in inclusions]}
 		return self._client.call("ak.wwise.core.soundbank.setInclusions", args) is not None

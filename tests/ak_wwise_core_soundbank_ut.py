@@ -1,6 +1,9 @@
 import unittest
 import pywwise
-from pywwise.types import SystemPath
+from pywwise.enums import *
+from pywwise.types import *
+from pywwise.structs import *
+from constants import *
 
 ak = pywwise.new()
 
@@ -14,13 +17,12 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 		self.assertIsNotNone(results)
 	
 	def test__generate(self):
-		sound_bank_list = [r"\SoundBanks\Default Work Unit\SoundBank_Test"]
+		sound_bank_list = [{"name": SOUNDBANK__NAME}]
 		results = ak.wwise.core.soundbank.generate(sound_bank_list)
 		self.assertIsNotNone(results)
 	
 	def test__get_inclusions(self):
-		sound_bank = r"\SoundBanks\Default Work Unit\SoundBank_Test"
-		results = ak.wwise.core.soundbank.get_inclusions(sound_bank)
+		results = ak.wwise.core.soundbank.get_inclusions(SOUNDBANK__GUID)
 		self.assertIsNotNone(results)
 	
 	def test__process_definition_files(self):
@@ -29,9 +31,9 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 		self.assertIsNotNone(results)
 	
 	def test__set_inclusions(self):
-		sound_bank = r"\SoundBanks\Default Work Unit\SoundBank_Test"
-		operation = "add"
-		inclusions = [{"Event:Event_Test": "event"}]
-		results = ak.wwise.core.soundbank.set_inclusions(sound_bank, operation,
+		soundbank = SOUNDBANK__GUID
+		operation = EInclusionOperation.ADD
+		inclusions = (SoundBankInclusion(EVENT__GUID, [EInclusionFilter.EVENTS, EInclusionFilter.STRUCTURES, EInclusionFilter.MEDIA]),)
+		results = ak.wwise.core.soundbank.set_inclusions(soundbank, operation,
 		                                                 inclusions)
 		self.assertIsNotNone(results)
