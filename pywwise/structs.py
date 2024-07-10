@@ -1,8 +1,9 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Literal as _Literal
-from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
-	EReturnOptions, EStartMode
+from pywwise.enums import EAudioObjectOptions, EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, \
+	EObjectType, \
+	EReturnOptions, ESpeakerBitMask, EStartMode
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
@@ -359,3 +360,56 @@ class SoundBankGenerationInfo:
 	
 	error_message: str = ""
 	"""The error message, if an error occurred. Only present if an error occurred."""
+
+
+@_dataclass
+class AudioObjectMetadata:
+	""" Contains information about the metadata associated with an audio object."""
+	
+	metadata_class_id: int
+	"""The class ID of the metadata. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	
+	source_short_id: ShortID
+	"""The short ID of the source object. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	
+	metadata_name: Name = _field(default=Name.get_null())
+	"""The name of the metadata."""
+	
+	source_id: GUID = _field(default=GUID.get_zero())
+	"""The ID (GUID) of the source object."""
+	
+	source_name: Name = _field(default=Name.get_null())
+	"""The name of the source object."""
+	
+	def __hash__(self):
+		""":return: The AudioObjectMetadata hash."""
+		return hash(self.source_short_id)
+
+
+@_dataclass
+class AudioObjectInfo:
+	"""Contains information about an audio object when captured in the profiler."""
+	
+	audio_object_id: int
+	"""The ID of the Audio Object.Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
+	
+	bus_pipeline_id: int
+	"""The Pipeline ID of the Bus instance. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	
+	instigator_pipeline_id: int
+	"""The pipeline ID of the instigator from which the Audio Object originates. Can be either a Bus instance or a
+	Voice. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	
+	effect_class_id: int
+	"""The Class ID of the effect after which the Audio Object was captured. Usage of AK_INVALID_UNIQUE_ID constant
+	means that this Audio Object was captured before applying the first effect. Unsigned Integer 32-bit.
+	Range: [0,4294967295]"""
+	
+	other: dict[EAudioObjectOptions | str, _Any] = _field(default_factory=dict)
+	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
+	EAudioObjectOptions instead."""
+	
+	def __hash__(self):
+		""":return: The AudioObject hash."""
+		return hash(self.audio_object_id)
+	

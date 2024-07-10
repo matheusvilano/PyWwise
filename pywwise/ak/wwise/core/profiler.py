@@ -1,6 +1,9 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
+from pywwise.enums import EDataTypes, EAudioObjectOptions, ETimeCursor
+from pywwise.structs import AudioObjectInfo, AudioObjectMetadata
+from pywwise.types import GUID, Name, ShortID
 
 
 class Profiler:
@@ -21,16 +24,82 @@ class Profiler:
 		self.state_changed: _RefEvent
 		self.switch_changed: _RefEvent
 	
-	def enable_profiler_data(self):
+	def enable_profiler_data(self, data_types: set[tuple[EDataTypes, bool]] = None) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_enableprofilerdata.html \n
 		Specifies the type of data you want to capture. Overrides the user's profiler settings.
+		:param data_types: Tuple that contains the data type you want to capture via an enum and if profiler capture
+		will be enabled for said data type (Defaults to true).
+		:return: It returns a bool indicating whether the call was successful or not.
 		"""
+		if data_types is None:
+			return False
+		
+		args = {"dataTypes": list()}
+		
+		for data_type in data_types:
+			args["dataTypes"].append({"dataType": data_type[0], "enabled": data_type[1]})
+		
+		return self._client.call("ak.wwise.core.profiler.enableProfilerData", args) is not None
 	
-	def get_audio_objects(self):
+	def get_audio_objects(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
+	                      return_options: set[EAudioObjectOptions] = None) -> tuple[AudioObjectInfo, ...]:
 		"""
-		Retrieves the Audio Objects at a specific profiler capture time.
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
+		Retrieves the Audio Objects at a specific profiler capture time. \n
+		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or string. The int is the ime to query.
+					 The string can have two values: user or capture. The User Time Cursor is the one that can
+					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a Bus instance for
+		:param return_options: Members to return for each Audio Object. Defaults to Audio Object ID, Bus Pipeline ID,
+							   Instigator Pipeline ID and Effect Class ID.
+		:return: For each profiled audio object, an AudioObjectInfo containing an object's ID, pipeline ID,
+				 instigator pipeline ID, effect class ID and a dictionary containing additional information
+				 (requested via `return_options`). When accessing the values in the dictionary, use the
+				 EAudioObjectOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-	
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		if bus_pipeline_id is not None:
+			args["busPipelineId"] = bus_pipeline_id
+		
+		returns = (EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
+		           EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID)
+		options = {"return": list(returns)}
+		
+		if return_options is not None:
+			options["return"].extend(list(return_options))
+		
+		results = self._client.call("ak.wwise.core.profiler.getAudioObjects", args, options=options)
+		results = results.get("return", list[dict]())
+		
+		objects = list[AudioObjectInfo]()
+		
+		for result in results:
+			info = AudioObjectInfo(result[EAudioObjectOptions.AUDIO_OBJECT_ID],
+			                       result[EAudioObjectOptions.BUS_PIPELINE_ID],
+			                       result[EAudioObjectOptions.INSTIGATOR_PIPELINE_ID],
+			                       result[EAudioObjectOptions.EFFECT_CLASS_ID],
+			                       {k: v for k, v in result.items()
+			                        if k not in returns and k != EAudioObjectOptions.METADATA})
+			if result.get(EAudioObjectOptions.METADATA) is not None:
+				info.other[EAudioObjectOptions.METADATA] = list()
+			for meta in result.get(EAudioObjectOptions.METADATA, ()):
+				info.other[EAudioObjectOptions.METADATA].append(
+					AudioObjectMetadata(meta.get("metadataClassID", -1),
+					                    meta.get("sourceShortID", ShortID.get_invalid()),
+					                    meta.get("metadataName", Name.get_null()),
+					                    meta.get("sourceID", GUID.get_zero()),
+					                    meta.get("sourceName", Name.get_null())))
+			objects.append(info)
+		
+		return tuple(objects)
+		
 	def get_busses(self):
 		"""
 		Retrieves the busses at a specific profiler capture time.
