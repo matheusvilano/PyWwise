@@ -1465,3 +1465,29 @@ class EAttenuationCurveType(_StrEnum):
 	
 	FOCUS_USAGE = "FocusUsage"
 	"""Focus"""
+
+
+class EInclusionOperation(_StrEnum):
+	"""An enumeration of inclusion operations. Useful when getting/setting inclusions in SoundBanks."""
+	
+	ADD = "add"
+	"""`Add` operation."""
+	
+	REMOVE = "remove"
+	"""`Remove` operation."""
+	
+	REPLACE = "replace"
+	"""`Replace` operation."""
+
+
+class EInclusionFilter(_StrEnum):
+	"""An enumeration of inclusion filters. Useful when getting/setting inclusions in SoundBanks."""
+	
+	EVENTS = "events"
+	"""Inclusion filter for events."""
+	
+	STRUCTURES = "structures"
+	"""Inclusion filter for structures (e.g. the hierarchy and assignments of a Switch Container)."""
+	
+	MEDIA = "media"
+	"""Inclusion filter for media (the actual WAV/WEM files that are played at runtime)."""
