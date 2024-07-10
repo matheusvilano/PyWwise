@@ -97,7 +97,7 @@ class ExternalSourceInfo:
 	def dictionary(self) -> dict[str, str]:
 		as_dict = {"input": self.input, "platform": self.platform}
 		if self.output is not None:
-			as_dict['output'] = self.output
+			as_dict["output"] = self.output
 		return as_dict
 
 
@@ -295,14 +295,14 @@ class SoundBankInfo:
             as_dict["inclusions"] = self.inclusions
         return as_dict
     
-class Inclusions:
-	object: str
+class SoundBankInclusions:
+	obj: str
 	"""The ID (GUID) of the object to add to / remove from the SoundBank's inclusion list."""
 	
-	filter: list[str]
+	filt: list[str]
 	"""Specifies what relations are being included. Possible Values: events, structures, media"""
 	
 	def dictionary(self) -> dict[str, list[str]]:
-		as_dict = {"object": self.object, "filter": self.filter}
+		as_dict = {"object": self.obj, "filter": self.filt}
 		return as_dict
 	

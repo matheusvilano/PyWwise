@@ -1,7 +1,8 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import (ExternalSourceInfo as _ExternalSourceInfo, SoundBankInfo as _SoundBankInfo, Inclusions)
-from pywwise.types import (Name as _Name, ShortID as _ShortID, GUID as _GUID, ProjectPath as _ProjectPath,
-                           SystemPath as _SystemPath)
+
+from pywwise.enums import EObjectType
+from pywwise.structs import ExternalSourceInfo, SoundBankInfo, SoundBankInclusions
+from pywwise.types import Name, ShortID, GUID, ProjectPath, SystemPath
 
 
 class SoundBank:
@@ -14,7 +15,7 @@ class SoundBank:
         """
 		self._client = client
 	
-	def convert_external_sources(self, sources: set[_ExternalSourceInfo]) -> bool:
+	def convert_external_sources(self, sources: set[ExternalSourceInfo]) -> bool:
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
         Converts the external sources files for the project as detailed in the wsources file, and places
@@ -33,18 +34,18 @@ class SoundBank:
 		
 		for source in sources:
 			args["sources"].append(source.dictionary)
-			
-		return self._client.call("ak.wwise.core.soundbank.convertExternalSources", args) is not None
 		
-	def generate(self, soundbanks: set[_SoundBankInfo] = None, platforms: set[_GUID | _Name] = None,
-	             languages: set[_GUID | _Name] = None, clear_audio_file_cache: bool = False,
+		return self._client.call("ak.wwise.core.soundbank.convertExternalSources", args) is not None
+	
+	def generate(self, sound_banks: set[SoundBankInfo] = None, platforms: set[GUID | Name] = None,
+	             languages: set[GUID | Name] = None, clear_audio_file_cache: bool = False,
 	             write_to_disk: bool = False, rebuild_init_bank: bool = False) -> dict:
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
         Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
         do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
         SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
-        :param soundbanks: A list of soundbanks to generate.
+        :param sound_banks: A list of SoundBanks to generate.
         :param platforms: A list of platforms to generate. By default, all platforms will be generated.
         :param languages: A list of languages to generate. By default, all languages will be generated. To skip
         languages, pass an empty set (`set()`) as the argument.
@@ -57,8 +58,8 @@ class SoundBank:
         """
 		args = dict()
 		
-		if soundbanks is not None:
-			args["soundbanks"] = [soundbank.dictionary for soundbank in soundbanks]
+		if sound_banks is not None:
+			args["soundbanks"] = [sound_bank.dictionary for sound_bank in sound_banks]
 		else:
 			args["rebuildSoundBanks"] = True
 		
@@ -78,18 +79,18 @@ class SoundBank:
 		log = self._client.call("ak.wwise.core.soundbank.generate", args).get("logs")
 		return log if log is not None else dict()
 	
-	def get_inclusions(self, soundbank: _Name | _ShortID | _GUID | _ProjectPath):
+	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath):
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
         Retrieves a SoundBank's inclusion list.
-        :param soundbank: The ID of the SoundBank to add an inclusion to.
+        :param sound_bank: The ID of the SoundBank to add an inclusion to.
         :return: An array of SoundBank inclusions.
         """
-		args = {"soundbank": soundbank}
+		args = {"soundbank": f"{EObjectType.SOUND_BANK.value}:{sound_bank}"}
 		results = self._client.call("ak.wwise.core.soundbank.getInclusions", args)
 		return results.get("object"), results.get("filter")
 	
-	def process_definition_files(self, files: set[_SystemPath]) -> bool:
+	def process_definition_files(self, files: set[SystemPath]) -> bool:
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_processdefinitionfiles.html \n
         Imports SoundBank definitions from the specified file. Multiple files can be specified. See the
@@ -100,17 +101,18 @@ class SoundBank:
 		args = {"files": [str(file) for file in files]}
 		return self._client.call("ak.wwise.core.soundbank.processDefinitionFiles", args) is not None
 	
-	def set_inclusions(self, soundbank: _Name | _ShortID | _GUID | _ProjectPath, operation: str, inclusions: set[Inclusions]):
+	def set_inclusions(self, sound_bank: Name | GUID | ProjectPath, operation: str,
+	                   inclusions: set[SoundBankInclusions]):
 		"""
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_setinclusions.html \n
         Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions'
         argument modifies the SoundBank's inclusion list; 'inclusions' may be added to / removed from /
         replace the SoundBank's inclusion list.
-        :param soundbank: The ID of the SoundBank to add an inclusion to.
+        :param sound_bank: The ID of the SoundBank to add an inclusion to.
         :param operation: Determines how the 'inclusions' argument is used to modify the SoundBank's inclusion list.
         :param inclusions: An array of SoundBank inclusions.
         :return: Whether the call succeeded.
         """
-		args = {"soundbank": soundbank, "operation": operation, "inclusions": inclusions}
+		args = {"soundbank": f"{EObjectType.SOUND_BANK.value}:{sound_bank}", "operation": operation,
+		        "inclusions": inclusions}
 		return self._client.call("ak.wwise.core.soundbank.setInclusions", args) is not None
-		
