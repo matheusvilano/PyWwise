@@ -1,9 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import ELogSeverity, EObjectType, EReturnOptions, EInclusionOperation, EInclusionFilter
+from pywwise.enums import ELogSeverity, EObjectType, EReturnOptions, EInclusionOperation
 from pywwise.statics import EnumStatics
-from pywwise.structs import LogItem, SoundBankData, SoundBankGenerationInfo, WwiseObjectInfo, ExternalSourceInfo, SoundBankInfo, SoundBankInclusion
+from pywwise.structs import LogItem, SoundBankData, SoundBankGenerationInfo, WwiseObjectInfo, ExternalSourceInfo, \
+	SoundBankInfo, SoundBankInclusion
 from pywwise.types import GUID, Name, ProjectPath, ShortID, SystemPath
 
 
@@ -78,16 +79,16 @@ class SoundBank:
 	
 	def convert_external_sources(self, sources: set[ExternalSourceInfo]) -> bool:
 		"""
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
-    Converts the external sources files for the project as detailed in the wsources file, and places
-    them into either the default folder, or the folder specified by the output argument. External
-    Sources are a special type of source that you can put in a Sound object in Wwise. It indicates
-    that the real sound data will be provided at run time. While External Source conversion is also
-    triggered by SoundBank generation, this operation can be used to process sources not contained in
-    the Wwise Project. Please refer to Wwise SDK help page "Integrating External Sources".
-    :param sources: An array of external sources files and corresponding arguments.
-    :return: Whether the call succeeded.
-    """
+	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
+	    Converts the external sources files for the project as detailed in the wsources file, and places
+	    them into either the default folder, or the folder specified by the output argument. External
+	    Sources are a special type of source that you can put in a Sound object in Wwise. It indicates
+	    that the real sound data will be provided at run time. While External Source conversion is also
+	    triggered by SoundBank generation, this operation can be used to process sources not contained in
+	    the Wwise Project. Please refer to Wwise SDK help page "Integrating External Sources".
+	    :param sources: An array of external sources files and corresponding arguments.
+	    :return: Whether the call succeeded.
+	    """
 		if sources is None:
 			return False
 		
@@ -102,21 +103,21 @@ class SoundBank:
 	             languages: set[GUID | Name] = None, clear_audio_file_cache: bool = False,
 	             write_to_disk: bool = False, rebuild_init_bank: bool = False) -> dict:
 		"""
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
-    Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
-    do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
-    SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
-    :param sound_banks: A list of SoundBanks to generate.
-    :param platforms: A list of platforms to generate. By default, all platforms will be generated.
-    :param languages: A list of languages to generate. By default, all languages will be generated. To skip
-    languages, pass an empty set (`set()`) as the argument.
-    :param clear_audio_file_cache: Deletes the content of the Wwise audio file cache folder prior to converting
-    source files and generating SoundBanks, which ensures that all source files are reconverted.
-    :param write_to_disk: Will write the sound bank and info file to disk.
-    :param rebuild_init_bank: Use this option to force a rebuild of the Init bank for each specified platform.
-    :return: The SoundBank generation log, as a dictionary. An empty dictionary means the log could not be
-    retrieved.
-    """
+	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
+	    Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
+	    do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
+	    SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
+	    :param sound_banks: A list of SoundBanks to generate.
+	    :param platforms: A list of platforms to generate. By default, all platforms will be generated.
+	    :param languages: A list of languages to generate. By default, all languages will be generated. To skip
+	    languages, pass an empty set (`set()`) as the argument.
+	    :param clear_audio_file_cache: Deletes the content of the Wwise audio file cache folder prior to converting
+	    source files and generating SoundBanks, which ensures that all source files are reconverted.
+	    :param write_to_disk: Will write the sound bank and info file to disk.
+	    :param rebuild_init_bank: Use this option to force a rebuild of the Init bank for each specified platform.
+	    :return: The SoundBank generation log, as a dictionary. An empty dictionary means the log could not be
+	    retrieved.
+	    """
 		args = dict()
 		
 		if sound_banks is not None:
@@ -174,6 +175,8 @@ class SoundBank:
 		:param inclusions: An array of SoundBank inclusions.
 		:return: Whether the call succeeded.
 		"""
-		args = {"soundbank": f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}" if isinstance(sound_bank, Name) else sound_bank,
-		        "operation": operation, "inclusions": [inclusion.dictionary for inclusion in inclusions]}
+		if isinstance(sound_bank, Name):
+			sound_bank = f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}"
+		args = {"soundbank": sound_bank, "operation": operation,
+		        "inclusions": [inclusion.dictionary for inclusion in inclusions]}
 		return self._client.call("ak.wwise.core.soundbank.setInclusions", args) is not None
