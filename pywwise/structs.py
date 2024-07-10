@@ -1,7 +1,7 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Literal as _Literal
-from pywwise.enums import EBasePlatform, EObjectType, \
+from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode, EInclusionFilter
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
@@ -43,7 +43,7 @@ class Rect:
 	
 	@staticmethod
 	def get_zero():
-		""":return: A captureRect instance with x, y, width, and height all set to 0."""
+		""":return: A CaptureRect instance with x, y, width, and height all set to 0."""
 		return Rect(0, 0, 0, 0)
 
 
@@ -73,7 +73,7 @@ class PlatformInfo:
 
 	guid: GUID = None
 	"""The GUID of this platform."""
-
+	
 	def __hash__(self):
 		""":return: The PlatformInfo hash."""
 		return hash(self.name)
@@ -103,23 +103,23 @@ class ExternalSourceInfo:
 @_dataclass
 class WwiseObjectInfo:
 	"""Data-only class storing core information about a Wwise object."""
-
+	
 	guid: GUID
 	"""The GUID of the wwise object."""
-
+	
 	name: Name
 	"""The name of the Wwise object. Depending on the type, it may be unique."""
-
+	
 	type: EObjectType
 	"""The Wwise object type."""
-
+	
 	path: ProjectPath
 	"""The project path of the Wwise object."""
-
+	
 	other: dict[EReturnOptions | str, _Any] = _field(default_factory=dict)
 	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
 	EReturnOptions instead."""
-
+	
 	def __hash__(self):
 		""":return: The WwiseObjectInfo hash."""
 		return hash(self.guid)
@@ -129,46 +129,46 @@ class WwiseObjectInfo:
 class ContextMenuInfo:
 	"""Data-only class storing information about a command's context menu, which is part of an add-on command's
 	arguments."""
-
+	
 	base_path: str = None
 	"""Defines a forward-separated path for the parent sub menus. If empty, the menu is inserted at the first level."""
-
+	
 	visible_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
-
+	
 	enabled_for: set[EObjectType] = None
 	"""Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects 
 	Reference for the list of types supported. If empty, any type is allowed."""
-
+	
 	def __hash__(self):
 		""":return: The ContextMenuInfo hash."""
 		return hash(str(self.__dict__))
-
+	
 	@property
 	def dictionary(self) -> dict[str, str]:
 		as_dict = dict()
 		if self.base_path is not None:
 			as_dict["basePath"] = self.base_path
 		if self.visible_for is not None:
-			as_dict["visibleFor"] = ",".join([obj.get_typeName() for obj in self.visible_for])
+			as_dict["visibleFor"] = ",".join([obj.get_type_name() for obj in self.visible_for])
 		if self.enabled_for is not None:
-			as_dict["enabledFor"] = ",".join([obj.get_typeName() for obj in self.enabled_for])
+			as_dict["enabledFor"] = ",".join([obj.get_type_name() for obj in self.enabled_for])
 		return as_dict
 
 
 @_dataclass
 class MainMenuInfo:
 	"""Data-only class storing information about a command's main menu, which is part of an add-on command's argument"""
-
+	
 	main_menu_base_path: str
 	"""Defines a forward-separated path for the parent sub menus. It must at least define one level, which is associated 
 	to the top menu."""
-
+	
 	def __hash__(self):
 		""":return: The ContextMenuInfo hash."""
 		return hash(str(self.__dict__))
-
+	
 	@property
 	def dictionary(self) -> dict[str, str]:
 		as_dict = dict()
@@ -179,26 +179,26 @@ class MainMenuInfo:
 @_dataclass
 class CommandInfo:
 	"""Data-only class storing information about an add-on command."""
-
+	
 	id: str
 	"""Defines a human readable unique ID for the command. To reduce risk of ID conflicts, please use a concatenation of 
 	the author name, the product name and the command name (e.g. 'mv.pywwise.do_something)."""
-
-	displayName: str
+	
+	display_name: str
 	"""Defines the name displayed in the user interface. (e.g. Do Something)"""
-
+	
 	program: str = None
 	"""Defines the program or script to run when the command is executed. Arguments are specified in 'args'. Note that 
 	common directories variables can be used, such as ${CurrentCommandDirectory}."""
-
+	
 	lua_script: str = None
 	"""Defines a lua script file path to run inside Wwise process when the command is executed. Arguments are specified 
 	in 'args'. Note that common directories variables can be used, such as ${CurrentCommandDirectory}."""
-
+	
 	lua_paths: list[str] = None
 	"""Defines an array of paths to be used to load additional lua scripts. Here is an example of a lua path 
 	C:/path_to_folder/?.lua. Note that common directories variables can be used, such as ${CurrentCommandDirectory}."""
-
+	
 	lua_selected_return: list[str] = None
 	"""Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script 
 	in a lua table array in wa_args.selected. Several values provided for the option."""
@@ -206,39 +206,39 @@ class CommandInfo:
 	start_mode: EStartMode = EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
 	"""Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user 
 	interface."""
-
+	
 	args: str = None
 	"""Defines the arguments. Refer to the documentation for the list of supported built-in variables. Note that in the 
 	event of a multiple selection, the variables are expanded based on the startMode field. Note that common directories 
 	variables can be used, such as ${CurrentCommandDirectory}."""
-
+	
 	cwd: str = None
 	"""Defines the current working directory to execute the program. Note that common directories variables can be used, 
 	such as ${CurrentCommandDirectory}."""
-
+	
 	default_shortcut: str = None
 	"""Defines the shortcut to use by default for this command. If the shortcut conflicts, it won't be used. This 
 	shortcut can be changed in the Keyboard Shortcut Manager."""
-
+	
 	redirect_outputs: bool = False
 	"""Defines if the standard output streams of the program (stdout + stderr) should be redirected and logged to Wwise 
 	on termination. The value is of boolean type and false by default."""
-
+	
 	context_menu: ContextMenuInfo = None
 	"""If present, specify how the command is added to Wwise context menus. If empty, no context menu is added."""
-
+	
 	main_menu: MainMenuInfo = None
 	"""If present, specify how the command is added to Wwise main menus. If empty, no main menu entry is added."""
-
+	
 	def __hash__(self):
 		""":return: The CommandInfo ID hash."""
 		return hash(self.id)
-
+	
 	@property
 	def dictionary(self) -> dict[str, str | bool | ContextMenuInfo | MainMenuInfo]:
 		as_dict = dict()
 		as_dict["id"] = self.id
-		as_dict["displayName"] = self.displayName
+		as_dict["displayName"] = self.display_name
 		as_dict["redirectOutputs"] = self.redirect_outputs
 		as_dict["startMode"] = self.start_mode.value
 		if self.program is not None:
@@ -264,20 +264,22 @@ class CommandInfo:
 
 @_dataclass
 class SoundBankInfo:
+    """A SoundBank's information."""
+  
     name: str
-    """The name of the SoundBank to generate, a temporary SoundBank will be created if the SoundBank doesn't exists."""
+    """The name of the SoundBank."""
 
     events: list[str] = None
-    """List of events to include in this SoundBank. Not required if the bank already exists."""
+    """List of events included in this SoundBank."""
 
     aux_busses: list[str] = None
-    """List of AuxBus to include in this SoundBank."""
+    """List of AuxBus included in this SoundBank."""
 
     inclusions: list[str] = None
-    """List of inclusion type to use for this SoundBank. Not required if the bank already exists."""
+    """Inclusion type to use for this SoundBank."""
 
     rebuild: bool = False
-    """Force rebuild of this particular SoundBank. Default value: false."""
+    """Force rebuild of this particular SoundBank."""
 
     def __hash__(self) -> int:
         """:return: The SoundBankInfo hash."""
@@ -285,6 +287,7 @@ class SoundBankInfo:
 
     @property
     def dictionary(self) -> dict[str, bool | str | list[str]]:
+        """:return: The instance, represented as a dictionary."""
         as_dict = {"name": self.name, "rebuild": self.rebuild}
         if self.events is not None:
             as_dict["events"] = self.events
@@ -293,6 +296,7 @@ class SoundBankInfo:
         if self.inclusions is not None:
             as_dict["inclusions"] = self.inclusions
         return as_dict
+    
     
 @_dataclass
 class SoundBankInclusion:
@@ -316,3 +320,108 @@ class SoundBankInclusion:
 		           "filter": list(set(self.filters))}
 		return as_dict
 	
+  
+@_dataclass
+class LogItem:
+	"""A log item."""
+	
+	severity: ELogSeverity
+	"""The severity of the message."""
+	
+	time: int
+	"""Number of seconds elapsed since midnight (00:00:00), January 1, 1970, Coordinated Universal Time (UTC),
+	according to the system clock."""
+	
+	id: str
+	"""The message ID for the log item."""
+	
+	description: str
+	"""The description of the log item."""
+
+
+@_dataclass
+class SwitchContainerAssignment:
+	"""Represents a switch container assigned (the relationship between a child object and a state/switch)."""
+	
+	child: GUID
+	"""The child object of a Switch Container, which is linked (assigned) to a State or Switch value."""
+	
+	state_or_switch: GUID
+	"""The State or Switch value to switch the child object is linked (assigned) to."""
+
+
+@_dataclass
+class CaptureLogItem:
+	"""A console log item."""
+	
+	type: ECaptureLogItemType
+	"""The type of the capture log item."""
+	
+	time: int
+	"""Number of seconds elapsed since midnight (00:00:00), January 1, 1970, Coordinated Universal Time (UTC),
+	according to the system clock."""
+	
+	description: str
+	"""The description of the log item."""
+	
+	severity: ECaptureLogSeverity
+	"""The severity of the message."""
+	
+	wwise_object_id: GUID = GUID.get_zero()
+	"""The GUID of the object for the entry."""
+	
+	wwise_object_name: Name = Name.get_null()
+	"""The name of the object for the entry."""
+	
+	wwise_object_short: ShortID = ShortID.get_invalid()
+	"""The short ID of the object for the entry."""
+	
+	game_object_id: GameObjectID = GameObjectID.get_invalid()
+	"""The game object ID for the entry."""
+	
+	game_object_name: Name = Name.get_null()
+	"""The game object name for the entry."""
+	
+	playing_id: PlayingID = PlayingID.get_invalid()
+	"""The playing ID for the entry."""
+	
+	error_code_name: str = ""
+	"""The error code name for the entry (e.g. `ErrorCode_VoiceStarting`)."""
+
+
+@_dataclass
+class SoundBankData:
+	"""A dataclass that represents a SoundBank (the actual data)."""
+	
+	b64data: str
+	"""Data of the SoundBank encoded in base64."""
+	
+	size: int
+	"""Size of the SoundBank data when decoded."""
+
+
+@_dataclass
+class SoundBankGenerationInfo:
+	"""Contains information about a SoundBank's generation."""
+	
+	sound_bank: WwiseObjectInfo
+	"""The generated SoundBank."""
+	
+	platform: Name
+	"""The name of the platform for which the SoundBank was generated."""
+	
+	language: Name = Name.get_null()
+	"""The name of the language for which the SoundBank was generated. Only present when generating a SoundBank for a
+	specific language."""
+	
+	bank_data: SoundBankData = _field(default=SoundBankData)
+	"""SoundBank data object containing the actual data encoded in base64 and the size."""
+	
+	banks_info: list[dict[str, _Any]] = _field(default_factory=list)
+	"""All the info for the generated SoundBank."""
+	
+	plugins_info: dict[str, str | list[dict[str, str]]] = _field(default_factory=dict)
+	"""PluginInfo file info."""
+	
+	error_message: str = ""
+	"""The error message, if an error occurred. Only present if an error occurred."""
