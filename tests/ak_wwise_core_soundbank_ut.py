@@ -11,8 +11,7 @@ ak = pywwise.new()
 class AkWwiseCoreSoundbankTest(unittest.TestCase):
 
 	def test__convert_external_sources(self):
-		paths = list(SystemPath.glob(r"C:\Users\hojun\Documents\PyWwiseTestMaterials\ExternalSourceFiles\BottleOpen.wav",
-		                             r"C:\Users\hojun\Documents\PyWwiseTestMaterials\ExternalSourceFiles\GlassMarbleDrop.wav"))
+		paths = list(SystemPath.glob(WAVE_ASSET__PATH)
 		results = ak.wwise.core.soundbank.convert_external_sources(paths)
 		self.assertIsNotNone(results)
 	
@@ -26,7 +25,7 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 		self.assertIsNotNone(results)
 	
 	def test__process_definition_files(self):
-		paths = list(SystemPath.glob(r"C:\Users\hojun\Documents\PyWwiseTestMaterials\SoundBank_DefinitionFile_Test.tsv"))
+		paths = list(DEFINITION_TSV__PATH)
 		results = ak.wwise.core.soundbank.process_definition_files(paths)
 		self.assertIsNotNone(results)
 	
