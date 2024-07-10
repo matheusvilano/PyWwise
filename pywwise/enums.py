@@ -810,15 +810,15 @@ class ECommand(_StrEnum):
 	"""Goes to next audio frame in Performance Graph."""
 	
 	OPEN_CONTAINING_FOLDER_SOUNDBANK = "OpenContainingFolderSoundbank"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's SoundBank files.	\n
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' SoundBank files.	\n
 	**Parameter**: objects - an array of objects"""
 	
 	OPEN_CONTAINING_FOLDER_WAV = "OpenContainingFolderWAV"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's wav files. \n
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' wav files. \n
 	**Parameter**: objects - an array of objects"""
 	
 	OPEN_CONTAINING_FOLDER_WORK_UNIT = "OpenContainingFolderWorkUnit"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's Work Units. \n
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' Work Units. \n
 	**Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR = "OpenInExternalEditor"
@@ -1284,7 +1284,7 @@ class ECommand(_StrEnum):
 	
 	USE_ONLINE_DOCUMENTATION = "UseOnlineDocumentation"
 	"""Selects Wwise website as a documentation source."""
-  
+
 
 class EImportOperation(_StrEnum):
 	"""An enumeration of possible import operations."""
