@@ -1440,3 +1440,28 @@ class ECaptureLogSeverity(_StrEnum):
 	
 	ERROR = "Error"
 	"""Shown in red in the capture log."""
+
+
+class EAttenuationCurveType(_StrEnum):
+	"""An enumeration of curve types."""
+	
+	VOLUME_DRY_USAGE = "VolumeDryUsage"
+	"""Volume"""
+	
+	VOLUME_WET_GAME_USAGE = "VolumeWetGameUsage"
+	"""Aux Send (Game-Defined)"""
+	
+	VOLUME_WET_USER_USAGE = "VolumeWetUserUsage"
+	"""Aux Send (User-Defined)"""
+	
+	LOW_PASS_FILTER_USAGE = "LowPassFilterUsage"
+	"""Low-Pass Filter"""
+	
+	HIGH_PASS_FILTER_USAGE = "HighPassFilterUsage"
+	"""High-Pass Filter"""
+	
+	SPREAD_USAGE = "SpreadUsage"
+	"""Spread"""
+	
+	FOCUS_USAGE = "FocusUsage"
+	"""Focus"""
