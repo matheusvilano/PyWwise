@@ -1,9 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import EAttenuationCurveType, EReturnOptions
+from pywwise.enums import EAttenuationCurveType, EObjectType, EReturnOptions
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
+from pywwise.types import GUID, Name, ProjectPath
 
 
 class Object:
@@ -45,8 +46,19 @@ class Object:
 			"ak.wwise.core.object.attenuationCurveLinkChanged",
 			self._on_attenuation_curve_link_changed, return_options)
 		
+		self.child_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		\nSent when an object is added as a child to another object.
+		\n*Event Data**:
+		\n- A WwiseObjectInfo instance representing the new child object.
+		\n- A WwiseObjectInfo instance representing the parent of the new child object.
+		"""
+		
+		self._child_added = self._client.subscribe("ak.wwise.core.object.childAdded",
+		                                           self._on_child_added, return_options)
+		
 		# TODO: implement topics
-		self.child_added: _RefEvent
 		self.child_removed: _RefEvent
 		self.created: _RefEvent
 		self.curve_changed: _RefEvent
@@ -83,9 +95,31 @@ class Object:
 		:return: The event data, processed.
 		"""
 		attenuation = kwargs["attenuation"]
-		info = WwiseObjectInfo(attenuation["id"], attenuation["name"], attenuation["type"], attenuation["path"])
+		info = WwiseObjectInfo(GUID(attenuation["id"]),
+		                       Name(attenuation["name"]),
+		                       EObjectType.from_type_name(attenuation["type"]),
+		                       ProjectPath(attenuation["path"]))
 		curve = EnumStatics.from_value(EAttenuationCurveType, kwargs["curveType"])
 		return info, curve
+	
+	@callback
+	def _on_child_added(self, event, **kwargs):
+		"""
+		Callback function for the `childAdded` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		child = kwargs["child"]
+		child = WwiseObjectInfo(GUID(child["id"]),
+		                        Name(child["name"]),
+		                        EObjectType.from_type_name(child["type"]),
+		                        ProjectPath(child["path"]))
+		parent = kwargs["parent"]
+		parent = WwiseObjectInfo(GUID(parent["id"]),
+		                         Name(parent["name"]),
+		                         EObjectType.from_type_name(parent["type"]),
+		                         ProjectPath(parent["path"]))
+		event(child, parent)
 	
 	def copy(self):
 		"""
