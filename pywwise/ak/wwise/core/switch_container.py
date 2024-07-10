@@ -1,9 +1,9 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.decorators import callback
-from pywwise.enums import EReturnOptions
+from pywwise.enums import EObjectType, EReturnOptions
 from pywwise.structs import SwitchContainerAssignment, WwiseObjectInfo
-from pywwise.types import GUID, ProjectPath
+from pywwise.types import GUID, Name, ProjectPath
 
 
 class SwitchContainer:
@@ -71,11 +71,20 @@ class SwitchContainer:
 		:return: The event data, processed.
 		"""
 		container = kwargs["switchContainer"]
-		container = WwiseObjectInfo(container["id"], container["name"], container["type"], container["path"])
+		container = WwiseObjectInfo(GUID(container["id"]),
+		                            Name(container["name"]),
+		                            EObjectType.from_type_name(container["type"]),
+		                            ProjectPath(container["path"]))
 		child = kwargs["child"]
-		child = WwiseObjectInfo(child["id"], child["name"], child["type"], child["path"])
+		child = WwiseObjectInfo(GUID(child["id"]),
+		                        Name(child["name"]),
+		                        EObjectType.from_type_name(child["type"]),
+		                        ProjectPath(child["path"]))
 		sync = kwargs["stateOrSwitch"]
-		sync = WwiseObjectInfo(sync["id"], sync["name"], sync["type"], sync["path"])
+		sync = WwiseObjectInfo(GUID(sync["id"]),
+		                       Name(sync["name"]),
+		                       EObjectType.from_type_name(sync["type"]),
+		                       ProjectPath(sync["path"]))
 		return container, child, sync
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:

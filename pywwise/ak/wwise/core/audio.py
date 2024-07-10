@@ -1,10 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import EReturnOptions, EImportOperation
+from pywwise.enums import EObjectType, EReturnOptions, EImportOperation
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
-from pywwise.types import SystemPath
+from pywwise.types import GUID, Name, ProjectPath, SystemPath
 
 
 class Audio:
@@ -40,10 +40,10 @@ class Audio:
 		"""
 		objects = list[WwiseObjectInfo]()
 		for obj in kwargs.get("objects", dict()):
-			guid = obj["id"]
-			name = obj["name"]
-			typename = obj["type"]
-			path = obj["path"]
+			guid = GUID(obj["id"])
+			name = Name(obj["name"])
+			typename = EObjectType.from_type_name(obj["type"])
+			path = ProjectPath(obj["path"])
 			objects.append(WwiseObjectInfo(guid, name, typename, path))
 		event(EnumStatics.from_value(EImportOperation, kwargs["operation"]), tuple(objects),
 		      tuple([SystemPath(file) for file in kwargs.get("files", ())]))
@@ -58,9 +58,7 @@ class Audio:
 		information, refer to Importing Audio Files and Creating Structures.
 		"""
 	
-	# "import" is a reserved keyword, so function name does not match WAAPI
-	
-	def import_tab_delimited(self):
+	def import_tab_delimited(self):  # "import" is a reserved keyword; function name won't match WAAPI
 		"""
 		Scripted object creation and audio file import from a tab-delimited file.
 		"""

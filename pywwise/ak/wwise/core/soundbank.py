@@ -1,10 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import ELogSeverity, EReturnOptions
+from pywwise.enums import ELogSeverity, EObjectType, EReturnOptions
 from pywwise.statics import EnumStatics
 from pywwise.structs import LogItem, SoundBankData, SoundBankGenerationInfo, WwiseObjectInfo
-from pywwise.types import Name
+from pywwise.types import GUID, Name, ProjectPath
 
 
 class SoundBank:
@@ -51,7 +51,10 @@ class SoundBank:
 		:param kwargs: The event data.
 		"""
 		sound_bank = kwargs["soundbank"]
-		sound_bank = WwiseObjectInfo(sound_bank["id"], sound_bank["name"], sound_bank["type"], sound_bank["path"])
+		sound_bank = WwiseObjectInfo(GUID(sound_bank["id"]),
+		                             Name(sound_bank["name"]),
+		                             EObjectType.from_type_name(sound_bank["type"]),
+		                             ProjectPath(sound_bank["path"]))
 		platform = Name(kwargs["platform"]["name"])
 		language = Name(kwargs["language"]) if kwargs.get("language") is not None else Name.get_null()
 		bank_data = kwargs.get("bankData", dict())

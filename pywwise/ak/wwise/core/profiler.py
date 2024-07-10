@@ -2,9 +2,9 @@ from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.decorators import callback
-from pywwise.enums import EReturnOptions
+from pywwise.enums import EObjectType, EReturnOptions
 from pywwise.structs import WwiseObjectInfo
-from pywwise.types import GameObjectID, Name
+from pywwise.types import GameObjectID, GUID, Name, ProjectPath
 
 
 class Profiler:
@@ -115,9 +115,15 @@ class Profiler:
 		:param kwargs: The event data.
 		"""
 		group = kwargs["stateGroup"]
-		group = WwiseObjectInfo(group["id"], group["name"], group["type"], group["path"])
+		group = WwiseObjectInfo(GUID(group["id"]),
+		                        Name(group["name"]),
+		                        EObjectType.from_type_name(group["type"]),
+		                        ProjectPath(group["path"]))
 		value = kwargs["state"]
-		value = WwiseObjectInfo(value["id"], value["name"], value["type"], value["path"])
+		value = WwiseObjectInfo(GUID(value["id"]),
+		                        Name(value["name"]),
+		                        EObjectType.from_type_name(value["type"]),
+		                        ProjectPath(value["path"]))
 		event(group, value)
 	
 	@callback
@@ -128,9 +134,15 @@ class Profiler:
 		:param kwargs: The event data.
 		"""
 		group = kwargs["switchGroup"]
-		group = WwiseObjectInfo(group["id"], group["name"], group["type"], group["path"])
+		group = WwiseObjectInfo(GUID(group["id"]),
+		                        Name(group["name"]),
+		                        EObjectType.from_type_name(group["type"]),
+		                        ProjectPath(group["path"]))
 		value = kwargs["switch"]
-		value = WwiseObjectInfo(value["id"], value["name"], value["type"], value["path"])
+		value = WwiseObjectInfo(GUID(value["id"]),
+		                        Name(value["name"]),
+		                        EObjectType.from_type_name(value["type"]),
+		                        ProjectPath(value["path"]))
 		event(group, value, kwargs["gameObjectID"])
 	
 	def enable_profiler_data(self):

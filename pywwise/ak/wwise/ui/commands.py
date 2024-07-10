@@ -40,7 +40,11 @@ class Commands:
 		:param kwargs: The event data.
 		"""
 		command = EnumStatics.from_value(ECommand, kwargs["command"])
-		objs = tuple([WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
+		objs = tuple([WwiseObjectInfo(GUID(obj["id"]),
+		                              Name(obj["name"]),
+		                              EObjectType.from_type_name(obj["type"]),
+		                              ProjectPath(obj["path"]))
+		              for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
 		event(command, objs, platforms)
 	
