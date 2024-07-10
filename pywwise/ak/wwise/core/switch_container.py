@@ -68,6 +68,7 @@ class SwitchContainer:
 		"""
 		Utility function for the `assignmentAdded` and `assignmentRemoved` events.
 		:param kwargs: The event data.
+		:return: The event data, processed.
 		"""
 		container = kwargs["switchContainer"]
 		container = WwiseObjectInfo(container["id"], container["name"], container["type"], container["path"])
