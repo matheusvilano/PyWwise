@@ -2,7 +2,7 @@ from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Literal as _Literal
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
-	EReturnOptions, EStartMode
+	EReturnOptions, EStartMode, EInclusionFilter
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
@@ -70,7 +70,7 @@ class PlatformInfo:
 	
 	base_platform: EBasePlatform
 	"""The base platform."""
-	
+
 	guid: GUID = None
 	"""The GUID of this platform."""
 	
@@ -91,6 +91,13 @@ class ExternalSourceInfo:
 	
 	output: _Path
 	"""The output path of the external source's WEM (after conversions)."""
+	
+	@property
+	def dictionary(self) -> dict[str, str]:
+		as_dict = {"input": self.input, "platform": self.platform}
+		if self.output is not None:
+			as_dict["output"] = self.output
+		return as_dict
 
 
 @_dataclass
@@ -195,7 +202,7 @@ class CommandInfo:
 	lua_selected_return: list[str] = None
 	"""Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script 
 	in a lua table array in wa_args.selected. Several values provided for the option."""
-	
+
 	start_mode: EStartMode = EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
 	"""Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user 
 	interface."""
@@ -255,6 +262,65 @@ class CommandInfo:
 		return as_dict
 
 
+@_dataclass
+class SoundBankInfo:
+    """A SoundBank's information."""
+  
+    name: str
+    """The name of the SoundBank."""
+
+    events: list[str] = None
+    """List of events included in this SoundBank."""
+
+    aux_busses: list[str] = None
+    """List of AuxBus included in this SoundBank."""
+
+    inclusions: list[str] = None
+    """Inclusion type to use for this SoundBank."""
+
+    rebuild: bool = False
+    """Force rebuild of this particular SoundBank."""
+
+    def __hash__(self) -> int:
+        """:return: The SoundBankInfo hash."""
+        return hash(self.name)
+
+    @property
+    def dictionary(self) -> dict[str, bool | str | list[str]]:
+        """:return: The instance, represented as a dictionary."""
+        as_dict = {"name": self.name, "rebuild": self.rebuild}
+        if self.events is not None:
+            as_dict["events"] = self.events
+        if self.aux_busses is not None:
+            as_dict["auxBusses"] = self.aux_busses
+        if self.inclusions is not None:
+            as_dict["inclusions"] = self.inclusions
+        return as_dict
+    
+    
+@_dataclass
+class SoundBankInclusion:
+	"""Represents a SoundBank inclusion row."""
+	
+	obj: GUID | tuple[EObjectType, Name] | ProjectPath
+	"""The GUID, ProjectPath, or Name of the object to add/remove from the SoundBank's inclusion list.
+	NOTE: Name is only supported for globally-unique names (e.g. Events, State Groups, etc.)."""
+	
+	filters: list[EInclusionFilter]
+	"""Specifies what relations are being included. Possible Values: events, structures, media"""
+	
+	def __hash__(self) -> int:
+		""":return: The instance, hashed."""
+		return hash(self.obj)
+	
+	@property
+	def dictionary(self) -> dict[str, list[str]]:
+		""":return: The instance, represented as a dictionary."""
+		as_dict = {"object": self.obj if not isinstance(self.obj, tuple) else f"{self.obj[0].get_type_name()}:{self.obj[1]}",
+		           "filter": list(set(self.filters))}
+		return as_dict
+	
+  
 @_dataclass
 class LogItem:
 	"""A log item."""
