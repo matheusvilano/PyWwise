@@ -1435,7 +1435,7 @@ class ETimeCursor(_StrEnum):
 
 class EBusOptions(_StrEnum):
 	"""Enumeration of defined members for a bus pipeline return structure. """
-
+	
 	PIPELINE_ID = "pipelineID"
 	"""Pipeline ID of the bus."""
 	
@@ -1471,8 +1471,8 @@ class EBusOptions(_StrEnum):
 	
 	Depth = "depth"
 	"""Depth level of the bus in the pipeline."""
-	
-	
+
+
 class ECPUStatisticsMembers(_StrEnum):
 	""" Enumeration of defined members for a CPUStatisticInfo return structure. """
 	
@@ -1499,8 +1499,8 @@ class ECPUStatisticsMembers(_StrEnum):
 	
 	MILLISECONDS_EXCLUSIVE = "millisecondsExclusive"
 	"""The milliseconds of CPU time spent only in the execution of the element itself."""
-	
-	
+
+
 class EGameObjectRegistrationDataMembers(_StrEnum):
 	"""Enumeration of defined members for a GameObjectRegistrationData return structure. """
 	
@@ -1515,8 +1515,8 @@ class EGameObjectRegistrationDataMembers(_StrEnum):
 	
 	UNREGISTRATION_TIME = "unregistrationTime"
 	"""The time at which the game object was unregistered."""
-	
-	
+
+
 class ELoadedMediaMembers(_StrEnum):
 	"""Enumeration of defined members for a LoadedMedia return structure. """
 	
@@ -1547,7 +1547,23 @@ class EPerformanceMonitorMembers(_StrEnum):
 	
 	VALUE = "value"
 	"""Value of counter at given time."""
+
+
+class EActiveRTPCMembers(_StrEnum):
+	"""Enumeration of defined members for an ActiveRTPCInfo return structure."""
+
+	ID = "id"
+	"""The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object."""
 	
+	NAME = "name"
+	"""The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
+	
+	GAME_OBJECT_ID = "gameObjectId"
+	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs."""
+	
+	VALUE = "value"
+	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
+
 
 class ECaseStyle(_StrEnum):
 	"""Enumeration of common case styles."""

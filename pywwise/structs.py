@@ -515,3 +515,21 @@ class PerformanceMonitorCounterInfo:
 	value: float
 	"""value of counter at given time."""
 	
+
+@_dataclass
+class ActiveRTPCInfo:
+	"""Information about an active RTCP associated with a playing voice."""
+	
+	id: GUID
+	"""The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. An object GUID of the form:
+	{aabbcc00-1122-3344-5566-77889900aabb}."""
+	
+	name: Name
+	"""The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
+	
+	gameObjectId: GameObjectID
+	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs. A game object
+	ID, unsigned integer 64-bit. Range: [0,18446744073709551615]"""
+	
+	value: float
+	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""

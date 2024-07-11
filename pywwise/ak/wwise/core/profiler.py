@@ -1,10 +1,10 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
-from pywwise.enums import EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions, \
+from pywwise.enums import EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions, \
 	EGameObjectRegistrationDataMembers, \
 	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor
-from pywwise.structs import AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
+from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
 	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo
 from pywwise.types import GUID, Name, ShortID
 
@@ -311,12 +311,39 @@ class Profiler:
 		
 		return tuple(performance_monitor_counter)
 	
-	def get_rtpcs(self):
+	def get_rtpcs(self, time: ETimeCursor | int) -> tuple[ActiveRTPCInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getrtpcs.html \n
 		Retrieves active RTPCs at a specific profiler capture time.
+		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:return: A tuple of RTPCs associated with a playing voice. When accessing the values in the dictionary use the
+				 EActiveRTPCMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-	
+		
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getRTPCs ", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		active_rtpcs = list[ActiveRTPCInfo]()
+		
+		for result in results:
+			info = ActiveRTPCInfo(
+				{k: v for k, v in result.items() if k not in EActiveRTPCMembers})
+			active_rtpcs.append(info)
+		
+		return tuple(active_rtpcs)
+		
 	def get_streamed_media(self):
 		"""
 		Retrieves the streaming media at a specific profiler capture time. This data can also be found in
