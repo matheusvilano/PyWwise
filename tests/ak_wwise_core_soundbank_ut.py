@@ -11,7 +11,7 @@ ak = pywwise.new()
 class AkWwiseCoreSoundbankTest(unittest.TestCase):
 
 	def test__convert_external_sources(self):
-		paths = list(SystemPath.glob(WAVE_ASSET__PATH)
+		paths = list(SystemPath.glob(WAVE_ASSET__PATH))
 		results = ak.wwise.core.soundbank.convert_external_sources(paths)
 		self.assertIsNotNone(results)
 	
