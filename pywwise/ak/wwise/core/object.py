@@ -1,31 +1,317 @@
-from waapi import WaapiClient as _WaapiClient
+from typing import Any as _Any
+from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
+from pywwise.decorators import callback
+from pywwise.enums import EAttenuationCurveType, EObjectType, EReturnOptions
+from pywwise.statics import EnumStatics
+from pywwise.structs import WwiseObjectInfo, WwiseObjectWatch
+from pywwise.types import GUID, Name, ProjectPath
 
 
 class Object:
 	"""ak.wwise.core.object"""
 	
-	def __init__(self, client: _WaapiClient):
+	def __init__(self, client: _WaapiClient, watch_list: tuple[WwiseObjectWatch, ...] = ()):
 		"""
 		Constructor.
 		:param client: The WAAPI client to use.
+		:param watch_list: A tuple of `WwiseObjectWatch` instances. This will be used to set up the
+						   `ak.wwise.core.object.property_changed` event.
 		"""
 		self._client = client
 		
-		# TODO: implement topics
-		self.attenuation_curve_changed: _RefEvent
-		self.attenuation_curve_link_changed: _RefEvent
-		self.child_added: _RefEvent
-		self.child_added: _RefEvent
-		self.child_removed: _RefEvent
-		self.created: _RefEvent
-		self.curve_changed: _RefEvent
-		self.name_changed: _RefEvent
-		self.notes_changed: _RefEvent
-		self.post_deleted: _RefEvent
-		self.pre_deleted: _RefEvent
-		self.property_changed: _RefEvent
-		self.reference_changed: _RefEvent
+		return_options = {"return": [EReturnOptions.GUID, EReturnOptions.NAME,
+		                             EReturnOptions.TYPE, EReturnOptions.PATH]}
+		
+		self.attenuation_curve_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvechanged.html
+		\nSent when an attenuation curve is changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
+		\n- The type of the curve that changed.
+		"""
+		
+		self._attenuation_curve_changed = self._client.subscribe(
+			"ak.wwise.core.object.attenuationCurveChanged",
+			self._on_attenuation_curve_changed, return_options)
+		
+		self.attenuation_curve_link_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvelinkchanged.html
+		\nSent when an attenuation curve's link/unlink is changed. NOTE: this event often multi-triggers.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
+		\n- The type of the curve that had its link changed.
+		"""
+		
+		self._attenuation_curve_link_changed = self._client.subscribe(
+			"ak.wwise.core.object.attenuationCurveLinkChanged",
+			self._on_attenuation_curve_link_changed, return_options)
+		
+		self.child_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		\nSent when an object is added as a child to another object.
+		\n*Event Data**:
+		\n- A WwiseObjectInfo instance representing the new child object.
+		\n- A WwiseObjectInfo instance representing the parent of the new child object.
+		"""
+		
+		self._child_added = self._client.subscribe("ak.wwise.core.object.childAdded",
+		                                           self._on_child_added, return_options)
+		
+		self.child_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		\nSent when an object is removed from the children of another object.
+		\n*Event Data**:
+		\n- A WwiseObjectInfo instance representing the child object that got removed.
+		\n- A WwiseObjectInfo instance representing the former parent of the child object.
+		"""
+		
+		self._child_removed = self._client.subscribe("ak.wwise.core.object.childRemoved",
+		                                             self._on_child_removed, return_options)
+		
+		self.created = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_created.html
+		\nSent when an object is created. The name and path are not available at the time of creation.
+		\n**Event Data**:
+		\n- A WwiseObject instance representing the newly created object.
+		"""
+		
+		self._created = self._client.subscribe("ak.wwise.core.object.created",
+		                                       self._on_created, return_options)
+		
+		self.curve_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_curvechanged.html
+		\nSent when one or many curves are changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the curve that changed.
+		\n- A WwiseObjectInfo instance representing the owner of the curve that changed.
+		"""
+		
+		self._curve_changed = self._client.subscribe("ak.wwise.core.object.curveChanged",
+		                                             self._on_curve_changed, return_options)
+		
+		self.name_changed = _RefEvent(WwiseObjectInfo, str)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_namechanged.html
+		\nSent when an object is renamed. Publishes the renamed object.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that was renamed. It will contain the new name.
+		\n- A string containing the old name.
+		"""
+		
+		self._name_changed = self._client.subscribe("ak.wwise.core.object.nameChanged",
+		                                            self._on_name_changed, return_options)
+		
+		self.notes_changed = _RefEvent(WwiseObjectInfo, str, str)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_noteschanged.html
+		\nSent when the object's notes are changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object whose notes changed.
+		\n- A string containing the old notes.
+		\n- A string containing the new notes.
+		"""
+		
+		self._notes_changed = self._client.subscribe("ak.wwise.core.object.notesChanged",
+		                                             self._on_notes_changed, return_options)
+		
+		self.post_deleted = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_postdeleted.html
+		\nSent following an object's deletion.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that was deleted.
+		"""
+		
+		self._post_deleted = self._client.subscribe("ak.wwise.core.object.postDeleted",
+		                                            self._on_post_deleted, return_options)
+		
+		self.pre_deleted = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_predeleted.html
+		\nSent prior to an object's deletion.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that will be deleted.
+		"""
+		
+		self._pre_deleted = self._client.subscribe("ak.wwise.core.object.preDeleted",
+		                                           self._on_pre_deleted, return_options)
+		
+		self.property_changed = _RefEvent(WwiseObjectInfo, Name, _Any, _Any, GUID)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_propertychanged.html
+		\nSent when the watched property of an object changes.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the watched object.
+		\n- The Name of the changed property.
+		\n- The old value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
+		\n- The new value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
+		\n- The GUID of the platform for which the change occurred.
+		"""
+		
+		self._property_changed = list[_EventHandler]()
+		for watch in watch_list:
+			for prop in watch.properties:  # `property` is a built-in identifier, so using `prop` instead
+				prop_options = dict(return_options)
+				prop_options["object"] = watch.guid
+				prop_options["property"] = prop
+				self._property_changed.append(self._client.subscribe("ak.wwise.core.object.propertyChanged",
+				                                                     self._on_property_changed, prop_options))
+		
+		self.reference_changed = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_referencechanged.html
+		\nSent when an object reference is changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that had a reference changed.
+		\n- A WwiseObjectInfo instance representing the previous referenced object.
+		\n- A WwiseObjectInfo instance representing the new referenced object.
+		"""
+		
+		self._reference_changed = self._client.subscribe("ak.wwise.core.object.referenceChanged",
+		                                                 self._on_reference_changed, return_options)
+	
+	@callback
+	def _on_attenuation_curve_changed(self, event, **kwargs):
+		"""
+		Callback function for the `attenuationCurveChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_attenuation_event(**kwargs))
+	
+	@callback
+	def _on_attenuation_curve_link_changed(self, event, **kwargs):
+		"""
+		Callback function for the `attenuationCurveLinkChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_attenuation_event(**kwargs))
+	
+	@staticmethod
+	def _on_attenuation_event(**kwargs) -> tuple[WwiseObjectInfo, EAttenuationCurveType]:
+		"""
+		Utility function for the `attenuationCurveChanged` and `attenuationCurveLinkChanged` events.
+		:param kwargs: The event data.
+		:return: The event data, processed.
+		"""
+		info = WwiseObjectInfo.from_dict(kwargs["attenuation"])
+		curve = EnumStatics.from_value(EAttenuationCurveType, kwargs["curveType"])
+		return info, curve
+	
+	@callback
+	def _on_child_added(self, event, **kwargs):
+		"""
+		Callback function for the `childAdded` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_child_event(**kwargs))
+	
+	@callback
+	def _on_child_removed(self, event, **kwargs):
+		"""
+		Callback function for the `childRemoved` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(*self._on_child_event(**kwargs))
+	
+	@staticmethod
+	def _on_child_event(**kwargs) -> tuple[WwiseObjectInfo, WwiseObjectInfo]:
+		"""
+		Utility function for the `childAdded` and `childRemoved` events.
+		:param kwargs: The event data.
+		:return: The event data, processed.
+		"""
+		return WwiseObjectInfo.from_dict(kwargs["child"]), WwiseObjectInfo.from_dict(kwargs["parent"])
+	
+	@callback
+	def _on_created(self, event, **kwargs):
+		"""
+		Callback function for the `created` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = kwargs["object"]
+		event(WwiseObjectInfo(GUID(obj["id"]),
+		                      Name.get_null(),
+		                      EObjectType.from_type_name(obj["type"]),
+		                      ProjectPath.get_null()))
+	
+	@callback
+	def _on_curve_changed(self, event, **kwargs):
+		"""
+		Callback function for the `curveChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["curve"]), WwiseObjectInfo.from_dict(kwargs["owner"]))
+	
+	@callback
+	def _on_name_changed(self, event, **kwargs):
+		"""
+		Callback function for the `nameChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]), kwargs["oldName"])
+	
+	@callback
+	def _on_notes_changed(self, event, **kwargs):
+		"""
+		Callback function for the `notesChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]), kwargs["newNotes"], kwargs["oldNotes"])
+	
+	@callback
+	def _on_post_deleted(self, event, **kwargs):
+		"""
+		Callback function for the `postDeleted` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]))
+	
+	@callback
+	def _on_pre_deleted(self, event, **kwargs):
+		"""
+		Callback function for the `preDeleted` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]))
+	
+	@callback
+	def _on_property_changed(self, event, **kwargs):
+		"""
+		Callback function for the `propertyChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		watch = WwiseObjectInfo.from_dict(kwargs["object"])  # this is the object where the change happened
+		event(watch, Name(kwargs["property"]), kwargs["old"], kwargs["new"], GUID(kwargs["platform"]))
+	
+	@callback
+	def _on_reference_changed(self, event, **kwargs):
+		"""
+		Callback function for the `referenceChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = WwiseObjectInfo.from_dict(kwargs["object"])
+		old = WwiseObjectInfo.from_dict(kwargs["old"])
+		new = WwiseObjectInfo.from_dict(kwargs["new"])
+		event(obj, old, new)
 	
 	def copy(self):
 		"""

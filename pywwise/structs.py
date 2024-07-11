@@ -1,8 +1,8 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any, Literal as _Literal
+from typing import Any as _Any, Self as _Self
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
-	EReturnOptions, EStartMode
+	EReturnOptions, EStartMode, EInclusionFilter
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
@@ -91,6 +91,13 @@ class ExternalSourceInfo:
 	
 	output: _Path
 	"""The output path of the external source's WEM (after conversions)."""
+	
+	@property
+	def dictionary(self) -> dict[str, str]:
+		as_dict = {"input": self.input, "platform": self.platform}
+		if self.output is not None:
+			as_dict["output"] = self.output
+		return as_dict
 
 
 @_dataclass
@@ -116,6 +123,19 @@ class WwiseObjectInfo:
 	def __hash__(self):
 		""":return: The WwiseObjectInfo hash."""
 		return hash(self.guid)
+	
+	@classmethod
+	def from_dict(cls, kvpairs: dict[str, _Any]) -> _Self:
+		"""
+		Uses a dictionary to initialize a new instance.
+		:param kvpairs: A dictionary to extract information from.
+		:return: A new instance with id, name, type, and path populated. No additional properties.
+		"""
+		guid = GUID(kvpairs["id"]) if kvpairs.get("id") is not None else GUID.get_null()
+		name = Name(kvpairs["name"]) if kvpairs.get("name", "") != "" else Name.get_null()
+		etype = EObjectType.from_type_name(kvpairs["type"]) if kvpairs.get("type") is not None else EObjectType.UNKNOWN
+		path = ProjectPath(kvpairs["path"]) if kvpairs.get("path", "") != "" else ProjectPath.get_null()
+		return cls(guid, name, etype, path)
 
 
 @_dataclass
@@ -256,6 +276,66 @@ class CommandInfo:
 
 
 @_dataclass
+class SoundBankInfo:
+	"""A SoundBank's information."""
+	
+	name: str
+	"""The name of the SoundBank."""
+	
+	events: list[str] = None
+	"""List of events included in this SoundBank."""
+	
+	aux_busses: list[str] = None
+	"""List of AuxBus included in this SoundBank."""
+	
+	inclusions: list[str] = None
+	"""Inclusion type to use for this SoundBank."""
+	
+	rebuild: bool = False
+	"""Force rebuild of this particular SoundBank."""
+	
+	def __hash__(self) -> int:
+		""":return: The SoundBankInfo hash."""
+		return hash(self.name)
+	
+	@property
+	def dictionary(self) -> dict[str, bool | str | list[str]]:
+		""":return: The instance, represented as a dictionary."""
+		as_dict = {"name": self.name, "rebuild": self.rebuild}
+		if self.events is not None:
+			as_dict["events"] = self.events
+		if self.aux_busses is not None:
+			as_dict["auxBusses"] = self.aux_busses
+		if self.inclusions is not None:
+			as_dict["inclusions"] = self.inclusions
+		return as_dict
+
+
+@_dataclass
+class SoundBankInclusion:
+	"""Represents a SoundBank inclusion row."""
+	
+	obj: GUID | tuple[EObjectType, Name] | ProjectPath
+	"""The GUID, ProjectPath, or Name of the object to add/remove from the SoundBank's inclusion list.
+	NOTE: Name is only supported for globally-unique names (e.g. Events, State Groups, etc.)."""
+	
+	filters: list[EInclusionFilter]
+	"""Specifies what relations are being included. Possible Values: events, structures, media"""
+	
+	def __hash__(self) -> int:
+		""":return: The instance, hashed."""
+		return hash(self.obj)
+	
+	@property
+	def dictionary(self) -> dict[str, list[str]]:
+		""":return: The instance, represented as a dictionary."""
+		as_dict = {
+			"object": self.obj if not isinstance(self.obj, tuple) else f"{self.obj[0].get_type_name()}:{self.obj[1]}",
+			"filter": list(set(self.filters))}
+		return as_dict
+
+
+@_dataclass
 class LogItem:
 	"""A log item."""
 	
@@ -301,22 +381,22 @@ class CaptureLogItem:
 	severity: ECaptureLogSeverity
 	"""The severity of the message."""
 	
-	wwise_object_id: GUID = GUID.get_zero()
+	wwise_object_id: GUID = GUID.get_null()
 	"""The GUID of the object for the entry."""
 	
 	wwise_object_name: Name = Name.get_null()
 	"""The name of the object for the entry."""
 	
-	wwise_object_short: ShortID = ShortID.get_invalid()
+	wwise_object_short: ShortID = ShortID.get_null()
 	"""The short ID of the object for the entry."""
 	
-	game_object_id: GameObjectID = GameObjectID.get_invalid()
+	game_object_id: GameObjectID = GameObjectID.get_null()
 	"""The game object ID for the entry."""
 	
 	game_object_name: Name = Name.get_null()
 	"""The game object name for the entry."""
 	
-	playing_id: PlayingID = PlayingID.get_invalid()
+	playing_id: PlayingID = PlayingID.get_null()
 	"""The playing ID for the entry."""
 	
 	error_code_name: str = ""
@@ -359,3 +439,15 @@ class SoundBankGenerationInfo:
 	
 	error_message: str = ""
 	"""The error message, if an error occurred. Only present if an error occurred."""
+
+
+@_dataclass
+class WwiseObjectWatch:
+	"""Represents a watch. Used for setting up the `ak.wwise.core.object.property_changed` event. For the specified
+	GUID, changes to any of the specified properties will trigger the event."""
+	
+	guid: GUID
+	"""The GUID of the object to watch."""
+	
+	properties: tuple[str]
+	"""A collection of properties names to watch."""

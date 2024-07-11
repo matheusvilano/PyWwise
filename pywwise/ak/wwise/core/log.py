@@ -28,9 +28,10 @@ class Log:
 		self._item_added = self._client.subscribe("ak.wwise.core.log.itemAdded", self._on_item_added)
 	
 	@callback
-	def _on_item_added(self, **kwargs):
+	def _on_item_added(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `itemAdded` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		channel = EnumStatics.from_value(ELogChannel, kwargs["channel"])
@@ -38,7 +39,7 @@ class Log:
 		               time=kwargs["item"]["time"],
 		               id=kwargs["item"]["messageId"],
 		               description=kwargs["item"]["message"])
-		self.item_added(channel, item)
+		event(channel, item)
 	
 	def add_item(self, message: str, severity: ELogSeverity = ELogSeverity.MESSAGE,
 	             channel: ELogChannel = ELogChannel.GENERAL) -> bool:

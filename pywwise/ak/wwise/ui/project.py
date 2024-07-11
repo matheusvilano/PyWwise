@@ -38,7 +38,7 @@ class Project:
 						  Windows is used. Duplicates are not allowed; platforms should have **unique names**.
 		:param languages: Array of languages to creates for this project. If not specified, the English(US) language is
 						  created. When multiple languages are specified, the first one becomes the default language.
-		:return: Whether the project was created successfully. This is done by checking if the specified path now
+		:return: Whether the project creation succeeded. This is done by checking if the specified path now
 				 exists.
 		"""
 		args = {"path": str(path)}

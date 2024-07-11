@@ -1,6 +1,10 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
+from pywwise.decorators import callback
+from pywwise.enums import EReturnOptions
+from pywwise.structs import WwiseObjectInfo
+from pywwise.types import GameObjectID, Name
 
 
 class Profiler:
@@ -14,12 +18,116 @@ class Profiler:
 		self._client = client
 		self.capture_log = _CaptureLog(client)
 		
-		# TODO: implement topics
-		self.game_object_registered: _RefEvent
-		self.game_object_reset: _RefEvent
-		self.game_object_unregistered: _RefEvent
-		self.state_changed: _RefEvent
-		self.switch_changed: _RefEvent
+		self.game_object_registered = _RefEvent(int, GameObjectID, Name)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectregistered.html
+		\nSent when a game object has been registered.
+		\n**Event Data**:
+		\n- Time of registration. Elapsed time in milliseconds since the initialization of the soundengine.
+		\n- The game object ID for the entry.
+		\n- The game object name for the entry.
+		"""
+		
+		self._game_object_registered = self._client.subscribe("ak.wwise.core.profiler.gameObjectRegistered",
+		                                                      self._on_game_object_registered)
+		
+		self.game_object_reset = _RefEvent()
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectreset.html
+		\nSent when the game objects have been reset, such as closing a connection to a game while profiling.
+		"""
+		
+		self._game_object_reset = self._client.subscribe("ak.wwise.core.profiler.gameObjectReset",
+		                                                 self._on_game_object_reset)
+		
+		self.game_object_unregistered = _RefEvent(int, GameObjectID, Name)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectunregistered.html
+		\nSent when a game object has been unregistered.
+		\n**Event Data**:
+		\n- Time of un-registration. Elapsed time in milliseconds since the initialization of the soundengine.
+		\n- The game object ID for the entry.
+		\n- The game object name for the entry.
+		"""
+		
+		self._game_object_unregistered = self._client.subscribe("ak.wwise.core.profiler.gameObjectUnregistered",
+		                                                        self._on_game_object_unregistered)
+		
+		# The return options below are needed so we can retrieve information about Switch and States, plus their Groups.
+		change_args = {"return": [EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH]}
+		
+		self.state_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_statechanged.html
+		\nSent when a state group state has been changed. Does not require the profiler capture log to be started.
+		\n**Event Data**:
+		\n-A WwiseObjectInfo instance containing information about the State Group where the change happened.
+		\n-A WwiseObjectInfo instance containing information about the new active State.
+		"""
+		
+		self._state_changed = self._client.call("ak.wwise.core.profiler.stateChanged",
+		                                        self._on_state_changed, change_args)
+		
+		self.switch_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, GameObjectID)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_switchchanged.html
+		\nSent when a switch group state has been changed. Does not require the profiler capture log to be started.
+		\n**Event Data**:
+		\n-A WwiseObjectInfo instance containing information about the Switch Group where the change happened.
+		\n-A WwiseObjectInfo instance containing information about the new active Switch.
+		\n-The ID of the game object on which the change happened.
+		"""
+		
+		self._switch_changed = self._client.call("ak.wwise.core.profiler.switchChanged",
+		                                         self._on_switch_changed, change_args)
+	
+	@callback
+	def _on_game_object_registered(self, event: _RefEvent, **kwargs):
+		"""
+		Callback function for the `gameObjectRegistered` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(kwargs["time"], GameObjectID(kwargs["gameObjectId"]), Name(kwargs["gameObjectName"]))
+	
+	@callback
+	def _on_game_object_reset(self, event: _RefEvent):
+		"""
+		Callback function for the `gameObjectReset` event.
+		:param event: The event to broadcast.
+		"""
+		event()
+	
+	@callback
+	def _on_game_object_unregistered(self, event: _RefEvent, **kwargs):
+		"""
+		Callback function for the `gameObjectUnregistered` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(kwargs["time"], GameObjectID(kwargs["gameObjectId"]), Name(kwargs["gameObjectName"]))
+	
+	@callback
+	def _on_state_changed(self, event: _RefEvent, **kwargs):
+		"""
+		Callback function for the `stateChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		group = WwiseObjectInfo.from_dict(kwargs["stateGroup"])
+		value = WwiseObjectInfo.from_dict(kwargs["state"])
+		event(group, value)
+	
+	@callback
+	def _on_switch_changed(self, event: _RefEvent, **kwargs):
+		"""
+		Callback function for the `switchChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		group = WwiseObjectInfo.from_dict(kwargs["switchGroup"])
+		value = WwiseObjectInfo.from_dict(kwargs["switch"])
+		event(group, value, kwargs["gameObjectID"])
 	
 	def enable_profiler_data(self):
 		"""

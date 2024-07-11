@@ -33,15 +33,16 @@ class Commands:
 		                                        executed_options)
 	
 	@callback
-	def _on_executed(self, **kwargs):
+	def _on_executed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `executed` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		command = EnumStatics.from_value(ECommand, kwargs["command"])
-		objs = tuple([WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
+		objs = tuple([WwiseObjectInfo.from_dict(obj) for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
-		self.executed(command, objs, platforms)
+		event(command, objs, platforms)
 	
 	def get_commands(self) -> tuple[str, ...]:
 		"""
