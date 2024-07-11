@@ -1,8 +1,11 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
-from pywwise.enums import EBusOptions, EDataTypes, EAudioObjectOptions, ETimeCursor
-from pywwise.structs import AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo
+from pywwise.enums import EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions, \
+	EGameObjectRegistrationDataMembers, \
+	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor
+from pywwise.structs import AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
+	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo
 from pywwise.types import GUID, Name, ShortID
 
 
@@ -99,13 +102,13 @@ class Profiler:
 			objects.append(info)
 		
 		return tuple(objects)
-		
+	
 	def get_busses(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
 	               return_options: set[EBusOptions] = None) -> tuple[BusPipelineInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getbusses.html \n
 		Retrieves the busses at a specific profiler capture time.
-		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
+		:param time: Time in milliseconds to query for a bus pipeline, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
 					 The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
 					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
@@ -151,41 +154,166 @@ class Profiler:
 		
 		return tuple(objects)
 	
-	def get_cpu_usage(self):
+	def get_cpu_usage(self, time: ETimeCursor | int) -> tuple[CPUStatisticsInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcpuusage.html \n
 		Retrieves CPU usage statistics at a specific profiler capture time. This data can also be found
 		in the Advanced Profiler, under the CPU tab. To ensure the CPU data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`. The returned data includes "Inclusive" and
 		"Exclusive" values, where "Inclusive" refers to the time spent in the element plus the time spent
 		in any called elements, and "Exclusive" values pertain to execution only within the element
 		itself.
+		:param time: Time in milliseconds to query for cpu data, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
+					 The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
+					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:return: For each element profiled, a CPUStatisticsInfo struct containing information about the amount of CPU
+				 percentage used by each element is returned. When accessing the values in the dictionary, use the
+				 ECPUStatisticsMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-	
-	def get_cursor_time(self):
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getCpuUsage", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		objects = list[CPUStatisticsInfo]()
+		
+		for result in results:
+			info = CPUStatisticsInfo({k: v for k, v in result.items() if k not in ECPUStatisticsMembers})
+			objects.append(info)
+		
+		return tuple(objects)
+		
+	def get_cursor_time(self, time: ETimeCursor) -> int:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcursortime.html \n
 		Returns the current time of the specified profiler cursor, in milliseconds.
+		:param time: Time Cursor from which to acquire the time.
+		:return: The current position of the specified Time Cursor, in ms. If function fails, it returns -1.
 		"""
-	
-	def get_game_objects(self):
+		if time is None:
+			return -1
+		
+		args = {"time": time}
+		
+		result = self._client.call("ak.wwise.core.profiler.getCursorTime ", args)
+		result = result.get("return")
+		
+		if result is None or result < 0:
+			return -1
+		
+		return result
+		
+	def get_game_objects(self, time: ETimeCursor | int) -> tuple[GameObjectRegistrationData, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getgameobjects.html \n
 		Retrieves the game objects at a specific profiler capture time.
+		:param time: The time in milliseconds to query for game objects. This parameter can have 2 possible values: int
+					 or ETimeCursor. The int is the time to query. The ETimeCursor can have two values: user or capture.
+					 The User Time Cursor is the one that can be manipulated by the user, while the Capture Time Cursor
+					 represents the latest time of the current capture.
+		:return: A tuple of objects containing game object registration data. When accessing the values in the
+				 dictionary, use the EGameObjectRegistrationDataMembers enum as the keys. If this function call fails,
+				 an empty tuple is returned.
 		"""
+		
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getGameObjects", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		objects = list[GameObjectRegistrationData]()
+		
+		for result in results:
+			info = GameObjectRegistrationData(
+				{k: v for k, v in result.items() if k not in EGameObjectRegistrationDataMembers})
+			objects.append(info)
+		
+		return tuple(objects)
 	
-	def get_loaded_media(self):
+	def get_loaded_media(self, time: ETimeCursor | int) -> tuple[LoadedMediaInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getloadedmedia.html \n
 		Retrieves the loaded media at a specific profiler capture time. This data can also be found in
 		the Advanced Profiler, under the Loaded Media tab. To ensure the Loaded Media data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`.
+		:param time: Time in milliseconds to query for media, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:return: A tuple of loaded media information. When accessing the values in the dictionary, use the
+				 ELoadedMediaMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getLoadedMedia", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		loaded_media = list[LoadedMediaInfo]()
+		
+		for result in results:
+			info = LoadedMediaInfo({k: v for k, v in result.items() if k not in ELoadedMediaMembers})
+			loaded_media.append(info)
+		
+		return tuple(loaded_media)
 	
-	def get_performance_monitor(self):
+	def get_performance_monitor(self, time: ETimeCursor | int) -> tuple[PerformanceMonitorCounterInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getperformancemonitor.html \n
 		Retrieves the Performance Monitor statistics at a specific profiler capture time. Refer to Wwise
 		Authoring Performance Monitor Counter Identifiers for the available counters.
+		:param time: Time in milliseconds to query for media, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:return: A tuple of performance monitor counter information. When accessing the values in the dictionary use the
+				 EPerformanceMonitorMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
+		
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getPerformanceMonitor", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		performance_monitor_counter = list[PerformanceMonitorCounterInfo]()
+		
+		for result in results:
+			info = PerformanceMonitorCounterInfo(
+				{k: v for k, v in result.items() if k not in EPerformanceMonitorMembers})
+			performance_monitor_counter.append(info)
+		
+		return tuple(performance_monitor_counter)
 	
 	def get_rtpcs(self):
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getrtpcs.html \n
 		Retrieves active RTPCs at a specific profiler capture time.
 		"""
 	

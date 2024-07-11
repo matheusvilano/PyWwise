@@ -1472,6 +1472,82 @@ class EBusOptions(_StrEnum):
 	Depth = "depth"
 	"""Depth level of the bus in the pipeline."""
 	
+	
+class ECPUStatisticsMembers(_StrEnum):
+	""" Enumeration of defined members for a CPUStatisticInfo return structure. """
+	
+	ELEMENT_NAME = "elementName"
+	"""The name of the element on which we calculate CPU usage."""
+	
+	ID = "id"
+	"""Class ID of the element."""
+	
+	INSTANCES = "instances"
+	"""An estimation of the number of instances of the element."""
+	
+	TYPE = "type"
+	"""The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
+	
+	PERCENT_INCLUSIVE = "percentInclusive"
+	"""The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	PERCENT_EXCLUSIVE = "percentExclusive"
+	"""The percentage of CPU time spent only in the execution of the element itself."""
+	
+	MILLISECONDS_INCLUSIVE = "millisecondsInclusive"
+	"""The milliseconds of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	MILLISECONDS_EXCLUSIVE = "millisecondsExclusive"
+	"""The milliseconds of CPU time spent only in the execution of the element itself."""
+	
+	
+class EGameObjectRegistrationDataMembers(_StrEnum):
+	"""Enumeration of defined members for a GameObjectRegistrationData return structure. """
+	
+	ID = "id"
+	"""The ID of the game object."""
+	
+	NAME = "name"
+	"""The name of the game object."""
+	
+	REGISTRATION_TIME = "registrationTime"
+	"""The time at which the game object was registered."""
+	
+	UNREGISTRATION_TIME = "unregistrationTime"
+	"""The time at which the game object was unregistered."""
+	
+	
+class ELoadedMediaMembers(_StrEnum):
+	"""Enumeration of defined members for a LoadedMedia return structure. """
+	
+	MEDIA_ID = "mediaId"
+	"""The short ID of the media file"""
+	
+	FILE_NAME = "fileName"
+	"""The name of the media file."""
+	
+	FORMAT = "format"
+	"""The audio format of the media file."""
+	
+	SIZE = "size"
+	"""The size (in bytes) of the media file."""
+	
+	SOUND_BANK = "soundBank"
+	"""The name of the SoundBank that contains the media file."""
+
+
+class EPerformanceMonitorMembers(_StrEnum):
+	"""Enumeration of defined members for a PerformanceMonitorCounter return structure. """
+	
+	NAME = "name"
+	"""Name of the counter as shown in Wwise Authoring."""
+	
+	ID = "id"
+	"""Unique Id of the counter."""
+	
+	VALUE = "value"
+	"""Value of counter at given time."""
+	
 
 class ECaseStyle(_StrEnum):
 	"""Enumeration of common case styles."""

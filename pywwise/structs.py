@@ -413,12 +413,12 @@ class AudioObjectInfo:
 	def __hash__(self):
 		""":return: The AudioObject hash."""
 		return hash(self.audio_object_id)
-	
-	
+
+
 @_dataclass
 class BusPipelineInfo:
 	"""Contains information about an audio bus captured in the profiler"""
-
+	
 	pipelineID: int
 	"""Pipeline ID of the bus. Unsigned Integer 32-bit. Range: [0,4294967295]"""
 	
@@ -433,4 +433,85 @@ class BusPipelineInfo:
 	def __hash__(self):
 		""":return: The AudioObject hash."""
 		return hash(self.pipelineID)
+
+
+@_dataclass
+class CPUStatisticsInfo:
+	"""Information about the amount of CPU percentage used by each element."""
+	
+	elementName: str
+	"""The name of the element on which we calculate CPU usage."""
+	
+	id: int
+	"""Class ID of the element."""
+	
+	instances: int
+	"""An estimation of the number of instances of the element."""
+	
+	type: str
+	"""The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
+	
+	percentInclusive: float
+	"""The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	percentExclusive: float
+	"""The percentage of CPU time spent only in the execution of the element itself."""
+	
+	millisecondsInclusive: float
+	"""The milliseconds of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	millisecondsExclusive: float
+	"""The milliseconds of CPU time spent only in the execution of the element itself."""
+
+
+@_dataclass
+class GameObjectRegistrationData:
+	"""Data of a profiled game object and its registration data."""
+	
+	id: int
+	"""The ID of the game object. Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
+	
+	name: str
+	"""The name of the game object."""
+	
+	registrationTime: int
+	"""The time at which the game object was registered. Integer 32-bit. Range: [-2147483648,2147483647]"""
+	
+	unregistrationTime: int
+	"""The time at which the game object was unregistered. Integer 32-bit. Range: [-2147483648,2147483647]"""
+
+
+@_dataclass
+class LoadedMediaInfo:
+	"""Information about a media file loaded into memory as a result of the PrepareEvent() and PrepareGameSyncs()
+	functions."""
+
+	mediaId: ShortID
+	"""The short ID of the media file"""
+	
+	fileName: Name
+	"""The name of the media file."""
+	
+	format: str
+	"""The audio format of the media file."""
+	
+	size: int
+	"""The size (in bytes) of the media file."""
+	
+	soundBank: Name
+	"""The name of the SoundBank that contains the media file."""
+
+
+@_dataclass
+class PerformanceMonitorCounterInfo:
+	"""Information about a performance monitor counter and its value"""
+	
+	name: Name
+	"""name of the counter as shown in Wwise Authoring."""
+
+	id: int
+	"""unique Id of the counter."""
+
+	value: float
+	"""value of counter at given time."""
 	
