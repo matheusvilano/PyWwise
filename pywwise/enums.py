@@ -1355,48 +1355,72 @@ class EAudioObjectOptions(_StrEnum):
 	"""Enumeration of defined members for an audio object return structure."""
 	
 	BUS_NAME = "busName"
+	"""Name of the bus instance."""
 	
 	EFFECT_PLUGIN_NAME = "effectPluginName"
+	"""Name of the effect plug-in after which the Audio Object was captured."""
 	
 	AUDIO_OBJECT_ID = "audioObjectID"
+	"""The ID of the Audio Object."""
 	
 	BUS_PIPELINE_ID = "busPipelineID"
+	"""The Pipeline ID of the Bus instance."""
 	
 	GAME_OBJECT_ID = "gameObjectID"
+	"""The Game Object ID of the Bus instance."""
 	
 	GAME_OBJECT_NAME = "gameObjectName"
+	"""The name of the Game Object of the Bus Instance."""
 	
 	AUDIO_OBJECT_NAME = "audioObjectName"
+	"""The name of the Audio Object. Can be empty."""
 	
 	INSTIGATOR_PIPELINE_ID = "instigatorPipelineID"
+	"""The pipeline ID of the instigator from which the Audio Object originates. Can be either a Bus instance or a
+	Voice."""
 	
 	BUS_ID = "busID"
+	"""The short ID of the Bus."""
 	
 	BUS_GUID = "busGUID"
+	"""The GUID of the Bus."""
 	
 	SPATIALIZATION_MODE = "spatializationMode"
+	"""The spatialization mode. Use Ak3DSpatializationMode to interpret the value."""
 	
 	X = "x"
+	"""The X value of the Audio Object position."""
 	
 	Y = "y"
+	"""The Y value of the Audio Object position."""
 	
 	Z = "z"
+	"""The Z value of the Audio Object position."""
 	
 	SPREAD = "spread"
+	"""The spread value (normalized) of the Audio Object."""
 	
 	FOCUS = "focus"
+	"""The focus value (normalized) of the Audio Object."""
 	
 	CHANNEL_CONFIG = "channelConfig"
+	"""The channel configuration of the Audio Object. Use AK::AkChannelConfig::Deserialize to deserialize the value."""
 	
 	EFFECT_CLASS_ID = "effectClassID"
+	"""The Class ID of the effect after which the Audio Object was captured. Usage of AK_INVALID_UNIQUE_ID constant
+	means that this Audio Object was captured before applying the first effect."""
 	
 	EFFECT_INDEX = "effectIndex"
+	"""The index of the effect after which the Audio Object was captured."""
 	
 	METADATA = "metadata"
+	"""Array of objects containing metadata of the Audio Object."""
 	
 	RMS_METER = "rmsMeter"
+	"""Array of volume values (one per channel) for the RMS meter."""
 	
 	PEAK_METER = "peakMeter"
+	"""Array of volume values (one per channel) for the Peak meter."""
 
 
 class ETimeCursor(_StrEnum):
@@ -1408,6 +1432,46 @@ class ETimeCursor(_StrEnum):
 	CAPTURE = "capture"
 	"""Capture Time Cursor represents the latest time of the current capture"""
 
+
+class EBusOptions(_StrEnum):
+	"""Enumeration of defined members for a bus pipeline return structure. """
+
+	PIPELINE_ID = "pipelineID"
+	"""Pipeline ID of the bus."""
+	
+	MIX_BUS_ID = "mixBusID"
+	"""Unique ID assigned to a mixing bus."""
+	
+	OBJECT_GUID = "objectGUID"
+	"""Object GUID corresponding to the bus."""
+	
+	OBJECT_NAME = "objectName"
+	"""Object Name corresponding to the bus."""
+	
+	GAME_OBJECT_ID = "gameObjectID"
+	"""Game Object ID corresponding to the voice."""
+	
+	GAME_OBJECT_NAME = "gameObjectName"
+	"""Game Object Name corresponding to the voice."""
+	
+	DEVICE_ID = "deviceID"
+	"""Audio Output device ID."""
+	
+	Volume = "volume"
+	"""Gain of the bus in dB."""
+	
+	DOWNSTREAM_GAIN = "downstreamGain"
+	"""Gain from current bus down to output in dB."""
+	
+	VOICE_COUNT = "voiceCount"
+	"""Number of voices routed to the bus."""
+	
+	EFFECT_COUNT = "effectCount"
+	"""Number of effects on the bus."""
+	
+	Depth = "depth"
+	"""Depth level of the bus in the pipeline."""
+	
 
 class ECaseStyle(_StrEnum):
 	"""Enumeration of common case styles."""

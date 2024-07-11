@@ -1,8 +1,8 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
-from pywwise.enums import EDataTypes, EAudioObjectOptions, ETimeCursor
-from pywwise.structs import AudioObjectInfo, AudioObjectMetadata
+from pywwise.enums import EBusOptions, EDataTypes, EAudioObjectOptions, ETimeCursor
+from pywwise.structs import AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo
 from pywwise.types import GUID, Name, ShortID
 
 
@@ -48,11 +48,11 @@ class Profiler:
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
 		Retrieves the Audio Objects at a specific profiler capture time. \n
 		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
-					 This parameter can have 2 possible values: int or string. The int is the ime to query.
-					 The string can have two values: user or capture. The User Time Cursor is the one that can
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
+					 The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
 					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
 					 capture.
-		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a Bus instance for
+		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a Bus instance to get.
 		:param return_options: Members to return for each Audio Object. Defaults to Audio Object ID, Bus Pipeline ID,
 							   Instigator Pipeline ID and Effect Class ID.
 		:return: For each profiled audio object, an AudioObjectInfo containing an object's ID, pipeline ID,
@@ -100,10 +100,56 @@ class Profiler:
 		
 		return tuple(objects)
 		
-	def get_busses(self):
+	def get_busses(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
+	               return_options: set[EBusOptions] = None) -> tuple[BusPipelineInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getbusses.html \n
 		Retrieves the busses at a specific profiler capture time.
+		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
+					 The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
+					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a single bus instance
+								to get.
+		:param return_options: Members to return for each bus. Defaults to Pipeline ID, GameObject ID, and Object GUID.
+		:return: For each profiled bus pipeline, a BusPipelineInfo containing a Pipeline ID, GameObject ID,
+				 Object GUID and a dictionary containing additional information
+				 (requested via `return_options`). When accessing the values in the dictionary, use the
+				 EBusOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
+		
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		if bus_pipeline_id is not None:
+			args["busPipelineId"] = bus_pipeline_id
+		
+		returns = (EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID)
+		options = {"return": list(returns)}
+		
+		if return_options is not None:
+			options["return"].extend(list(return_options))
+		
+		results = self._client.call("ak.wwise.core.profiler.getBusses", args, options=options)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		objects = list[BusPipelineInfo]()
+		
+		for result in results:
+			info = BusPipelineInfo(result[EBusOptions.PIPELINE_ID],
+			                       result[EBusOptions.GAME_OBJECT_ID],
+			                       result[EBusOptions.OBJECT_GUID],
+			                       {k: v for k, v in result.items()
+			                        if k not in returns})
+			objects.append(info)
+		
+		return tuple(objects)
 	
 	def get_cpu_usage(self):
 		"""

@@ -1,7 +1,8 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Literal as _Literal
-from pywwise.enums import EAudioObjectOptions, EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, \
+from pywwise.enums import EAudioObjectOptions, EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, \
+	ELogSeverity, \
 	EObjectType, \
 	EReturnOptions, ESpeakerBitMask, EStartMode
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
@@ -388,7 +389,7 @@ class AudioObjectMetadata:
 
 @_dataclass
 class AudioObjectInfo:
-	"""Contains information about an audio object when captured in the profiler."""
+	"""Contains information about an audio object captured in the profiler."""
 	
 	audio_object_id: int
 	"""The ID of the Audio Object.Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
@@ -412,4 +413,24 @@ class AudioObjectInfo:
 	def __hash__(self):
 		""":return: The AudioObject hash."""
 		return hash(self.audio_object_id)
+	
+	
+@_dataclass
+class BusPipelineInfo:
+	"""Contains information about an audio bus captured in the profiler"""
+
+	pipelineID: int
+	"""Pipeline ID of the bus. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	
+	gameObjectID: int
+	"""Game Object ID corresponding to the voice. Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
+	
+	objectGUID: GUID
+	"""Object GUID corresponding to the bus. An object GUID of the form: {aabbcc00-1122-3344-5566-77889900aabb}."""
+	
+	other: dict[EBusOptions | str, _Any] = _field(default_factory=dict)
+	
+	def __hash__(self):
+		""":return: The AudioObject hash."""
+		return hash(self.pipelineID)
 	
