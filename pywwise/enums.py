@@ -469,6 +469,7 @@ class EReturnOptions(_StrEnum):
 class EObjectType(tuple[int, int, str], _Enum):
 	"""An enumeration of class IDs for all different Wwise objects."""
 	
+	UNKNOWN = -1, -1, "Unknown"
 	ACOUSTIC_TEXTURE = 72, 4718608, "AcousticTexture"
 	ACTION = 5, 327696, "Action"
 	ACTION_EXCEPTION = 76, 4980752, "ActionException"
@@ -518,7 +519,7 @@ class EObjectType(tuple[int, int, str], _Enum):
 	MUSIC_TRACK = 28, 1835024, "MusicTrack"
 	MUSIC_TRACK_SEQUENCE = 58, 3801104, "MusicTrackSequence"
 	MUSIC_TRANSITION = 37, 2424848, "MusicTransition"
-	OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssoc"
+	OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssociation"  # wrongly listed as "ObjectSettingAssoc" in AK docs?
 	PANNER = 42, 2752528, "Panner"
 	PATH_2D = 11, 720912, "Path2d"
 	PLATFORM = 69, 4522000, "Platform"
@@ -544,24 +545,42 @@ class EObjectType(tuple[int, int, str], _Enum):
 	
 	@classmethod
 	def from_plugin_id(cls, plugin_id: int):
+		"""
+		Gets an enum member by plugin ID.
+		:param plugin_id: The plugin ID.
+		:return: An enum member whose plugin ID matches the specified plugin ID. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
 		for member in cls:
 			if member.get_plugin_id() == plugin_id:
 				return member
-		raise ValueError(f"No {cls.__name__} member with plugin_id={plugin_id}")
+		return cls.UNKNOWN
 	
 	@classmethod
 	def from_class_id(cls, class_id: int):
+		"""
+		Gets an enum member by class ID.
+		:param class_id: The class ID.
+		:return: An enum member whose class ID matches the specified class ID. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
 		for member in cls:
 			if member.get_class_id() == class_id:
 				return member
-		raise ValueError(f"No {cls.__name__} member with class_id={class_id}")
+		return cls.UNKNOWN
 	
 	@classmethod
 	def from_type_name(cls, type_name: str):
+		"""
+		Gets an enum member by type name.
+		:param type_name: The type name.
+		:return: An enum member whose type name matches the specified type name. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
 		for member in cls:
 			if member.get_type_name() == type_name:
 				return member
-		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
+		return cls.UNKNOWN
 	
 	def get_plugin_id(self) -> int:
 		""":return: The Wwise object type's PluginID."""
