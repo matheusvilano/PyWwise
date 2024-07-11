@@ -528,7 +528,7 @@ class EObjectType(tuple[int, int, str], _Enum):
 	PROJECT = 3, 196624, "Project"
 	QUERY = 32, 2097168, "Query"
 	RANDOM_SEQUENCE_CONTAINER = 9, 589840, "RandomSequenceContainer"
-	RTPC = 22, 1441808, "Rtpc"
+	RTPC = 22, 1441808, "Rtpc"  # AK docs list as capitalized ("Rtpc"), but return values are all caps?
 	SEARCH_CRITERIA = 33, 2162704, "SearchCriteria"
 	SOUND = 1, 65552, "Sound"
 	SOUND_BANK = 18, 1179664, "SoundBank"
@@ -577,8 +577,9 @@ class EObjectType(tuple[int, int, str], _Enum):
 		:return: An enum member whose type name matches the specified type name. If no valid member was found, UNKNOWN
 				 is returned instead.
 		"""
+		type_name = type_name.upper()  # The comparisons are all case-insensitive
 		for member in cls:
-			if member.get_type_name() == type_name:
+			if member.get_type_name().upper() == type_name:
 				return member
 		return cls.UNKNOWN
 	
