@@ -162,8 +162,7 @@ class Object:
 				prop_options["object"] = watch.guid
 				prop_options["property"] = prop
 				self._property_changed.append(self._client.subscribe("ak.wwise.core.object.propertyChanged",
-				                                                     self._on_property_changed,
-				                                                     return_options))
+				                                                     self._on_property_changed, prop_options))
 		
 		self.reference_changed = _RefEvent(WwiseObjectInfo)
 		"""
