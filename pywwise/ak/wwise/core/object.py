@@ -153,6 +153,9 @@ class Object:
 		\n- The old value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
 		\n- The new value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
 		\n- The GUID of the platform for which the change occurred.
+		\n**Additional Notes**:
+		\n- This event requires a `watch_list` (a `tuple` of `WwiseObjectWatch`). See `pywwise.new_connection`.
+		\n- This event will only happen for the objects and properties included in the `watch_list`.
 		"""
 		
 		self._property_changed = list[_EventHandler]()
