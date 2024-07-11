@@ -46,11 +46,7 @@ class UI:
 		"""
 		objects = list[WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
-			guid = GUID(obj["id"])
-			name = Name(obj["name"])
-			typename = EObjectType.from_type_name(obj["type"])
-			path = ProjectPath(obj["path"])
-			objects.append(WwiseObjectInfo(guid, name, typename, path))
+			objects.append(WwiseObjectInfo.from_dict(obj))
 		event(tuple(objects))
 	
 	def bring_to_foreground(self) -> bool:

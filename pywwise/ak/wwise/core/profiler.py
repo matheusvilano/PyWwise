@@ -114,16 +114,8 @@ class Profiler:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		group = kwargs["stateGroup"]
-		group = WwiseObjectInfo(GUID(group["id"]),
-		                        Name(group["name"]),
-		                        EObjectType.from_type_name(group["type"]),
-		                        ProjectPath(group["path"]))
-		value = kwargs["state"]
-		value = WwiseObjectInfo(GUID(value["id"]),
-		                        Name(value["name"]),
-		                        EObjectType.from_type_name(value["type"]),
-		                        ProjectPath(value["path"]))
+		group = WwiseObjectInfo.from_dict(kwargs["stateGroup"])
+		value = WwiseObjectInfo.from_dict(kwargs["state"])
 		event(group, value)
 	
 	@callback
@@ -133,16 +125,8 @@ class Profiler:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		group = kwargs["switchGroup"]
-		group = WwiseObjectInfo(GUID(group["id"]),
-		                        Name(group["name"]),
-		                        EObjectType.from_type_name(group["type"]),
-		                        ProjectPath(group["path"]))
-		value = kwargs["switch"]
-		value = WwiseObjectInfo(GUID(value["id"]),
-		                        Name(value["name"]),
-		                        EObjectType.from_type_name(value["type"]),
-		                        ProjectPath(value["path"]))
+		group = WwiseObjectInfo.from_dict(kwargs["switchGroup"])
+		value = WwiseObjectInfo.from_dict(kwargs["switch"])
 		event(group, value, kwargs["gameObjectID"])
 	
 	def enable_profiler_data(self):

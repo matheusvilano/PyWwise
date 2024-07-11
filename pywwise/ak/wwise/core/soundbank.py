@@ -51,11 +51,7 @@ class SoundBank:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		sound_bank = kwargs["soundbank"]
-		sound_bank = WwiseObjectInfo(GUID(sound_bank["id"]),
-		                             Name(sound_bank["name"]),
-		                             EObjectType.from_type_name(sound_bank["type"]),
-		                             ProjectPath(sound_bank["path"]))
+		sound_bank = WwiseObjectInfo.from_dict(kwargs["soundbank"])
 		platform = Name(kwargs["platform"]["name"])
 		language = Name(kwargs["language"]) if kwargs.get("language") is not None else Name.get_null()
 		bank_data = kwargs.get("bankData", dict())

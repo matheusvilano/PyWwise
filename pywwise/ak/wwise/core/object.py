@@ -118,11 +118,32 @@ class Object:
 		self._notes_changed = self._client.subscribe("ak.wwise.core.object.notesChanged",
 		                                             self._on_notes_changed, return_options)
 		
-		# TODO: implement topics
-		self.post_deleted: _RefEvent
-		self.pre_deleted: _RefEvent
-		self.property_changed: _RefEvent
-		self.reference_changed: _RefEvent
+		self.post_deleted = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_postdeleted.html
+		\nSent following an object's deletion.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that was deleted.
+		"""
+		
+		self._post_deleted = self._client.subscribe("ak.wwise.core.object.postDeleted",
+		                                            self._on_post_deleted, return_options)
+		
+		self.pre_deleted = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_predeleted.html
+		\nSent prior to an object's deletion.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that will be deleted.
+		"""
+		
+		self._pre_deleted = self._client.subscribe("ak.wwise.core.object.preDeleted",
+		                                           self._on_pre_deleted, return_options)
+		
+		self.property_changed = _RefEvent()
+		self._property_changed = self._client.subscribe("ak.wwise.core.object.propertyChanged")
+		self.reference_changed = _RefEvent()
+		self._reference_changed = self._client.subscribe("ak.wwise.core.object.referenceChanged")
 	
 	@callback
 	def _on_attenuation_curve_changed(self, event, **kwargs):
@@ -149,11 +170,7 @@ class Object:
 		:param kwargs: The event data.
 		:return: The event data, processed.
 		"""
-		attenuation = kwargs["attenuation"]
-		info = WwiseObjectInfo(GUID(attenuation["id"]),
-		                       Name(attenuation["name"]),
-		                       EObjectType.from_type_name(attenuation["type"]),
-		                       ProjectPath(attenuation["path"]))
+		info = WwiseObjectInfo.from_dict(kwargs["attenuation"])
 		curve = EnumStatics.from_value(EAttenuationCurveType, kwargs["curveType"])
 		return info, curve
 	
@@ -182,17 +199,7 @@ class Object:
 		:param kwargs: The event data.
 		:return: The event data, processed.
 		"""
-		child = kwargs["child"]
-		child = WwiseObjectInfo(GUID(child["id"]),
-		                        Name(child["name"]),
-		                        EObjectType.from_type_name(child["type"]),
-		                        ProjectPath(child["path"]))
-		parent = kwargs["parent"]
-		parent = WwiseObjectInfo(GUID(parent["id"]),
-		                         Name(parent["name"]),
-		                         EObjectType.from_type_name(parent["type"]),
-		                         ProjectPath(parent["path"]))
-		return child, parent
+		return WwiseObjectInfo.from_dict(kwargs["child"]), WwiseObjectInfo.from_dict(kwargs["parent"])
 	
 	@callback
 	def _on_created(self, event, **kwargs):
@@ -214,17 +221,7 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		curve = kwargs["curve"]
-		curve = WwiseObjectInfo(GUID(curve["id"]),
-		                        Name(curve["name"]) if curve.get("name", "") != "" else Name.get_null(),
-		                        EObjectType.from_type_name(curve["type"]),
-		                        ProjectPath(curve["path"]) if curve.get("path", "") != "" else ProjectPath.get_null())
-		owner = kwargs["owner"]
-		owner = WwiseObjectInfo(GUID(owner["id"]),
-		                        Name(owner["name"]) if owner.get("name", "") != "" else Name.get_null(),
-		                        EObjectType.from_type_name(owner["type"]),
-		                        ProjectPath(owner["path"]) if owner.get("path", "") != "" else ProjectPath.get_null())
-		event(curve, owner)
+		event(WwiseObjectInfo.from_dict(kwargs["curve"]), WwiseObjectInfo.from_dict(kwargs["owner"]))
 	
 	@callback
 	def _on_name_changed(self, event, **kwargs):
@@ -233,12 +230,7 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		obj = kwargs["object"]
-		obj = WwiseObjectInfo(GUID(obj["id"]),
-		                      Name(obj["name"]),
-		                      EObjectType.from_type_name(obj["type"]),
-		                      ProjectPath(obj["path"]))
-		event(obj, kwargs["oldName"])
+		event(WwiseObjectInfo.from_dict(kwargs["object"]), kwargs["oldName"])
 	
 	@callback
 	def _on_notes_changed(self, event, **kwargs):
@@ -247,12 +239,25 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		obj = kwargs["object"]
-		obj = WwiseObjectInfo(GUID(obj["id"]),
-		                      Name(obj["name"]),
-		                      EObjectType.from_type_name(obj["type"]),
-		                      ProjectPath(obj["path"]))
-		event(obj, kwargs["newNotes"], kwargs["oldNotes"])
+		event(WwiseObjectInfo.from_dict(kwargs["object"]), kwargs["newNotes"], kwargs["oldNotes"])
+	
+	@callback
+	def _on_post_deleted(self, event, **kwargs):
+		"""
+		Callback function for the `postDeleted` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]))
+	
+	@callback
+	def _on_pre_deleted(self, event, **kwargs):
+		"""
+		Callback function for the `preDeleted` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		event(WwiseObjectInfo.from_dict(kwargs["object"]))
 	
 	def copy(self):
 		"""

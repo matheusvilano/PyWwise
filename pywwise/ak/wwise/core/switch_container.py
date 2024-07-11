@@ -70,21 +70,9 @@ class SwitchContainer:
 		:param kwargs: The event data.
 		:return: The event data, processed.
 		"""
-		container = kwargs["switchContainer"]
-		container = WwiseObjectInfo(GUID(container["id"]),
-		                            Name(container["name"]),
-		                            EObjectType.from_type_name(container["type"]),
-		                            ProjectPath(container["path"]))
-		child = kwargs["child"]
-		child = WwiseObjectInfo(GUID(child["id"]),
-		                        Name(child["name"]),
-		                        EObjectType.from_type_name(child["type"]),
-		                        ProjectPath(child["path"]))
-		sync = kwargs["stateOrSwitch"]
-		sync = WwiseObjectInfo(GUID(sync["id"]),
-		                       Name(sync["name"]),
-		                       EObjectType.from_type_name(sync["type"]),
-		                       ProjectPath(sync["path"]))
+		container = WwiseObjectInfo.from_dict(kwargs["switchContainer"])
+		child = WwiseObjectInfo.from_dict(kwargs["child"])
+		sync = WwiseObjectInfo.from_dict(kwargs["stateOrSwitch"])
 		return container, child, sync
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
