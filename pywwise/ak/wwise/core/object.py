@@ -171,7 +171,7 @@ class Object:
 		event(WwiseObjectInfo(GUID(obj["id"]),
 		                      Name(obj["name"] if obj["name"] != "" else Name.get_null()),
 		                      EObjectType.from_type_name(obj["type"]),
-		                      ProjectPath))
+		                      ProjectPath(obj["path"]) if obj["path"] != "" else ProjectPath.get_null()))
 	
 	def copy(self):
 		"""
