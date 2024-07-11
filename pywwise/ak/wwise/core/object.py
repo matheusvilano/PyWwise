@@ -105,8 +105,20 @@ class Object:
 		self._name_changed = self._client.subscribe("ak.wwise.core.object.nameChanged",
 		                                            self._on_name_changed, return_options)
 		
+		self.notes_changed = _RefEvent(WwiseObjectInfo, str, str)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_noteschanged.html
+		\nSent when the object's notes are changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object whose notes changed.
+		\n- A string containing the old notes.
+		\n- A string containing the new notes.
+		"""
+		
+		self._notes_changed = self._client.subscribe("ak.wwise.core.object.notesChanged",
+		                                             self._on_notes_changed, return_options)
+		
 		# TODO: implement topics
-		self.notes_changed: _RefEvent
 		self.post_deleted: _RefEvent
 		self.pre_deleted: _RefEvent
 		self.property_changed: _RefEvent
@@ -203,13 +215,11 @@ class Object:
 		:param kwargs: The event data.
 		"""
 		curve = kwargs["curve"]
-		print(curve["type"])
 		curve = WwiseObjectInfo(GUID(curve["id"]),
 		                        Name(curve["name"]) if curve.get("name", "") != "" else Name.get_null(),
 		                        EObjectType.from_type_name(curve["type"]),
 		                        ProjectPath(curve["path"]) if curve.get("path", "") != "" else ProjectPath.get_null())
 		owner = kwargs["owner"]
-		print(owner["type"])
 		owner = WwiseObjectInfo(GUID(owner["id"]),
 		                        Name(owner["name"]) if owner.get("name", "") != "" else Name.get_null(),
 		                        EObjectType.from_type_name(owner["type"]),
@@ -229,6 +239,20 @@ class Object:
 		                      EObjectType.from_type_name(obj["type"]),
 		                      ProjectPath(obj["path"]))
 		event(obj, kwargs["oldName"])
+	
+	@callback
+	def _on_notes_changed(self, event, **kwargs):
+		"""
+		Callback function for the `notesChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = kwargs["object"]
+		obj = WwiseObjectInfo(GUID(obj["id"]),
+		                      Name(obj["name"]),
+		                      EObjectType.from_type_name(obj["type"]),
+		                      ProjectPath(obj["path"]))
+		event(obj, kwargs["newNotes"], kwargs["oldNotes"])
 	
 	def copy(self):
 		"""
