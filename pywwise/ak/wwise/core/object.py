@@ -70,12 +70,13 @@ class Object:
 		self._child_removed = self._client.subscribe("ak.wwise.core.object.childRemoved",
 		                                             self._on_child_removed, return_options)
 		
-		self.created = _RefEvent(WwiseObjectInfo)
+		self.created = _RefEvent(GUID, EObjectType)
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_created.html
-		\nSent when an object is created. Includes Object Setting Associations, which do not have valid paths or names.
+		\nSent when an object is created. `Name` and `ProjectPath` are not available at the time of creation.
 		\n**Event Data**:
-		\n- A WwiseObjectInfo instance representing the newly created object.
+		\n- The GUID of the newly created object.
+		\n- The type of the newly created object.
 		"""
 		
 		self._created = self._client.subscribe("ak.wwise.core.object.created",
@@ -167,11 +168,7 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		obj = kwargs["object"]
-		event(WwiseObjectInfo(GUID(obj["id"]),
-		                      Name(obj["name"] if obj["name"] != "" else Name.get_null()),
-		                      EObjectType.from_type_name(obj["type"]),
-		                      ProjectPath(obj["path"]) if obj["path"] != "" else ProjectPath.get_null()))
+		event(GUID(kwargs["object"]["id"]), EObjectType.from_type_name(kwargs["object"]["type"]))
 	
 	def copy(self):
 		"""
