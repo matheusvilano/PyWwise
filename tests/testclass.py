@@ -1,8 +1,6 @@
 import asyncio
 from unittest import TestCase
-
 from pywwise import new as ak_new
-from pywwise.ak import Ak
 
 
 class PyWwiseTest(TestCase):
