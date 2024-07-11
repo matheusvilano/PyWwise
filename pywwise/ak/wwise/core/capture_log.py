@@ -38,12 +38,12 @@ class CaptureLog:
 		time_seconds = kwargs["time"]
 		description = kwargs["description"]
 		severity = EnumStatics.from_value(ECaptureLogSeverity, kwargs["severity"])
-		wwise_obj_id = GUID(kwargs["objectId"]) if "objectId" in kwargs else GUID.get_zero()
+		wwise_obj_id = GUID(kwargs["objectId"]) if "objectId" in kwargs else GUID.get_null()
 		wwise_obj_name = Name(kwargs["objectName"]) if "objectName" in kwargs else Name.get_null()
-		wwise_obj_short = ShortID(kwargs["objectShortId"]) if "objectShortId" in kwargs else ShortID.get_invalid()
-		game_obj_id = GameObjectID(kwargs["gameObjectId"]) if "gameObjectId" in kwargs else GameObjectID.get_invalid()
+		wwise_obj_short = ShortID(kwargs["objectShortId"]) if "objectShortId" in kwargs else ShortID.get_null()
+		game_obj_id = GameObjectID(kwargs["gameObjectId"]) if "gameObjectId" in kwargs else GameObjectID.get_null()
 		game_obj_name = Name(kwargs["gameObjectName"]) if "gameObjectName" in kwargs else Name.get_null()
-		playing_id = PlayingID(kwargs["playingId"]) if "playingId" in kwargs else PlayingID.get_invalid()
+		playing_id = PlayingID(kwargs["playingId"]) if "playingId" in kwargs else PlayingID.get_null()
 		error_code_name = kwargs.get("errorCodeName", "")
 		event(CaptureLogItem(item_type, time_seconds, description, severity, wwise_obj_id, wwise_obj_name,
 		                     wwise_obj_short, game_obj_id, game_obj_name, playing_id, error_code_name))
