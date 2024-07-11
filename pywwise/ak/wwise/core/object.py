@@ -70,21 +70,42 @@ class Object:
 		self._child_removed = self._client.subscribe("ak.wwise.core.object.childRemoved",
 		                                             self._on_child_removed, return_options)
 		
-		self.created = _RefEvent(GUID, EObjectType)
+		self.created = _RefEvent(WwiseObjectInfo)
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_created.html
-		\nSent when an object is created. `Name` and `ProjectPath` are not available at the time of creation.
+		\nSent when an object is created. The name and path are not available at the time of creation.
 		\n**Event Data**:
-		\n- The GUID of the newly created object.
-		\n- The type of the newly created object.
+		\n- A WwiseObject instance representing the newly created object.
 		"""
 		
 		self._created = self._client.subscribe("ak.wwise.core.object.created",
 		                                       self._on_created, return_options)
 		
+		self.curve_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_curvechanged.html
+		\nSent when one or many curves are changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the curve that changed.
+		\n- A WwiseObjectInfo instance representing the owner of the curve that changed.
+		"""
+		
+		self._curve_changed = self._client.subscribe("ak.wwise.core.object.curveChanged",
+		                                             self._on_curve_changed, return_options)
+		
+		self.name_changed = _RefEvent(WwiseObjectInfo, str)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_namechanged.html
+		\nSent when an object is renamed. Publishes the renamed object.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that was renamed. It will contain the new name.
+		\n- A string containing the old name.
+		"""
+		
+		self._name_changed = self._client.subscribe("ak.wwise.core.object.nameChanged",
+		                                            self._on_name_changed, return_options)
+		
 		# TODO: implement topics
-		self.curve_changed: _RefEvent
-		self.name_changed: _RefEvent
 		self.notes_changed: _RefEvent
 		self.post_deleted: _RefEvent
 		self.pre_deleted: _RefEvent
@@ -132,7 +153,7 @@ class Object:
 		:param kwargs: The event data.
 		"""
 		event(*self._on_child_event(**kwargs))
-		
+	
 	@callback
 	def _on_child_removed(self, event, **kwargs):
 		"""
@@ -168,7 +189,46 @@ class Object:
 		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		event(GUID(kwargs["object"]["id"]), EObjectType.from_type_name(kwargs["object"]["type"]))
+		obj = kwargs["object"]
+		event(WwiseObjectInfo(GUID(obj["id"]),
+		                      Name.get_null(),
+		                      EObjectType.from_type_name(obj["type"]),
+		                      ProjectPath.get_null()))
+	
+	@callback
+	def _on_curve_changed(self, event, **kwargs):
+		"""
+		Callback function for the `curveChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		curve = kwargs["curve"]
+		print(curve["type"])
+		curve = WwiseObjectInfo(GUID(curve["id"]),
+		                        Name(curve["name"]) if curve.get("name", "") != "" else Name.get_null(),
+		                        EObjectType.from_type_name(curve["type"]),
+		                        ProjectPath(curve["path"]) if curve.get("path", "") != "" else ProjectPath.get_null())
+		owner = kwargs["owner"]
+		print(owner["type"])
+		owner = WwiseObjectInfo(GUID(owner["id"]),
+		                        Name(owner["name"]) if owner.get("name", "") != "" else Name.get_null(),
+		                        EObjectType.from_type_name(owner["type"]),
+		                        ProjectPath(owner["path"]) if owner.get("path", "") != "" else ProjectPath.get_null())
+		event(curve, owner)
+	
+	@callback
+	def _on_name_changed(self, event, **kwargs):
+		"""
+		Callback function for the `nameChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = kwargs["object"]
+		obj = WwiseObjectInfo(GUID(obj["id"]),
+		                      Name(obj["name"]),
+		                      EObjectType.from_type_name(obj["type"]),
+		                      ProjectPath(obj["path"]))
+		event(obj, kwargs["oldName"])
 	
 	def copy(self):
 		"""
