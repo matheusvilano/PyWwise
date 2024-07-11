@@ -1,10 +1,10 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import EObjectType, EReturnOptions, EImportOperation
+from pywwise.enums import EReturnOptions, EImportOperation
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
-from pywwise.types import GUID, Name, ProjectPath, SystemPath
+from pywwise.types import SystemPath
 
 
 class Audio:

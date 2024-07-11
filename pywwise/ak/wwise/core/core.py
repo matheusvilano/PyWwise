@@ -12,21 +12,24 @@ from pywwise.ak.wwise.core.source_control import SourceControl as _SourceControl
 from pywwise.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
 from pywwise.ak.wwise.core.transport import Transport as _Transport
 from pywwise.ak.wwise.core.undo import Undo as _Undo
+from pywwise.structs import WwiseObjectWatch
 
 
 class Core:
 	"""ak.wwise.core"""
 	
-	def __init__(self, client: _WaapiClient):
+	def __init__(self, client: _WaapiClient, watch_list: tuple[WwiseObjectWatch, ...] = ()):
 		"""
 		Constructor.
 		:param client: The WAAPI client to use.
+		:param watch_list: A tuple of `WwiseObjectWatch` instances. This will be used to set up the
+						   `ak.wwise.core.object.property_changed` event.
 		"""
 		self._client = client
 		self.audio = _Audio(client)
 		self.audio_source_peaks = _AudioSourcePeaks(client)
 		self.log = _Log(client)
-		self.object = _Object(client)
+		self.object = _Object(client, watch_list)
 		self.profiler = _Profiler(client)
 		self.project = _Project(client)
 		self.remote = _Remote(client)

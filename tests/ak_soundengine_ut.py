@@ -5,7 +5,7 @@ from pywwise.types import *
 from pywwise.structs import *
 from constants import *
 
-ak = pywwise.new()
+ak = pywwise.new_connection()
 
 
 class AkSoundEngineTest(unittest.TestCase):

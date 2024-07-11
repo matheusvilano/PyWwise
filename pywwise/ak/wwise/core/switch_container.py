@@ -1,9 +1,9 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.decorators import callback
-from pywwise.enums import EObjectType, EReturnOptions
+from pywwise.enums import EReturnOptions
 from pywwise.structs import SwitchContainerAssignment, WwiseObjectInfo
-from pywwise.types import GUID, Name, ProjectPath
+from pywwise.types import GUID, ProjectPath
 
 
 class SwitchContainer:

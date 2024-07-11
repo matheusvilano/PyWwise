@@ -1,6 +1,6 @@
 import asyncio
 from unittest import TestCase
-from pywwise import new as ak_new
+from pywwise import new_connection as ak_new
 
 
 class PyWwiseTest(TestCase):

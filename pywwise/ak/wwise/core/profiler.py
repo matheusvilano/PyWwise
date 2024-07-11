@@ -2,9 +2,9 @@ from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.decorators import callback
-from pywwise.enums import EObjectType, EReturnOptions
+from pywwise.enums import EReturnOptions
 from pywwise.structs import WwiseObjectInfo
-from pywwise.types import GameObjectID, GUID, Name, ProjectPath
+from pywwise.types import GameObjectID, Name
 
 
 class Profiler:

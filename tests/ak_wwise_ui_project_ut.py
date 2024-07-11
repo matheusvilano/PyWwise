@@ -6,7 +6,7 @@ from pywwise.structs import *
 from constants import *
 import time
 
-ak = pywwise.new()
+ak = pywwise.new_connection()
 
 
 class AkWwiseUiProjectTest(unittest.TestCase):

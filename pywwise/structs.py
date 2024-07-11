@@ -439,3 +439,15 @@ class SoundBankGenerationInfo:
 	
 	error_message: str = ""
 	"""The error message, if an error occurred. Only present if an error occurred."""
+
+
+@_dataclass
+class WwiseObjectWatch:
+	"""Represents a watch. Used for setting up the `ak.wwise.core.object.property_changed` event. For the specified
+	GUID, changes to any of the specified properties will trigger the event."""
+	
+	guid: GUID
+	"""The GUID of the object to watch."""
+	
+	properties: tuple[str]
+	"""A collection of properties names to watch."""

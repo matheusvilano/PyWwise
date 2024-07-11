@@ -1,19 +1,22 @@
-from waapi import WaapiClient as _WaapiClient
+from typing import Any as _Any
+from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
 from pywwise.enums import EAttenuationCurveType, EObjectType, EReturnOptions
 from pywwise.statics import EnumStatics
-from pywwise.structs import WwiseObjectInfo
+from pywwise.structs import WwiseObjectInfo, WwiseObjectWatch
 from pywwise.types import GUID, Name, ProjectPath
 
 
 class Object:
 	"""ak.wwise.core.object"""
 	
-	def __init__(self, client: _WaapiClient):
+	def __init__(self, client: _WaapiClient, watch_list: tuple[WwiseObjectWatch, ...] = ()):
 		"""
 		Constructor.
 		:param client: The WAAPI client to use.
+		:param watch_list: A tuple of `WwiseObjectWatch` instances. This will be used to set up the
+						   `ak.wwise.core.object.property_changed` event.
 		"""
 		self._client = client
 		
@@ -140,10 +143,40 @@ class Object:
 		self._pre_deleted = self._client.subscribe("ak.wwise.core.object.preDeleted",
 		                                           self._on_pre_deleted, return_options)
 		
-		self.property_changed = _RefEvent()
-		self._property_changed = self._client.subscribe("ak.wwise.core.object.propertyChanged")
-		self.reference_changed = _RefEvent()
-		self._reference_changed = self._client.subscribe("ak.wwise.core.object.referenceChanged")
+		self.property_changed = _RefEvent(WwiseObjectInfo, Name, _Any, _Any, GUID)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_propertychanged.html
+		\nSent when the watched property of an object changes.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the watched object.
+		\n- The Name of the changed property.
+		\n- The old value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
+		\n- The new value of the property. Can be of any type, but likely `None`, `str`, `float`, or `bool`.
+		\n- The GUID of the platform for which the change occurred.
+		"""
+		
+		self._property_changed = list[_EventHandler]()
+		for watch in watch_list:
+			for prop in watch.properties:  # `property` is a built-in identifier, so using `prop` instead
+				prop_options = dict(return_options)
+				prop_options["object"] = watch.guid
+				prop_options["property"] = prop
+				self._property_changed.append(self._client.subscribe("ak.wwise.core.object.propertyChanged",
+				                                                     self._on_property_changed,
+				                                                     return_options))
+		
+		self.reference_changed = _RefEvent(WwiseObjectInfo)
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_referencechanged.html
+		\nSent when an object reference is changed.
+		\n**Event Data**:
+		\n- A WwiseObjectInfo instance representing the object that had a reference changed.
+		\n- A WwiseObjectInfo instance representing the previous referenced object.
+		\n- A WwiseObjectInfo instance representing the new referenced object.
+		"""
+		
+		self._reference_changed = self._client.subscribe("ak.wwise.core.object.referenceChanged",
+		                                                 self._on_reference_changed, return_options)
 	
 	@callback
 	def _on_attenuation_curve_changed(self, event, **kwargs):
@@ -258,6 +291,28 @@ class Object:
 		:param kwargs: The event data.
 		"""
 		event(WwiseObjectInfo.from_dict(kwargs["object"]))
+	
+	@callback
+	def _on_property_changed(self, event, **kwargs):
+		"""
+		Callback function for the `propertyChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		watch = WwiseObjectInfo.from_dict(kwargs["object"])  # this is the object where the change happened
+		event(watch, Name(kwargs["property"]), kwargs["old"], kwargs["new"], GUID(kwargs["platform"]))
+	
+	@callback
+	def _on_reference_changed(self, event, **kwargs):
+		"""
+		Callback function for the `referenceChanged` event.
+		:param event: The event to broadcast.
+		:param kwargs: The event data.
+		"""
+		obj = WwiseObjectInfo.from_dict(kwargs["object"])
+		old = WwiseObjectInfo.from_dict(kwargs["old"])
+		new = WwiseObjectInfo.from_dict(kwargs["new"])
+		event(obj, old, new)
 	
 	def copy(self):
 		"""
