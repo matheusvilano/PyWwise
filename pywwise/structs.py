@@ -1,6 +1,6 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any
+from typing import Any as _Any, Self as _Self
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode, EInclusionFilter
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
@@ -123,6 +123,19 @@ class WwiseObjectInfo:
 	def __hash__(self):
 		""":return: The WwiseObjectInfo hash."""
 		return hash(self.guid)
+	
+	@classmethod
+	def from_dict(cls, kvpairs: dict[str, _Any]) -> _Self:
+		"""
+		Uses a dictionary to initialize a new instance.
+		:param kvpairs: A dictionary to extract information from.
+		:return: A new instance with id, name, type, and path populated. No additional properties.
+		"""
+		guid = GUID(kvpairs["id"]) if kvpairs.get("id") is not None else GUID.get_null()
+		name = Name(kvpairs["name"]) if kvpairs.get("name", "") != "" else Name.get_null()
+		etype = EObjectType.from_type_name(kvpairs["type"]) if kvpairs.get("type") is not None else EObjectType.UNKNOWN
+		path = ProjectPath(kvpairs["path"]) if kvpairs.get("path", "") != "" else ProjectPath.get_null()
+		return cls(guid, name, etype, path)
 
 
 @_dataclass
