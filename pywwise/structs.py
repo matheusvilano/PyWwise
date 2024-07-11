@@ -368,22 +368,22 @@ class CaptureLogItem:
 	severity: ECaptureLogSeverity
 	"""The severity of the message."""
 	
-	wwise_object_id: GUID = GUID.get_zero()
+	wwise_object_id: GUID = GUID.get_null()
 	"""The GUID of the object for the entry."""
 	
 	wwise_object_name: Name = Name.get_null()
 	"""The name of the object for the entry."""
 	
-	wwise_object_short: ShortID = ShortID.get_invalid()
+	wwise_object_short: ShortID = ShortID.get_null()
 	"""The short ID of the object for the entry."""
 	
-	game_object_id: GameObjectID = GameObjectID.get_invalid()
+	game_object_id: GameObjectID = GameObjectID.get_null()
 	"""The game object ID for the entry."""
 	
 	game_object_name: Name = Name.get_null()
 	"""The game object name for the entry."""
 	
-	playing_id: PlayingID = PlayingID.get_invalid()
+	playing_id: PlayingID = PlayingID.get_null()
 	"""The playing ID for the entry."""
 	
 	error_code_name: str = ""
