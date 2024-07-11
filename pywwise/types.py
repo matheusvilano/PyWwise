@@ -3,9 +3,70 @@ from typing import TypeAlias as _TypeAlias, Self as _Self
 from uuid import UUID as _UUID
 
 SystemPath: _TypeAlias = _Path
+"""Represents a filesystem path."""
 
 
-class Name(str):
+class _PyWwiseType(_ABC):
+	"""The base class for PyWwise core types."""
+	
+	@classmethod
+	@_abstractmethod
+	def get_null(cls) -> _Self:
+		"""Use when the intention is to represent an "invalid" instance."""
+		pass
+	
+	def is_valid(self) -> bool:
+		"""
+		Checks whether the instance contains a valid value.
+		:return: `True`, if the value is valid; else, `False`.
+		"""
+		return self != self.get_null()  # or greater than or equal to 0
+
+
+class _PyWwiseID(int, _PyWwiseType):
+	"""The base class for `int` subclasses in PyWwise which represent numeric identifiers."""
+	
+	def __new__(cls, value: int) -> int:
+		"""
+		Creates a new ID.
+		:param value: The ID.
+		:return: The new ID.
+		:raise ValueError: If the ID is less than `0` and not `-1`.
+		"""
+		if value < 0 and value != -1:
+			raise ValueError("ID value must be non-negative (or -1, if representing an invalid ID).")
+		return int.__new__(cls, value)
+	
+	@classmethod
+	def get_null(cls) -> _Self:
+		"""
+		Use when the intention is to represent an "invalid" ID.
+		:return: `-1`, which represents an invalid ID.
+		"""
+		return cls(-1)
+
+
+class _PyWwiseStr(str, _PyWwiseType):
+	"""The base class for `str` subclasses in PyWwise which represent alphanumeric values."""
+	
+	def __new__(cls, chars: str) -> str:
+		"""
+		Instantiates a new PyWwiseStr.
+		:param chars: The string to use to create a new PyWwiseStr.
+		:return: The new PyWwiseStr.
+		"""
+		return str.__new__(cls, chars)
+	
+	@classmethod
+	def get_null(cls) -> _Self:
+		"""
+		Gets a "null" instance. Use this to represent ideas such as "invalidity" or "nonexistence".
+		:return: A "null" instance, which contains a single character: the null-terminator (`\0`).
+		"""
+		return cls("\0")
+
+
+class Name(_PyWwiseStr):
 	"""A Wwise object Name. This is usually intended to be used with unique objects (e.g. State Groups)."""
 	
 	def __new__(cls, name: str) -> str:
