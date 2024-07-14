@@ -3,7 +3,8 @@ from pathlib import Path as _Path
 from typing import Any as _Any, Self as _Self
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode, EInclusionFilter
-from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
+from pywwise.statics import EnumStatics
+from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
 
 
 @_dataclass
@@ -464,3 +465,36 @@ class WwiseObjectWatch:
 	
 	properties: tuple[str]
 	"""A collection of properties names to watch."""
+
+
+@_dataclass
+class SourceControlStatus:
+	"""Represents a file's source control status."""
+	
+	status: str
+	"""A description of the status."""
+	
+	owner: str
+	"""The name of the file's owner."""
+
+
+@_dataclass
+class SourceFileInfo:
+	"""Stores source control and project information about a source file."""
+	
+	path: OriginalsPath
+	"""The absolute path of the source file."""
+	
+	usage: tuple[WwiseObjectInfo, ...]
+	"""The Wwise objects that use the source file."""
+	
+	is_missing: bool
+	"""Indicates if the file is absent in the source manager."""
+	
+	@property
+	def is_used(self) -> bool:
+		"""
+		Whether the source file is currently used in the project.
+		:return: `True` if `usage` is not empty; else, `False`.
+		"""
+		return bool(self.usage)
