@@ -1511,3 +1511,35 @@ class EInclusionFilter(_StrEnum):
 	
 	MEDIA = "media"
 	"""Inclusion filter for media (the actual WAV/WEM files that are played at runtime)."""
+
+
+class ESourceControlSearchFilter(_StrEnum):
+	"""An enumeration of source control search filters."""
+	
+	ALL = "all"
+	"""Displays all files in the Originals folder (default)."""
+	
+	USED = "used"
+	"""Only displays files that are used in the project."""
+	
+	UNUSED = "unused"
+	"""Only displays files that are not used in the project"""
+
+
+class ESourceFileReturnOptions(_StrEnum):
+	"""An enumeration of return options for source file operations."""
+	
+	IS_USED = "isUsed"
+	"""Indicates if the file is used by a Wwise object."""
+	
+	USAGE = "usage"
+	"""List the Wwise objects that use this file."""
+	
+	IS_MISSING = "isMissing"
+	"""Indicates if the file is absent in the source manager"""
+	
+	FILE = "file"
+	"""The files are in the list."""
+	
+	FOLDER = "folder"
+	"""The folders are in the list."""
