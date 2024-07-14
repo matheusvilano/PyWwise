@@ -1,0 +1,2 @@
+Audio File	Object Path	Property [Voice Pitch]	Reference [Output Bus]	Event
+C:\My Audio Files\ Minigun\ MnGn_Barrel_Down.wav	\Actor-Mixer Hierarchy\ Default Work Unit\ <Actor-Mixer>Minigun\ <Blend Container>Barrel\ <Sound SFX> Minigun_Barrel_Stop	50	\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Environmental\SFX\Guns	\Events\Minigun\Pay_Minigun@Play

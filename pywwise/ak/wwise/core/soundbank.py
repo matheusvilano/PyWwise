@@ -78,16 +78,16 @@ class SoundBank:
 	
 	def convert_external_sources(self, sources: set[ExternalSourceInfo]) -> bool:
 		"""
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
-    Converts the external sources files for the project as detailed in the wsources file, and places
-    them into either the default folder, or the folder specified by the output argument. External
-    Sources are a special type of source that you can put in a Sound object in Wwise. It indicates
-    that the real sound data will be provided at run time. While External Source conversion is also
-    triggered by SoundBank generation, this operation can be used to process sources not contained in
-    the Wwise Project. Please refer to Wwise SDK help page "Integrating External Sources".
-    :param sources: An array of external sources files and corresponding arguments.
-    :return: Whether the call succeeded.
-    """
+	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
+	    Converts the external sources files for the project as detailed in the wsources file, and places
+	    them into either the default folder, or the folder specified by the output argument. External
+	    Sources are a special type of source that you can put in a Sound object in Wwise. It indicates
+	    that the real sound data will be provided at run time. While External Source conversion is also
+	    triggered by SoundBank generation, this operation can be used to process sources not contained in
+	    the Wwise Project. Please refer to Wwise SDK help page "Integrating External Sources".
+	    :param sources: An array of external sources files and corresponding arguments.
+	    :return: Whether the call succeeded.
+	    """
 		if sources is None:
 			return False
 		
@@ -102,21 +102,21 @@ class SoundBank:
 	             languages: set[GUID | Name] = None, clear_audio_file_cache: bool = False,
 	             write_to_disk: bool = False, rebuild_init_bank: bool = False) -> dict:
 		"""
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
-    Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
-    do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
-    SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
-    :param sound_banks: A list of SoundBanks to generate.
-    :param platforms: A list of platforms to generate. By default, all platforms will be generated.
-    :param languages: A list of languages to generate. By default, all languages will be generated. To skip
-    languages, pass an empty set (`set()`) as the argument.
-    :param clear_audio_file_cache: Deletes the content of the Wwise audio file cache folder prior to converting
-    source files and generating SoundBanks, which ensures that all source files are reconverted.
-    :param write_to_disk: Will write the sound bank and info file to disk.
-    :param rebuild_init_bank: Use this option to force a rebuild of the Init bank for each specified platform.
-    :return: The SoundBank generation log, as a dictionary. An empty dictionary means the log could not be
-    retrieved.
-    """
+	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
+	    Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
+	    do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
+	    SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
+	    :param sound_banks: A list of SoundBanks to generate.
+	    :param platforms: A list of platforms to generate. By default, all platforms will be generated.
+	    :param languages: A list of languages to generate. By default, all languages will be generated. To skip
+	    languages, pass an empty set (`set()`) as the argument.
+	    :param clear_audio_file_cache: Deletes the content of the Wwise audio file cache folder prior to converting
+	    source files and generating SoundBanks, which ensures that all source files are reconverted.
+	    :param write_to_disk: Will write the sound bank and info file to disk.
+	    :param rebuild_init_bank: Use this option to force a rebuild of the Init bank for each specified platform.
+	    :return: The SoundBank generation log, as a dictionary. An empty dictionary means the log could not be
+	    retrieved.
+	    """
 		args = dict()
 		
 		if sound_banks is not None:
@@ -140,7 +140,7 @@ class SoundBank:
 		log = self._client.call("ak.wwise.core.soundbank.generate", args).get("logs")
 		return log if log is not None else dict()
 	
-	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath):
+	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
 		Retrieves a SoundBank's inclusion list.
