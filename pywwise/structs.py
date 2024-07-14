@@ -351,6 +351,19 @@ class LogItem:
 	
 	description: str
 	"""The description of the log item."""
+	
+	@classmethod
+	def from_dict(cls, kvpairs: dict[str, _Any]) -> _Self:
+		"""
+		Uses a dictionary to initialize a new instance.
+		:param kvpairs: A dictionary to extract information from.
+		:return: A new instance with `severity`, `time`, `id`, and `description`.
+		"""
+		severity = EnumStatics.from_value(ELogSeverity, kvpairs["severity"])
+		time = kvpairs["time"]
+		log_id = kvpairs["messageId"]
+		description = kvpairs["message"]
+		return cls(severity, time, log_id, description)
 
 
 @_dataclass
