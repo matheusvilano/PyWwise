@@ -133,6 +133,21 @@ class ProjectPath(_PyWwiseStr):
 		return str.__new__(cls, path)
 
 
+class OriginalsPath(_PyWwiseStr):
+	"""A source file path, relative to the Originals folder. Note: the Originals path can be customized in Wwise."""
+	
+	def __new__(cls, path: str) -> str:
+		"""
+		Creates a new OriginalsPath. You can think of this as a string container.
+		:param path: The source file path, relative to the Originals folder.
+		:return: A new OriginalsPath.
+		:raise ValueError: If the path is empty.
+		"""
+		if len(path) <= 0:
+			raise ValueError("The provided path is empty. Must be a valid path-like string.")
+		return str.__new__(cls, path)
+
+
 class GameObjectID(_PyWwiseID):
 	"""A Game Object ID. This is expected to be a non-negative number."""
 	
