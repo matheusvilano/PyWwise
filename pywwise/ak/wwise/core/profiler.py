@@ -1,3 +1,6 @@
+from dataclasses import fields
+from typing import Any
+
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
@@ -5,8 +8,12 @@ from pywwise.enums import EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers
 	EGameObjectRegistrationDataMembers, \
 	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor
 from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
-	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo
+	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo, StreamObjectInfo, \
+	VoiceContributionsReturnInfo
 from pywwise.types import GUID, Name, ShortID
+
+
+# from typing import List
 
 
 class Profiler:
@@ -190,7 +197,7 @@ class Profiler:
 			objects.append(info)
 		
 		return tuple(objects)
-		
+	
 	def get_cursor_time(self, time: ETimeCursor) -> int:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcursortime.html \n
@@ -210,7 +217,7 @@ class Profiler:
 			return -1
 		
 		return result
-		
+	
 	def get_game_objects(self, time: ETimeCursor | int) -> tuple[GameObjectRegistrationData, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getgameobjects.html \n
@@ -343,19 +350,84 @@ class Profiler:
 			active_rtpcs.append(info)
 		
 		return tuple(active_rtpcs)
-		
-	def get_streamed_media(self):
+	
+	def get_streamed_media(self, time: ETimeCursor | int) -> tuple[StreamObjectInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getstreamedmedia.html \n
 		Retrieves the streaming media at a specific profiler capture time. This data can also be found in
 		the Advanced Profiler, under the Streams tab. To ensure the Streams data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`.
+		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:return: Array of StreamObjectInfo, containing all data about how each of the streams is managed by the Wwise
+		sound engine.
 		"""
+		
+		if time is None:
+			return tuple()
+		
+		args = {"time": time}
+		
+		results = self._client.call("ak.wwise.core.profiler.getStreamedMedia ", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		streams: list[StreamObjectInfo] = [StreamObjectInfo(
+			device_name=result.get("deviceName"),
+			stream_name=result.get("streamName"),
+			file_size=result.get("fileSize"),
+			file_position=result.get("filePosition"),
+			priority=result.get("priority"),
+			bandwidth_total=result.get("bandwidthTotal"),
+			bandwidth_low_level=result.get("bandwidthLowLevel"),
+			referenced_memory=result.get("referencedMemory"),
+			estimated_throughput=result.get("estimatedThroughput"),
+			active=result.get("active"),
+			target_buffer_size=result.get("targetBufferSize"),
+			buffer_status_buffered=result.get("bufferStatusBuffered"),
+		) for result in results]
+		
+		return tuple(streams)
 	
-	def get_voice_contributions(self):
+	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: float,
+	                            busses_pipeline_id: tuple = None) -> tuple[VoiceContributionsReturnInfo, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
 		Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path,
 		resolved from pipeline IDs.
+		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:param voice_pipeline_id: The pipeline ID of the voice to get contributions from. Identifies a playing voice
+		instance ID
+		:param busses_pipeline_id: The pipeline IDs of busses belonging to a common voice path. An empty array defaults
+		to the dry path. Identifies a playing voice instance ID
+		:return The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
+		the voice object
 		"""
+		
+		if time is None or voice_pipeline_id is None:
+			return tuple()
+		
+		args = {"time": time, "voicePipelineID": voice_pipeline_id}
+		
+		if busses_pipeline_id is not None:
+			args["bussesPipelineID"] = busses_pipeline_id
+			
+		results = self._client.call("ak.wwise.core.profiler.getVoiceContributions ", args)
+		results = results.get("return")
+		
+		if results is None:
+			return tuple()
+		
+		# Add code for the proper 3 indented dictionaries
 	
 	def get_voices(self):
 		"""

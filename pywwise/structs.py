@@ -169,7 +169,7 @@ class MainMenuInfo:
 		as_dict = dict()
 		as_dict["basePath"] = self.main_menu_base_path
 		return as_dict
-
+		
 
 @_dataclass
 class CommandInfo:
@@ -419,27 +419,27 @@ class AudioObjectInfo:
 class BusPipelineInfo:
 	"""Contains information about an audio bus captured in the profiler"""
 	
-	pipelineID: int
+	pipeline_ID: int
 	"""Pipeline ID of the bus. Unsigned Integer 32-bit. Range: [0,4294967295]"""
 	
-	gameObjectID: int
+	gameObject_ID: int
 	"""Game Object ID corresponding to the voice. Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
 	
-	objectGUID: GUID
+	object_GUID: GUID
 	"""Object GUID corresponding to the bus. An object GUID of the form: {aabbcc00-1122-3344-5566-77889900aabb}."""
 	
 	other: dict[EBusOptions | str, _Any] = _field(default_factory=dict)
 	
 	def __hash__(self):
-		""":return: The AudioObject hash."""
-		return hash(self.pipelineID)
+		""":return: The BusPipelineInfo hash."""
+		return hash(self.pipeline_ID)
 
 
 @_dataclass
 class CPUStatisticsInfo:
 	"""Information about the amount of CPU percentage used by each element."""
 	
-	elementName: str
+	element_Name: str
 	"""The name of the element on which we calculate CPU usage."""
 	
 	id: int
@@ -451,16 +451,16 @@ class CPUStatisticsInfo:
 	type: str
 	"""The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
 	
-	percentInclusive: float
+	percent_Inclusive: float
 	"""The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""
 	
-	percentExclusive: float
+	percent_Exclusive: float
 	"""The percentage of CPU time spent only in the execution of the element itself."""
 	
-	millisecondsInclusive: float
+	milliseconds_Inclusive: float
 	"""The milliseconds of CPU time spent in the execution of the element and those that it uses (calls)."""
 	
-	millisecondsExclusive: float
+	milliseconds_Exclusive: float
 	"""The milliseconds of CPU time spent only in the execution of the element itself."""
 
 
@@ -474,10 +474,10 @@ class GameObjectRegistrationData:
 	name: str
 	"""The name of the game object."""
 	
-	registrationTime: int
+	registration_Time: int
 	"""The time at which the game object was registered. Integer 32-bit. Range: [-2147483648,2147483647]"""
 	
-	unregistrationTime: int
+	unregistration_Time: int
 	"""The time at which the game object was unregistered. Integer 32-bit. Range: [-2147483648,2147483647]"""
 
 
@@ -486,10 +486,10 @@ class LoadedMediaInfo:
 	"""Information about a media file loaded into memory as a result of the PrepareEvent() and PrepareGameSyncs()
 	functions."""
 
-	mediaId: ShortID
+	media_Id: ShortID
 	"""The short ID of the media file"""
 	
-	fileName: Name
+	file_Name: Name
 	"""The name of the media file."""
 	
 	format: str
@@ -498,7 +498,7 @@ class LoadedMediaInfo:
 	size: int
 	"""The size (in bytes) of the media file."""
 	
-	soundBank: Name
+	sound_Bank: Name
 	"""The name of the SoundBank that contains the media file."""
 
 
@@ -527,9 +527,188 @@ class ActiveRTPCInfo:
 	name: Name
 	"""The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
 	
-	gameObjectId: GameObjectID
+	gameObject_Id: GameObjectID
 	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs. A game object
 	ID, unsigned integer 64-bit. Range: [0,18446744073709551615]"""
 	
 	value: float
 	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
+
+
+@_dataclass
+class StreamObjectInfo:
+	"""Data-only class storing information about how each of the streams is managed by the Wwise sound engine."""
+	
+	device_name: Name
+	"""The name of the device from which the stream emanates."""
+	
+	stream_name: Name
+	"""The name given to the stream."""
+	
+	file_size: int
+	"""The size of the file being streamed."""
+	
+	file_position: float
+	"""The position of the stream within the file, given as a percentage."""
+	
+	priority: int
+	"""The priority of the stream."""
+	
+	bandwidth_total: int
+	"""The rate at which the file was streamed in the last profiling frame. This value takes all transfers into account,
+	including transfers that occurred from the Stream Manager's cache"""
+	
+	bandwidth_low_level: int
+	"""The rate at which the file was streamed in the last profiling frame. Unlike the Total Bandwidth field, this field
+	value considers transfers that occurred from within the low-level device."""
+	
+	referenced_memory: int
+	"""The amount of memory that is referenced by the stream. This excludes memory used for I/O transfers. It can be
+	seen as a measure of how much data the stream may grant to the sound engine at any given time."""
+	
+	estimated_throughput: int
+	"""The estimated throughput of the stream. The sound engine estimates the rate at which it consumes data from a
+	stream according to its encoding format and number of channels."""
+	
+	active: bool
+	"""Indicates True if the stream was active at least once during the last profiling frame."""
+	
+	target_buffer_size: int
+	"""The streaming device's target buffer length."""
+	
+	buffer_status_buffered: float
+	"""The portion of requested data that is buffered, given as a percentage of the target buffer size."""
+	
+	def __hash__(self):
+		""":return: The WwiseObjectInfo hash."""
+		return hash(self.device_name)
+	
+	@property
+	def dictionary(self) -> dict[str, str | bool | int | Name]:
+		as_dict = dict()
+		if self.device_name is not None:
+			as_dict["deviceName"] = self.device_name
+		if self.stream_name is not None:
+			as_dict["streamName"] = self.stream_name
+		if self.file_size is not None:
+			as_dict["fileSize"] = self.file_size
+		if self.file_position is not None:
+			as_dict["filePosition"] = self.file_position
+		if self.priority is not None:
+			as_dict["priority"] = self.priority
+		if self.bandwidth_total is not None:
+			as_dict["bandwidthTotal"] = self.bandwidth_total
+		if self.bandwidth_low_level is not None:
+			as_dict["bandwidthLowLevel"] = self.bandwidth_low_level
+		if self.referenced_memory is not None:
+			as_dict["referencedMemory"] = self.referenced_memory
+		if self.estimated_throughput is not None:
+			as_dict["estimatedThroughput"] = self.estimated_throughput
+		if self.target_buffer_size is not None:
+			as_dict["targetBufferSize"] = self.target_buffer_size
+		if self.buffer_status_buffered is not None:
+			as_dict["bufferStatusBuffered"] = self.buffer_status_buffered
+		return as_dict
+	
+	
+@_dataclass
+class VoiceInspectorContributionObjectPropertiesInfo:
+	"""Data class containing the information relating to contribution parameters associated to the voice inspector
+	object."""
+	
+	property_type: str
+	"""The object property affecting the voice"""
+	
+	reason: str
+	"""The reason for the parameter to affect the voice."""
+	
+	driver: GUID | str
+	"""Can either be: The driving object GUID or the driving reason when a parameter is not driven by an object."""
+	
+	driver_value: float | GUID
+	""" can either be: The value of the driver affecting the parameter or an object GUID"""
+	
+	value: float
+	"""Contribution value"""
+
+	def __hash__(self):
+		""":return: The VoiceInspectorContributionObjectProperties hash."""
+		return hash(str(self.__dict__))
+	
+	@property
+	def dictionary(self) -> dict[str, float | str | GUID]:
+		as_dict = dict()
+		as_dict["propertyType"] = self.property_type
+		as_dict["reason"] = self.reason
+		as_dict["driver"] = self.driver
+		as_dict["driverValue"] = self.driver_value
+		as_dict["value"] = self.value
+		return as_dict
+	
+
+@_dataclass
+class VoiceInspectorContributionObjectInfo:
+	"""Data class containing information from a single voice inspector contribution object"""
+	
+	name: Name
+	"""The name of the contribution."""
+	
+	volume: float
+	"""The volume difference applied."""
+	
+	lpf: float
+	"""The LPF difference applied."""
+	
+	hpf: float
+	"""The HPF difference applied."""
+	
+	children: dict[_Any]
+	"""An array of child voice contribution objects associated to the object."""
+	
+	parameters: dict[VoiceInspectorContributionObjectPropertiesInfo]
+	
+	def __hash__(self):
+		""":return: The VoiceInspectorContributionObjectInfo hash."""
+		return hash(str(self.__dict__))
+	
+	@property
+	def dictionary(self) -> dict[str, str | float | dict]:
+		as_dict = dict()
+		as_dict["name"] = self.name
+		as_dict["volume"] = self.volume
+		as_dict["lpf"] = self.lpf
+		as_dict["hpf"] = self.hpf
+		as_dict["children"] = self.children
+		as_dict["parameters"] = self.parameters
+		return as_dict
+
+
+@_dataclass
+class VoiceContributionsReturnInfo:
+	"""Data class containing relevant to the return schema used to store the information of all parameters affecting
+	a voice pipeline ID"""
+	
+	volume: float
+	"""The volume difference applied as a contribution."""
+	
+	lpf: float
+	"""The LPF difference applied as a contribution."""
+	
+	hpf: float
+	"""The HPF difference applied as a contribution."""
+	
+	objects: dict[VoiceInspectorContributionObjectInfo]
+	"""A dictionary of Voice Inspector contribution objects."""
+	
+	def __hash__(self):
+		""":return: The VoiceInspectorContributionObjectInfo hash."""
+		return hash(str(self.__dict__))
+	
+	@property
+	def dictionary(self) -> dict[str, str | float | dict]:
+		as_dict = dict()
+		as_dict["volume"] = self.volume
+		as_dict["lpf"] = self.lpf
+		as_dict["hpf"] = self.hpf
+		as_dict["objects"] = self.objects
+		return as_dict
