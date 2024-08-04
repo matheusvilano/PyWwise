@@ -1,3 +1,4 @@
+from typing import Self as _Self
 from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 
 
@@ -464,6 +465,14 @@ class EReturnOptions(_StrEnum):
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
 		return self.value.__hash__()
+	
+	@classmethod
+	def get_defaults(cls) -> tuple[_Self, ...]:
+		"""
+		Gets the default return options for PyWwise. Those are usually used to construct WwiseObjectInfo instances.
+		:return: A tuple containing the default return options.
+		"""
+		return EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH
 
 
 class EObjectType(tuple[int, int, str], _Enum):
@@ -1511,3 +1520,16 @@ class EInclusionFilter(_StrEnum):
 	
 	MEDIA = "media"
 	"""Inclusion filter for media (the actual WAV/WEM files that are played at runtime)."""
+
+
+class ENameConflictStrategy(_StrEnum):
+	"""An enumeration of possible strategies for when dealing with name conflicts."""
+	
+	RENAME = "rename"
+	"""Rename on conflict. This behaviour can be customized in Wwise."""
+	
+	REPLACE = "replace"
+	"""Replace the name/object that already exists."""
+	
+	FAIL = "fail"
+	"""Prevent the operation that caused the name conflict."""
