@@ -65,8 +65,8 @@ class Profiler:
 		\n-A WwiseObjectInfo instance containing information about the new active State.
 		"""
 		
-		self._state_changed = self._client.call("ak.wwise.core.profiler.stateChanged",
-		                                        self._on_state_changed, change_args)
+		self._state_changed = self._client.subscribe("ak.wwise.core.profiler.stateChanged",
+		                                             self._on_state_changed, change_args)
 		
 		self.switch_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, GameObjectID)
 		"""
@@ -78,8 +78,8 @@ class Profiler:
 		\n-The ID of the game object on which the change happened.
 		"""
 		
-		self._switch_changed = self._client.call("ak.wwise.core.profiler.switchChanged",
-		                                         self._on_switch_changed, change_args)
+		self._switch_changed = self._client.subscribe("ak.wwise.core.profiler.switchChanged",
+		                                              self._on_switch_changed, change_args)
 	
 	@callback
 	def _on_game_object_registered(self, event: _RefEvent, **kwargs):
