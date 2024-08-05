@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from pywwise.enums import EObjectType, EWaqlSelectExpression
 from pywwise.structs import WaqlCondition
 from pywwise.types import GUID, Name, ProjectPath, RegexPattern, ShortID
@@ -5,7 +8,7 @@ from pywwise.types import GUID, Name, ProjectPath, RegexPattern, ShortID
 
 class WAQL:
 	"""
-	A class listing common WAQL statements. Utility functions are available to help build queries.
+	A helper class for building WAQL queries. Utility functions are available to help build queries.
 	This is primarily a summary of WAQL. Queries may be built without this helper class.
 	"""
 	
@@ -31,7 +34,7 @@ class WAQL:
 		:param statement: The statement to set.
 		"""
 		self._statements[index] = statement
-		
+	
 	def __iter__(self):
 		"""
 		Generates an iterator. Useful when going over the statements manually.
@@ -46,7 +49,7 @@ class WAQL:
 		:param index: Index to delete.
 		"""
 		self._statements.pop(index)
-		
+	
 	def __add__(self, statement: str):
 		"""
 		Adds a new statement to the query.
@@ -54,7 +57,7 @@ class WAQL:
 		"""
 		self._statements.append(statement)
 		return self
-		
+	
 	def from_object(self, *objects: tuple[EObjectType, Name | ShortID] | ProjectPath | GUID):
 		"""
 		Generates a sequence of objects from the specified objects.
@@ -98,7 +101,7 @@ class WAQL:
 		self._statements.append(f"from project")
 	
 	@staticmethod
-	def _where(property_name: Name, bool_operator: str,
+	def _where(property_name: str, bool_operator: str,
 	           value_or_ref_or_regex: bool | int | float | str | tuple[
 		           EObjectType, Name] | ProjectPath | GUID | RegexPattern):
 		"""
@@ -126,52 +129,29 @@ class WAQL:
 				value_or_ref_or_regex = f"/{value_or_ref_or_regex}/"
 		return f"{property_name} {bool_operator} {value_or_ref_or_regex}"
 	
-	def where(self, condition: WaqlCondition, open_bracket: bool = False):
+	def where(self, condition: WaqlCondition):
 		"""
 		Filters objects of the input sequence by rejecting objects that don't match the specified expression. For
-		chaining conditions (see `and_where`, `or_where`) and manipulating precedence, you may want to pass `True` to
-		`open_bracket`; that will insert an opening round bracket into the statement.
+		chaining conditions, see `and_where`, `or_where`.
 		:param condition: The condition to evaluate.
-		:param open_bracket: If `True`, an opening round bracket will be inserted. Example: `where (Volume < -6.0`.
 		"""
-		statement = f"where {'(' if open_bracket else ''}"
-		statement = f"{statement}{self._where(condition.property_name,
-		                                      condition.bool_operator,
-		                                      condition.value_or_ref_or_regex)}"
+		statement = f"{self._where(condition.property_name, condition.bool_operator, condition.value_or_ref_or_regex)}"
 		self._statements.append(statement)
 	
-	def and_where(self, condition: WaqlCondition, open_bracket: bool = False, close_bracket: bool = False):
+	def and_where(self, condition: WaqlCondition):
 		"""
-		Use after `where` to append a condition with `and`. For chaining conditions (see `and_where`, `or_where`) and
-		manipulating precedence, you may want to pass `True` to `open_bracket` and/or `close_bracket`.
+		Use after `where` to append a condition with `and`.
 		:param condition: The condition to evaluate.
-		:param open_bracket: If `True`, an opening round bracket will be inserted. Example: `and (Volume < -6.0`. May
-							 be combined with `close_bracket`.
-		:param close_bracket: If `True`, a closing round bracket will be inserted. Example: `and Volume < -6.0`). May
-							  be combined with `open`_bracket`.
 		"""
-		statement = f"and {'(' if open_bracket else ''}"
-		statement = f"{statement}{self._where(condition.property_name,
-		                                      condition.bool_operator,
-		                                      condition.value_or_ref_or_regex)}"
-		statement = f"{statement}{')' if close_bracket else ''}"
+		statement = f"{self._where(condition.property_name, condition.bool_operator, condition.value_or_ref_or_regex)}"
 		self._statements.append(statement)
 	
-	def or_where(self, condition: WaqlCondition, open_bracket: bool = True, close_bracket: bool = False):
+	def or_where(self, condition: WaqlCondition):
 		"""
-		Use after `where` to append a condition with `or`. For chaining conditions (see `and_where`, `or_where`) and
-		manipulating precedence, you may want to pass `True` to `open_bracket` and/or `close_bracket`.
+		Use after `where` to append a condition with `or`.
 		:param condition: The condition to evaluate.
-		:param open_bracket: If `True`, an opening round bracket will be inserted. Example: `and (Volume < -6.0`. May
-							 be combined with `close_bracket`.
-		:param close_bracket: If `True`, a closing round bracket will be inserted. Example: `and Volume < -6.0`). May
-							  be combined with `open`_bracket`.
 		"""
-		statement = f"or {'(' if open_bracket else ''}"
-		statement = f"{statement}{self._where(condition.property_name,
-		                                      condition.bool_operator,
-		                                      condition.value_or_ref_or_regex)}"
-		statement = f"{statement}{')' if close_bracket else ''}"
+		statement = f"{self._where(condition.property_name, condition.bool_operator, condition.value_or_ref_or_regex)}"
 		self._statements.append(statement)
 	
 	def skip(self, count: int):
