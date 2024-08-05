@@ -1565,3 +1565,54 @@ class ESourceFileReturnOptions(_StrEnum):
 	
 	FOLDER = "folder"
 	"""The folders are in the list."""
+
+
+class EWaqlSelectExpression(_StrEnum):
+	"""An enumeration of `select` expressions."""
+	
+	CHILDREN = "children"
+	"""Returns the direct children of the object."""
+	
+	DESCENDANTS = "descendants"
+	"""Returns all descendants of the object in a single sequence. The descendants include all children recursively."""
+	
+	THIS = "this"
+	"""Returns the current object."""
+	
+	PARENT = "parent"
+	"""Returns the direct parent of the object. Returns no object if the object does not have a parent."""
+	
+	ANCESTORS = "ancestors"
+	"""Returns all ancestors of the object in a single sequence. The descendants include all parents recursively."""
+	
+	REFERENCES_TO = "referencesTo"
+	"""Returns all objects having a reference to the current object."""
+	
+	OWNER = "owner"
+	"""Returns the owner of the object. The owner is only set for "Custom" objects defined inside other objects."""
+	
+	WORK_UNIT = "workunit"
+	"""Returns the Work Unit object used to persist with the current object."""
+	
+	MAX_DURATION_SOURCE = "maxDurationSource"
+	"""Returns a JSON object containing the id of the Audio Source object that has the maximum playback duration
+	(in seconds) for all descendants of the current object. The JSON object also includes the maximum duration value
+	itself."""
+	
+	MAX_DURATION_SOURCE_OBJECT = "maxDurationSourceObject"
+	"""Returns the Audio Source object that has the maximum playback duration (in seconds) for all descendants of the
+	current object."""
+	
+	MAX_RADIUS_ATTENUATION = "maxRadiusAttenuation"
+	"""Returns a JSON object containing the id of the attenuation object that has the maximum radius distance in all
+	descendants of the current objects. The JSON object also contains the maximum radius distance value itself."""
+	
+	MAX_RADIUS_ATTENUATION_OBJECT = "maxRadiusAttenuationObject"
+	"""Returns the attenuation object that has the maximum radius distance in all descendants of the current objects."""
+	
+	AUDIO_SOURCE_LANGUAGE = "audioSourceLanguage"
+	"""Returns the language object that is used for the current Audio Source."""
+	
+	SWITCH_CONTAINER_CHILD_CONTEXT = "switchContainerChildContext"
+	"""Returns the Switch Container context object associated with the current Switch Container object. The Switch
+	Container context objects hold settings about the Switch Container associations."""
