@@ -4,7 +4,7 @@ from typing import Any as _Any, Self as _Self
 from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
 	EReturnOptions, EStartMode, EInclusionFilter
 from pywwise.statics import EnumStatics
-from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
+from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID
 
 
 @_dataclass
@@ -498,3 +498,20 @@ class SourceFileInfo:
 		:return: `True` if `usage` is not empty; else, `False`.
 		"""
 		return bool(self.usage)
+
+
+@_dataclass
+class WaqlCondition:
+	"""A dataclass representing a WAQL condition (e.g. `Volume = 0.0`)."""
+	
+	property_name: str
+	"""The name of the property to evaluate."""
+	
+	bool_operator: str
+	"""The bool operator to use. Supported operators: `=`, `!=`, `<`, `<=`, `>`, `>=`, `:`, `!`. Common aliases are
+	also supported (e.g. `&&`) by PyWwise. Invalid values will not throw runtime errors, but are still logical
+	errors."""
+	
+	value_or_ref_or_regex: bool | int | float | str | tuple[EObjectType, Name] | ProjectPath | GUID | RegexPattern
+	"""The value or the reference to use in the evaluation. Regex IS supported, but only when passing a `RegexPattern`
+	(or `re.Pattern`) object."""
