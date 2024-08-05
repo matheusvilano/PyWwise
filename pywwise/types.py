@@ -2,9 +2,13 @@ from pathlib import Path as _Path
 from typing import TypeAlias as _TypeAlias, Self as _Self
 from uuid import UUID as _UUID
 from abc import ABC as _ABC, abstractmethod as _abstractmethod
+from re import Pattern as _Pattern
 
 SystemPath: _TypeAlias = _Path
 """Represents a filesystem path."""
+
+RegexPattern: _TypeAlias = _Pattern
+"""Represents a Regex pattern."""
 
 
 class _PyWwiseType(_ABC):
