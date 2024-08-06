@@ -352,13 +352,22 @@ class Object:
 	
 	def create(self, name: Name | str, etype: EObjectType, parent: GUID | tuple[EObjectType, Name] | ProjectPath,
 	           name_conflict_strategy: ENameConflictStrategy = ENameConflictStrategy.FAIL, notes: str = "",
-	           version_control_auto_checkout: bool = True, platform: Name | GUID = None) -> WwiseObjectInfo:
+	           version_control_auto_checkout: bool = True, platform: Name | GUID = None) -> WwiseObjectInfo | None:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_create.html \n
 		Creates an object of type 'type', as a child of 'parent'. Refer to Importing Audio Files and Creating
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
 		import audio files to Wwise. To create Effect or Source plug-ins, use `ak.wwise.core.object.set`, and refer to
 		Wwise Objects Reference for the classId.
+		:param name: The name of the new Wwise object.
+		:param etype: The type of the new Wwise object.
+		:param parent: The GUID, typed name, or project path of the new object's parent.
+		:param name_conflict_strategy: The strategy to adopt in case of name conflicts.
+		:param notes: The notes to append to the new Wwise object.
+		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
+											  operation for affected work units and for the project.
+		:param platform: Specify what platform to create the object for. Usually not necessary.
+		:return: The new object as a WwiseObjectInfo, or None if the operation failed.
 		"""
 		args = dict()
 		args["name"] = name
@@ -370,8 +379,12 @@ class Object:
 		if platform is not None:
 			args["platform"] = platform
 		
-		results = self._client.call("ak.wwise.core.object.create", args)
-		return WwiseObjectInfo(results["id"], results["name"], etype, ProjectPath.get_null())
+		results = self._client.call("ak.wwise.core.object.create", args)  # missing path, at this point
+		if results is None:
+			return None
+		
+		new_obj = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")
+		return new_obj[0] if len(new_obj) > 0 else None
 	
 	def delete(self):
 		"""
@@ -398,6 +411,7 @@ class Object:
 									   Objects Reference** page on Audiokinetic's official documentation page. The
 									   requested results will be available in the `other` property of each
 									   `WwiseObjectInfo` instance.
+		:return: A collection of `WwiseObjectInfo` instances representing the objects found.
 		"""
 		args = {"waql": str(waql)}  # str conversion needed because of JSON serialization
 		
