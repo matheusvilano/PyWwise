@@ -6,6 +6,7 @@ from pywwise.enums import EAttenuationCurveType, ENameConflictStrategy, EObjectT
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo, WwiseObjectWatch
 from pywwise.types import GUID, Name, ProjectPath
+from pywwise.waql import WAQL
 
 
 class Object:
@@ -322,9 +323,10 @@ class Object:
 	         version_control_auto_checkout: bool = True,
 	         version_control_auto_add: bool = True) -> WwiseObjectInfo | None:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_copy.html
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_copy.html \n
 		Copies an object to the given parent. Note that if a Work Unit is copied, the operation cannot be undone and
-		the project will be saved.
+		the project will be saved. This function calls `ak.wwise.core.object.get` to fetch the `path` and `type`
+		attributes.
 		:param obj: The GUID, type and name, or project path of the object to copy.
 		:param parent: The GUID, type and name, or project path of the new object's parent.
 		:param name_conflict_strategy: The strategy to use in case of a name conflict.
@@ -332,8 +334,7 @@ class Object:
 											  operation for affected work units and for the project.
 		:param version_control_auto_add: Determines if Wwise automatically performs an Add source control operation for
 										 affected work units.
-		:return: The new object as a WwiseObjectInfo, or None if the operation failed. Known issue: the WwiseObjectInfo
-				 instance will have invalid values for `path` and `type` attributes.
+		:return: The new object as a WwiseObjectInfo, or None if the operation failed.
 		"""
 		args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
 		        "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
@@ -341,8 +342,13 @@ class Object:
 		        "autoCheckOutToSourceControl": version_control_auto_checkout,
 		        "autoAddToSourceControl": version_control_auto_add}
 		options = {"return": EReturnOptions.get_defaults()}
+		
 		results = self._client.call("ak.wwise.core.object.copy", args, options=options)
-		return WwiseObjectInfo.from_dict(results["object"])
+		if results is None:
+			return None
+		
+		obj_info = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")  # force single match
+		return obj_info[0] if len(obj_info) > 0 else None  # WwiseObjectInfo has valid path and type attributes
 	
 	def create(self, name: Name | str, etype: EObjectType, parent: GUID | tuple[EObjectType, Name] | ProjectPath,
 	           name_conflict_strategy: ENameConflictStrategy = ENameConflictStrategy.FAIL, notes: str = "",
@@ -378,15 +384,35 @@ class Object:
 		Compares properties and lists of the source object with those in the target object.
 		"""
 	
-	def get(self, waql: str):
+	def get(self, waql: WAQL | str, returns_and_properties: tuple[EReturnOptions | str, ...] = ()) -> tuple[
+		WwiseObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_get.html \n
-		Performs a query and returns the data, as specified in the options, for each object in the querymresult. The
-		query can specify either a 'waql' argument or a 'from' argument with an optional 'transform' argument. Refer to
-		Using the Wwise Authoring Query Language (WAQL) or Querying the Wwise Project for more information. Refer to
-		Return Options to learn about options.
+		Performs a query and returns the data, as specified in the options, for each object in the query result. The
+		query should use the WAQL syntax.
+		:param waql: A WAQL query, as either a WAQL object or a raw string. Note: **using the `select` statement for
+					 objects is valid, but using it with properties (e.g. `Volume`) is invalid.**
+		:param returns_and_properties: Additional return options (e.g. `EReturnOptions.WORK_UNIT`) and properties (e.g.
+									   `"Volume"`, `"Pitch"`, etc.). Available properties depend on the type of object
+									   found. For more information and a complete list of properties, check the **Wwise
+									   Objects Reference** page on Audiokinetic's official documentation page. The
+									   requested results will be available in the `other` property of each
+									   `WwiseObjectInfo` instance.
 		"""
-		return self._client.call("ak.wwise.core.object.get", {"waql": waql})
+		args = {"waql": str(waql)}  # str conversion needed because of JSON serialization
+		
+		options = {"return": [*EReturnOptions.get_defaults(), *returns_and_properties]}
+		
+		objects = self._client.call("ak.wwise.core.object.get", args, options=options)
+		objects = objects.get("return", ()) if objects is not None else ()
+		
+		infos = list[WwiseObjectInfo]()
+		for obj in objects:
+			info = WwiseObjectInfo.from_dict(obj)
+			info.other = {key: value for key, value in obj.items() if key not in EReturnOptions.get_defaults()}
+			infos.append(info)
+		
+		return tuple(infos)
 	
 	def get_attenuation_curve(self):
 		"""
