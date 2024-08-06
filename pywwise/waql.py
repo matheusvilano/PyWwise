@@ -175,7 +175,7 @@ class WAQL:
 		"""
 		self._statements.append(f"distinct")
 	
-	def select(self, *expressions_or_property_names: EWaqlSelectExpression | Name):
+	def select(self, *expressions_or_property_names: EWaqlSelectExpression | str):
 		"""
 		Returns an object or list of objects based on the specified expressions and Names.
 		:param expressions_or_property_names: The expressions and/or property names to use.
