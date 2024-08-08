@@ -1,6 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from typing import Iterator as _Iterator, Self as _Self
 from pywwise.enums import EObjectType, EWaqlSelectExpression
 from pywwise.structs import WaqlCondition
 from pywwise.types import GUID, Name, ProjectPath, RegexPattern, ShortID
@@ -8,8 +9,17 @@ from pywwise.types import GUID, Name, ProjectPath, RegexPattern, ShortID
 
 class WAQL:
 	"""
-	A helper class for building WAQL queries. Utility functions are available to help build queries.
-	This is primarily a summary of WAQL. Queries may be built without this helper class.
+	A helper class listing common WAQL statements. Utility functions are available to help build queries. Queries may
+	be built without this class, but if you are unfamiliar with WAQL, it can be a time-saver. Useful features:\n
+	- To print the query, simply pass the query to the `print` function (or similar). Example: `print(my_waql_object)`.
+	- To get the generated query, convert the instance to a `str`. Example: `str(my_waql_object)`.
+	- To get and set a specific query item (statement), you can use the regular `[]` (subscription) operator, like with
+	  lists, tuples, etc. Example: `my_waql_object[0]`.
+	- To delete a specific query item (statement), you can use the regular `del` (delete) operator. Example:
+	  `del my_waql_obj`.
+	If you are interested in how exactly this class works: it encapsulates a list of strings (`list[str]`) and most
+	methods are just sugar syntax for appending `str` objects (which are WAQL "statements") to the list. There are also
+	overrides for "magic methods" to allow for some of the syntax the features described in this docstring.
 	"""
 	
 	def __init__(self):
@@ -20,7 +30,7 @@ class WAQL:
 		""":return: The query (all statements), formatted as a string."""
 		return f"$ {" ".join(self._statements)}"
 	
-	def __getitem__(self, index: int):
+	def __getitem__(self, index: int) -> str:
 		"""
 		Manually gets a statement at the specified index.
 		:param index: The index where to get a statement.
@@ -35,7 +45,7 @@ class WAQL:
 		"""
 		self._statements[index] = statement
 	
-	def __iter__(self):
+	def __iter__(self) -> _Iterator[str]:
 		"""
 		Generates an iterator. Useful when going over the statements manually.
 		:return: The generated iterator.
@@ -50,14 +60,14 @@ class WAQL:
 		"""
 		self._statements.pop(index)
 	
-	def __add__(self, statement: str):
+	def __add__(self, statement: str) -> _Self:
 		"""
 		Adds a new statement to the query.
 		:param statement: The statement to add.
 		"""
 		self._statements.append(statement)
 		return self
-	
+		
 	def from_object(self, *objects: tuple[EObjectType, Name | ShortID] | ProjectPath | GUID):
 		"""
 		Generates a sequence of objects from the specified objects.
