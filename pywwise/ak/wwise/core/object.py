@@ -404,7 +404,7 @@ class Object:
 											  operation for affected work units and for the project.
 		:return: Whether the operation succeeded.
 		"""
-		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}",
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
 		        "autoCheckOutToSourceControl": version_control_auto_checkout}
 		return self._client.call("ak.wwise.core.object.delete", args) is not None
 	
@@ -418,8 +418,8 @@ class Object:
 		:return: Two tuples: the first containing names of properties and references that differ, and the second
 				 containing names of lists that differ.
 		"""
-		args = {"source": source if not isinstance(source, tuple) else f"{source[0]}:{source[1]}",
-		        "target": target if not isinstance(target, tuple) else f"{target[0]}:{target[1]}"}
+		args = {"source": source if not isinstance(source, tuple) else f"{source[0].get_type_name()}:{source[1]}",
+		        "target": target if not isinstance(target, tuple) else f"{target[0].get_type_name()}:{target[1]}"}
 		results = self._client.call("ak.wwise.core.object.diff", args)
 		return results.get("properties", tuple[str]()), results.get("lists", tuple[str]())
 	
@@ -466,7 +466,7 @@ class Object:
 		:return: An AttenuationCurve object describing the curve found.
 		"""
 		args = dict()
-		args["object"] = obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION}:{obj}"
+		args["object"] = obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION.get_type_name()}:{obj}"
 		args["curveType"] = etype.value
 		if platform is not None:
 			args["platform"] = platform
@@ -483,10 +483,24 @@ class Object:
 		
 		return AttenuationCurve(points, usage, etype)
 	
-	def get_property_and_reference_names(self):
+	def get_property_and_reference_names(self, obj: EObjectType | GUID | tuple[EObjectType, Name] | ProjectPath) -> \
+			tuple[str]:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getpropertyandreferencenames.html \n
 		Retrieves the list of property and reference names for an object.
+		:param obj: The type, GUID, typed name, or project path of the Wwise object to get the property and reference
+					names from. Using the type (`EObjectType`) is recommended over the other options, if possible.
+		:return: A tuple of all the property and reference names for the specified object or type.
 		"""
+		match obj:
+			case EObjectType():
+				args = {"classId": obj.get_class_id()}
+			case tuple():
+				args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}"}
+			case _:
+				args = {"object": obj}
+		results = self._client.call("ak.wwise.core.object.getPropertyAndReferenceNames", args)
+		return tuple(results["return"]) if results is not None and results.get("return") is not None else ()
 	
 	def get_property_info(self):
 		"""
@@ -574,7 +588,8 @@ class Object:
 		:param new_name: The new name.
 		:return: Whether this call succeeded.
 		"""
-		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}", "value": new_name}
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "value": new_name}
 		return self._client.call("ak.wwise.core.object.setName", args) is not None
 	
 	def set_notes(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, notes: str) -> bool:
@@ -587,7 +602,7 @@ class Object:
 		:param notes: The new notes.
 		:return: Whether this call succeeded.
 		"""
-		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}", "notes": notes}
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "notes": notes}
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self):
