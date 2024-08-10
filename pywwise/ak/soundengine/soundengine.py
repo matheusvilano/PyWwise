@@ -1,5 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import EActionOnEventType, ECurveInterpolation, ESpeakerBitMask
+from pywwise.enums import EActionOnEventType, EFadeCurve, ESpeakerBitMask
 from pywwise.structs import AuxSendValue, Vector3
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
@@ -16,7 +16,7 @@ class SoundEngine:
 	
 	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EActionOnEventType,
 	                            game_object: GameObjectID, transition_duration: int = 0,
-	                            fade_curve: ECurveInterpolation = ECurveInterpolation.LINEAR) -> dict:
+	                            fade_curve: EFadeCurve = EFadeCurve.LINEAR) -> dict:
 		"""
 		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
 		Executes an action on all nodes that are referenced in the specified event in a Play action.

@@ -21,7 +21,7 @@ class EActionOnEventType(_IntEnum):
 	"""Release Envelope"""
 
 
-class ECurveInterpolation(_IntEnum):
+class EFadeCurve(_IntEnum):
 	"""Enumeration of available curves for interpolation."""
 	
 	SINE = 0
@@ -1616,3 +1616,16 @@ class EWaqlSelectExpression(_StrEnum):
 	SWITCH_CONTAINER_CHILD_CONTEXT = "switchContainerChildContext"
 	"""Returns the Switch Container context object associated with the current Switch Container object. The Switch
 	Container context objects hold settings about the Switch Container associations."""
+
+
+class EAttenuationCurveUsage(_StrEnum):
+	"""An enumeration of different "usage states" for an attenuation curve."""
+	
+	NONE = "None"
+	"""Curve is not used. More specifically, the curve has no points."""
+	
+	CUSTOM = "Custom"
+	"""Curve is custom, meaning it has its own set of points."""
+	
+	USE_VOLUME_DRY = "UseVolumeDry"
+	"""Curve uses the points from the 'VolumeDryUsage' curve."""
