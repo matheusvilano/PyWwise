@@ -1,9 +1,9 @@
-from typing import Any as _Any
+from typing import Any as _Any, Collection as _Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
 from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
-                           EObjectType, EReturnOptions)
+                           EObjectType, EPropertyPasteMode, EReturnOptions)
 from pywwise.statics import EnumStatics
 from pywwise.structs import AttenuationCurve, GraphPoint2D, Vector2, WwiseObjectInfo, WwiseObjectWatch
 from pywwise.types import GUID, Name, ProjectPath
@@ -328,12 +328,10 @@ class Object:
 		Copies an object to the given parent. Note that if a Work Unit is copied, the operation cannot be undone and
 		the project will be saved. This function calls `ak.wwise.core.object.get` to fetch the `path` and `type`
 		attributes.
-		:param obj: The GUID, type and name, or project path of the object to copy. Although using `Name` is supported,
-					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
-					`EObjectType.EVENT`) are supported.
-		:param parent: The GUID, type and name, or project path of the new object's parent. Although using `Name` is
-					   supported, an object type (`EObjectType`) must be specified and only types with globally-unique
-					   names (e.g. `EObjectType.EVENT`) are supported.
+		:param obj: The GUID, typed name, or project path of the object to copy. Although using a name is supported,
+					only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
+		:param parent: The GUID, type and name, or project path of the new object's parent. Although using a name is
+					   supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:param name_conflict_strategy: The strategy to use in case of a name conflict.
 		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
 											  operation for affected work units and for the project.
@@ -397,9 +395,8 @@ class Object:
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_delete.html \n
 		Deletes the specified object. Note that if a Work Unit is deleted, the operation cannot be undone
 		and the project will be saved.
-		:param obj: The GUID, typed name, or project path of the object to delete. Although using `Name` is supported,
-					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
-					`EObjectType.EVENT`) are supported.
+		:param obj: The GUID, typed name, or project path of the object to delete. Although using a name is supported,
+					only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
 											  operation for affected work units and for the project.
 		:return: Whether the operation succeeded.
@@ -413,8 +410,10 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_diff.html \n
 		Compares properties and lists of the source object with those in the target object.
-		:param source: The GUID, typed name, or project path of the "source" Wwise object.
-		:param target: The GUID, typed name, or project path of the "target" Wwise object.
+		:param source: The GUID, typed name, or project path of the "source" Wwise object. Although using a name is
+					   supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
+		:param target: The GUID, typed name, or project path of the "target" Wwise object.  Although using a name is
+					   supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:return: Two tuples: the first containing names of properties and references that differ, and the second
 				 containing names of lists that differ.
 		"""
@@ -489,7 +488,9 @@ class Object:
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getpropertyandreferencenames.html \n
 		Retrieves the list of property and reference names for an object.
 		:param obj: The type, GUID, typed name, or project path of the Wwise object to get the property and reference
-					names from. Using the type (`EObjectType`) is recommended over the other options, if possible.
+					names from. Although using a name is supported, only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported. Using the type (`EObjectType`) is recommended over the other
+					options, if possible.
 		:return: A tuple of all the property and reference names for the specified object or type.
 		"""
 		match obj:
@@ -519,8 +520,12 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_islinked.html \n
 		Indicates whether a property, reference, or object list is bound to a particular platform or to all platforms.
-		:param obj: The GUID, name, or project path of the object on which to query the link/unlink status.
-		:param property_name: The name of the property for which to query the link/unlink status.
+		:param obj: The GUID, typed name, or project path of the object on which to query the link/unlink status.
+					Although using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`)
+					are supported.
+		:param property_name: The name of the property for which to query the link/unlink status. Although using a name
+							  is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
+							  supported.
 		:param platform: The GUID or unique name of the platform on which to query the link/unlink status.
 		:return: A boolean indicating whether the object is linked for the specified property. If the call failed,
 				 this function instead returns None.
@@ -536,7 +541,9 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_ispropertyenabled.html \n
 		Returns true if a property is enabled based on the values of the properties it depends on.
-		:param obj: The GUID, name, or project path of the object on which to query the link/unlink status.
+		:param obj: The GUID, typed name, or project path of the object on which to query the link/unlink status.
+					Although using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`)
+					are supported.
 		:param property_name: The name of the property for which to query the link/unlink status.
 		:param platform: The GUID or unique name of the platform on which to query the link/unlink status.
 		:return: Whether a property is enabled based on the values of the properties it depends on.
@@ -554,12 +561,10 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_move.html \n
 		Moves an object to the given parent. Returns the moved object.
-		:param obj: The GUID, typed name, or project path of the object to move. Although using `Name` is supported,
-					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
-					`EObjectType.EVENT`) are supported.
-		:param parent: The GUID, typed name, or project path of the object's new parent. Although using `Name` is
-					   supported, an object type (`EObjectType`) must be specified and only types with globally-unique
-					   names (e.g. `EObjectType.EVENT`) are supported.
+		:param obj: The GUID, typed name, or project path of the object to move. Although using a name is supported,
+					only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
+		:param parent: The GUID, typed name, or project path of the object's new parent. Although using a name is supported,
+					   only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:param name_conflict_strategy: The strategy to use in case of a name conflict.
 		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
 											  operation for affected work units and for the project.
@@ -576,12 +581,40 @@ class Object:
 		obj_info = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")  # force single match
 		return obj_info[0] if len(obj_info) > 0 else None  # WwiseObjectInfo has valid path and type attributes
 	
-	def paste_properties(self):
+	def paste_properties(self, source: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                     targets: _Collection[GUID | tuple[EObjectType, Name] | ProjectPath],
+	                     paste_mode: EPropertyPasteMode = EPropertyPasteMode.REPLACE_ENTIRE, *,
+	                     property_inclusions: _Collection[str] = None,
+	                     property_exclusions: _Collection[str] = None) -> bool:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_pasteproperties.html \n
 		Pastes properties, references and lists from one object to any number of target objects. Only those properties,
 		references and lists which differ between source and target are pasted. Refer to Wwise Objects Reference for
 		more information on the properties, references and lists available on each object type.
+		:param source: The GUID, typed name, or project path of the object to copy properties from. Although using a
+					   name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
+					   supported.
+		:param targets: A collection of GUIDs, typed names, and/or project paths of  objects to paste properties into.
+						Although using a name is supported, only types with globally-unique names (e.g.
+						EObjectType.EVENT`) are supported.
+		:param paste_mode: Defines how to paste properties into target objects. See options in `EPropertyPasteMode`.
+		:param property_inclusions: Array of properties, references and lists to include in the paste operation. When
+									not specified, all properties, references and lists are included, and the exclusion
+									defines which ones to exclude.
+		:param property_exclusions:	Array of properties, references and lists to exclude from the paste operation. When
+									not specified, no properties, references and lists are excluded.
 		"""
+		args = {"pasteMode": paste_mode,
+		        "source": source if not isinstance(source, tuple) else f"{source[0].get_type_name()}:{source[1]}",
+		        "targets": [target if not isinstance(target, tuple) else f"{target[0].get_type_name()}:{target[1]}"
+		                    for target in targets]}
+		
+		if property_inclusions is not None:
+			args["inclusion"] = property_inclusions
+		elif property_exclusions is not None:
+			args["exclusion"] = property_exclusions
+			
+		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
 	def set(self):
 		"""
@@ -605,9 +638,8 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setname.html \n
 		Renames an object.
-		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using `Name`
-					is supported, an object type (`EObjectType`) must be specified and only types with globally-unique
-					names (e.g. `EObjectType.EVENT`) are supported.
+		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using a name
+					is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:param new_name: The new name.
 		:return: Whether this call succeeded.
 		"""
@@ -619,9 +651,8 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setnotes.html \n
 		Sets the object's notes.
-		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using `Name`
-					is supported, an object type (`EObjectType`) must be specified and only types with globally-unique
-					names (e.g. `EObjectType.EVENT`) are supported.
+		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using a name
+					is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
 		:param notes: The new notes.
 		:return: Whether this call succeeded.
 		"""
