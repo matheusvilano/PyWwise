@@ -425,7 +425,7 @@ class Object:
 	def get(self, waql: WAQL | str, returns_and_properties: tuple[EReturnOptions | str, ...] = ()) -> tuple[
 		WwiseObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_object_get.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_get.html \n
 		Performs a query and returns the data, as specified in the options, for each object in the query result. The
 		query should use the WAQL syntax.
 		:param waql: A WAQL query, as either a WAQL object or a raw string. Note: **using the `select` statement for

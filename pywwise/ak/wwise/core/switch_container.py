@@ -21,7 +21,7 @@ class SwitchContainer:
 		
 		self.assignment_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
 		\nSent when an assignment is added to a Switch Container.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the Switch Container where a new assignment was added.
@@ -34,7 +34,7 @@ class SwitchContainer:
 		
 		self.assignment_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_assignmentadded.html
 		\nSent when an assignment is removed from a Switch Container.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the Switch Container where an assignment was removed.
@@ -77,7 +77,7 @@ class SwitchContainer:
 	
 	def add_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_switchcontainer_addassignment.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_addassignment.html \n
 		Assigns a Switch Container's child to a State or Switch. This is the equivalent of doing a drag-and-drop of
 		the child to a state or switch in the Assigned Objects view. The child is always added at the end for each
 		state.
@@ -92,7 +92,7 @@ class SwitchContainer:
 	
 	def get_assignments(self, switch_container: GUID | ProjectPath) -> tuple[SwitchContainerAssignment, ...]:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_switchcontainer_getassignments.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_getassignments.html \n
 		Returns the list of assignments between a Switch Container's children and states.
 		:param switch_container: The GUID or project path of the Switch Container from which to get assignments.
 		:return: A tuple of `SwitchContainerAssignment` instances. May be empty (if there are no valid assignments or
@@ -106,7 +106,7 @@ class SwitchContainer:
 	
 	def remove_assignment(self, child: GUID | ProjectPath, state_or_switch: GUID | ProjectPath) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_switchcontainer_removeassignment.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_switchcontainer_removeassignment.html \n
 		Removes an assignment between a Switch Container's child and a State or Switch.
 		:param child: The GUID or project path of the object assigned to State or Switch. This object must be a child
 					  of a Switch Container.

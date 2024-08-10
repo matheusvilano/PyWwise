@@ -15,7 +15,7 @@ class Project:
 	
 	def close(self, bypass_save: bool = True) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_ui_project_close.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_close.html \n
 		Closes the current project.
 		:param bypass_save: Indicates if the user should not be prompted to save the current project.
 							**Defaults to true.**
@@ -28,7 +28,7 @@ class Project:
 	
 	def create(self, path: SystemPath, platforms: set[PlatformInfo] = None, languages: set[str] = None) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_ui_project_create.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_create.html \n
 		Creates, saves and opens new empty project, specified by path and platform. The project has no
 		factory setting WorkUnit. Please refer to `ak.wwise.core.project.loaded` for further explanations
 		on how to be notified when the operation has completed.
@@ -56,7 +56,7 @@ class Project:
 	def open(self, path: SystemPath, is_migration_required: bool = False, bypass_save: bool = True,
 	         auto_checkout_to_source_control: bool = True) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
 		Opens a project, specified by path. Please refer to `ak.wwise.core.project.loaded` for further
 		explanations on how to be notified when the operation has completed.
 		:param path: The path to the project WPROJ file. For using WAAPI on Mac, please refer to Using WAAPI on Mac.

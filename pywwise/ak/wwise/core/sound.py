@@ -17,7 +17,7 @@ class Sound:
 	def set_active_source(self, sound: GUID | Name | ProjectPath, source: GUID | Name | ProjectPath,
 	                      platform: PlatformInfo | Name | GUID = None) -> bool:
 		"""
-		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sound_setactivesource.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sound_setactivesource.html \n
 		Sets which version of the source is being used for the specified sound. Use `ak.wwise.core.object.get` with the
 		'activeSource' return option to get the active source of a sound.
 		:param sound: The GUID or the project path of the sound for which to set the active source.
