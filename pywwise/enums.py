@@ -55,6 +55,40 @@ class EFadeCurve(_IntEnum):
 	"""y = 1"""
 
 
+class EAttenuationCurveShape(_StrEnum):
+	"""Enumeration of available curve shapes. Usually used with functions related to attenuation curves."""
+	
+	CONSTANT = "Constant"
+	"""Constant value."""
+	
+	LINEAR = "Linear"
+	"""Linear relationship."""
+	
+	LOG_1 = "Log1"
+	"""Logarithmic curve."""
+	
+	LOG_2 = "Log2"
+	"""Steeper logarithmic curve."""
+	
+	LOG_3 = "Log3"
+	"""Steepest logarithmic curve."""
+	
+	S_CURVE = "SCurve"
+	"""S-shaped curve."""
+	
+	INVERTED_S_CURVE = "InvertedSCurve"
+	"""Inverted s-shaped curve."""
+	
+	EXPONENTIAL_1 = "Exp1"
+	"""Exponential curve."""
+	
+	EXPONENTIAL_2 = "Exp2"
+	"""Steeper exponential curve."""
+	
+	EXPONENTIAL_3 = "Exp3"
+	"""Steepest exponential curve."""
+
+
 class ESpeakerBitMask(_IntEnum):
 	"""Enumeration of common speaker bit masks."""
 	
