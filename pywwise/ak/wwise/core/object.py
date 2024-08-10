@@ -2,9 +2,10 @@ from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
-from pywwise.enums import EAttenuationCurveType, ENameConflictStrategy, EObjectType, EReturnOptions
+from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
+                           EObjectType, EReturnOptions)
 from pywwise.statics import EnumStatics
-from pywwise.structs import WwiseObjectInfo, WwiseObjectWatch
+from pywwise.structs import AttenuationCurve, GraphPoint2D, Vector2, WwiseObjectInfo, WwiseObjectWatch
 from pywwise.types import GUID, Name, ProjectPath
 from pywwise.waql import WAQL
 
@@ -453,10 +454,34 @@ class Object:
 		
 		return tuple(infos)
 	
-	def get_attenuation_curve(self):
+	def get_attenuation_curve(self, obj: GUID | Name | ProjectPath, etype: EAttenuationCurveType,
+	                          platform: GUID | Name = None) -> AttenuationCurve | None:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getattenuationcurve.html \n
 		Gets the specified attenuation curve for a given attenuation object.
+		:param obj: The GUID,  name, or project path of the Attenuation object to get the curve from.
+		:param etype: The type of the attenuation curve to get.
+		:param platform: The GUID or unique name of the platform to get the curve from. If unspecified, the platform
+						 used will be whichever one is active in the Wwise authoring app or console.
+		:return:
 		"""
+		args = dict()
+		args["object"] = obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION}:{obj}"
+		args["curveType"] = etype.value
+		if platform is not None:
+			args["platform"] = platform
+		
+		results = self._client.call("ak.wwise.core.object.getAttenuationCurve", args)
+		if not results:  # invalid or empty
+			return None
+		
+		points = tuple(GraphPoint2D(Vector2(point["x"], point["y"]),
+		                            EnumStatics.from_value(EAttenuationCurveShape, point["shape"]))
+		               for point in results["points"])
+		usage = EnumStatics.from_value(EAttenuationCurveUsage, results["use"])
+		etype = EnumStatics.from_value(EAttenuationCurveType, results["curveType"])
+		
+		return AttenuationCurve(points, usage, etype)
 	
 	def get_property_and_reference_names(self):
 		"""
