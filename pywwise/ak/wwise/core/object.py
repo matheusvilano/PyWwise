@@ -3,9 +3,9 @@ from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
 from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
-                           EObjectType, EPropertyPasteMode, EReturnOptions)
+                           EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
 from pywwise.statics import EnumStatics
-from pywwise.structs import AttenuationCurve, GraphPoint2D, Vector2, WwiseObjectInfo, WwiseObjectWatch
+from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
 from pywwise.types import GUID, Name, ProjectPath
 from pywwise.waql import WAQL
 
@@ -503,11 +503,37 @@ class Object:
 		results = self._client.call("ak.wwise.core.object.getPropertyAndReferenceNames", args)
 		return tuple(results["return"]) if results is not None and results.get("return") is not None else ()
 	
-	def get_property_info(self):
+	def get_property_info(self, obj: EObjectType | GUID | tuple[EObjectType, Name] | ProjectPath,
+	                      property_name: str) -> PropertyInfo:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getpropertyinfo.html
 		Retrieves information about an object property. Note that this function does not return the value of a
 		property. To retrieve the value of a property, refer to `ak.wwise.core.object.get` and Return Options.
+		:param obj: The type, GUID, typed name, or project path of the Wwise object to get the property and reference
+					names from. Although using a name is supported, only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported. Using the type (`EObjectType`) is recommended over the other
+					options, if possible.
+		:param property_name: The name of the property to retrieve.
 		"""
+		match obj:
+			case EObjectType():
+				obj = obj.get_class_id()
+			case tuple():
+				obj = f"{obj[0].get_type_name()}:{obj[1]}"
+		
+		args = {"object": obj, "property": property_name}
+		
+		info = self._client.call("ak.wwise.core.object.getPropertyInfo", args)
+		display = info.get("display", dict())
+		supports = info.get("supports", dict())
+		return PropertyInfo(info.get("name", ""),
+		                    display.get("name", ""),
+		                    info.get("audioEngineId", -1),
+		                    info.get("default", None),
+		                    info.get("type", ""),
+		                    EnumStatics.from_value(ERtpcMode, supports.get("rtpc")),
+		                    supports.get("unlink", None),
+		                    supports.get("randomizer", None))
 	
 	def get_types(self):
 		"""
@@ -603,6 +629,7 @@ class Object:
 									defines which ones to exclude.
 		:param property_exclusions:	Array of properties, references and lists to exclude from the paste operation. When
 									not specified, no properties, references and lists are excluded.
+		:return: Whether the call succeeded.
 		"""
 		args = {"pasteMode": paste_mode,
 		        "source": source if not isinstance(source, tuple) else f"{source[0].get_type_name()}:{source[1]}",
