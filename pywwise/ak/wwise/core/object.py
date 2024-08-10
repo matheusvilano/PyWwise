@@ -537,7 +537,7 @@ class Object:
 	
 	def get_types(self, as_enum: bool = False) -> tuple[dict[str, str | int]] | tuple[EObjectType]:
 		"""
-		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_gettypes.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_gettypes.html \n
 		Retrieves the list of all object types registered in Wwise's object model. This function returns the equivalent
 		of Wwise Objects Reference.
 		:param as_enum: If `False`, a WAAPI call is made and a JSON-like dictionary is returned. **If `True`, no WAAPI
@@ -654,6 +654,7 @@ class Object:
 	
 	def set(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
 		Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
 		in a list, Setting name, notes, properties and references. Refer to Importing Audio Files and Creating
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
@@ -662,11 +663,13 @@ class Object:
 	
 	def set_attenuation_curve(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setattenuationcurve.html \n
 		Sets the specified attenuation curve for a given attenuation object.
 		"""
 	
 	def set_linked(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setlinked.html \n
 		Link or unlink a property/reference or object list to a particular platform.
 		"""
 	
@@ -697,6 +700,7 @@ class Object:
 	
 	def set_property(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setproperty.html \n
 		Sets a property value of an object for a specific platform. Refer to Wwise Objects Reference for more
 		information on the properties available on each object type. Refer to `ak.wwise.core.object.set_reference` to
 		set a reference to an object. Refer to `ak.wwise.core.object.get` to obtain the value of a property for an
@@ -705,24 +709,28 @@ class Object:
 	
 	def set_randomizer(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setrandomizer.html \n
 		Sets the randomizer values of a property of an object for a specific platform. Refer to Wwise Objects Reference
 		for more information on the properties available on each object type.
 		"""
 	
 	def set_reference(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setreference.html \n
 		Sets an object's reference value. Refer to Wwise Objects Reference for more information on the references
 		available on each object type.
 		"""
 	
 	def set_state_groups(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstategroups.html \n
 		Sets the State Group objects associated with an object. Note, this will remove any previously associated State
 		Group.
 		"""
 	
 	def set_state_properties(self):
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstateproperties.html \n
 		Set the state properties of an object. Note, this will remove any previous state property, including the
 		default ones.
 		"""
