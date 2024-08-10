@@ -463,7 +463,7 @@ class Object:
 		:param etype: The type of the attenuation curve to get.
 		:param platform: The GUID or unique name of the platform to get the curve from. If unspecified, the platform
 						 used will be whichever one is active in the Wwise authoring app or console.
-		:return:
+		:return: An AttenuationCurve object describing the curve found.
 		"""
 		args = dict()
 		args["object"] = obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION}:{obj}"
