@@ -1678,3 +1678,19 @@ class EPropertyPasteMode(_StrEnum):
 	
 	ADD_KEEP = "addKeep"
 	"""For elements which are common to the source and a target, this mode will retain the element in the target"""
+
+
+class ERtpcMode(_StrEnum):
+	"""An enumeration of RTPC modes."""
+	
+	NONE = "None"
+	"""No RTPC or RTPC not supported."""
+	
+	ADDITIVE = "Additive"
+	"""RTPCs are supported. Multiple RTPCs are combined via addition."""
+	
+	EXCLUSIVE = "Exclusive"
+	"""Only a single RTPC is supported."""
+	
+	MULTIPLICATIVE = "Multiplicative"
+	"""RTPCs are supported. Multiple RTPCs are combined via multiplication."""
