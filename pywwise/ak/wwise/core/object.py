@@ -521,8 +521,8 @@ class Object:
 					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
 					`EObjectType.EVENT`) are supported.
 		:param parent: The GUID, typed name, or project path of the object's new parent. Although using `Name` is
-					       supported, an object type (`EObjectType`) must be specified and only types with globally-unique
-					       names (e.g. `EObjectType.EVENT`) are supported.
+					   supported, an object type (`EObjectType`) must be specified and only types with globally-unique
+					   names (e.g. `EObjectType.EVENT`) are supported.
 		:param name_conflict_strategy: The strategy to use in case of a name conflict.
 		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
 											  operation for affected work units and for the project.
