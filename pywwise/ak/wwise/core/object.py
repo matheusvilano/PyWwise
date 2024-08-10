@@ -514,7 +514,8 @@ class Object:
 		of Wwise Objects Reference.
 		"""
 	
-	def is_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str, platform: GUID | Name) -> bool | None:
+	def is_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
+	              platform: GUID | Name) -> bool | None:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_islinked.html \n
 		Indicates whether a property, reference, or object list is bound to a particular platform or to all platforms.
@@ -530,10 +531,21 @@ class Object:
 		results = self._client.call("ak.wwise.core.object.isLinked", args)
 		return results.get("linked")
 	
-	def is_property_enabled(self):
+	def is_property_enabled(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                        property_name: str, platform: GUID | Name) -> bool | None:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_ispropertyenabled.html \n
 		Returns true if a property is enabled based on the values of the properties it depends on.
+		:param obj: The GUID, name, or project path of the object on which to query the link/unlink status.
+		:param property_name: The name of the property for which to query the link/unlink status.
+		:param platform: The GUID or unique name of the platform on which to query the link/unlink status.
+		:return: Whether a property is enabled based on the values of the properties it depends on.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "property": property_name,
+		        "platform": platform}
+		results = self._client.call("ak.wwise.core.object.isPropertyEnabled", args)
+		return results.get("return")
 	
 	def move(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
 	         parent: GUID | tuple[EObjectType, Name] | ProjectPath,
