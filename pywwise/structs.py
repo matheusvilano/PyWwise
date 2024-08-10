@@ -1,15 +1,18 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Self as _Self
-from pywwise.enums import EBasePlatform, ECaptureLogItemType, ECaptureLogSeverity, ELogSeverity, EObjectType, \
-	EReturnOptions, EStartMode, EInclusionFilter
+from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EBasePlatform, ECaptureLogItemType,
+                           ECaptureLogSeverity, EAttenuationCurveShape,
+                           ELogSeverity,
+                           EObjectType,
+                           EReturnOptions, EStartMode, EInclusionFilter)
 from pywwise.statics import EnumStatics
 from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID
 
 
 @_dataclass
-class Vector3:
-	"""Data-only 3-dimensional vector."""
+class Vector2:
+	"""A 2-dimensional vector."""
 	
 	x: float
 	"""X axis."""
@@ -17,11 +20,21 @@ class Vector3:
 	y: float
 	"""Y axis."""
 	
+	@classmethod
+	def get_zero(cls) -> _Self:
+		""":return: A Vector3 instance with x, y, and z all set to 0.0."""
+		return Vector2(0.0, 0.0)
+
+
+@_dataclass
+class Vector3(Vector2):
+	"""A 3-dimensional vector."""
+	
 	z: float
 	"""Z axis."""
 	
-	@staticmethod
-	def get_zero():
+	@classmethod
+	def get_zero(cls) -> _Self:
 		""":return: A Vector3 instance with x, y, and z all set to 0.0."""
 		return Vector3(0.0, 0.0, 0.0)
 
@@ -515,3 +528,25 @@ class WaqlCondition:
 	value_or_ref_or_regex: bool | int | float | str | tuple[EObjectType, Name] | ProjectPath | GUID | RegexPattern
 	"""The value or the reference to use in the evaluation. Regex IS supported, but only when passing a `RegexPattern`
 	(or `re.Pattern`) object."""
+
+
+@_dataclass
+class GraphPoint2D:
+	"""A dataclass describing a point on a 2D graph."""
+	
+	position: tuple[Vector2]
+	"""The position of the point on the graph."""
+	
+	shape: EAttenuationCurveShape = EAttenuationCurveShape.LINEAR
+	"""The shape formed by the point on the graph."""
+
+
+@_dataclass
+class AttenuationCurve:
+	"""A dataclass representing an attenuation curve (e.g. a Low-Pass Filter in an attenuation shareset)."""
+
+	points: tuple[GraphPoint2D, ...]
+	
+	usage: EAttenuationCurveUsage
+	
+	etype: EAttenuationCurveType
