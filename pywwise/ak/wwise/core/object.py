@@ -542,7 +542,8 @@ class Object:
 		of Wwise Objects Reference.
 		:param as_enum: If `False`, a WAAPI call is made and a JSON-like dictionary is returned. **If `True`, no WAAPI
 						is actually made, and instead PyWwise will return instances of its `EObjectType` enum type
-						without the need for an actual WAAPI call.**
+						without the need for an actual WAAPI call.** Skipping the WAAPI call and using `EObjectType`
+						objects is available simply as a convenience.
 		:return: A `tuple` containing dictionaries - each one describing a single Wwise Object Type - or a `tuple`
 				 containing instances of the `EObjectType` enum type (all possible values, essentially).
 		"""
