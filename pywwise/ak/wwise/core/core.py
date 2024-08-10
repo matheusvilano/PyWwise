@@ -42,7 +42,7 @@ class Core:
 	
 	def execute_lua_script(self):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_executeluascript.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_executeluascript.html \n
 		Execute a Lua script. Optionally, specify additional Lua search paths, additional modules,
 		and additional Lua scripts to load prior to the main script. The script can return a value. All
 		arguments will be passed to the Lua script in the "wa_args" global variable.
@@ -50,13 +50,13 @@ class Core:
 	
 	def get_info(self):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_getinfo.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_getinfo.html \n
 		Retrieve global Wwise information.
 		"""
 	
 	def get_project_info(self):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_getprojectinfo.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_getprojectinfo.html \n
 		Retrieve information about the current project opened, including platforms, languages and project
 		directories.
 		"""

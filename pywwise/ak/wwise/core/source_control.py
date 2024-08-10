@@ -17,7 +17,7 @@ class SourceControl:
 	
 	def add(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_add.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_add.html \n
 		Add files to source control. Equivalent to Mark for Add for Perforce.
 		:param files: Array of files to add. File paths must be absolute.
 		:return: A tuple containing log items generating during the request.
@@ -28,7 +28,7 @@ class SourceControl:
 	
 	def check_out(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_checkout.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_checkout.html \n
 		Check out files from source control. Equivalent to Check Out for Perforce.
 		:param files: Array of files to check out. File paths must be absolute.
 		:return: A tuple containing log items generating during the request.
@@ -39,7 +39,7 @@ class SourceControl:
 	
 	def commit(self, files: _Collection[SystemPath], message: str) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_commit.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_commit.html \n
 		Commit files to source control. Equivalent to Submit Changes for Perforce.
 		:param files: Array of files to commit. File paths must be absolute.
 		:param message: Description message for the commit.
@@ -51,7 +51,7 @@ class SourceControl:
 	
 	def delete(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_delete.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_delete.html \n
 		Delete files from source control. Equivalent to Mark for Delete for Perforce.
 		:param files: Array of files to delete. File paths must be absolute.
 		:return: A tuple containing log items generating during the request.
@@ -64,7 +64,7 @@ class SourceControl:
 	                     search_filter: ESourceControlSearchFilter = ESourceControlSearchFilter.ALL) -> tuple[
 		SourceFileInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_getsourcefiles.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_getsourcefiles.html \n
 		Retrieve all original files.
 		:param folder: Base folder for search relative to Originals folder. Default to the Originals folder.
 		:param recursive: Search in all subfolders of the base folder.
@@ -95,7 +95,7 @@ class SourceControl:
 	def get_status(self, files: _Collection[tuple[SystemPath, SystemPath]]) -> tuple[
 		tuple[LogItem, ...], tuple[SourceControlStatus, ...]]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_getstatus.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_getstatus.html \n
 		Get the source control status of the specified files.
 		:param files: Array of files for which to retrieve source control status. File paths must be absolute.
 		:return: Two tuples: the first one containing log items generating during the request; the second one
@@ -112,7 +112,7 @@ class SourceControl:
 	
 	def move(self, files: _Collection[tuple[SystemPath, SystemPath]]) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_move.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_move.html \n
 		Move or rename files in source control. Always pass the same number of elements in files and
 		newFiles. Equivalent to Move for Perforce.
 		:param files: Array of files to move. File paths must be absolute.
@@ -125,7 +125,7 @@ class SourceControl:
 	
 	def revert(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_revert.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_revert.html \n
 		Revert changes to files in source control.
 		:param files: Array of files to revert. File paths must be absolute.
 		:return: A tuple containing log items generating during the request.
@@ -137,7 +137,7 @@ class SourceControl:
 	def set_provider(self, provider: str, server: str = "localhost", port: str = "", username: str = "",
 	                 password: str = "", workspace: str = "", host: str = "") -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_setprovider.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_setprovider.html \n
 		Change the source control provider and credentials. This is the same setting as the Source
 		Control option in the Project Settings dialog in Wwise.
 		:param provider: Source control provider. Allowed values "Perforce", "Subversion", any other source control

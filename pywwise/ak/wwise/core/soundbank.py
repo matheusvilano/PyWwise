@@ -20,7 +20,7 @@ class SoundBank:
 		
 		self.generated = _RefEvent(SoundBankGenerationInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generated.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_generated.html
 		\nSent when a SoundBank is generated. Can multi-trigger during SoundBank generation, per bank and per platform.
 		\n**Event Data**:
 		\n- A SoundBankGenerationInfo instance, which contains information about the generated SoundBank.
@@ -35,7 +35,7 @@ class SoundBank:
 		
 		self.generation_done = _RefEvent(tuple[LogItem])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generationdone.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_generationdone.html
 		\nSent when all SoundBanks are generated. Do not use to check if `ak.wwise.core.soundbank.generate` has completed.
 		\n**Event Data**:
 		\n- A tuple of LogItems representing the SoundBank generation log. Empty when used in WwiseConsole.
@@ -75,7 +75,7 @@ class SoundBank:
 	
 	def convert_external_sources(self, sources: set[ExternalSourceInfo]) -> bool:
 		"""
-	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
+	    https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_convertexternalsources.html \n
 	    Converts the external sources files for the project as detailed in the wsources file, and places
 	    them into either the default folder, or the folder specified by the output argument. External
 	    Sources are a special type of source that you can put in a Sound object in Wwise. It indicates
@@ -99,7 +99,7 @@ class SoundBank:
 	             languages: set[GUID | Name] = None, clear_audio_file_cache: bool = False,
 	             write_to_disk: bool = False, rebuild_init_bank: bool = False) -> dict:
 		"""
-	    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
+	    https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_generate.html \n
 	    Generate a list of SoundBanks with the import definition specified in the WAAPI request. If you
 	    do not write the SoundBanks to disk, subscribe to `ak.wwise.core.soundbank.generated` to receive
 	    SoundBank structure info and the bank data as base64. Note: This is a synchronous operation.
@@ -139,7 +139,7 @@ class SoundBank:
 	
 	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
 		Retrieves a SoundBank's inclusion list.
 		:param sound_bank: The GUID, name, or project path of the SoundBank to get inclusions from.
 		:return: An array of SoundBank inclusions.
@@ -150,7 +150,7 @@ class SoundBank:
 	
 	def process_definition_files(self, files: set[SystemPath]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_processdefinitionfiles.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_processdefinitionfiles.html \n
 		Imports SoundBank definitions from the specified file. Multiple files can be specified. See the
 		WAAPI log for status messages.
 		:param files: An array of SoundBank definition files.
@@ -162,7 +162,7 @@ class SoundBank:
 	def set_inclusions(self, sound_bank: Name | GUID | ProjectPath, operation: EInclusionOperation,
 	                   inclusions: tuple[SoundBankInclusion]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_soundbank_setinclusions.html \n
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_soundbank_setinclusions.html \n
 		Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions'
 		argument modifies the SoundBank's inclusion list; 'inclusions' may be added to / removed from /
 		replace the SoundBank's inclusion list.

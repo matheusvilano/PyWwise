@@ -20,7 +20,7 @@ class Profiler:
 		
 		self.game_object_registered = _RefEvent(int, GameObjectID, Name)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectregistered.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectregistered.html
 		\nSent when a game object has been registered.
 		\n**Event Data**:
 		\n- Time of registration. Elapsed time in milliseconds since the initialization of the soundengine.
@@ -33,7 +33,7 @@ class Profiler:
 		
 		self.game_object_reset = _RefEvent()
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectreset.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectreset.html
 		\nSent when the game objects have been reset, such as closing a connection to a game while profiling.
 		"""
 		
@@ -42,7 +42,7 @@ class Profiler:
 		
 		self.game_object_unregistered = _RefEvent(int, GameObjectID, Name)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectunregistered.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_gameobjectunregistered.html
 		\nSent when a game object has been unregistered.
 		\n**Event Data**:
 		\n- Time of un-registration. Elapsed time in milliseconds since the initialization of the soundengine.
@@ -58,7 +58,7 @@ class Profiler:
 		
 		self.state_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_statechanged.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_statechanged.html
 		\nSent when a state group state has been changed. Does not require the profiler capture log to be started.
 		\n**Event Data**:
 		\n-A WwiseObjectInfo instance containing information about the State Group where the change happened.
@@ -70,7 +70,7 @@ class Profiler:
 		
 		self.switch_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo, GameObjectID)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_switchchanged.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_switchchanged.html
 		\nSent when a switch group state has been changed. Does not require the profiler capture log to be started.
 		\n**Event Data**:
 		\n-A WwiseObjectInfo instance containing information about the Switch Group where the change happened.

@@ -19,7 +19,7 @@ class Audio:
 		
 		self.imported = _RefEvent(EImportOperation, tuple[WwiseObjectInfo, ...], tuple[SystemPath, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_audio_imported.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_audio_imported.html
 		\nSent at the end of an import operation.
 		\n**Event Data**:
 		\n- The operation applied for the import.

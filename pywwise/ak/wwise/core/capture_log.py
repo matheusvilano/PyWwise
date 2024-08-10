@@ -19,7 +19,7 @@ class CaptureLog:
 		
 		self.item_added = _RefEvent(CaptureLogItem)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_capturelog_itemadded.html
+		https://www.audiokinetic.comlibrary/edge/?source=SDK&id=ak_wwise_core_profiler_capturelog_itemadded.html
 		\nSent when a new entry is added to the capture log.
 		\n**Event Data**:
 		\n- An instance of CaptureLogItem, which contains information such as type, time, severity, etc.
