@@ -2,10 +2,8 @@ from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Self as _Self
 from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EBasePlatform, ECaptureLogItemType,
-                           ECaptureLogSeverity, EAttenuationCurveShape,
-                           ELogSeverity,
-                           EObjectType,
-                           EReturnOptions, EStartMode, EInclusionFilter)
+                           ECaptureLogSeverity, EAttenuationCurveShape, ELogSeverity, EObjectType, EReturnOptions,
+                           ERtpcMode, EStartMode, EInclusionFilter)
 from pywwise.statics import EnumStatics
 from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID
 
@@ -546,7 +544,39 @@ class AttenuationCurve:
 	"""A dataclass representing an attenuation curve (e.g. a Low-Pass Filter in an attenuation shareset)."""
 	
 	points: tuple[GraphPoint2D, ...]
+	"""A collection of points on the graph."""
 	
 	usage: EAttenuationCurveUsage
+	"""The attenuation curve usage."""
 	
 	etype: EAttenuationCurveType
+	"""The type of the attenuation curve."""
+
+
+@_dataclass
+class PropertyInfo:
+	"""A dataclass representing information about a property."""
+	
+	name: str
+	"""The name of the property."""
+	
+	display_name: str
+	"""The property's display name, as used in the Wwise UI."""
+	
+	audio_engine_id: int
+	"""The audio engine ID of the property."""
+	
+	default: _Any
+	"""The property's default value."""
+	
+	stype: str
+	"""The name of the property's data type."""
+	
+	rtpc_mode: ERtpcMode
+	"""The rtpc mode supported by the property."""
+	
+	supports_unlinking: bool | None
+	"""Whether the property supports unlinking. If this information is unknown, the value is `None` instead."""
+	
+	supports_randomizer: bool | None
+	"""Whether the property supports randomizers. If this information is unknown, the value is `None` instead."""
