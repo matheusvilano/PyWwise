@@ -1,6 +1,7 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import ETransportExecuteActions
+from pywwise.enums import EObjectType, ETransportExecuteActions, ETransportState
+from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseTransportObjectInfo
 from pywwise.types import GameObjectID, GUID, Name, ProjectPath
 
@@ -18,7 +19,8 @@ class Transport:
         # TODO: implement topics
         self.state_changed: _RefEvent
     
-    def create(self, wwise_object: Name | GUID | ProjectPath, game_object: GameObjectID = None) -> int:
+    def create(self, wwise_object: tuple[EObjectType, Name] | GUID | ProjectPath,
+               game_object: GameObjectID = None) -> int:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_create.html \n
         Creates a transport object for the given Wwise object. The return transport object can be used to
@@ -28,18 +30,18 @@ class Transport:
         :return: Transport object ID to be used with all other ak.wwise.core.transport functions. Returns -1 if function
         call failed.
         """
-        
         if wwise_object is None:
             return -1
         
-        args = {"object": wwise_object, **({"game_object": game_object} if game_object is not None else {})}
+        args = {"object": wwise_object if not
+                isinstance(wwise_object, tuple) else f"{wwise_object[0]}_{wwise_object[1]}"}
+        
+        if game_object is not None:
+            args["gameObject"] = game_object
         
         result = self._client.call("ak.wwise.core.transport.create", args)
         
-        if result is None:
-            return -1
-        
-        return result.get("transport")
+        return -1 if result is None else result.get("transport", -1)
     
     def destroy(self, transport_id: int) -> bool:
         """
@@ -49,7 +51,6 @@ class Transport:
         sure you create a transport object before calling this function.
         :return: True if the transport object was destroyed, False otherwise.
         """
-        
         if transport_id is None:
             return False
         
@@ -66,7 +67,6 @@ class Transport:
         sure you create a transport object before calling this function.
         :return: True if the action was executed, False otherwise.
         """
-        
         if transport_action is None:
             return False
         
@@ -80,14 +80,14 @@ class Transport:
         Returns the list of transport objects.
         :return: A list of transport objects.
         """
-        args = {}
+        results = self._client.call("ak.wwise.core.transport.getList", {})
         
-        results = self._client.call("ak.wwise.core.transport.getList", args)
         results = results.get("list") if results is not None else None
+        
         if results is None:
             return ()
         
-        transport_objects = list[WwiseTransportObjectInfo]
+        transport_objects: list[WwiseTransportObjectInfo]
         
         for result in results:
             object = GUID(result["object"])
@@ -97,32 +97,31 @@ class Transport:
         
         return tuple(transport_objects)
     
-    def get_state(self, transport_id: int) -> tuple[bool, str]:
+    def get_state(self, transport_id: int) -> ETransportState:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_getstate.html \n
         Gets the state of the given transport object.
         :param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
         sure you create a transport object before calling this function.
-        :return: A tuple made up of a bool and a string message. If the call fails, the bool will be false. If the call
-        succeeds, the bool will be true and the string will represent the current state of the transport object. The
-        return message can either be: Playing, Stopped, Paused
+        :return: An enum value that represents the state of the transport object. Return value can either be: Playing,
+        Stopped, Paused, or None. In case its none, the method call failed.
         """
-        
         if transport_id is None:
-            return False, "No transport object was given."
+            return ETransportState.NONE
         
         args = {"transport": transport_id}
         
         result = self._client.call("ak.wwise.core.transport.getState", args)
         
         if result is None:
-            return False, "Function called failed."
+            return ETransportState.NONE
         
         message = result.get("state")
         
-        return True, message
+        return EnumStatics.from_value(ETransportState, result.get("state", "None"))
+        # from_value will [attempt to] convert any value to the specified Enum subclass.
     
-    def prepare(self, object: GUID | ProjectPath | Name) -> bool:
+    def prepare(self, object: GUID | ProjectPath | tuple[EObjectType, Name]) -> bool:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
         Prepare the object and its dependencies for playback. Use this function before calling
@@ -132,18 +131,13 @@ class Transport:
         Ex: Event:Play_Sound_01, Global:245489792.
         :return: True if the call was successful, False otherwise.
         """
-        
         if object is None:
             return False
         
-        args = {"object": object}
+        args = {"object": object if not
+                isinstance(object, tuple) else f"{object[0]}_{object[1]}"}
         
-        result = self._client.call("ak.wwise.core.transport.prepare", args)
-        
-        if result is not None:
-            return True
-        else:
-            return False
+        return self._client.call("ak.wwise.core.transport.prepare", args) is not None
     
     def use_originals(self, enable_original_files: bool = False) -> bool:
         """
@@ -154,13 +148,7 @@ class Transport:
         provided, system will default to using converted files.
         :return: True if the call was successful, False otherwise.
         """
-    
         args = {"enable": enable_original_files}
         
-        result = self._client.call("ak.wwise.core.transport.useOriginals", args)
-        
-        if result is not None:
-            return True
-        else:
-            return False
-        
+        return self._client.call("ak.wwise.core.transport.useOriginals", args) is not None
+    

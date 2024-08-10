@@ -1388,6 +1388,22 @@ class ETransportExecuteActions(_StrEnum):
 	"""Play directly"""
 
 
+class ETransportState(_StrEnum):
+	"""An enumeration of the available transport object states."""
+	
+	PLAYING = "playing"
+	"""Transport object is playing"""
+	
+	STOPPED = "stopped"
+	"""Transport object is stopped"""
+	
+	PAUSED = "paused"
+	"""Transport object is paused"""
+	
+	NONE = "none"
+	"""Transport object return is null"""
+	
+
 class ELogSeverity(_StrEnum):
 	"""An enumeration of log item severity levels."""
 	
