@@ -535,11 +535,20 @@ class Object:
 		                    supports.get("unlink", None),
 		                    supports.get("randomizer", None))
 	
-	def get_types(self):
+	def get_types(self, as_enum: bool = False) -> tuple[dict[str, str | int]] | tuple[EObjectType]:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_gettypes.html
 		Retrieves the list of all object types registered in Wwise's object model. This function returns the equivalent
 		of Wwise Objects Reference.
+		:param as_enum: If `False`, a WAAPI call is made and a JSON-like dictionary is returned. **If `True`, no WAAPI
+						is actually made, and instead PyWwise will return instances of its `EObjectType` enum type
+						without the need for an actual WAAPI call.**
+		:return: A `tuple` containing dictionaries - each one describing a single Wwise Object Type - or a `tuple`
+				 containing instances of the `EObjectType` enum type (all possible values, essentially).
 		"""
+		if as_enum:
+			return tuple[EObjectType](member for member in EObjectType if member != EObjectType.UNKNOWN)
+		return tuple(self._client.call("ak.wwise.core.object.getTypes")["return"])
 	
 	def is_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
 	              platform: GUID | Name) -> bool | None:
@@ -640,7 +649,7 @@ class Object:
 			args["inclusion"] = property_inclusions
 		elif property_exclusions is not None:
 			args["exclusion"] = property_exclusions
-			
+		
 		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
 	def set(self):
