@@ -1663,3 +1663,18 @@ class EAttenuationCurveUsage(_StrEnum):
 	
 	USE_VOLUME_DRY = "UseVolumeDry"
 	"""Curve uses the points from the 'VolumeDryUsage' curve."""
+
+
+class EPropertyPasteMode(_StrEnum):
+	"""An enumeration of paste modes for when pasting properties (e.g. Volume)."""
+	
+	REPLACE_ENTIRE = "replaceEntire"
+	"""All elements in the lists of a target object are removed and all selected elements from the source's lists are
+	copied."""
+	
+	ADD_REPLACE = "addReplace"
+	"""For elements which are common to the source and a target, this mode will copy the one from the source, replacing
+	the target's element."""
+	
+	ADD_KEEP = "addKeep"
+	"""For elements which are common to the source and a target, this mode will retain the element in the target"""
