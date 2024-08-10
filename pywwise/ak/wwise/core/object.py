@@ -26,7 +26,7 @@ class Object:
 		
 		self.attenuation_curve_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvechanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvechanged.html
 		\nSent when an attenuation curve is changed.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
@@ -39,7 +39,7 @@ class Object:
 		
 		self.attenuation_curve_link_changed = _RefEvent(WwiseObjectInfo, EAttenuationCurveType)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvelinkchanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_attenuationcurvelinkchanged.html
 		\nSent when an attenuation curve's link/unlink is changed. NOTE: this event often multi-triggers.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the Attenuation object that owns the curve.
@@ -52,7 +52,7 @@ class Object:
 		
 		self.child_added = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
 		\nSent when an object is added as a child to another object.
 		\n*Event Data**:
 		\n- A WwiseObjectInfo instance representing the new child object.
@@ -64,7 +64,7 @@ class Object:
 		
 		self.child_removed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_childadded.html
 		\nSent when an object is removed from the children of another object.
 		\n*Event Data**:
 		\n- A WwiseObjectInfo instance representing the child object that got removed.
@@ -76,7 +76,7 @@ class Object:
 		
 		self.created = _RefEvent(WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_created.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_created.html
 		\nSent when an object is created. The name and path are not available at the time of creation.
 		\n**Event Data**:
 		\n- A WwiseObject instance representing the newly created object.
@@ -87,7 +87,7 @@ class Object:
 		
 		self.curve_changed = _RefEvent(WwiseObjectInfo, WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_curvechanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_curvechanged.html
 		\nSent when one or many curves are changed.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the curve that changed.
@@ -99,7 +99,7 @@ class Object:
 		
 		self.name_changed = _RefEvent(WwiseObjectInfo, str)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_namechanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_namechanged.html
 		\nSent when an object is renamed. Publishes the renamed object.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the object that was renamed. It will contain the new name.
@@ -111,7 +111,7 @@ class Object:
 		
 		self.notes_changed = _RefEvent(WwiseObjectInfo, str, str)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_noteschanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_noteschanged.html
 		\nSent when the object's notes are changed.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the object whose notes changed.
@@ -124,7 +124,7 @@ class Object:
 		
 		self.post_deleted = _RefEvent(WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_postdeleted.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_postdeleted.html
 		\nSent following an object's deletion.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the object that was deleted.
@@ -135,7 +135,7 @@ class Object:
 		
 		self.pre_deleted = _RefEvent(WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_predeleted.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_predeleted.html
 		\nSent prior to an object's deletion.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the object that will be deleted.
@@ -146,7 +146,7 @@ class Object:
 		
 		self.property_changed = _RefEvent(WwiseObjectInfo, Name, _Any, _Any, GUID)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_propertychanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_propertychanged.html
 		\nSent when the watched property of an object changes.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the watched object.
@@ -170,7 +170,7 @@ class Object:
 		
 		self.reference_changed = _RefEvent(WwiseObjectInfo)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_referencechanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_referencechanged.html
 		\nSent when an object reference is changed.
 		\n**Event Data**:
 		\n- A WwiseObjectInfo instance representing the object that had a reference changed.
@@ -323,12 +323,16 @@ class Object:
 	         version_control_auto_checkout: bool = True,
 	         version_control_auto_add: bool = True) -> WwiseObjectInfo | None:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_copy.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_copy.html \n
 		Copies an object to the given parent. Note that if a Work Unit is copied, the operation cannot be undone and
 		the project will be saved. This function calls `ak.wwise.core.object.get` to fetch the `path` and `type`
 		attributes.
-		:param obj: The GUID, type and name, or project path of the object to copy.
-		:param parent: The GUID, type and name, or project path of the new object's parent.
+		:param obj: The GUID, type and name, or project path of the object to copy. Although using `Name` is supported,
+					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported.
+		:param parent: The GUID, type and name, or project path of the new object's parent. Although using `Name` is
+					   supported, an object type (`EObjectType`) must be specified and only types with globally-unique
+					   names (e.g. `EObjectType.EVENT`) are supported.
 		:param name_conflict_strategy: The strategy to use in case of a name conflict.
 		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
 											  operation for affected work units and for the project.
@@ -354,7 +358,7 @@ class Object:
 	           name_conflict_strategy: ENameConflictStrategy = ENameConflictStrategy.FAIL, notes: str = "",
 	           version_control_auto_checkout: bool = True, platform: Name | GUID = None) -> WwiseObjectInfo | None:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_object_create.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_create.html \n
 		Creates an object of type 'type', as a child of 'parent'. Refer to Importing Audio Files and Creating
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
 		import audio files to Wwise. To create Effect or Source plug-ins, use `ak.wwise.core.object.set`, and refer to
@@ -386,16 +390,37 @@ class Object:
 		new_obj = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")
 		return new_obj[0] if len(new_obj) > 0 else None
 	
-	def delete(self):
+	def delete(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	           version_control_auto_checkout: bool = True) -> bool:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_delete.html \n
 		Deletes the specified object. Note that if a Work Unit is deleted, the operation cannot be undone
 		and the project will be saved.
+		:param obj: The GUID, typed name, or project path of the object to delete. Although using `Name` is supported,
+					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported.
+		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
+											  operation for affected work units and for the project.
+		:return: Whether the operation succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}",
+		        "autoCheckOutToSourceControl": version_control_auto_checkout}
+		return self._client.call("ak.wwise.core.object.delete", args) is not None
 	
-	def diff(self):
+	def diff(self, source: GUID | tuple[EObjectType, Name] | ProjectPath,
+	         target: GUID | tuple[EObjectType, Name] | ProjectPath) -> tuple[tuple[str], tuple[str]]:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_diff.html \n
 		Compares properties and lists of the source object with those in the target object.
+		:param source: The GUID, typed name, or project path of the "source" Wwise object.
+		:param target: The GUID, typed name, or project path of the "target" Wwise object.
+		:return: Two tuples: the first containing names of properties and references that differ, and the second
+				 containing names of lists that differ.
 		"""
+		args = {"source": source if not isinstance(source, tuple) else f"{source[0]}:{source[1]}",
+		        "target": target if not isinstance(target, tuple) else f"{target[0]}:{target[1]}"}
+		results = self._client.call("ak.wwise.core.object.diff", args)
+		return results.get("properties", tuple[str]()), results.get("lists", tuple[str]())
 	
 	def get(self, waql: WAQL | str, returns_and_properties: tuple[EReturnOptions | str, ...] = ()) -> tuple[
 		WwiseObjectInfo, ...]:
@@ -460,10 +485,34 @@ class Object:
 		Returns true if a property is enabled based on the values of the properties it depends on.
 		"""
 	
-	def move(self):
+	def move(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	         parent: GUID | tuple[EObjectType, Name] | ProjectPath,
+	         name_conflict_strategy: ENameConflictStrategy = ENameConflictStrategy.FAIL,
+	         version_control_auto_checkout: bool = True) -> WwiseObjectInfo | None:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_move.html \n
 		Moves an object to the given parent. Returns the moved object.
+		:param obj: The GUID, typed name, or project path of the object to move. Although using `Name` is supported,
+					an object type (`EObjectType`) must be specified and only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported.
+		:param parent: The GUID, typed name, or project path of the object's new parent. Although using `Name` is
+					       supported, an object type (`EObjectType`) must be specified and only types with globally-unique
+					       names (e.g. `EObjectType.EVENT`) are supported.
+		:param name_conflict_strategy: The strategy to use in case of a name conflict.
+		:param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
+											  operation for affected work units and for the project.
 		"""
+		args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
+		        "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
+		        "onNameConflict": name_conflict_strategy,
+		        "autoCheckOutToSourceControl": version_control_auto_checkout}
+		
+		results = self._client.call("ak.wwise.core.object.move", args)
+		if results is None:
+			return None
+		
+		obj_info = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")  # force single match
+		return obj_info[0] if len(obj_info) > 0 else None  # WwiseObjectInfo has valid path and type attributes
 	
 	def paste_properties(self):
 		"""
@@ -490,15 +539,31 @@ class Object:
 		Link or unlink a property/reference or object list to a particular platform.
 		"""
 	
-	def set_name(self):
+	def set_name(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, new_name: Name | str) -> bool:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setname.html \n
 		Renames an object.
+		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using `Name`
+					is supported, an object type (`EObjectType`) must be specified and only types with globally-unique
+					names (e.g. `EObjectType.EVENT`) are supported.
+		:param new_name: The new name.
+		:return: Whether this call succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}", "value": new_name}
+		return self._client.call("ak.wwise.core.object.setName", args) is not None
 	
-	def set_notes(self):
+	def set_notes(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, notes: str) -> bool:
 		"""
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setnotes.html \n
 		Sets the object's notes.
+		:param obj: The GUID, typed name, or project path of the object for which to set notes. Although using `Name`
+					is supported, an object type (`EObjectType`) must be specified and only types with globally-unique
+					names (e.g. `EObjectType.EVENT`) are supported.
+		:param notes: The new notes.
+		:return: Whether this call succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0]}:{obj[1]}", "notes": notes}
+		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self):
 		"""
