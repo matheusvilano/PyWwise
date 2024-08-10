@@ -544,7 +544,7 @@ class GraphPoint2D:
 @_dataclass
 class AttenuationCurve:
 	"""A dataclass representing an attenuation curve (e.g. a Low-Pass Filter in an attenuation shareset)."""
-
+	
 	points: tuple[GraphPoint2D, ...]
 	
 	usage: EAttenuationCurveUsage

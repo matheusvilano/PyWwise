@@ -55,7 +55,7 @@ class Project:
 		:param event: The event to broadcast.
 		"""
 		event()
-		
+	
 	@callback
 	def _on_post_closed(self, event: _RefEvent):
 		"""
@@ -63,7 +63,7 @@ class Project:
 		:param event: The event to broadcast.
 		"""
 		event()
-		
+	
 	@callback
 	def _on_pre_closed(self, event: _RefEvent):
 		"""
