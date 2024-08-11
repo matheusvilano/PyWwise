@@ -662,7 +662,7 @@ class GlobalWwiseInfo:
 		- macosx
 		- linux"""
 	
-	command_line: bool | None
+	command_line: bool
 	"""Indicates if Wwise is running in command line."""
 	
 	process_id: int
