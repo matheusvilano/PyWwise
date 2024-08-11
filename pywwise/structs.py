@@ -367,10 +367,10 @@ class AudioObjectMetadata:
 	""" Contains information about the metadata associated with an audio object."""
 	
 	metadata_class_id: int
-	"""The class ID of the metadata. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	"""The class ID of the metadata. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
-	source_short_id: ShortID = ShortID.get_invalid()
-	"""The short ID of the source object. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	source_short_id: ShortID = _field(default=ShortID.get_invalid())
+	"""The short ID of the source object. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
 	metadata_name: Name = _field(default=Name.get_null())
 	"""The name of the metadata."""
@@ -391,14 +391,14 @@ class AudioObjectInfo:
 	"""Contains information about an audio object captured in the profiler."""
 	
 	audio_object_id: int
-	"""The ID of the Audio Object.Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
+	"""The ID of the Audio Object.Unsigned Integer 64-bit. Range: [0,18446744073709551615]."""
 	
 	bus_pipeline_id: int
-	"""The Pipeline ID of the Bus instance. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	"""The Pipeline ID of the Bus instance. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
 	instigator_pipeline_id: int
 	"""The pipeline ID of the instigator from which the Audio Object originates. Can be either a Bus instance or a
-	Voice. Unsigned Integer 32-bit. Range: [0,4294967295]"""
+	Voice. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
 	effect_class_id: int
 	"""The Class ID of the effect after which the Audio Object was captured. Usage of AK_INVALID_UNIQUE_ID constant
@@ -428,6 +428,8 @@ class BusPipelineInfo:
 	"""Object GUID corresponding to the bus. An object GUID of the form: {aabbcc00-1122-3344-5566-77889900aabb}."""
 	
 	other: dict[EBusOptions | str, _Any] = _field(default_factory=dict)
+	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
+	EBusOptions instead."""
 	
 	def __hash__(self):
 		""":return: The BusPipelineInfo hash."""
@@ -468,16 +470,16 @@ class GameObjectRegistrationData:
 	"""Data of a profiled game object and its registration data."""
 	
 	id: int
-	"""The ID of the game object. Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
+	"""The ID of the game object. Unsigned Integer 64-bit. Range: [0,18446744073709551615]."""
 	
 	name: str
 	"""The name of the game object."""
 	
 	registration_Time: int
-	"""The time at which the game object was registered. Integer 32-bit. Range: [-2147483648,2147483647]"""
+	"""The time at which the game object was registered. Integer 32-bit. Range: [-2147483648,2147483647]."""
 	
 	unregistration_Time: int
-	"""The time at which the game object was unregistered. Integer 32-bit. Range: [-2147483648,2147483647]"""
+	"""The time at which the game object was unregistered. Integer 32-bit. Range: [-2147483648,2147483647]."""
 
 
 @_dataclass
@@ -486,7 +488,7 @@ class LoadedMediaInfo:
 	functions."""
 
 	media_Id: ShortID
-	"""The short ID of the media file"""
+	"""The short ID of the media file."""
 	
 	file_Name: Name
 	"""The name of the media file."""
@@ -505,7 +507,7 @@ class LoadedMediaInfo:
 class PerformanceMonitorCounterInfo:
 	"""Information about a performance monitor counter and its value"""
 	
-	name: Name
+	name: str
 	"""name of the counter as shown in Wwise Authoring."""
 
 	id: int
@@ -528,7 +530,7 @@ class ActiveRTPCInfo:
 	
 	gameObject_Id: GameObjectID
 	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs. A game object
-	ID, unsigned integer 64-bit. Range: [0,18446744073709551615]"""
+	ID, unsigned integer 64-bit. Range: [0,18446744073709551615]."""
 	
 	value: float
 	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
@@ -555,7 +557,7 @@ class StreamObjectInfo:
 	
 	bandwidth_total: int
 	"""The rate at which the file was streamed in the last profiling frame. This value takes all transfers into account,
-	including transfers that occurred from the Stream Manager's cache"""
+	including transfers that occurred from the Stream Manager's cache."""
 	
 	bandwidth_low_level: int
 	"""The rate at which the file was streamed in the last profiling frame. Unlike the Total Bandwidth field, this field
@@ -584,6 +586,7 @@ class StreamObjectInfo:
 	
 	@property
 	def dictionary(self) -> dict[str, str | bool | int | Name]:
+		""":return: The instance represented as a dictionary."""
 		as_dict = dict()
 		if self.device_name is not None:
 			as_dict["deviceName"] = self.device_name
@@ -616,7 +619,7 @@ class VoiceContributionParameter:
 	object."""
 	
 	property_type: str
-	"""The object property affecting the voice"""
+	"""The object property affecting the voice."""
 	
 	reason: str
 	"""The reason for the parameter to affect the voice."""
@@ -625,10 +628,10 @@ class VoiceContributionParameter:
 	"""Can either be: The driving object GUID or the driving reason when a parameter is not driven by an object."""
 	
 	driver_value: float | GUID
-	""" can either be: The value of the driver affecting the parameter or an object GUID"""
+	"""Can either be: The value of the driver affecting the parameter or an object GUID."""
 	
 	value: float
-	"""Contribution value"""
+	"""Contribution value."""
 
 	def __hash__(self):
 		""":return: The VoiceInspectorContributionObjectProperties hash."""
@@ -636,6 +639,7 @@ class VoiceContributionParameter:
 	
 	@property
 	def dictionary(self) -> dict[str, float | str | GUID]:
+		""":return: The instance represented as a dictionary."""
 		as_dict = dict()
 		as_dict["propertyType"] = self.property_type
 		as_dict["reason"] = self.reason
@@ -721,10 +725,10 @@ class PlayingVoiceProperties:
 	"""Data class containing information about the properties of a playing voice."""
 	
 	pipeline_id: int
-	"""Pipeline ID of the voice"""
+	"""Pipeline ID of the voice."""
 	
 	game_object_id: GameObjectID
-	"""Game Object ID corresponding to the voice"""
+	"""Game Object ID corresponding to the voice."""
 	
 	object_guid: GUID
 	"""Object GUID corresponding to the voice."""

@@ -1,6 +1,3 @@
-from dataclasses import fields
-from typing import Any
-
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
@@ -12,9 +9,6 @@ from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata
 	StreamObjectInfo, \
 	VoiceContributionHierarchy, VoiceContributionParameter, VoiceInspectorContribution
 from pywwise.types import GameObjectID, GUID, Name, ShortID, SystemPath
-
-
-# from typing import List
 
 
 class Profiler:
@@ -35,17 +29,14 @@ class Profiler:
 		self.state_changed: _RefEvent
 		self.switch_changed: _RefEvent
 	
-	def enable_profiler_data(self, data_types: set[tuple[EDataTypes, bool]] = None) -> bool:
+	def enable_profiler_data(self, data_types: set[tuple[EDataTypes, bool]]) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_enableprofilerdata.html \n
 		Specifies the type of data you want to capture. Overrides the user's profiler settings.
-		:param data_types: Tuple that contains the data type you want to capture via an enum and if profiler capture
-		will be enabled for said data type (Defaults to true).
+		:param data_types: A set of tuples. Each tuple contains the data type you want to capture via an enum and
+						   if profiler capture will be enabled for said data type (Defaults to true).
 		:return: It returns a bool indicating whether the call was successful or not.
 		"""
-		if data_types is None:
-			return False
-		
 		args = {"dataTypes": list()}
 		
 		for data_type in data_types:
@@ -57,7 +48,7 @@ class Profiler:
 	                      return_options: set[EAudioObjectOptions] = None) -> tuple[AudioObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
-		Retrieves the Audio Objects at a specific profiler capture time. \n
+		Retrieves the Audio Objects at a specific profiler capture time.
 		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
 					 The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
@@ -71,9 +62,6 @@ class Profiler:
 				 (requested via `return_options`). When accessing the values in the dictionary, use the
 				 EAudioObjectOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		if bus_pipeline_id is not None:
@@ -81,7 +69,7 @@ class Profiler:
 		
 		returns = (EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
 		           EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID)
-		options = {"return": list(returns)}
+		options = {"return": returns}
 		
 		if return_options is not None:
 			options["return"].extend(list(return_options))
@@ -129,16 +117,13 @@ class Profiler:
 				 (requested via `return_options`). When accessing the values in the dictionary, use the
 				 EBusOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		if bus_pipeline_id is not None:
 			args["busPipelineId"] = bus_pipeline_id
 		
 		returns = (EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID)
-		options = {"return": list(returns)}
+		options = {"return": returns}
 		
 		if return_options is not None:
 			options["return"].extend(list(return_options))
@@ -179,9 +164,6 @@ class Profiler:
 				 percentage used by each element is returned. When accessing the values in the dictionary, use the
 				 ECPUStatisticsMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getCpuUsage", args)
@@ -205,9 +187,6 @@ class Profiler:
 		:param time: Time Cursor from which to acquire the time.
 		:return: The current position of the specified Time Cursor, in ms. If function fails, it returns -1.
 		"""
-		if time is None:
-			return -1
-		
 		args = {"time": time}
 		
 		result = self._client.call("ak.wwise.core.profiler.getCursorTime ", args)
@@ -230,9 +209,6 @@ class Profiler:
 				 dictionary, use the EGameObjectRegistrationDataMembers enum as the keys. If this function call fails,
 				 an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getGameObjects", args)
@@ -264,9 +240,6 @@ class Profiler:
 		:return: A tuple of loaded media information. When accessing the values in the dictionary, use the
 				 ELoadedMediaMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getLoadedMedia", args)
@@ -296,9 +269,6 @@ class Profiler:
 		:return: A tuple of performance monitor counter information. When accessing the values in the dictionary use the
 				 EPerformanceMonitorMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getPerformanceMonitor", args)
@@ -328,9 +298,6 @@ class Profiler:
 		:return: A tuple of RTPCs associated with a playing voice. When accessing the values in the dictionary use the
 				 EActiveRTPCMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getRTPCs ", args)
@@ -360,11 +327,8 @@ class Profiler:
 					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
 					 capture.
 		:return: Array of StreamObjectInfo, containing all data about how each of the streams is managed by the Wwise
-		sound engine.
+				 sound engine.
 		"""
-		if time is None:
-			return tuple()
-		
 		args = {"time": time}
 		
 		results = self._client.call("ak.wwise.core.profiler.getStreamedMedia ", args)
@@ -405,8 +369,8 @@ class Profiler:
 								  instance ID
 		:param busses_pipeline_id: The pipeline IDs of buses belonging to a common voice path. An empty array defaults
 								   to the dry path. Identifies a playing voice instance ID
-		:return The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
-				the voice object. If no information was found, `None` is returned.
+		:return: The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
+				 the voice object. If no information was found, `None` is returned.
 		"""
 		args = {"time": time, "voicePipelineID": voice_pipeline_id}
 		
@@ -423,8 +387,7 @@ class Profiler:
 		if results is None:
 			return None
 		
-		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0),
-		                                       results.get("LPF", 0.0),
+		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0), results.get("LPF", 0.0),
 		                                       results.get("HPF", 0.0))
 		
 		def get_children(parent: VoiceContributionHierarchy | VoiceInspectorContribution, children: list[dict]):
@@ -504,6 +467,8 @@ class Profiler:
 		"""
 		if file_path is None:
 			return False
+		
+		file_path.parent.mkdir(parents=True, exist_ok=True)
 		
 		args = {"file": file_path}
 		

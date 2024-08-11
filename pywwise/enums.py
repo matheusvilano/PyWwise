@@ -1569,19 +1569,19 @@ class EVoicePipelineReturnOptions(_StrEnum):
 	"""Enumeration of defined members for a voice pipeline return structure."""
 	
 	PIPELINE_ID = "pipelineID"
-	"""Pipeline ID of the voice"""
+	"""Pipeline ID of the voice."""
 	
 	PLAYING_ID = "playingID"
-	"""Playing ID of the voice"""
+	"""Playing ID of the voice."""
 	
 	SOUND_ID = "soundID"
-	"""Short ID of the sound object corresponding to the voice"""
+	"""Short ID of the sound object corresponding to the voice."""
 	
 	GAME_OBJECT_ID = "gameObjectID"
-	"""Game Object ID corresponding to the voice"""
+	"""Game Object ID corresponding to the voice."""
 	
 	GAME_OBJECT_NAME = "gameObjectName"
-	"""Game Object Name corresponding to the voice"""
+	"""Game Object Name corresponding to the voice."""
 	
 	OBJECT_GUID = "objectGUID"
 	"""Object GUID corresponding to the voice."""
@@ -1620,13 +1620,13 @@ class EVoicePipelineReturnOptions(_StrEnum):
 	"""Priority given to the voice."""
 	
 	IS_STARTED = "isStarted"
-	"""If the voice has started"""
+	"""If the voice has started."""
 	
 	IS_VIRTUAL = "isVirtual"
-	"""If the voice is virtual"""
+	"""If the voice is virtual."""
 	
 	IS_FORCED_VIRTUAL = "isForcedVirtual"
-	"""If the voice was forced virtual"""
+	"""If the voice was forced virtual."""
 
 
 class ECaseStyle(_StrEnum):
