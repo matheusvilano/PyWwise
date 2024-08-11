@@ -1392,16 +1392,16 @@ class ETransportState(_StrEnum):
 	"""An enumeration of the available transport object states."""
 	
 	PLAYING = "playing"
-	"""Transport object is playing"""
+	"""Transport object is playing."""
 	
 	STOPPED = "stopped"
-	"""Transport object is stopped"""
+	"""Transport object is stopped."""
 	
 	PAUSED = "paused"
-	"""Transport object is paused"""
+	"""Transport object is paused."""
 	
 	NONE = "none"
-	"""Transport object return is null"""
+	"""Transport object return is null."""
 	
 
 class ELogSeverity(_StrEnum):
