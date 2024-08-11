@@ -1,10 +1,8 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any, Literal as _Literal
-from pywwise.enums import EAudioObjectOptions, EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, \
-	ELogSeverity, \
-	EObjectType, \
-	EReturnOptions, ESpeakerBitMask, EStartMode
+from typing import Any as _Any, Literal as _Literal, Self as _Self
+from pywwise.enums import (EAudioObjectOptions, EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity,
+                           ELogSeverity, EObjectType, EReturnOptions, ESpeakerBitMask, EStartMode)
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
@@ -647,10 +645,10 @@ class VoiceInspectorContributionObjectPropertiesInfo:
 	
 
 @_dataclass
-class VoiceInspectorContributionObjectInfo:
+class VoiceInspectorContribution:
 	"""Data class containing information from a single voice inspector contribution object"""
 	
-	name: Name
+	name: str
 	"""The name of the contribution."""
 	
 	volume: float
@@ -662,17 +660,21 @@ class VoiceInspectorContributionObjectInfo:
 	hpf: float
 	"""The HPF difference applied."""
 	
-	children: dict[_Any]
+	parameters: list[VoiceContributionParameter] = _field(default_factory=list)
+	"""Contribution parameters associated to the object."""
+	
+	children: list[_Self] = _field(default_factory=list)
 	"""An array of child voice contribution objects associated to the object."""
 	
 	parameters: dict[VoiceInspectorContributionObjectPropertiesInfo]
 	
 	def __hash__(self):
-		""":return: The VoiceInspectorContributionObjectInfo hash."""
+		""":return: The instance's hash."""
 		return hash(str(self.__dict__))
 	
 	@property
 	def dictionary(self) -> dict[str, str | float | dict]:
+		""":return: The instance represented as a dictionary."""
 		as_dict = dict()
 		as_dict["name"] = self.name
 		as_dict["volume"] = self.volume
@@ -697,15 +699,16 @@ class VoiceContributionsReturnInfo:
 	hpf: float
 	"""The HPF difference applied as a contribution."""
 	
-	objects: dict[VoiceInspectorContributionObjectInfo]
-	"""A dictionary of Voice Inspector contribution objects."""
+	objects: list[VoiceInspectorContribution] = _field(default_factory=list)
+	"""A dictionary of `VoiceInspectorContribution` objects."""
 	
 	def __hash__(self):
-		""":return: The VoiceInspectorContributionObjectInfo hash."""
+		""":return: The instance's hash."""
 		return hash(str(self.__dict__))
 	
 	@property
 	def dictionary(self) -> dict[str, str | float | dict]:
+		""":return: The instance represented as a dictionary."""
 		as_dict = dict()
 		as_dict["volume"] = self.volume
 		as_dict["lpf"] = self.lpf

@@ -421,8 +421,31 @@ class Profiler:
 		if busses_pipeline_id is not None:
 			args["bussesPipelineID"] = busses_pipeline_id
 			
-		results = self._client.call("ak.wwise.core.profiler.getVoiceContributions ", args)
-		results = results.get("return")
+		results = self._client.call("ak.wwise.core.profiler.getVoiceContributions", args)
+		
+		if results is None:
+			return ()
+		
+		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0),
+		                                       results.get("LPF", 0.0),
+		                                       results.get("HPF", 0.0))
+		
+		def get_children(parent: VoiceContributionHierarchy | VoiceInspectorContribution, children: list[dict]):
+			for child in children:
+				inspector = VoiceInspectorContribution(child["name"], child["volume"], child["LPF"], child["HPF"])
+				for param in child["parameters"]:
+					parameter = VoiceContributionParameter(param["propertyType"], param["reason"], param["driver"],
+					                                       param["driverValue"], param["value"])
+					inspector.parameters.append(parameter)
+				match parent:
+					case VoiceContributionHierarchy():
+						parent.objects.append(inspector)
+					case VoiceInspectorContribution():
+						parent.children.append(inspector)
+				if len(child.get("children", ())) > 0:
+					get_children(inspector, child["children"])
+		
+		get_children(hierarchy, results.get("objects", list[dict]()))
 		
 		if results is None:
 			return tuple()
