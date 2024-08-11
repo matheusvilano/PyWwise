@@ -1565,6 +1565,70 @@ class EActiveRTPCMembers(_StrEnum):
 	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
 
 
+class EVoicePipelineReturnOptions(_StrEnum):
+	"""Enumeration of defined members for a voice pipeline return structure."""
+	
+	PIPELINE_ID = "pipelineID"
+	"""Pipeline ID of the voice"""
+	
+	PLAYING_ID = "playingID"
+	"""Playing ID of the voice"""
+	
+	SOUND_ID = "soundID"
+	"""Short ID of the sound object corresponding to the voice"""
+	
+	GAME_OBJECT_ID = "gameObjectID"
+	"""Game Object ID corresponding to the voice"""
+	
+	GAME_OBJECT_NAME = "gameObjectName"
+	"""Game Object Name corresponding to the voice"""
+	
+	OBJECT_GUID = "objectGUID"
+	"""Object GUID corresponding to the voice."""
+	
+	OBJECT_NAME = "objectName"
+	"""Object Name corresponding to the voice."""
+	
+	PLAY_TARGET_ID = "playTargetID"
+	"""Short ID of the play target object corresponding to the voice."""
+	
+	PLAY_TARGET_GUID = "playTargetGUID"
+	"""GUID of the play target object corresponding to the voice."""
+	
+	PLAY_TARGET_NAME = "playTargetName"
+	"""Name of the play target object corresponding to the voice."""
+	
+	BASE_VOLUME = "baseVolume"
+	"""Voice volume in dB, including HDR attenuation."""
+	
+	GAME_AUX_SEND_VOLUME = "gameAuxSendVolume"
+	"""Volume send to the auxiliary bus send in dB."""
+	
+	Envelope = "envelope"
+	"""Current analyzed envelope value in dB. 0 if unavailable."""
+	
+	NORMALIZATION_GAIN = "normalizationGain"
+	"""Loudness normalization and make-up gain in dB."""
+	
+	LOW_PASS_FILTER = "lowPassFilter"
+	"""Low-Pass Filter applied to the voice."""
+	
+	HIGH_PASS_FILTER = "highPassFilter"
+	"""High-Pass Filter applied to the voice."""
+	
+	Priority = "priority"
+	"""Priority given to the voice."""
+	
+	IS_STARTED = "isStarted"
+	"""If the voice has started"""
+	
+	IS_VIRTUAL = "isVirtual"
+	"""If the voice is virtual"""
+	
+	IS_FORCED_VIRTUAL = "isForcedVirtual"
+	"""If the voice was forced virtual"""
+
+
 class ECaseStyle(_StrEnum):
 	"""Enumeration of common case styles."""
 	

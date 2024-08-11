@@ -2,7 +2,8 @@ from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Literal as _Literal, Self as _Self
 from pywwise.enums import (EAudioObjectOptions, EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity,
-                           ELogSeverity, EObjectType, EReturnOptions, ESpeakerBitMask, EStartMode)
+                           ELogSeverity, EObjectType, EReturnOptions, ESpeakerBitMask, EStartMode,
+                           EVoicePipelineReturnOptions)
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
@@ -368,7 +369,7 @@ class AudioObjectMetadata:
 	metadata_class_id: int
 	"""The class ID of the metadata. Unsigned Integer 32-bit. Range: [0,4294967295]"""
 	
-	source_short_id: ShortID
+	source_short_id: ShortID = ShortID.get_invalid()
 	"""The short ID of the source object. Unsigned Integer 32-bit. Range: [0,4294967295]"""
 	
 	metadata_name: Name = _field(default=Name.get_null())
@@ -713,3 +714,25 @@ class VoiceContributionHierarchy:
 		as_dict["hpf"] = self.hpf
 		as_dict["objects"] = self.objects
 		return as_dict
+
+
+@_dataclass
+class PlayingVoiceProperties:
+	"""Data class containing information about the properties of a playing voice."""
+	
+	pipeline_id: int
+	"""Pipeline ID of the voice"""
+	
+	game_object_id: GameObjectID
+	"""Game Object ID corresponding to the voice"""
+	
+	object_guid: GUID
+	"""Object GUID corresponding to the voice."""
+	
+	other: dict[EVoicePipelineReturnOptions | str, _Any] = _field(default_factory=dict)
+	"""A dictionary containing other information, if any. Keys are always strings, but can be accessed using the enum
+	EVoicePipelineReturnOptions instead."""
+	
+	def __hash__(self):
+		""":return: The WwiseObjectInfo hash."""
+		return hash(self.object_guid)

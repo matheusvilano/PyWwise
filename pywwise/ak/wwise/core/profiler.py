@@ -6,11 +6,12 @@ from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.enums import EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions, \
 	EGameObjectRegistrationDataMembers, \
-	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor
+	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor, EVoicePipelineReturnOptions
 from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
-	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo, StreamObjectInfo, \
+	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo, PlayingVoiceProperties, \
+	StreamObjectInfo, \
 	VoiceContributionHierarchy, VoiceContributionParameter, VoiceInspectorContribution
-from pywwise.types import GUID, Name, ShortID
+from pywwise.types import GameObjectID, GUID, Name, ShortID, SystemPath
 
 
 # from typing import List
@@ -389,7 +390,7 @@ class Profiler:
 		
 		return tuple(streams)
 	
-	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: float,
+	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: int,
 	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy | None:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
@@ -446,22 +447,91 @@ class Profiler:
 		if results is not None:
 			return hierarchy
 	
-	def get_voices(self):
+	def get_voices(self, time: ETimeCursor | int, voice_pipeline_id: int = None,
+	               return_options: set[EVoicePipelineReturnOptions] = None) -> tuple[PlayingVoiceProperties, ...]:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoices.html \n
 		Retrieves the voices at a specific profiler capture time.
+		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:param voice_pipeline_id: The pipeline ID of the voice to get contributions from. Identifies a playing voice
+								  instance ID
+		:param return_options: The additional return options. By default, this function returns only the Pipeline ID,
+							   Game Object ID, and Object GUID.
+		:return: An array of playing voices and their properties. Specify additional return options to extract more
+				 data.
 		"""
+		args = {"time": time}
+		returns = (EVoicePipelineReturnOptions.PIPELINE_ID,
+		           EVoicePipelineReturnOptions.GAME_OBJECT_ID,
+		           EVoicePipelineReturnOptions.OBJECT_GUID,)
+		options = {"return": set(returns)}
+		
+		if return_options is not None:
+			options["return"].update(return_options)
+		if voice_pipeline_id is not None:
+			args["voicePipelineID"] = voice_pipeline_id
+		
+		options["return"] = [ret for ret in options["return"]]  # must be a list for JSON serialization
+		
+		results = self._client.call("ak.wwise.core.profiler.getVoices", args, options=options)
+		results = results.get("return") if results is not None else None
+		
+		if results is None:
+			return ()
+		
+		voices = list[PlayingVoiceProperties]()
+		
+		for voice in results:
+			pipeline_id = int(voice[EVoicePipelineReturnOptions.PIPELINE_ID])
+			game_object_id = GameObjectID(voice[EVoicePipelineReturnOptions.GAME_OBJECT_ID])
+			object_guid = GUID(voice[EVoicePipelineReturnOptions.OBJECT_GUID])
+			other = {key: value for key, value in voice.items() if key not in returns}
+			voices.append(PlayingVoiceProperties(pipeline_id, game_object_id, object_guid, other))
+		
+		return tuple(voices)
 	
-	def save_capture(self):
+	def save_capture(self, file_path: SystemPath) -> bool:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_savecapture.html \n
 		Saves profiler as a .prof file according to the given file path.
+		:param file_path: The file path to save the profiler to. Make sure to include .prof file extension.
+						  E.g. C:\\MyProject\\capture.prof
+		:return: True if the profiler was saved, False otherwise.
 		"""
+		if file_path is None:
+			return False
+		
+		args = {"file": file_path}
+		
+		return self._client.call("ak.wwise.core.profiler.saveCapture", args) is not None
 	
-	def start_capture(self):
+	def start_capture(self) -> int:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_startcapture.html \n
 		Starts the profiler capture and returns the time at the beginning of the capture, in milliseconds.
+		:return: The time at the beginning of the capture, in milliseconds. If method fails to call, it will return -1.
 		"""
+		result = self._client.call("ak.wwise.core.profiler.startCapture", {})
+		
+		if result is not None:
+			return result.get("return")
+		else:
+			return -1
 	
-	def stop_capture(self):
+	def stop_capture(self) -> int:
 		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_stopcapture.html \n
 		Stops the profiler capture and returns the time at the end of the capture, in milliseconds.
+		:return: The time at the end of the capture, in milliseconds. If method fails to call, it will return -1.
 		"""
+		result = self._client.call("ak.wwise.core.profiler.stopCapture", {})
+		
+		if result is not None:
+			return result.get("return")
+		else:
+			return -1
+		
