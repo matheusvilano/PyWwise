@@ -2,7 +2,7 @@ from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.enums import EObjectType, ETransportExecuteActions, ETransportState
 from pywwise.statics import EnumStatics
-from pywwise.structs import WwiseTransportObjectInfo
+from pywwise.structs import TransportObjectInfo
 from pywwise.types import GameObjectID, GUID, Name, ProjectPath
 
 
@@ -74,7 +74,7 @@ class Transport:
         
         return self._client.call("ak.wwise.core.transport.execute", args) is not None
 
-    def get_list(self) -> tuple[WwiseTransportObjectInfo, ...]:
+    def get_list(self) -> tuple[TransportObjectInfo, ...]:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_getlist.html \n
         Returns the list of transport objects.
@@ -87,13 +87,13 @@ class Transport:
         if results is None:
             return ()
         
-        transport_objects: list[WwiseTransportObjectInfo]
+        transport_objects: list[TransportObjectInfo]
         
         for result in results:
             object = GUID(result["object"])
             game_object = int(result["gameObject"])
             transport = int(result["transport"])
-            transport_objects.append(WwiseTransportObjectInfo(object, game_object, transport))
+            transport_objects.append(TransportObjectInfo(object, game_object, transport))
         
         return tuple(transport_objects)
     

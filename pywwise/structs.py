@@ -140,7 +140,7 @@ class WwiseObjectInfo:
 
 
 @_dataclass
-class WwiseTransportObjectInfo:
+class TransportObjectInfo:
 	"""Data-only class storing information about a Wwise transport object."""
 	
 	object: GUID
