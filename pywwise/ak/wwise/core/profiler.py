@@ -390,7 +390,7 @@ class Profiler:
 		return tuple(streams)
 	
 	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: float,
-	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy:
+	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy | None:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
 		Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path,
@@ -405,7 +405,7 @@ class Profiler:
 		:param busses_pipeline_id: The pipeline IDs of buses belonging to a common voice path. An empty array defaults
 								   to the dry path. Identifies a playing voice instance ID
 		:return The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
-				the voice object
+				the voice object. If no information was found, `None` is returned.
 		"""
 		args = {"time": time, "voicePipelineID": voice_pipeline_id}
 		
@@ -415,7 +415,12 @@ class Profiler:
 		results = self._client.call("ak.wwise.core.profiler.getVoiceContributions", args)
 		
 		if results is None:
-			return ()
+			return None
+		
+		results = results.get("return")
+		
+		if results is None:
+			return None
 		
 		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0),
 		                                       results.get("LPF", 0.0),
@@ -438,7 +443,7 @@ class Profiler:
 		
 		get_children(hierarchy, results.get("objects", list[dict]()))
 		
-		if results is None:
+		if results is not None:
 			return hierarchy
 	
 	def get_voices(self):
