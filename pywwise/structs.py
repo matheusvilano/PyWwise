@@ -580,3 +580,96 @@ class PropertyInfo:
 	
 	supports_randomizer: bool | None
 	"""Whether the property supports randomizers. If this information is unknown, the value is `None` instead."""
+
+
+@_dataclass
+class WwiseVersion:
+	"""A dataclass representing a Wwise version."""
+	
+	display_name: str
+	"""Wwise version name."""
+	
+	year: int
+	"""Version year. Range: [2000,2100]."""
+	
+	major: int
+	"""Version's major number Range: [0,100]."""
+	
+	minor: int
+	"""Version's minor number. Range: [0,100]."""
+	
+	build: int
+	"""Build number. Range: [1,*]."""
+	
+	nickname: str
+	"""Special name given to a version."""
+	
+	schema: int
+	"""Schema version for the Wwise Project and Work Units. Range: [1,*]."""
+
+
+@_dataclass
+class WwiseDirectories:
+	"""A dataclass representing the collection of directories used by Wwise."""
+	
+	install: str
+	"""The root directory of Wwise. This is the installation directory."""
+	
+	authoring: str
+	"""The Wwise Authoring root directory."""
+	
+	bin: str
+	"""The bin directory, where Wwise.exe is located."""
+	
+	help: str
+	"""The help directory."""
+	
+	user: str
+	"""The Wwise user data directory root."""
+
+
+@_dataclass
+class GlobalWwiseInfo:
+	"""A dataclass representing global information about Wwise."""
+	
+	session_id: GUID
+	"""Wwise session id."""
+	
+	api_version: float
+	"""Version of the Wwise Authoring API. Range: [1,*]."""
+	
+	display_name: str
+	"""Wwise display name."""
+	
+	branch: str
+	"""Branch built."""
+	
+	copyright: str
+	"""Copyright information."""
+	
+	version: WwiseVersion
+	"""Wwise version object."""
+	
+	configuration: str
+	"""Indicates a release or debug build. Possible values:
+		- release
+		- debug"""
+	
+	platform: str
+	"""Indicates the platform on which Wwise was built. Possible values:
+		- x64
+		- win32
+		- macosx
+		- linux"""
+	
+	command_line: bool
+	"""Indicates if Wwise is running in command line."""
+	
+	process_id: int
+	"""The process identifier of Wwise."""
+	
+	process_path: str
+	"""The process path of Wwise."""
+	
+	directories: WwiseDirectories
+	"""Collection of directories used by Wwise."""
