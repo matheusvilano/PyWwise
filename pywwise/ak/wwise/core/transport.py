@@ -120,7 +120,7 @@ class Transport:
         :return: True if the call was successful, False otherwise.
         """
         args = {"object": object if not
-                isinstance(object, tuple) else f"{object[0]}_{object[1]}"}
+                isinstance(object, tuple) else f"{object[0].get_type_name()}_{object[1]}"}
         
         return self._client.call("ak.wwise.core.transport.prepare", args) is not None
     
