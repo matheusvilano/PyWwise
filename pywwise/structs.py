@@ -610,7 +610,7 @@ class StreamObjectInfo:
 	
 	
 @_dataclass
-class VoiceInspectorContributionObjectPropertiesInfo:
+class VoiceContributionParameter:
 	"""Data class containing the information relating to contribution parameters associated to the voice inspector
 	object."""
 	
@@ -666,8 +666,6 @@ class VoiceInspectorContribution:
 	children: list[_Self] = _field(default_factory=list)
 	"""An array of child voice contribution objects associated to the object."""
 	
-	parameters: dict[VoiceInspectorContributionObjectPropertiesInfo]
-	
 	def __hash__(self):
 		""":return: The instance's hash."""
 		return hash(str(self.__dict__))
@@ -686,7 +684,7 @@ class VoiceInspectorContribution:
 
 
 @_dataclass
-class VoiceContributionsReturnInfo:
+class VoiceContributionHierarchy:
 	"""Data class containing relevant to the return schema used to store the information of all parameters affecting
 	a voice pipeline ID"""
 	

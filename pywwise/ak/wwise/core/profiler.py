@@ -9,7 +9,7 @@ from pywwise.enums import EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers
 	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor
 from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
 	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo, StreamObjectInfo, \
-	VoiceContributionsReturnInfo
+	VoiceContributionHierarchy, VoiceContributionParameter, VoiceInspectorContribution
 from pywwise.types import GUID, Name, ShortID
 
 
@@ -128,7 +128,6 @@ class Profiler:
 				 (requested via `return_options`). When accessing the values in the dictionary, use the
 				 EBusOptions enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		
 		if time is None:
 			return tuple()
 		
@@ -230,7 +229,6 @@ class Profiler:
 				 dictionary, use the EGameObjectRegistrationDataMembers enum as the keys. If this function call fails,
 				 an empty tuple is returned.
 		"""
-		
 		if time is None:
 			return tuple()
 		
@@ -297,7 +295,6 @@ class Profiler:
 		:return: A tuple of performance monitor counter information. When accessing the values in the dictionary use the
 				 EPerformanceMonitorMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		
 		if time is None:
 			return tuple()
 		
@@ -330,7 +327,6 @@ class Profiler:
 		:return: A tuple of RTPCs associated with a playing voice. When accessing the values in the dictionary use the
 				 EActiveRTPCMembers enum as the keys. If this function call fails, an empty tuple is returned.
 		"""
-		
 		if time is None:
 			return tuple()
 		
@@ -365,7 +361,6 @@ class Profiler:
 		:return: Array of StreamObjectInfo, containing all data about how each of the streams is managed by the Wwise
 		sound engine.
 		"""
-		
 		if time is None:
 			return tuple()
 		
@@ -395,7 +390,7 @@ class Profiler:
 		return tuple(streams)
 	
 	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: float,
-	                            busses_pipeline_id: tuple = None) -> tuple[VoiceContributionsReturnInfo, ...]:
+	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
 		Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path,
@@ -406,16 +401,12 @@ class Profiler:
 					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
 					 capture.
 		:param voice_pipeline_id: The pipeline ID of the voice to get contributions from. Identifies a playing voice
-		instance ID
-		:param busses_pipeline_id: The pipeline IDs of busses belonging to a common voice path. An empty array defaults
-		to the dry path. Identifies a playing voice instance ID
+								  instance ID
+		:param busses_pipeline_id: The pipeline IDs of buses belonging to a common voice path. An empty array defaults
+								   to the dry path. Identifies a playing voice instance ID
 		:return The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
-		the voice object
+				the voice object
 		"""
-		
-		if time is None or voice_pipeline_id is None:
-			return tuple()
-		
 		args = {"time": time, "voicePipelineID": voice_pipeline_id}
 		
 		if busses_pipeline_id is not None:
@@ -448,9 +439,7 @@ class Profiler:
 		get_children(hierarchy, results.get("objects", list[dict]()))
 		
 		if results is None:
-			return tuple()
-		
-		# Add code for the proper 3 indented dictionaries
+			return hierarchy
 	
 	def get_voices(self):
 		"""
