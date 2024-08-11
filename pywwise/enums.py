@@ -1412,6 +1412,41 @@ class ELogChannel(_StrEnum):
 	"""Log channel for messages related to Lua scripts."""
 
 
+class ETransportExecuteActions(_StrEnum):
+	"""An enumeration of possible transport execute actions."""
+	
+	PLAY = "play"
+	"""Play"""
+	
+	STOP = "stop"
+	"""Stop"""
+	
+	PAUSE = "pause"
+	"""Pause"""
+	
+	PLAY_STOP = "playStop"
+	"""Play stop"""
+	
+	PLAY_DIRECTLY = "playDirectly"
+	"""Play directly"""
+
+
+class ETransportState(_StrEnum):
+	"""An enumeration of the available transport object states."""
+	
+	PLAYING = "playing"
+	"""Transport object is playing."""
+	
+	STOPPED = "stopped"
+	"""Transport object is stopped."""
+	
+	PAUSED = "paused"
+	"""Transport object is paused."""
+	
+	NONE = "none"
+	"""Transport object return is null."""
+	
+
 class ELogSeverity(_StrEnum):
 	"""An enumeration of log item severity levels."""
 	

@@ -151,6 +151,36 @@ class WwiseObjectInfo:
 
 
 @_dataclass
+class TransportObjectInfo:
+	"""Data-only class storing information about a Wwise transport object."""
+	
+	object: GUID
+	"""The ID (GUID) of the object controlled by the transport object."""
+	
+	game_object: int
+	"""The game object used by the transport object. Unsigned integer 64-bit"""
+	
+	transport: int
+	"""Transport object ID. Unsigned Integer 32-bit."""
+	
+	def __hash__(self):
+		""":return: The WwiseTransportObjectInfo hash."""
+		return hash(self.object)
+	
+	@classmethod
+	def from_dict(cls, kvpairs: dict[str, _Any]) -> _Self:
+		"""
+		Uses a dictionary to initialize a new instance.
+		:param kvpairs: A dictionary to extract information from.
+		:return: A new instance with object GUID, game object, and transport object populated. No additional properties.
+		"""
+		object = GUID(kvpairs["object"]) if kvpairs.get("object") is not None else GUID.get_null()
+		game_object = int(kvpairs["gameObject"]) if kvpairs.get("gameObject") is not None else -1
+		transport = int(kvpairs["transport"]) if kvpairs.get("transport") is not None else -1
+		return cls(object, game_object, transport)
+
+
+@_dataclass
 class ContextMenuInfo:
 	"""Data-only class storing information about a command's context menu, which is part of an add-on command's
 	arguments."""
