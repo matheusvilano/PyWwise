@@ -28,13 +28,10 @@ class Transport:
         :arg wwise_object: The ID (GUID), name, or project path of the object to control via the transport object.
         :arg game_object: The game object to use for playback.
         :return: Transport object ID to be used with all other ak.wwise.core.transport functions. Returns -1 if function
-        call failed.
+                 call failed.
         """
-        if wwise_object is None:
-            return -1
-        
         args = {"object": wwise_object if not
-                isinstance(wwise_object, tuple) else f"{wwise_object[0]}_{wwise_object[1]}"}
+                isinstance(wwise_object, tuple) else f"{wwise_object[0].get_type_name()}_{wwise_object[1]}"}
         
         if game_object is not None:
             args["gameObject"] = game_object
@@ -48,12 +45,9 @@ class Transport:
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_destroy.html \n
         Destroys the given transport object.
         :param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
-        sure you create a transport object before calling this function.
+                             sure you create a transport object before calling this function.
         :return: True if the transport object was destroyed, False otherwise.
         """
-        if transport_id is None:
-            return False
-        
         args = {"transport": transport_id}
         
         return self._client.call("ak.wwise.core.transport.destroy") is not None
@@ -62,15 +56,12 @@ class Transport:
         """
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_executeaction.html \n
         Executes an action on the given transport object, or all transport objects if none is specified.
-        :arg transport_action: The action to execute. Use ETransportExecuteActions to see the available actions.
-        :arg transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
-        sure you create a transport object before calling this function.
+        :param transport_action: The action to execute. Use ETransportExecuteActions to see the available actions.
+        :param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
+                             sure you create a transport object before calling this function.
         :return: True if the action was executed, False otherwise.
         """
-        if transport_action is None:
-            return False
-        
-        args = {"action": transport_action, **({"transport": transport_id} if transport_id is not None else {})}
+        args = {"action": transport_action, **({"transport": transport_id} if transport_id is not None else dict())}
         
         return self._client.call("ak.wwise.core.transport.execute", args) is not None
 
@@ -87,7 +78,7 @@ class Transport:
         if results is None:
             return ()
         
-        transport_objects: list[TransportObjectInfo]
+        transport_objects = list[TransportObjectInfo]()
         
         for result in results:
             object = GUID(result["object"])
@@ -102,13 +93,10 @@ class Transport:
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_getstate.html \n
         Gets the state of the given transport object.
         :param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
-        sure you create a transport object before calling this function.
+                             sure you create a transport object before calling this function.
         :return: An enum value that represents the state of the transport object. Return value can either be: Playing,
-        Stopped, Paused, or None. In case its none, the method call failed.
+                 Stopped, Paused, or None. In case its none, the method call failed.
         """
-        if transport_id is None:
-            return ETransportState.NONE
-        
         args = {"transport": transport_id}
         
         result = self._client.call("ak.wwise.core.transport.getState", args)
@@ -126,14 +114,11 @@ class Transport:
         https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
         Prepare the object and its dependencies for playback. Use this function before calling
         `PostEventSync` or `PostMIDIOnEventSync` from `IAkGlobalPluginContext`.
-        :param object: The name of the object qualified by its type or Short ID in the form of type:name or
-        Global:shortId. Only object types that have globally-unique names or Short Ids are supported.
-        Ex: Event:Play_Sound_01, Global:245489792.
+        :param object: The name of the object qualified by its type in the form of type:name.
+                       Only object types that have globally-unique names or Short Ids are supported.
+                       Ex: Event:Play_Sound_01, Global:245489792.
         :return: True if the call was successful, False otherwise.
         """
-        if object is None:
-            return False
-        
         args = {"object": object if not
                 isinstance(object, tuple) else f"{object[0]}_{object[1]}"}
         
@@ -149,6 +134,5 @@ class Transport:
         :return: True if the call was successful, False otherwise.
         """
         args = {"enable": enable_original_files}
-        
         return self._client.call("ak.wwise.core.transport.useOriginals", args) is not None
     
