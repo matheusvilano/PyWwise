@@ -439,7 +439,7 @@ class Profiler:
 					case VoiceInspectorContribution():
 						parent.children.append(inspector)
 				if len(child.get("children", ())) > 0:
-					get_children(inspector, child["children"])
+					get_children(inspector, child["children"])  # Recursive call
 		
 		get_children(hierarchy, results.get("objects", list[dict]()))
 		
