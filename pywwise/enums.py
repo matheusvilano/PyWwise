@@ -92,6 +92,9 @@ class EAttenuationCurveShape(_StrEnum):
 class ESpeakerBitMask(_IntEnum):
 	"""Enumeration of common speaker bit masks."""
 	
+	NONE = 0x0
+	"""No output."""
+	
 	_FRONT_LEFT = 0x1
 	"""Front left."""
 	_FRONT_RIGHT = 0x2
@@ -174,9 +177,9 @@ class ESpeakerBitMask(_IntEnum):
 	
 	def get_name(self) -> str:  # _Self is not compatible with staticmethod.
 		"""
-		Gets the name of the speaker as shown in the docstring (documentation).
-		:return: A string with the name of the speaker bit mask. If invalid, the returned string will contain "None".
-		"""
+        Gets the name of the speaker as shown in the docstring (documentation).
+        :return: A string with the name of the speaker bit mask. If invalid, the returned string will contain "None".
+        """
 		match self.value:
 			case ESpeakerBitMask.LFE:
 				return "0.1"
@@ -372,7 +375,7 @@ class EReturnOptions(_StrEnum):
 	
 	CLASS_ID = "classId"
 	"""The class ID (e.g. the ClassID of AuxBus is 3997712). Refer to the Wwise Objects Reference for more
-	information."""
+    information."""
 	
 	CONVERTED_WEM_FILE_PATH = "convertedWemFilePath"  # same as "convertedFilePath"
 	"""The path of the converted file (WEM)."""
@@ -400,7 +403,7 @@ class EReturnOptions(_StrEnum):
 	
 	IS_INCLUDED = "isIncluded"
 	"""Whether the object is included. Not being included means it will not be converted or included in SoundBanks or
-	other data."""
+    other data."""
 	
 	IS_PLAYABLE = "isPlayable"
 	"""Whether the object is playable (e.g. a Sound object is playable)."""
@@ -494,7 +497,7 @@ class EReturnOptions(_StrEnum):
 	
 	WORK_UNIT_TYPE = "workunit:type"  # same as "workunitType"
 	"""The type of Work Unit (e.g. actual Work Unit vs Physical Folder). This assumes the object in question is a Work
-	Unit."""
+    Unit."""
 	
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
@@ -646,12 +649,12 @@ class EStartMode(_StrEnum):
 	"""SingleSelectionSingleProcess: only support single selection, starts the program once."""
 	
 	MULTIPLE_SELECTION_SINGLE_PROCESS_SPACE_SEPARATED = "MultipleSelectionSingleProcessSpaceSeparated"
-	"""MultipleSelectionSingleProcessSpaceSeparated: program is started once with variables expanded to space separated 
-	arguments, each enclosed in double-quotes."""
+	"""MultipleSelectionSingleProcessSpaceSeparated: program is started once with variables expanded to space separated
+    arguments, each enclosed in double-quotes."""
 	
 	MULTIPLE_SELECTION_MULTIPLE_PROCESSES = "MultipleSelectionMultipleProcesses"
-	"""MultipleSelectionMultipleProcesses: program is started once per selected item, in parallel. Each running instance 
-	receives one selected item."""
+	"""MultipleSelectionMultipleProcesses: program is started once per selected item, in parallel. Each running instance
+    receives one selected item."""
 	
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
@@ -688,44 +691,44 @@ class ECommand(_StrEnum):
 	
 	CONVERT = "Convert"
 	"""Shows the Convert dialog for the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	CONVERT_ALL_PLATFORM = "ConvertAllPlatform"
-	"""Converts the specified objects on all platforms. \n	
-	**Parameter**: objects - an array of objects"""
+	"""Converts the specified objects on all platforms. \n
+    **Parameter**: objects - an array of objects"""
 	
 	CONVERT_CURRENT_PLATFORM = "ConvertCurrentPlatform"
-	"""Converts the specified objects on the specified platform. If not specified, it uses the current platform or 
-	current selected objects. \n
-	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
+	"""Converts the specified objects on the specified platform. If not specified, it uses the current platform or
+    current selected objects. \n
+    **Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
 	
 	CONVERT_SFX_TO_VOICE = "ConvertSFXToVoice"
 	"""Converts the specified objects to Sound Voice objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	CONVERT_TO_SOUND_SFX = "ConvertToSoundSFX"
 	"""Converts the specified objects to Sound SFX objects.	\n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	COPY_GUI_DS_PATHS_TO_CLIPBOARD = "CopyGUIDsPathsToClipboard"
 	"""Copies the unique IDs (GUID) of the specified objects to clipboard. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	COPY_PATHS_TO_CLIPBOARD = "CopyPathsToClipboard"
 	"""Copies the Wwise project paths of the specified objects to clipboard. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	COPY_SHORT_IDS_TO_CLIPBOARD = "CopyShortIDsToClipboard"
 	"""Copies the short IDs (unsigned 32 bit) of the specified objects to clipboard. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	COPY_WAQL_TO_CLIPBOARD = "CopyWAQLToClipboard"
 	"""Generates a WAQL query with the specified object paths and copies it to clipboard. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	CREATE_IN_GAC = "CreateInGAC"
 	"""Creates the associated Nuendo objects for the specified objects using Game Audio Connect. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	CREATE_NEW_SOUNDBANK = "CreateNewSoundbank"
 	"""Creates a new SoundBank."""
@@ -741,23 +744,23 @@ class ECommand(_StrEnum):
 	
 	FIND_IN_PROJECT_EXPLORER_NEW_PINNED_VIEW = "FindInProjectExplorerNewPinnedView"
 	"""Finds the specified object in the Project Explorer (New Pinned View). \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL1 = "FindInProjectExplorerSelectionChannel1"
 	"""Finds the specified object in the Project Explorer (Selection Channel 1). \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL2 = "FindInProjectExplorerSelectionChannel2"
 	"""Finds the specified object in the Project Explorer (Selection Channel 2). \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL3 = "FindInProjectExplorerSelectionChannel3"
 	"""Finds the specified object in the Project Explorer (Selection Channel 3). \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	FIND_IN_PROJECT_EXPLORER_SELECTION_CHANNEL4 = "FindInProjectExplorerSelectionChannel4"
 	"""Finds the specified object in the Project Explorer (Selection Channel 4). \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	FOCUS_NEXT = "FocusNext"
 	"""Focuses the next control in the current view."""
@@ -776,42 +779,42 @@ class ECommand(_StrEnum):
 	
 	GENERATE_ALL_SOUNDBANKS_CURRENT_PLATFORM = "GenerateAllSoundbanksCurrentPlatform"
 	"""Generates all SoundBanks on the specified platform. If not specified, it uses the current platform. \n
-	**Parameter**: platforms - an array of platforms (array of GUID string)"""
+    **Parameter**: platforms - an array of platforms (array of GUID string)"""
 	
 	GENERATE_ALL_SOUNDBANKS_CURRENT_PLATFORM_AUTO_CLOSE = "GenerateAllSoundbanksCurrentPlatformAutoClose"
-	"""Generates all SoundBanks on the specified platform. If not specified, it uses the current platform 
-	(Progress dialog is closed automatically at the end of operation). \n
-	**Parameter**: platforms - an array of platforms (array of GUID string)"""
+	"""Generates all SoundBanks on the specified platform. If not specified, it uses the current platform
+    (Progress dialog is closed automatically at the end of operation). \n
+    **Parameter**: platforms - an array of platforms (array of GUID string)"""
 	
 	GENERATE_SELECTED_SOUNDBANKS_ALL_PLATFORMS = "GenerateSelectedSoundbanksAllPlatforms"
 	"""Generates the specified SoundBank objects on all platforms. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	GENERATE_SELECTED_SOUNDBANKS_ALL_PLATFORMS_AUTO_CLOSE = "GenerateSelectedSoundbanksAllPlatformsAutoClose"
-	"""Generates the specified SoundBank objects on all platforms (Progress dialog is closed automatically at the end 
-	of operation). \n
-	**Parameter**: objects - an array of objects"""
+	"""Generates the specified SoundBank objects on all platforms (Progress dialog is closed automatically at the end
+    of operation). \n
+    **Parameter**: objects - an array of objects"""
 	
 	GENERATE_SELECTED_SOUNDBANKS_CURRENT_PLATFORM = "GenerateSelectedSoundbanksCurrentPlatform"
-	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current 
-	platform or current selected objects. \n
-	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
+	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current
+    platform or current selected objects. \n
+    **Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
 	
 	GENERATE_SELECTED_SOUNDBANKS_CURRENT_PLATFORM_AUTO_CLOSE = "GenerateSelectedSoundbanksCurrentPlatformAutoClose"
-	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current 
-	platform or current selected objects (Progress dialog is closed automatically at the end of operation). \n 
-	**Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
+	"""Generates the specified SoundBank objects on the specified platform. If not specified, it uses the current
+    platform or current selected objects (Progress dialog is closed automatically at the end of operation). \n
+    **Parameter**: objects - an array of objects platforms - an array of platforms (array of GUID string)"""
 	
 	GENERATE_SOUNDBANKS_WITH_CURRENT_SETTINGS = "GenerateSoundbanksWithCurrentSettings"
-	"""Generates SoundBanks using the current SoundBank Manager settings (Progress dialog is closed automatically at 
-	the end of operation)."""
+	"""Generates SoundBanks using the current SoundBank Manager settings (Progress dialog is closed automatically at
+    the end of operation)."""
 	
 	HELP = "Help"
 	"""Shows the Wwise Help."""
 	
 	INSPECT = "Inspect"
 	"""Inspects the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	INSPECT_NEXT = "InspectNext"
 	"""Inspects the next object inspected."""
@@ -860,8 +863,8 @@ class ECommand(_StrEnum):
 	
 	MUTE = "Mute"
 	"""Mutes the specified objects, or current selection if no object specified. \n
-	**Parameter**: value - True or False to set the Mute state. If unspecified, the Mute state will be toggled.
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: value - True or False to set the Mute state. If unspecified, the Mute state will be toggled.
+    **Parameter**: objects - an array of objects"""
 	
 	NEW_PROJECT = "NewProject"
 	"""Shows the New Project dialog."""
@@ -886,39 +889,39 @@ class ECommand(_StrEnum):
 	
 	OPEN_IN_EXTERNAL_EDITOR = "OpenInExternalEditor"
 	"""Opens the specified objects in the first (index 0) External Editor. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR1 = "OpenInExternalEditor1"
 	"""Opens the specified objects in the second (index 1) External Editor. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR2 = "OpenInExternalEditor2"
 	"""Opens the specified objects in the third (index 2) External Editor. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR3 = "OpenInExternalEditor3"
 	"""Opens the specified objects in the fourth (index 3) External Editor. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR4 = "OpenInExternalEditor4"
 	"""Opens the specified objects in the fifth (index 4) External Editor. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_GAC = "OpenInGAC"
 	"""Opens the specified objects in Nuendo using Game Audio Connect. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_NEW_TAB = "OpenInNewTab"
 	"""Inspects the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_NEW_WINDOW = "OpenInNewWindow"
 	"""Inspects the specified objects in a new window. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_WWISE_WAVE_VIEWER = "OpenInWwiseWaveViewer"
 	"""Opens specified objects in the Wwise Wave Viewer. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	OPEN_PROJECT = "OpenProject"
 	"""Shows the Open Project dialog."""
@@ -994,7 +997,7 @@ class ECommand(_StrEnum):
 	
 	SEARCH = "Search"
 	"""Puts the focus on the search box. \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_COMMANDS = "SearchCommands"
 	"""Puts the focus on the search box and enables the command search mode."""
@@ -1004,38 +1007,38 @@ class ECommand(_StrEnum):
 	
 	SEARCH_IN_CURRENT_VIEW = "SearchInCurrentView"
 	"""Searches in the Current View if it has a search field. \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER = "SearchInProjectExplorer"
 	"""Searches in the Project Explorer (first available view). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER_NEW_PINNED_VIEW = "SearchInProjectExplorerNewPinnedView"
 	"""Searches in the Project Explorer (New Pinned View). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL1 = "SearchInProjectExplorerSelectionChannel1"
 	"""Searches in the Project Explorer (Selection Channel 1). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL2 = "SearchInProjectExplorerSelectionChannel2"
 	"""Searches in the Project Explorer (Selection Channel 2). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL3 = "SearchInProjectExplorerSelectionChannel3"
 	"""Searches in the Project Explorer (Selection Channel 3). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SEARCH_IN_PROJECT_EXPLORER_SELECTION_CHANNEL4 = "SearchInProjectExplorerSelectionChannel4"
 	"""Searches in the Project Explorer (Selection Channel 4). \n
-	**Parameter**: value - the text (string) to be used for the search field"""
+    **Parameter**: value - the text (string) to be used for the search field"""
 	
 	SELECT_ONLINE_DOCUMENTATION = "SelectOnlineDocumentation"
 	"""Selects CHM file as a documentation source."""
 	
 	SET_COLOR = "SetColor"
 	"""Shows the Color Picker dialog for the specific objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SET_PROPERTY_SHEET_SPLIT_MODE_COLUMN = "SetPropertySheetSplitModeColumn"
 	"""Sets the property sheet split mode to columns."""
@@ -1060,7 +1063,7 @@ class ECommand(_StrEnum):
 	
 	SHOW_BATCH_RENAME = "ShowBatchRename"
 	"""Shows the Batch Rename View, with the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_BUG_REPORT = "ShowBugReport"
 	"""Shows the Bug Report page."""
@@ -1070,7 +1073,7 @@ class ECommand(_StrEnum):
 	
 	SHOW_CONTEXTUAL_HELP = "ShowContextualHelp"
 	"""Shows the Contextual Help View for a specified property. \n
-	**Parameter**: property - a pointer to a single CProp object"""
+    **Parameter**: property - a pointer to a single CProp object"""
 	
 	SHOW_CONTROL_SURFACES_DLG = "ShowControlSurfacesDlg"
 	"""Shows the Control Surfaces Settings dialog."""
@@ -1080,7 +1083,7 @@ class ECommand(_StrEnum):
 	
 	SHOW_DETAILS = "ShowDetails"
 	"""Shows the details view with the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_FILE_MANAGER = "ShowFileManager"
 	"""Shows the File Manager dialog."""
@@ -1090,7 +1093,7 @@ class ECommand(_StrEnum):
 	
 	SHOW_GAME_OBJECTS_VOICE_EXPLORER = "ShowGameObjectsVoiceExplorer"
 	"""Focuses the Voice Explorer on the specified game object(s). \n
-	**Parameter**: gameObjectIds - Ids of the game objects to show/select"""
+    **Parameter**: gameObjectIds - Ids of the game objects to show/select"""
 	
 	SHOW_KEYBOARD_SHORTCUTS = "ShowKeyboardShortcuts"
 	"""Shows the Keyboard Shortcuts dialog."""
@@ -1106,18 +1109,18 @@ class ECommand(_StrEnum):
 	
 	SHOW_LIST_VIEW = "ShowListView"
 	"""Shows the List View on the specified objects. \n
-	**Parameter**: objects - an array of objects value - the text (string) to be used for the search field"""
+    **Parameter**: objects - an array of objects value - the text (string) to be used for the search field"""
 	
 	SHOW_MULTI_EDITOR = "ShowMultiEditor"
 	"""Shows the Multi Editor view on the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_OBSTRUCTION_OCCLUSION_SETTINGS = "ShowObstructionOcclusionSettings"
 	"""Shows the Project Settings dialog on the Obstruction/Occlusion tab."""
 	
 	SHOW_PASTE_PROPERTIES = "ShowPasteProperties"
 	"""Shows the Paste Properties view on the specified object. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_PLATFORM_MANAGER = "ShowPlatformManager"
 	"""Shows the Platform Manager dialog."""
@@ -1130,18 +1133,18 @@ class ECommand(_StrEnum):
 	
 	SHOW_PROPERTY_HELP = "ShowPropertyHelp"
 	"""Shows the Property Help View for a specified property. Deprecated, see ShowContextualHelp.
-	**Parameter**: property - a pointer to a single CProp object."""
+    **Parameter**: property - a pointer to a single CProp object."""
 	
 	SHOW_REFERENCE_VIEW = "ShowReferenceView"
 	"""Shows the Reference View with the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_REMOTE_CONNECTIONS = "ShowRemoteConnections"
 	"""Shows the Remote Connections dialog."""
 	
 	SHOW_SCHEMATIC_VIEW = "ShowSchematicView"
 	"""Shows the Schematic View on the specified objects. \n
-	**Parameter**: value - the text (string) to be used for the search field objects - an array of objects"""
+    **Parameter**: value - the text (string) to be used for the search field objects - an array of objects"""
 	
 	SHOW_SOUND_BANK_DEFINITION_IMPORTER = "ShowSoundBankDefinitionImporter"
 	"""Shows the Sound Bank Definition Importer dialog."""
@@ -1151,7 +1154,7 @@ class ECommand(_StrEnum):
 	
 	SHOW_SOURCE_EDITOR = "ShowSourceEditor"
 	"""Shows the Source Editor on the specified objects. \n
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: objects - an array of objects"""
 	
 	SHOW_SPLASH_SCREEN = "ShowSplashScreen"
 	"""Shows the initial Wwise loading screen (with the current software version)."""
@@ -1173,11 +1176,11 @@ class ECommand(_StrEnum):
 	
 	SHOW_VOICE_INSPECTOR = "ShowVoiceInspector"
 	"""Shows the Voice Inspector on the specified object. \n
-	**Parameter**: objects - an array of objects voices - an array of voice (pipeline) Ids"""
+    **Parameter**: objects - an array of objects voices - an array of voice (pipeline) Ids"""
 	
 	SHOW_VOICES_VOICE_EXPLORER = "ShowVoicesVoiceExplorer"
 	"""Focuses the Voice Explorer on the specified voice(s). \n
-	**Parameter**: voiceIds - Ids of the voices to show/select"""
+    **Parameter**: voiceIds - Ids of the voices to show/select"""
 	
 	SHOW_WWISE_HELP = "ShowWwiseHelp"
 	"""Shows the Wwise Help."""
@@ -1190,71 +1193,71 @@ class ECommand(_StrEnum):
 	
 	SOLO = "Solo"
 	"""Solos the specified objects, or current selection if no object specified. \n
-	**Parameter**: value - True or False to set the Solo state. If unspecified, the Solo state will be toggled.
-	**Parameter**: objects - an array of objects"""
+    **Parameter**: value - True or False to set the Solo state. If unspecified, the Solo state will be toggled.
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_ADD_WAV = "SourceControlAddWAV"
 	"""Calls the Add command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_ADD_WWU = "SourceControlAddWWU"
 	"""Calls the Add command for the Work Units associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_CHECKOUT_WAV = "SourceControlCheckoutWAV"
 	"""Calls the Checkout command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_CHECKOUT_WWU = "SourceControlCheckoutWWU"
 	"""Calls the Checkout command for the Work Units associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_COMMIT_WAV = "SourceControlCommitWAV"
 	"""Calls the Commit command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_COMMIT_WWU = "SourceControlCommitWWU"
 	"""Calls the Commit/Submit command for the Work Units associated with the specified objects on the Source Control
-	plug-in (Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    plug-in (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_DIFF_WAV = "SourceControlDiffWAV"
 	"""Calls the Diff command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_DIFF_WWU = "SourceControlDiffWWU"
 	"""Calls the Diff command for the Work Units associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_REFRESH_ICONS = "SourceControlRefreshIcons"
 	"""Refreshes the project status and the Source Control icons on Work Units."""
 	
 	SOURCE_CONTROL_REVERT_WAV = "SourceControlRevertWAV"
 	"""Calls the Revert command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_REVERT_WWU = "SourceControlRevertWWU"
 	"""Calls the Revert command for the Work Units associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_UPDATE_WAV = "SourceControlUpdateWAV"
 	"""Calls the Update command for the wav files associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SOURCE_CONTROL_UPDATE_WWU = "SourceControlUpdateWWU"
 	"""Calls the Update command for the Work Units associated with the specified objects on the Source Control plug-in
-	(Perforce, SVN, etc). \n
-	**Parameter**: objects - an array of objects"""
+    (Perforce, SVN, etc). \n
+    **Parameter**: objects - an array of objects"""
 	
 	SPLIT_CURRENT_TAB_TO_THE_RIGHT = "SplitCurrentTabToTheRight"
 	"""Split the current tab, creating a new tab panel to the right."""
@@ -1312,11 +1315,11 @@ class ECommand(_StrEnum):
 	
 	TRANSPORT_PLAY_DIRECTLY = "TransportPlayDirectly"
 	"""Plays the object currently loaded in the Transport Control by bypassing properties that have an influence on the
-	sound, such as the volume."""
+    sound, such as the volume."""
 	
 	TRANSPORT_PLAY_STOP = "TransportPlayStop"
 	"""Plays the object currently loaded in the Transport Control. If the playback is in progress, it stops the
-	playback."""
+    playback."""
 	
 	TRANSPORT_RESET = "TransportReset"
 	"""Resets the Transport Control playback and internal states."""
@@ -1363,6 +1366,330 @@ class EImportOperation(_StrEnum):
 	
 	REPLACE_OBJECT = "ReplaceObject"
 	"""Replacement of an already-existing Wwise object."""
+
+
+class EDataTypes(_StrEnum):
+	"""Enumeration of possible data types to capture in the profiler"""
+	
+	CPU = "cpu"
+	
+	MEMORY = "memory"
+	
+	STREAM = "stream"
+	
+	VOICES = " voices"
+	
+	LISTENER = "listener"
+	
+	OBSTRUCTION_OCCLUSION = "obstructionOcclusion"
+	
+	MARKERS_NOTIFICATION = "markersNotification"
+	
+	SOUNDBANKS = "soundbanks"
+	
+	LOADED_MEDIA = "loadedMedia"
+	
+	PREPARED_EVENTS = "preparedEvents"
+	
+	PREPARED_GAME_SYNCS = "preparedGameSyncs"
+	
+	INTERACTIVE_MUSIC = "interactiveMusic"
+	
+	STREAMING_DEVICE = "streamingDevice"
+	
+	METER = "meter"
+	
+	AUXILIARY_SENDS = "auxiliarySends"
+	
+	API_CALLS = "apiCalls"
+	
+	SPATIAL_AUDIO = "spatialAudio"
+	
+	SPATIAL_AUDIO_RAYCASTING = "spatialAudioRaycasting"
+	
+	VOICE_INSPECTOR = "voiceInspector"
+	
+	AUDIO_OBJECTS = "audioObjects"
+	
+	GAME_SYNCS = "gameSyncs "
+
+
+class EAudioObjectOptions(_StrEnum):
+	"""Enumeration of defined members for an audio object return structure."""
+	
+	BUS_NAME = "busName"
+	"""Name of the bus instance."""
+	
+	EFFECT_PLUGIN_NAME = "effectPluginName"
+	"""Name of the effect plug-in after which the Audio Object was captured."""
+	
+	AUDIO_OBJECT_ID = "audioObjectID"
+	"""The ID of the Audio Object."""
+	
+	BUS_PIPELINE_ID = "busPipelineID"
+	"""The Pipeline ID of the Bus instance."""
+	
+	GAME_OBJECT_ID = "gameObjectID"
+	"""The Game Object ID of the Bus instance."""
+	
+	GAME_OBJECT_NAME = "gameObjectName"
+	"""The name of the Game Object of the Bus Instance."""
+	
+	AUDIO_OBJECT_NAME = "audioObjectName"
+	"""The name of the Audio Object. Can be empty."""
+	
+	INSTIGATOR_PIPELINE_ID = "instigatorPipelineID"
+	"""The pipeline ID of the instigator from which the Audio Object originates. Can be either a Bus instance or a
+	Voice."""
+	
+	BUS_ID = "busID"
+	"""The short ID of the Bus."""
+	
+	BUS_GUID = "busGUID"
+	"""The GUID of the Bus."""
+	
+	SPATIALIZATION_MODE = "spatializationMode"
+	"""The spatialization mode. Use Ak3DSpatializationMode to interpret the value."""
+	
+	X = "x"
+	"""The X value of the Audio Object position."""
+	
+	Y = "y"
+	"""The Y value of the Audio Object position."""
+	
+	Z = "z"
+	"""The Z value of the Audio Object position."""
+	
+	SPREAD = "spread"
+	"""The spread value (normalized) of the Audio Object."""
+	
+	FOCUS = "focus"
+	"""The focus value (normalized) of the Audio Object."""
+	
+	CHANNEL_CONFIG = "channelConfig"
+	"""The channel configuration of the Audio Object. Use AK::AkChannelConfig::Deserialize to deserialize the value."""
+	
+	EFFECT_CLASS_ID = "effectClassID"
+	"""The Class ID of the effect after which the Audio Object was captured. Usage of AK_INVALID_UNIQUE_ID constant
+	means that this Audio Object was captured before applying the first effect."""
+	
+	EFFECT_INDEX = "effectIndex"
+	"""The index of the effect after which the Audio Object was captured."""
+	
+	METADATA = "metadata"
+	"""Array of objects containing metadata of the Audio Object."""
+	
+	RMS_METER = "rmsMeter"
+	"""Array of volume values (one per channel) for the RMS meter."""
+	
+	PEAK_METER = "peakMeter"
+	"""Array of volume values (one per channel) for the Peak meter."""
+
+
+class ETimeCursor(_StrEnum):
+	"""Enum to identify one of the global profiler cursors"""
+	
+	USER = "user"
+	"""The User Time Cursor is the one that can be manipulated by the user"""
+	
+	CAPTURE = "capture"
+	"""Capture Time Cursor represents the latest time of the current capture"""
+
+
+class EBusOptions(_StrEnum):
+	"""Enumeration of defined members for a bus pipeline return structure. """
+	
+	PIPELINE_ID = "pipelineID"
+	"""Pipeline ID of the bus."""
+	
+	MIX_BUS_ID = "mixBusID"
+	"""Unique ID assigned to a mixing bus."""
+	
+	OBJECT_GUID = "objectGUID"
+	"""Object GUID corresponding to the bus."""
+	
+	OBJECT_NAME = "objectName"
+	"""Object Name corresponding to the bus."""
+	
+	GAME_OBJECT_ID = "gameObjectID"
+	"""Game Object ID corresponding to the voice."""
+	
+	GAME_OBJECT_NAME = "gameObjectName"
+	"""Game Object Name corresponding to the voice."""
+	
+	DEVICE_ID = "deviceID"
+	"""Audio Output device ID."""
+	
+	VOLUME = "volume"
+	"""Gain of the bus in dB."""
+	
+	DOWNSTREAM_GAIN = "downstreamGain"
+	"""Gain from current bus down to output in dB."""
+	
+	VOICE_COUNT = "voiceCount"
+	"""Number of voices routed to the bus."""
+	
+	EFFECT_COUNT = "effectCount"
+	"""Number of effects on the bus."""
+	
+	DEPTH = "depth"
+	"""Depth level of the bus in the pipeline."""
+
+
+class ECPUStatisticsMembers(_StrEnum):
+	"""Enumeration of defined members for a CPUStatisticInfo return structure."""
+	
+	ELEMENT_NAME = "elementName"
+	"""The name of the element on which we calculate CPU usage."""
+	
+	ID = "id"
+	"""Class ID of the element."""
+	
+	INSTANCES = "instances"
+	"""An estimation of the number of instances of the element."""
+	
+	TYPE = "type"
+	"""The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
+	
+	PERCENT_INCLUSIVE = "percentInclusive"
+	"""The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	PERCENT_EXCLUSIVE = "percentExclusive"
+	"""The percentage of CPU time spent only in the execution of the element itself."""
+	
+	MILLISECONDS_INCLUSIVE = "millisecondsInclusive"
+	"""The milliseconds of CPU time spent in the execution of the element and those that it uses (calls)."""
+	
+	MILLISECONDS_EXCLUSIVE = "millisecondsExclusive"
+	"""The milliseconds of CPU time spent only in the execution of the element itself."""
+
+
+class EGameObjectRegistrationDataMembers(_StrEnum):
+	"""Enumeration of defined members for a GameObjectRegistrationData return structure. """
+	
+	ID = "id"
+	"""The ID of the game object."""
+	
+	NAME = "name"
+	"""The name of the game object."""
+	
+	REGISTRATION_TIME = "registrationTime"
+	"""The time at which the game object was registered."""
+	
+	UNREGISTRATION_TIME = "unregistrationTime"
+	"""The time at which the game object was unregistered."""
+
+
+class ELoadedMediaMembers(_StrEnum):
+	"""Enumeration of defined members for a LoadedMedia return structure. """
+	
+	MEDIA_ID = "mediaId"
+	"""The short ID of the media file"""
+	
+	FILE_NAME = "fileName"
+	"""The name of the media file."""
+	
+	FORMAT = "format"
+	"""The audio format of the media file."""
+	
+	SIZE = "size"
+	"""The size (in bytes) of the media file."""
+	
+	SOUND_BANK = "soundBank"
+	"""The name of the SoundBank that contains the media file."""
+
+
+class EPerformanceMonitorMembers(_StrEnum):
+	"""Enumeration of defined members for a PerformanceMonitorCounter return structure. """
+	
+	NAME = "name"
+	"""Name of the counter as shown in Wwise Authoring."""
+	
+	ID = "id"
+	"""Unique Id of the counter."""
+	
+	VALUE = "value"
+	"""Value of counter at given time."""
+
+
+class EActiveRTPCMembers(_StrEnum):
+	"""Enumeration of defined members for an ActiveRTPCInfo return structure."""
+
+	ID = "id"
+	"""The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object."""
+	
+	NAME = "name"
+	"""The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
+	
+	GAME_OBJECT_ID = "gameObjectId"
+	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs."""
+	
+	VALUE = "value"
+	"""The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
+
+
+class EVoicePipelineReturnOptions(_StrEnum):
+	"""Enumeration of defined members for a voice pipeline return structure."""
+	
+	PIPELINE_ID = "pipelineID"
+	"""Pipeline ID of the voice."""
+	
+	PLAYING_ID = "playingID"
+	"""Playing ID of the voice."""
+	
+	SOUND_ID = "soundID"
+	"""Short ID of the sound object corresponding to the voice."""
+	
+	GAME_OBJECT_ID = "gameObjectID"
+	"""Game Object ID corresponding to the voice."""
+	
+	GAME_OBJECT_NAME = "gameObjectName"
+	"""Game Object Name corresponding to the voice."""
+	
+	OBJECT_GUID = "objectGUID"
+	"""Object GUID corresponding to the voice."""
+	
+	OBJECT_NAME = "objectName"
+	"""Object Name corresponding to the voice."""
+	
+	PLAY_TARGET_ID = "playTargetID"
+	"""Short ID of the play target object corresponding to the voice."""
+	
+	PLAY_TARGET_GUID = "playTargetGUID"
+	"""GUID of the play target object corresponding to the voice."""
+	
+	PLAY_TARGET_NAME = "playTargetName"
+	"""Name of the play target object corresponding to the voice."""
+	
+	BASE_VOLUME = "baseVolume"
+	"""Voice volume in dB, including HDR attenuation."""
+	
+	GAME_AUX_SEND_VOLUME = "gameAuxSendVolume"
+	"""Volume send to the auxiliary bus send in dB."""
+	
+	ENVELOPE = "envelope"
+	"""Current analyzed envelope value in dB. 0 if unavailable."""
+	
+	NORMALIZATION_GAIN = "normalizationGain"
+	"""Loudness normalization and make-up gain in dB."""
+	
+	LOW_PASS_FILTER = "lowPassFilter"
+	"""Low-Pass Filter applied to the voice."""
+	
+	HIGH_PASS_FILTER = "highPassFilter"
+	"""High-Pass Filter applied to the voice."""
+	
+	PRIORITY = "priority"
+	"""Priority given to the voice."""
+	
+	IS_STARTED = "isStarted"
+	"""If the voice has started."""
+	
+	IS_VIRTUAL = "isVirtual"
+	"""If the voice is virtual."""
+	
+	IS_FORCED_VIRTUAL = "isForcedVirtual"
+	"""If the voice was forced virtual."""
 
 
 class ECaseStyle(_StrEnum):
