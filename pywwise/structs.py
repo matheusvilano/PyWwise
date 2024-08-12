@@ -1,13 +1,13 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
-from typing import Any as _Any, Literal as _Literal, Self as _Self
-from pywwise.enums import (EAudioObjectOptions, EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity,
-                           ELogSeverity, EObjectType, EReturnOptions, ESpeakerBitMask, EStartMode,
-                           EVoicePipelineReturnOptions, EAttenuationCurveType, EAttenuationCurveUsage, 
-                           EAttenuationCurveShape, ERtpcMode, EInclusionFilter, EWwiseBuildPlatform)
+from typing import Any as _Any, Self as _Self
+from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
+                           EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
+                           ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
+                           EVoicePipelineReturnOptions, EWwiseBuildPlatform)
 from pywwise.statics import EnumStatics
-from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID, \
-	SystemPath
+from pywwise.types import (GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID,
+                           SystemPath)
 
 
 @_dataclass
@@ -231,7 +231,7 @@ class MainMenuInfo:
 		as_dict = dict()
 		as_dict["basePath"] = self.main_menu_base_path
 		return as_dict
-		
+
 
 @_dataclass
 class CommandInfo:
@@ -505,13 +505,13 @@ class AudioObjectMetadata:
 	metadata_class_id: int
 	"""The class ID of the metadata. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
-	source_short_id: ShortID = _field(default=ShortID.get_invalid())
+	source_short_id: ShortID = _field(default=ShortID.get_null())
 	"""The short ID of the source object. Unsigned Integer 32-bit. Range: [0,4294967295]."""
 	
 	metadata_name: Name = _field(default=Name.get_null())
 	"""The name of the metadata."""
 	
-	source_id: GUID = _field(default=GUID.get_zero())
+	source_id: GUID = _field(default=GUID.get_null())
 	"""The ID (GUID) of the source object."""
 	
 	source_name: Name = _field(default=Name.get_null())
@@ -569,7 +569,7 @@ class BusPipelineInfo:
 	
 	def __hash__(self):
 		""":return: The BusPipelineInfo hash."""
-		return hash(self.pipeline_ID)
+		return hash(self.pipeline_id)
 
 
 @_dataclass
@@ -622,7 +622,7 @@ class GameObjectRegistrationData:
 class LoadedMediaInfo:
 	"""Information about a media file loaded into memory as a result of the PrepareEvent() and PrepareGameSyncs()
 	functions."""
-
+	
 	media_id: ShortID
 	"""The short ID of the media file."""
 	
@@ -645,13 +645,13 @@ class PerformanceMonitorCounterInfo:
 	
 	name: str
 	"""name of the counter as shown in Wwise Authoring."""
-
+	
 	id: int
 	"""unique Id of the counter."""
-
+	
 	value: float
 	"""value of counter at given time."""
-	
+
 
 @_dataclass
 class ActiveRTPCInfo:
@@ -747,8 +747,8 @@ class StreamObjectInfo:
 		if self.buffer_status_buffered is not None:
 			as_dict["bufferStatusBuffered"] = self.buffer_status_buffered
 		return as_dict
-	
-	
+
+
 @_dataclass
 class VoiceContributionParameter:
 	"""Data class containing the information relating to contribution parameters associated to the voice inspector
@@ -768,7 +768,7 @@ class VoiceContributionParameter:
 	
 	value: float
 	"""Contribution value."""
-
+	
 	def __hash__(self):
 		""":return: The VoiceInspectorContributionObjectProperties hash."""
 		return hash(str(self.__dict__))
@@ -783,7 +783,7 @@ class VoiceContributionParameter:
 		as_dict["driverValue"] = self.driver_value
 		as_dict["value"] = self.value
 		return as_dict
-	
+
 
 @_dataclass
 class VoiceInspectorContribution:

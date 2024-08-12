@@ -933,7 +933,7 @@ class ECommand(_StrEnum):
 	"""Maximize the current default view of the object tabs"""
 	
 	PREVIOUS_OBJECT_TAB = "PreviousObjectTab"
-	"""Natigate to the previous object tab."""
+	"""Navigate to the previous object tab."""
 	
 	PREVIOUS_PERF_FRAME = "PreviousPerfFrame"
 	"""Goes to previous audio frame in Performance Graph."""
