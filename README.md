@@ -37,7 +37,7 @@ When working with a single connection, the PyWwise convention is to name the con
 import pywwise
 from pywwise.types import SystemPath  # this is an alias of pathlib.Path, which is commonly used in PyWwise
 
-ak = pywwise.new_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
+ak = pywwise.new_waapi_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
 
 path = SystemPath("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
 ak.wwise.debug.generate_tone_wav(path)
@@ -53,7 +53,7 @@ is a valid GUID, in terms of format). Here is an example:
 import pywwise
 from pywwise.types import GUID
 
-ak = pywwise.new_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
+ak = pywwise.new_waapi_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
 
 # GUID will validate the value and throw a ValueError in case something is wrong
 active_state: tuple[str, str] = ak.soundengine.get_state(GUID("{3182E70A-1CD2-4ABD-8652-EEA2E600E4A7}"))
@@ -68,7 +68,7 @@ import pywwise
 from pywwise.enums import EBitDepth, ESampleRate  # common PyWwise enums to help with "quantized" parameters
 from pywwise.types import SystemPath  # this is an alias of pathlib.Path, which is commonly used in PyWwise
 
-ak = pywwise.new_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
+ak = pywwise.new_waapi_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
 
 path = SystemPath("C:/Users/leozin/Documents/WwiseTests/TestTone.wav")
 bit_depth = EBitDepth.INT_16  # Wwise only supports 16-bit integer and 32-bit float; EBitDepth enumerates those options.
@@ -87,7 +87,7 @@ import pywwise
 from pywwise.types import GameObjectID
 from pywwise.structs import Vector3
 
-ak = pywwise.new_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
+ak = pywwise.new_waapi_connection()  # the default URL is "ws://127.0.0.1:8080/waapi"
 
 # Position the Transport (Wwise Authoring's default game object) at the world's origin (centre) point.
 ak.soundengine.set_position(GameObjectID.get_transport(), Vector3.get_zero(), Vector3.get_zero())

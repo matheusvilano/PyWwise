@@ -9,10 +9,10 @@ from pywwise.waql import *
 _get_logger("waapi").setLevel(_LEVEL_CRITICAL)
 
 
-def new_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: bool = False,
-                   callback_executor: CallbackExecutor = SequentialThreadExecutor,
-                   is_debug_build: bool = False, is_console_instance: bool = False,
-                   watch_list: tuple[WwiseObjectWatch, ...] = ()):
+def new_waapi_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: bool = False,
+                         callback_executor: CallbackExecutor = SequentialThreadExecutor,
+                         is_debug_build: bool = False, is_console_instance: bool = False,
+                         watch_list: tuple[WwiseObjectWatch, ...] = ()):
 	"""
 	Connects to an instance of Wwise.
 	:param url: URL of the Wwise Authoring API WAMP server, defaults to `ws://127.0.0.1:8080/waapi`.
@@ -27,7 +27,7 @@ def new_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: b
 	return _Ak(url, allow_exception, callback_executor, is_debug_build, is_console_instance, watch_list)
 
 
-def set_logging(level: int):
+def set_waapi_logging(level: int):
 	"""
 	Sets the WAAPI logger's level. By default, the logger will only log `CRITICAL` errors, which are rare. Use this
 	function if you are experiencing issues with any functions/topics and would like more information from the logger.

@@ -5,7 +5,7 @@ from pywwise.types import *
 from pywwise.structs import *
 from constants import *
 
-ak = pywwise.new_connection()
+ak = pywwise.new_waapi_connection()
 
 
 class AkWwiseCoreSoundbankTest(unittest.TestCase):
