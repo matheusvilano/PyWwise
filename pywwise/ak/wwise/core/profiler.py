@@ -172,8 +172,8 @@ class Profiler:
 		if bus_pipeline_id is not None:
 			args["busPipelineId"] = bus_pipeline_id
 		
-		returns = (EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
-		           EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID)
+		returns = [EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
+		           EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID]
 		options = {"return": returns}
 		
 		if return_options is not None:
@@ -196,9 +196,9 @@ class Profiler:
 			for meta in result.get(EAudioObjectOptions.METADATA, ()):
 				info.other[EAudioObjectOptions.METADATA].append(
 					AudioObjectMetadata(meta.get("metadataClassID", -1),
-					                    meta.get("sourceShortID", ShortID.get_invalid()),
+					                    meta.get("sourceShortID", ShortID.get_null()),
 					                    meta.get("metadataName", Name.get_null()),
-					                    meta.get("sourceID", GUID.get_zero()),
+					                    meta.get("sourceID", GUID.get_null()),
 					                    meta.get("sourceName", Name.get_null())))
 			objects.append(info)
 		
@@ -227,8 +227,8 @@ class Profiler:
 		if bus_pipeline_id is not None:
 			args["busPipelineId"] = bus_pipeline_id
 		
-		returns = (EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID)
-		options = {"return": returns}
+		returns = [EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID]
+		options = {"return": list(returns)}
 		
 		if return_options is not None:
 			options["return"].extend(list(return_options))
