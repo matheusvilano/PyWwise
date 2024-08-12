@@ -1445,7 +1445,7 @@ class ETransportState(_StrEnum):
 	
 	NONE = "none"
 	"""Transport object return is null."""
-	
+
 
 class ELogSeverity(_StrEnum):
 	"""An enumeration of log item severity levels."""
@@ -1729,3 +1729,19 @@ class ERtpcMode(_StrEnum):
 	
 	MULTIPLICATIVE = "Multiplicative"
 	"""RTPCs are supported. Multiple RTPCs are combined via multiplication."""
+
+
+class EWwiseBuildPlatform(_StrEnum):
+	"""An enumeration of all platforms on which Wwise can be built."""
+	
+	X64 = "x64"
+	"""Windows (64-bit architecture)."""
+	
+	WIN32 = "win32"
+	"""Windows (32-bit architecture)."""
+	
+	MACOSX = "macosx"
+	"""Mac OS X."""
+	
+	LINUX = "linux"
+	"""Any linux-based distribution."""
