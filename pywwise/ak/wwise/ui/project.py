@@ -15,7 +15,7 @@ class Project:
 	
 	def close(self, bypass_save: bool = True) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_project_close.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_close.html \n
 		Closes the current project.
 		:param bypass_save: Indicates if the user should not be prompted to save the current project.
 							**Defaults to true.**
@@ -28,7 +28,7 @@ class Project:
 	
 	def create(self, path: SystemPath, platforms: set[PlatformInfo] = None, languages: set[str] = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_project_create.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_create.html \n
 		Creates, saves and opens new empty project, specified by path and platform. The project has no
 		factory setting WorkUnit. Please refer to `ak.wwise.core.project.loaded` for further explanations
 		on how to be notified when the operation has completed.
@@ -38,7 +38,7 @@ class Project:
 						  Windows is used. Duplicates are not allowed; platforms should have **unique names**.
 		:param languages: Array of languages to creates for this project. If not specified, the English(US) language is
 						  created. When multiple languages are specified, the first one becomes the default language.
-		:return: Whether the project was created successfully. This is done by checking if the specified path now
+		:return: Whether the project creation succeeded. This is done by checking if the specified path now
 				 exists.
 		"""
 		args = {"path": str(path)}
@@ -56,7 +56,7 @@ class Project:
 	def open(self, path: SystemPath, is_migration_required: bool = False, bypass_save: bool = True,
 	         auto_checkout_to_source_control: bool = True) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
 		Opens a project, specified by path. Please refer to `ak.wwise.core.project.loaded` for further
 		explanations on how to be notified when the operation has completed.
 		:param path: The path to the project WPROJ file. For using WAAPI on Mac, please refer to Using WAAPI on Mac.

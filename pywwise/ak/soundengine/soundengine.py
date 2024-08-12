@@ -1,5 +1,5 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import EActionOnEventType, ECurveInterpolation, ESpeakerBitMask
+from pywwise.enums import EActionOnEventType, EFadeCurve, ESpeakerBitMask
 from pywwise.structs import AuxSendValue, Vector3
 from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
@@ -16,9 +16,9 @@ class SoundEngine:
 	
 	def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EActionOnEventType,
 	                            game_object: GameObjectID, transition_duration: int = 0,
-	                            fade_curve: ECurveInterpolation = ECurveInterpolation.LINEAR) -> dict:
+	                            fade_curve: EFadeCurve = EFadeCurve.LINEAR) -> dict:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
 		Executes an action on all nodes that are referenced in the specified event in a Play action.
 		:param event: The name, short ID, or GUID of the event.
 		:param action_type: The type of action (e.g. Play).
@@ -33,7 +33,7 @@ class SoundEngine:
 	
 	def get_state(self, state_group: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getstate.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_getstate.html \n
 		Gets the current state of a State Group. When using setState just prior to getState, allow a brief delay (no
 		more than 10ms) for the information to update in the sound engine.
 		:param state_group: The name, short ID, GUID, or project path of the State Group.
@@ -50,7 +50,7 @@ class SoundEngine:
 	def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath, game_object: GameObjectID) -> tuple[
 		str, str]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_getswitch.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_getswitch.html \n
 		Gets the current state of a Switch Group for a given Game Object.
 		:param switch_group: The name, short ID, or GUID of the Switch Group.
 		:param game_object: The ID of the game object. Switches are always encapsulated by game objects.
@@ -66,7 +66,7 @@ class SoundEngine:
 	
 	def load_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_loadbank.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_loadbank.html \n
 		Load a SoundBank. See `AK::SoundEngine::LoadBank`.
 		:param sound_bank: The name or short ID of the bank.
 		:return: Whether the operation worked. True does not mean the bank was not loaded prior.
@@ -77,7 +77,7 @@ class SoundEngine:
 	def post_event(self, event: Name | ShortID | GUID,
 	               game_object: GameObjectID = GameObjectID.get_transport()) -> int:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postevent.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_postevent.html \n
 		Asynchronously post an Event to the sound engine (by event ID). See `AK::SoundEngine::PostEvent`.
 		:param event: The name, short ID, or GUID of the event to post.
 		:param game_object: The ID of the game object the event should be posted on.
@@ -89,7 +89,7 @@ class SoundEngine:
 	
 	def post_msg_monitor(self, message: str) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_postmsgmonitor.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_postmsgmonitor.html \n
 		Display a message in the Profiler's Capture Log view.
 		:param message: The message to display.
 		:return: Whether this operation worked.
@@ -99,7 +99,7 @@ class SoundEngine:
 	
 	def post_trigger(self, trigger: Name | ShortID | GUID, game_object: GameObjectID = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_posttrigger.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_posttrigger.html \n
 		Posts the specified Trigger. See `AK::SoundEngine::PostTrigger`.
 		:param trigger: The name, short ID, or GUID of the trigger to post.
 		:param game_object: The ID of the game object on which the trigger should be posted. If unspecified, the trigger
@@ -113,7 +113,7 @@ class SoundEngine:
 	
 	def register_game_obj(self, obj_id: GameObjectID, obj_name: Name) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_registergameobj.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_registergameobj.html \n
 		Register a game object. Registering a game object twice does nothing. Unregistering it once unregisters
 		it no matter how many times it has been registered. See `AK::SoundEngine::RegisterGameObj`.
 		:param obj_id: The ID of the game object to register.
@@ -125,7 +125,7 @@ class SoundEngine:
 	
 	def reset_rtpc_value(self, rtpc: Name | GUID | ShortID, game_object: GameObjectID) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/2023.1.4_8496/?source=SDK&id=ak_soundengine_resetrtpcvalue.html \n
+		https://www.audiokinetic.com/library/2023.1.4_8496/?source=SDK&id=ak_soundengine_resetrtpcvalue.html \n
 		Resets the value of a real-time parameter control to its default value, as specified in the Wwise
 		project. See `AK::SoundEngine::ResetRTPCValue`. For a global operation, use GameObjectID.get_global().
 		:param rtpc: The name, GUID, or short ID of the RTPC that should be reset to its default value.
@@ -138,7 +138,7 @@ class SoundEngine:
 	def seek_on_event(self, event: Name | GUID | ShortID, game_object: GameObjectID, position: int | float,
 	                  seek_to_nearest_marker: bool = False, playing_id: PlayingID = 0) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_seekonevent.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_seekonevent.html \n
 		Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See
 		`AK::SoundEngine::SeekOnEvent`.
 		:param event: The name, GUID, or short ID of the event to seek on.
@@ -157,7 +157,7 @@ class SoundEngine:
 	
 	def set_default_listeners(self, listeners: set[GameObjectID]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setdefaultlisteners.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setdefaultlisteners.html \n
 		Sets the default active listeners for all subsequent game objects that are registered. See
 		`AK::SoundEngine::SetDefaultListeners`.
 		:param listeners: The array of listener game object IDs. Game objects must have been previously registered.
@@ -169,7 +169,7 @@ class SoundEngine:
 	def set_game_object_aux_send_values(self, game_obj: GameObjectID,
 	                                    aux_send_values: tuple[AuxSendValue, ...]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
 		Sets the Auxiliary Buses to route the specified game object. See `AK::SoundEngine::SetGameObjectAuxSendValues`.
 		:param game_obj: The game object ID associated with this operation.
 		:param aux_send_values: The aux send values to set.
@@ -185,7 +185,7 @@ class SoundEngine:
 	def set_game_object_output_bus_volume(self, emitter: GameObjectID, listener: GameObjectID,
 	                                      control_value: float) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setgameobjectoutputbusvolume.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setgameobjectoutputbusvolume.html \n
 		Set the output bus volume (direct) to be used for the specified game object. See
 		`AK::SoundEngine::SetGameObjectOutputBusVolume`.
 		:param emitter: The ID of the emitter game object.
@@ -199,7 +199,7 @@ class SoundEngine:
 	
 	def set_listeners(self, emitter: GameObjectID, listeners: set[GameObjectID]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlisteners.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setlisteners.html \n
 		Sets a single game object's active listeners. By default, all new game objects have no listeners active,
 		but this behavior can be overridden with `SetDefaultListeners()`. Inactive listeners are not computed. See
 		`AK::SoundEngine::SetListeners`.
@@ -214,7 +214,7 @@ class SoundEngine:
 	def set_listener_spatialization(self, listener: GameObjectID, spatialized: bool, channel_config: ESpeakerBitMask,
 	                                volume_offsets: tuple[float, ...]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
 		Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for
 		each audio channel. See `AK::SoundEngine::SetListenerSpatialization`.
 		:param listener: The ID of the listener.
@@ -229,7 +229,7 @@ class SoundEngine:
 	
 	def set_multiple_positions(self):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setmultiplepositions.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setmultiplepositions.html \n
 		Sets multiple positions for a single game object. Setting multiple positions for a single game object is
 		a way to simulate multiple emission sources while using the resources of only one voice. This can be used
 		to simulate wall openings, area sounds, or multiple objects emitting the same sound in the same area. See
@@ -239,7 +239,7 @@ class SoundEngine:
 	def set_object_obstruction_and_occlusion(self, emitter: GameObjectID, listener: GameObjectID,
 	                                         obstruction_level: float, occlusion_level: float) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setobjectobstructionandocclusion.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setobjectobstructionandocclusion.html \n
 		Set a game object's obstruction and occlusion levels. This function is used to affect how an object
 		should be heard by a specific listener. See `AK::SoundEngine::SetObjectObstructionAndOcclusion`.
 		:param emitter: The ID of the emitter.
@@ -255,7 +255,7 @@ class SoundEngine:
 	def set_position(self, game_obj: GameObjectID, orientation_front: Vector3, orientation_top: Vector3,
 	                 position: Vector3) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setposition.html \n
 		Sets the position of a game object. See `AK::SoundEngine::SetPosition`.
 		:param game_obj: The ID of the game object to set the position for.
 		:param orientation_front: The orientation (front).
@@ -273,7 +273,7 @@ class SoundEngine:
 	def set_rtpc_value(self, rtpc: GUID | Name | ShortID, value: float,
 	                   game_obj: GameObjectID = GameObjectID.get_global()) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setrtpcvalue.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setrtpcvalue.html \n
 		Sets the value of a real-time parameter control. See `AK::SoundEngine::SetRTPCValue`.
 		:param rtpc: The GUID, name, or short ID of the RTPC to set a new value for.
 		:param value: The new value of the RTPC.
@@ -287,7 +287,7 @@ class SoundEngine:
 	
 	def set_scaling_factor(self, game_obj: GameObjectID, attenuation_scaling_factor: float) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setscalingfactor.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setscalingfactor.html \n
 		Sets the scaling factor of a game object. You can modify the attenuation computations on this game object
 		to simulate sounds with a larger or smaller affected areas. See `AK::SoundEngine::SetScalingFactor`.
 		:param game_obj: The ID of the game object.
@@ -299,7 +299,7 @@ class SoundEngine:
 	
 	def set_state(self, state_group: GUID | Name | ShortID, state_value: GUID | Name | ShortID) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setstate.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setstate.html \n
 		Sets the State of a State Group. See `AK::SoundEngine::SetState`.
 		:param state_group: The GUID, Name, or Short ID of the state group.
 		:param state_value: The GUID, Name, or Short ID of the state to set.
@@ -311,7 +311,7 @@ class SoundEngine:
 	def set_switch(self, switch_group: GUID | Name | ShortID, switch_value: GUID | Name | ShortID,
 	               game_obj: GameObjectID) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_setswitch.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setswitch.html \n
 		Sets the State of a Switch Group. See `AK::SoundEngine::SetSwitch`.
 		:param switch_group: The GUID, Name, or Short ID of the switch group.
 		:param switch_value: The GUID, Name, or Short ID of the switch to set.
@@ -323,7 +323,7 @@ class SoundEngine:
 	
 	def stop_all(self, game_obj: GameObjectID):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopall.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_stopall.html \n
 		Stop playing the current content associated to the specified game object ID. If no game object is
 		specified, all sounds are stopped. See `AK::SoundEngine::StopAll`.
 		:param game_obj: The ID of the game object.
@@ -334,7 +334,7 @@ class SoundEngine:
 	
 	def stop_playing_id(self, playing_id: PlayingID, transition_duration: int, fade_curve: int):
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_stopplayingid.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_stopplayingid.html \n
 		Stops the current content, associated to the specified playing ID, from playing. See
 		`AK::SoundEngine::StopPlayingID`.
 		:param playing_id: The Playing ID to be stopped.
@@ -347,7 +347,7 @@ class SoundEngine:
 	
 	def unload_bank(self, sound_bank: Name | ShortID | GUID) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unloadbank.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_unloadbank.html \n
 		Unload a SoundBank. See `AK::SoundEngine::UnloadBank`.
 		:param sound_bank: The name, short ID, or GUID of the bank to unload.
 		:return: Whether the operation succeeded. True does not mean the bank was previously loaded.
@@ -357,7 +357,7 @@ class SoundEngine:
 	
 	def unregister_game_obj(self, obj_id: int) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_soundengine_unregistergameobj.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_unregistergameobj.html \n
 		Unregisters a game object. Registering a game object twice does nothing. Unregistering it once
 		unregisters it no matter how many times it has been registered. Unregistering a game object while it is
 		in use is allowed, but the control over the parameters of this game object is lost. For example,

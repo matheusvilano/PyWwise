@@ -14,8 +14,7 @@ def callback(func):
 		if event is None:
 			raise NameError(f"Function '{func.__name__}' missing associated event: '{func.__name__[4:]}'.")
 		if len(event) > 0:
-			kwargs["event"] = event
-			return func(self, **kwargs)
+			return func(self, event, **kwargs)
 	
 	return wrapper
 

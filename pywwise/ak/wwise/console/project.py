@@ -20,7 +20,7 @@ class Project:
 	@console_instance_only
 	def close(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_close.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_console_project_close.html \n
 		Closes the current project. This operation is synchronous.
 		:return: True if there was a project open and it closed successfully; otherwise, false.
 		"""
@@ -32,7 +32,7 @@ class Project:
 	           platforms: set[PlatformInfo] = (PlatformInfo("Windows", EBasePlatform.WINDOWS),),
 	           languages: tuple[str, ...] = tuple("English(US)")) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n
 		Creates, saves and opens new empty project, specified by path and platform. The project has no
 		factory setting WorkUnit. This operation is synchronous.
 		:param project_path: The path to the project WPROJ file. Example: "C:/Projects/MyProject/MyProject.wproj".
@@ -51,7 +51,7 @@ class Project:
 	@console_instance_only
 	def open(self, project_path: _Path, is_migration_allowed: bool, auto_checkout: bool) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_console_project_open.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_console_project_open.html \n
 		Opens a project, specified by path. This operation is synchronous.
 		:param project_path: The path to the project WPROJ file.
 		:param is_migration_allowed: Whether migration is allowed.

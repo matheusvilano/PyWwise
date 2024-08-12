@@ -1,3 +1,4 @@
+from typing import Self as _Self
 from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 
 
@@ -20,7 +21,7 @@ class EActionOnEventType(_IntEnum):
 	"""Release Envelope"""
 
 
-class ECurveInterpolation(_IntEnum):
+class EFadeCurve(_IntEnum):
 	"""Enumeration of available curves for interpolation."""
 	
 	SINE = 0
@@ -52,6 +53,40 @@ class ECurveInterpolation(_IntEnum):
 	
 	CONSTANT = 9
 	"""y = 1"""
+
+
+class EAttenuationCurveShape(_StrEnum):
+	"""Enumeration of available curve shapes. Usually used with functions related to attenuation curves."""
+	
+	CONSTANT = "Constant"
+	"""Constant value."""
+	
+	LINEAR = "Linear"
+	"""Linear relationship."""
+	
+	LOG_1 = "Log1"
+	"""Logarithmic curve."""
+	
+	LOG_2 = "Log2"
+	"""Steeper logarithmic curve."""
+	
+	LOG_3 = "Log3"
+	"""Steepest logarithmic curve."""
+	
+	S_CURVE = "SCurve"
+	"""S-shaped curve."""
+	
+	INVERTED_S_CURVE = "InvertedSCurve"
+	"""Inverted s-shaped curve."""
+	
+	EXPONENTIAL_1 = "Exp1"
+	"""Exponential curve."""
+	
+	EXPONENTIAL_2 = "Exp2"
+	"""Steeper exponential curve."""
+	
+	EXPONENTIAL_3 = "Exp3"
+	"""Steepest exponential curve."""
 
 
 class ESpeakerBitMask(_IntEnum):
@@ -467,11 +502,20 @@ class EReturnOptions(_StrEnum):
 	def __hash__(self) -> int:
 		""":return: The enum value, hashed."""
 		return self.value.__hash__()
+	
+	@classmethod
+	def get_defaults(cls) -> tuple[_Self, ...]:
+		"""
+		Gets the default return options for PyWwise. Those are usually used to construct WwiseObjectInfo instances.
+		:return: A tuple containing the default return options.
+		"""
+		return EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH
 
 
 class EObjectType(tuple[int, int, str], _Enum):
 	"""An enumeration of class IDs for all different Wwise objects."""
 	
+	UNKNOWN = -1, -1, "Unknown"
 	ACOUSTIC_TEXTURE = 72, 4718608, "AcousticTexture"
 	ACTION = 5, 327696, "Action"
 	ACTION_EXCEPTION = 76, 4980752, "ActionException"
@@ -521,7 +565,7 @@ class EObjectType(tuple[int, int, str], _Enum):
 	MUSIC_TRACK = 28, 1835024, "MusicTrack"
 	MUSIC_TRACK_SEQUENCE = 58, 3801104, "MusicTrackSequence"
 	MUSIC_TRANSITION = 37, 2424848, "MusicTransition"
-	OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssoc"
+	OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssociation"  # wrongly listed as "ObjectSettingAssoc" in AK docs?
 	PANNER = 42, 2752528, "Panner"
 	PATH_2D = 11, 720912, "Path2d"
 	PLATFORM = 69, 4522000, "Platform"
@@ -530,7 +574,7 @@ class EObjectType(tuple[int, int, str], _Enum):
 	PROJECT = 3, 196624, "Project"
 	QUERY = 32, 2097168, "Query"
 	RANDOM_SEQUENCE_CONTAINER = 9, 589840, "RandomSequenceContainer"
-	RTPC = 22, 1441808, "Rtpc"
+	RTPC = 22, 1441808, "Rtpc"  # AK docs list as capitalized ("Rtpc"), but return values are all caps?
 	SEARCH_CRITERIA = 33, 2162704, "SearchCriteria"
 	SOUND = 1, 65552, "Sound"
 	SOUND_BANK = 18, 1179664, "SoundBank"
@@ -547,24 +591,43 @@ class EObjectType(tuple[int, int, str], _Enum):
 	
 	@classmethod
 	def from_plugin_id(cls, plugin_id: int):
+		"""
+		Gets an enum member by plugin ID.
+		:param plugin_id: The plugin ID.
+		:return: An enum member whose plugin ID matches the specified plugin ID. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
 		for member in cls:
 			if member.get_plugin_id() == plugin_id:
 				return member
-		raise ValueError(f"No {cls.__name__} member with plugin_id={plugin_id}")
+		return cls.UNKNOWN
 	
 	@classmethod
 	def from_class_id(cls, class_id: int):
+		"""
+		Gets an enum member by class ID.
+		:param class_id: The class ID.
+		:return: An enum member whose class ID matches the specified class ID. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
 		for member in cls:
 			if member.get_class_id() == class_id:
 				return member
-		raise ValueError(f"No {cls.__name__} member with class_id={class_id}")
+		return cls.UNKNOWN
 	
 	@classmethod
 	def from_type_name(cls, type_name: str):
+		"""
+		Gets an enum member by type name.
+		:param type_name: The type name.
+		:return: An enum member whose type name matches the specified type name. If no valid member was found, UNKNOWN
+				 is returned instead.
+		"""
+		type_name = type_name.upper()  # The comparisons are all case-insensitive
 		for member in cls:
-			if member.get_type_name() == type_name:
+			if member.get_type_name().upper() == type_name:
 				return member
-		raise ValueError(f"No {cls.__name__} member with type_name={type_name}")
+		return cls.UNKNOWN
 	
 	def get_plugin_id(self) -> int:
 		""":return: The Wwise object type's PluginID."""
@@ -813,16 +876,16 @@ class ECommand(_StrEnum):
 	"""Goes to next audio frame in Performance Graph."""
 	
 	OPEN_CONTAINING_FOLDER_SOUNDBANK = "OpenContainingFolderSoundbank"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's SoundBank files.	\n
-    **Parameter**: objects - an array of objects"""
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' SoundBank files.	\n
+	**Parameter**: objects - an array of objects"""
 	
 	OPEN_CONTAINING_FOLDER_WAV = "OpenContainingFolderWAV"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's wav files. \n
-    **Parameter**: objects - an array of objects"""
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' wav files. \n
+	**Parameter**: objects - an array of objects"""
 	
 	OPEN_CONTAINING_FOLDER_WORK_UNIT = "OpenContainingFolderWorkUnit"
-	"""Opens a Windows Explorer window on the Containing folder of specified objects's Work Units. \n
-    **Parameter**: objects - an array of objects"""
+	"""Opens a Windows Explorer window on the Containing folder of specified objects' Work Units. \n
+	**Parameter**: objects - an array of objects"""
 	
 	OPEN_IN_EXTERNAL_EDITOR = "OpenInExternalEditor"
 	"""Opens the specified objects in the first (index 0) External Editor. \n
@@ -1676,6 +1739,41 @@ class ELogChannel(_StrEnum):
 	"""Log channel for messages related to Lua scripts."""
 
 
+class ETransportExecuteActions(_StrEnum):
+	"""An enumeration of possible transport execute actions."""
+	
+	PLAY = "play"
+	"""Play"""
+	
+	STOP = "stop"
+	"""Stop"""
+	
+	PAUSE = "pause"
+	"""Pause"""
+	
+	PLAY_STOP = "playStop"
+	"""Play stop"""
+	
+	PLAY_DIRECTLY = "playDirectly"
+	"""Play directly"""
+
+
+class ETransportState(_StrEnum):
+	"""An enumeration of the available transport object states."""
+	
+	PLAYING = "playing"
+	"""Transport object is playing."""
+	
+	STOPPED = "stopped"
+	"""Transport object is stopped."""
+	
+	PAUSED = "paused"
+	"""Transport object is paused."""
+	
+	NONE = "none"
+	"""Transport object return is null."""
+
+
 class ELogSeverity(_StrEnum):
 	"""An enumeration of log item severity levels."""
 	
@@ -1767,3 +1865,210 @@ class ECaptureLogSeverity(_StrEnum):
 	
 	ERROR = "Error"
 	"""Shown in red in the capture log."""
+
+
+class EAttenuationCurveType(_StrEnum):
+	"""An enumeration of curve types."""
+	
+	VOLUME_DRY_USAGE = "VolumeDryUsage"
+	"""Volume"""
+	
+	VOLUME_WET_GAME_USAGE = "VolumeWetGameUsage"
+	"""Aux Send (Game-Defined)"""
+	
+	VOLUME_WET_USER_USAGE = "VolumeWetUserUsage"
+	"""Aux Send (User-Defined)"""
+	
+	LOW_PASS_FILTER_USAGE = "LowPassFilterUsage"
+	"""Low-Pass Filter"""
+	
+	HIGH_PASS_FILTER_USAGE = "HighPassFilterUsage"
+	"""High-Pass Filter"""
+	
+	SPREAD_USAGE = "SpreadUsage"
+	"""Spread"""
+	
+	FOCUS_USAGE = "FocusUsage"
+	"""Focus"""
+
+
+class EInclusionOperation(_StrEnum):
+	"""An enumeration of inclusion operations. Useful when getting/setting inclusions in SoundBanks."""
+	
+	ADD = "add"
+	"""`Add` operation."""
+	
+	REMOVE = "remove"
+	"""`Remove` operation."""
+	
+	REPLACE = "replace"
+	"""`Replace` operation."""
+
+
+class EInclusionFilter(_StrEnum):
+	"""An enumeration of inclusion filters. Useful when getting/setting inclusions in SoundBanks."""
+	
+	EVENTS = "events"
+	"""Inclusion filter for events."""
+	
+	STRUCTURES = "structures"
+	"""Inclusion filter for structures (e.g. the hierarchy and assignments of a Switch Container)."""
+	
+	MEDIA = "media"
+	"""Inclusion filter for media (the actual WAV/WEM files that are played at runtime)."""
+
+
+class ENameConflictStrategy(_StrEnum):
+	"""An enumeration of possible strategies for when dealing with name conflicts."""
+	
+	RENAME = "rename"
+	"""Rename on conflict. This behaviour can be customized in Wwise."""
+	
+	REPLACE = "replace"
+	"""Replace the name/object that already exists."""
+	
+	FAIL = "fail"
+	"""Prevent the operation that caused the name conflict."""
+
+
+class ESourceControlSearchFilter(_StrEnum):
+	"""An enumeration of source control search filters."""
+	
+	ALL = "all"
+	"""Displays all files in the Originals folder (default)."""
+	
+	USED = "used"
+	"""Only displays files that are used in the project."""
+	
+	UNUSED = "unused"
+	"""Only displays files that are not used in the project"""
+
+
+class ESourceFileReturnOptions(_StrEnum):
+	"""An enumeration of return options for source file operations."""
+	
+	IS_USED = "isUsed"
+	"""Indicates if the file is used by a Wwise object."""
+	
+	USAGE = "usage"
+	"""List the Wwise objects that use this file."""
+	
+	IS_MISSING = "isMissing"
+	"""Indicates if the file is absent in the source manager"""
+	
+	FILE = "file"
+	"""The files are in the list."""
+	
+	FOLDER = "folder"
+	"""The folders are in the list."""
+
+
+class EWaqlSelectExpression(_StrEnum):
+	"""An enumeration of `select` expressions."""
+	
+	CHILDREN = "children"
+	"""Returns the direct children of the object."""
+	
+	DESCENDANTS = "descendants"
+	"""Returns all descendants of the object in a single sequence. The descendants include all children recursively."""
+	
+	THIS = "this"
+	"""Returns the current object."""
+	
+	PARENT = "parent"
+	"""Returns the direct parent of the object. Returns no object if the object does not have a parent."""
+	
+	ANCESTORS = "ancestors"
+	"""Returns all ancestors of the object in a single sequence. The descendants include all parents recursively."""
+	
+	REFERENCES_TO = "referencesTo"
+	"""Returns all objects having a reference to the current object."""
+	
+	OWNER = "owner"
+	"""Returns the owner of the object. The owner is only set for "Custom" objects defined inside other objects."""
+	
+	WORK_UNIT = "workunit"
+	"""Returns the Work Unit object used to persist with the current object."""
+	
+	MAX_DURATION_SOURCE = "maxDurationSource"
+	"""Returns a JSON object containing the id of the Audio Source object that has the maximum playback duration
+	(in seconds) for all descendants of the current object. The JSON object also includes the maximum duration value
+	itself."""
+	
+	MAX_DURATION_SOURCE_OBJECT = "maxDurationSourceObject"
+	"""Returns the Audio Source object that has the maximum playback duration (in seconds) for all descendants of the
+	current object."""
+	
+	MAX_RADIUS_ATTENUATION = "maxRadiusAttenuation"
+	"""Returns a JSON object containing the id of the attenuation object that has the maximum radius distance in all
+	descendants of the current objects. The JSON object also contains the maximum radius distance value itself."""
+	
+	MAX_RADIUS_ATTENUATION_OBJECT = "maxRadiusAttenuationObject"
+	"""Returns the attenuation object that has the maximum radius distance in all descendants of the current objects."""
+	
+	AUDIO_SOURCE_LANGUAGE = "audioSourceLanguage"
+	"""Returns the language object that is used for the current Audio Source."""
+	
+	SWITCH_CONTAINER_CHILD_CONTEXT = "switchContainerChildContext"
+	"""Returns the Switch Container context object associated with the current Switch Container object. The Switch
+	Container context objects hold settings about the Switch Container associations."""
+
+
+class EAttenuationCurveUsage(_StrEnum):
+	"""An enumeration of different "usage states" for an attenuation curve."""
+	
+	NONE = "None"
+	"""Curve is not used. More specifically, the curve has no points."""
+	
+	CUSTOM = "Custom"
+	"""Curve is custom, meaning it has its own set of points."""
+	
+	USE_VOLUME_DRY = "UseVolumeDry"
+	"""Curve uses the points from the 'VolumeDryUsage' curve."""
+
+
+class EPropertyPasteMode(_StrEnum):
+	"""An enumeration of paste modes for when pasting properties (e.g. Volume)."""
+	
+	REPLACE_ENTIRE = "replaceEntire"
+	"""All elements in the lists of a target object are removed and all selected elements from the source's lists are
+	copied."""
+	
+	ADD_REPLACE = "addReplace"
+	"""For elements which are common to the source and a target, this mode will copy the one from the source, replacing
+	the target's element."""
+	
+	ADD_KEEP = "addKeep"
+	"""For elements which are common to the source and a target, this mode will retain the element in the target"""
+
+
+class ERtpcMode(_StrEnum):
+	"""An enumeration of RTPC modes."""
+	
+	NONE = "None"
+	"""No RTPC or RTPC not supported."""
+	
+	ADDITIVE = "Additive"
+	"""RTPCs are supported. Multiple RTPCs are combined via addition."""
+	
+	EXCLUSIVE = "Exclusive"
+	"""Only a single RTPC is supported."""
+	
+	MULTIPLICATIVE = "Multiplicative"
+	"""RTPCs are supported. Multiple RTPCs are combined via multiplication."""
+
+
+class EWwiseBuildPlatform(_StrEnum):
+	"""An enumeration of all platforms on which Wwise can be built."""
+	
+	X64 = "x64"
+	"""Windows (64-bit architecture)."""
+	
+	WIN32 = "win32"
+	"""Windows (32-bit architecture)."""
+	
+	MACOSX = "macosx"
+	"""Mac OS X."""
+	
+	LINUX = "linux"
+	"""Any linux-based distribution."""

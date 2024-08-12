@@ -26,7 +26,7 @@ class UI:
 		
 		self.selection_changed = _RefEvent(tuple[WwiseObjectInfo, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
 		\nSent when the selection changes in the project.
 		\n**Event Data**:
 		\n- A tuple of WwiseObjectInfo instances (each containing a GUID, a name, a type, and a path).
@@ -38,23 +38,20 @@ class UI:
 		                                                 selection_changed_options)
 	
 	@callback
-	def _on_selection_changed(self, **kwargs):
+	def _on_selection_changed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `selectionChanged` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		objects = list[WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
-			guid = GUID(obj["id"])
-			name = Name(obj["name"])
-			typename = EObjectType.from_type_name(obj["type"])
-			path = ProjectPath(obj["path"])
-			objects.append(WwiseObjectInfo(guid, name, typename, path))
-		self.selection_changed(tuple(objects))
+			objects.append(WwiseObjectInfo.from_dict(obj))
+		event(tuple(objects))
 	
 	def bring_to_foreground(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
 		Bring Wwise main window to foreground. Refer to `SetForegroundWindow` and `AllowSetForegroundWindow`
 		on MSDN for more information on the restrictions. Refer to `ak.wwise.core.get_info` to obtain the
 		Wwise process ID for `AllowSetForegroundWindow`.
@@ -65,7 +62,7 @@ class UI:
 	def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: Rect = None,
 	                   output_path: SystemPath = None) -> tuple[str, str]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
 		Captures a part of the Wwise UI relative to a view.
 		:param view_name: The name of the view as displayed in Wwise UI. By default, the whole UI is captured.
 		:param view_selection_channel: The selection channel of the view. Can be a value of 1, 2, 3 or 4. By default,
@@ -106,7 +103,7 @@ class UI:
 	def get_selected_objects(self, return_options: set[EReturnOptions] = None, platform: str = None,
 	                         language: str = None) -> tuple[WwiseObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
 		:param return_options: The additional return options. By default, this function returns only the GUID and Name
 							   of the selected objects.

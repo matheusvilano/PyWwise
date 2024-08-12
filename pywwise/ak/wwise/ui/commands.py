@@ -19,7 +19,7 @@ class Commands:
 		
 		self.executed = _RefEvent(ECommand, tuple[WwiseObjectInfo, ...], tuple[str, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_executed.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_executed.html
 		\nSent when a command is executed. The objects for which the command is executed are sent in the publication.
 		\n**Event Data**:
 		\n- The command that was executed.
@@ -33,19 +33,20 @@ class Commands:
 		                                        executed_options)
 	
 	@callback
-	def _on_executed(self, **kwargs):
+	def _on_executed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `executed` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
 		command = EnumStatics.from_value(ECommand, kwargs["command"])
-		objs = tuple([WwiseObjectInfo(obj["id"], obj["name"], obj["type"], obj["path"]) for obj in kwargs["objects"]])
+		objs = tuple([WwiseObjectInfo.from_dict(obj) for obj in kwargs["objects"]])
 		platforms = tuple(kwargs["platforms"])
-		self.executed(command, objs, platforms)
+		event(command, objs, platforms)
 	
 	def get_commands(self) -> tuple[str, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_getcommands.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_getcommands.html \n
 		Gets the list of commands.
 		:return: A tuple containing the available commands. If empty, the call failed.
 		"""
@@ -56,7 +57,7 @@ class Commands:
 	            objects: tuple[WwiseObjectInfo | GUID | ProjectPath | ShortID | tuple[EObjectType, Name]] = None,
 	            platforms: set[PlatformInfo | Name | GUID] = None, value: str | float | bool = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
 		Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise
 		Authoring Command Identifiers for the available commands.
 		:param command: The ID of the command to execute. Refer to Wwise Authoring Command Identifiers for the lists of
@@ -104,7 +105,7 @@ class Commands:
 	
 	def register(self, commands: set[CommandInfo]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_register.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_register.html \n
 		Registers an array of add-on commands. Registered commands remain until the Wwise process is
 		terminated. Refer to Defining Command Add-ons for more information about registering commands.
 		Also refer to `ak.wwise.ui.commands.executed`.
@@ -123,7 +124,7 @@ class Commands:
 	
 	def unregister(self, commands: set[CommandInfo | str]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_unregister.html \n
 		Unregisters an array of add-on UI commands.
 		:param commands: A set of add-on commands. Can either be a string containing the add-on command ID or a full
 						 Add-on Command Info instance.

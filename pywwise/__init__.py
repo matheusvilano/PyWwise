@@ -1,20 +1,30 @@
 from logging import CRITICAL as _LEVEL_CRITICAL, getLogger as _get_logger
-from typing import Any as _Any
-from waapi import SequentialThreadExecutor as _SequentialThreadExecutor
+from waapi import SequentialThreadExecutor, CallbackExecutor
 from pywwise.ak import Ak as _Ak
+from pywwise.enums import *
+from pywwise.structs import *
+from pywwise.types import *
+from pywwise.waql import *
 
 _get_logger("waapi").setLevel(_LEVEL_CRITICAL)
 
 
-def new(url: _Any = None, allow_exception: bool = False,
-        callback_executor: _Any = _SequentialThreadExecutor) -> _Ak:
+def new_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: bool = False,
+                   callback_executor: CallbackExecutor = SequentialThreadExecutor,
+                   is_debug_build: bool = False, is_console_instance: bool = False,
+                   watch_list: tuple[WwiseObjectWatch, ...] = ()):
 	"""
 	Connects to an instance of Wwise.
-	:param url: URL of the Wwise Authoring API WAMP server, defaults to ws://127.0.0.1:8080/waapi
+	:param url: URL of the Wwise Authoring API WAMP server, defaults to `ws://127.0.0.1:8080/waapi`.
 	:param allow_exception: Allow errors on call and subscribe to throw an exception. Default is False.
-	:param callback_executor: Executor strategy for event callbacks
+	:param callback_executor: Executor strategy for event callbacks.
+	:param is_debug_build: Should be set to true if the instance of Wwise is a debug build and debug-only.
+	:param is_console_instance: Should be set to true if the instance of Wwise is running in a console window.
+								functions/topics are required.
+	:param watch_list: A tuple of `WwiseObjectWatch` instances. This will be used to set up the
+					   `ak.wwise.core.object.property_changed` event.
 	"""
-	return _Ak(url, allow_exception, callback_executor)
+	return _Ak(url, allow_exception, callback_executor, is_debug_build, is_console_instance, watch_list)
 
 
 def set_logging(level: int):

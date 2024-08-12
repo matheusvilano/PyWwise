@@ -22,7 +22,7 @@ class Debug:
 		
 		self.assert_failed = _RefEvent(str, str, int, str, str)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_assertfailed.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_assertfailed.html
 		\nSent when an assert has failed. **This is only available in Debug builds**.
 		\n**Event Data**
 		\n- The expression that failed.
@@ -36,18 +36,19 @@ class Debug:
 			self._assert_failed = self._client.subscribe("ak.wwise.debug.assertFailed", self._on_assert_failed)
 	
 	@callback
-	def _on_assert_failed(self, **kwargs):
+	def _on_assert_failed(self, event: _RefEvent, **kwargs):
 		"""
 		Callback function for the `assertFailed` event.
+		:param event: The event to broadcast.
 		:param kwargs: The event data.
 		"""
-		self.assert_failed(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
-		                   kwargs["callstack"], kwargs.get("message", ""))
+		event(kwargs["expression"], kwargs["fileName"], int(kwargs["lineNumber"]),
+		      kwargs["callstack"], kwargs.get("message", ""))
 	
 	@debug_build_only
 	def enable_asserts(self, enable: bool) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableasserts.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_enableasserts.html \n
 		Enables debug assertions. Every call to enableAsserts with 'false' increments the ref count. Calling
 		with true decrements the ref count. **This is only available with Debug builds**.
 		:param enable: Whether to enable debug assertions.
@@ -57,7 +58,7 @@ class Debug:
 	
 	def enable_automation_mode(self, enable: bool) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_enableautomationmode.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_enableautomationmode.html \n
 		Enables or disables the automation mode for Wwise. This reduces the potential interruptions caused by
 		message boxes and dialogs. For instance, enabling the automation mode silently accepts: project
 		migration, project load log, EULA acceptance, project licence display and generic message boxes.
@@ -72,7 +73,7 @@ class Debug:
 	                      sustain_time: float = 1.0, sustain_level: float = 0.0, release_time: float = 0.0,
 	                      waveform: EWaveform = EWaveform.SILENCE, frequency: float = 440.0) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_generatetonewav.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_generatetonewav.html \n
 		Generate a WAV file playing a tone with a simple envelope and save it to the specified location. This
 		is provided as a utility to generate test WAV files.
 		:param path: The path where to store the generated WAV file.
@@ -98,7 +99,7 @@ class Debug:
 	
 	def get_wal_tree(self) -> dict[str, dict[str, dict[str, _Any]]]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_getwaltree.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_getwaltree.html \n
 		Retrieves the WAL tree, which describes the nodes that are synchronized in the Sound Engine. Private use only.
 		:return: If the call succeeded, the WAL tree; else, an empty dictionary.
 		"""
@@ -107,7 +108,7 @@ class Debug:
 	
 	def restart_waapi_servers(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_restartwaapiservers.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_restartwaapiservers.html \n
 		Restart WAAPI servers. For internal use only.
 		:return: Whether the call succeeded.
 		"""
@@ -116,7 +117,7 @@ class Debug:
 	@debug_build_only
 	def test_assert(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_testassert.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_testassert.html \n
 		Private use only.
 		:return: Whether the call succeeded.
 		"""
@@ -125,7 +126,7 @@ class Debug:
 	@debug_build_only
 	def test_crash(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_debug_testcrash.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_testcrash.html \n
 		Private use only.
 		:return: Whether the call succeeded.
 		"""
