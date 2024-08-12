@@ -3,9 +3,10 @@ from pathlib import Path as _Path
 from typing import Any as _Any, Self as _Self
 from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EBasePlatform, ECaptureLogItemType,
                            ECaptureLogSeverity, EAttenuationCurveShape, ELogSeverity, EObjectType, EReturnOptions,
-                           ERtpcMode, EStartMode, EInclusionFilter)
+                           ERtpcMode, EStartMode, EInclusionFilter, EWwiseBuildPlatform)
 from pywwise.statics import EnumStatics
-from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID
+from pywwise.types import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID, \
+	SystemPath
 
 
 @_dataclass
@@ -642,19 +643,19 @@ class WwiseVersion:
 class WwiseDirectories:
 	"""A dataclass representing the collection of directories used by Wwise."""
 	
-	install: str
+	install: SystemPath
 	"""The root directory of Wwise. This is the installation directory."""
 	
-	authoring: str
+	authoring: SystemPath
 	"""The Wwise Authoring root directory."""
 	
-	bin: str
+	bin: SystemPath
 	"""The bin directory, where Wwise.exe is located."""
 	
-	help: str
+	help: SystemPath
 	"""The help directory."""
 	
-	user: str
+	user: SystemPath
 	"""The Wwise user data directory root."""
 
 
@@ -680,20 +681,14 @@ class GlobalWwiseInfo:
 	version: WwiseVersion
 	"""Wwise version object."""
 	
-	configuration: str
-	"""Indicates a release or debug build. Possible values:
-		- release
-		- debug"""
+	is_debug_build: bool
+	"""Indicates if the Wwise build is a release build (`False`) or debug build (`True`)."""
 	
-	platform: str
-	"""Indicates the platform on which Wwise was built. Possible values:
-		- x64
-		- win32
-		- macosx
-		- linux"""
+	build_platform: EWwiseBuildPlatform
+	"""The platform on which Wwise was built."""
 	
 	command_line: bool
-	"""Indicates if Wwise is running in command line."""
+	"""Whether Wwise is running in command line."""
 	
 	process_id: int
 	"""The process identifier of Wwise."""
