@@ -416,7 +416,7 @@ class AudioObjectInfo:
 
 @_dataclass
 class BusPipelineInfo:
-	"""Contains information about an audio bus captured in the profiler"""
+	"""Contains information about an audio bus captured in the profiler."""
 	
 	pipeline_ID: int
 	"""Pipeline ID of the bus. Unsigned Integer 32-bit. Range: [0,4294967295]"""
@@ -505,7 +505,7 @@ class LoadedMediaInfo:
 
 @_dataclass
 class PerformanceMonitorCounterInfo:
-	"""Information about a performance monitor counter and its value"""
+	"""Information about a performance monitor counter and its value."""
 	
 	name: str
 	"""name of the counter as shown in Wwise Authoring."""
@@ -651,7 +651,7 @@ class VoiceContributionParameter:
 
 @_dataclass
 class VoiceInspectorContribution:
-	"""Data class containing information from a single voice inspector contribution object"""
+	"""Data class containing information from a single voice inspector contribution object."""
 	
 	name: str
 	"""The name of the contribution."""
@@ -691,7 +691,7 @@ class VoiceInspectorContribution:
 @_dataclass
 class VoiceContributionHierarchy:
 	"""Data class containing relevant to the return schema used to store the information of all parameters affecting
-	a voice pipeline ID"""
+	a voice pipeline ID."""
 	
 	volume: float
 	"""The volume difference applied as a contribution."""

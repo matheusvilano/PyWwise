@@ -1314,15 +1314,15 @@ class EDataTypes(_StrEnum):
 	
 	STREAM = "stream"
 	
-	Voices = " voices"
+	VOICES = " voices"
 	
-	Listener = "listener"
+	LISTENER = "listener"
 	
 	OBSTRUCTION_OCCLUSION = "obstructionOcclusion"
 	
 	MARKERS_NOTIFICATION = "markersNotification"
 	
-	Soundbanks = "soundbanks"
+	SOUNDBANKS = "soundbanks"
 	
 	LOADED_MEDIA = "loadedMedia"
 	
@@ -1334,7 +1334,7 @@ class EDataTypes(_StrEnum):
 	
 	STREAMING_DEVICE = "streamingDevice"
 	
-	Meter = "meter"
+	METER = "meter"
 	
 	AUXILIARY_SENDS = "auxiliarySends"
 	
@@ -1457,7 +1457,7 @@ class EBusOptions(_StrEnum):
 	DEVICE_ID = "deviceID"
 	"""Audio Output device ID."""
 	
-	Volume = "volume"
+	VOLUME = "volume"
 	"""Gain of the bus in dB."""
 	
 	DOWNSTREAM_GAIN = "downstreamGain"
@@ -1469,12 +1469,12 @@ class EBusOptions(_StrEnum):
 	EFFECT_COUNT = "effectCount"
 	"""Number of effects on the bus."""
 	
-	Depth = "depth"
+	DEPTH = "depth"
 	"""Depth level of the bus in the pipeline."""
 
 
 class ECPUStatisticsMembers(_StrEnum):
-	""" Enumeration of defined members for a CPUStatisticInfo return structure. """
+	"""Enumeration of defined members for a CPUStatisticInfo return structure."""
 	
 	ELEMENT_NAME = "elementName"
 	"""The name of the element on which we calculate CPU usage."""
@@ -1604,7 +1604,7 @@ class EVoicePipelineReturnOptions(_StrEnum):
 	GAME_AUX_SEND_VOLUME = "gameAuxSendVolume"
 	"""Volume send to the auxiliary bus send in dB."""
 	
-	Envelope = "envelope"
+	ENVELOPE = "envelope"
 	"""Current analyzed envelope value in dB. 0 if unavailable."""
 	
 	NORMALIZATION_GAIN = "normalizationGain"
@@ -1616,7 +1616,7 @@ class EVoicePipelineReturnOptions(_StrEnum):
 	HIGH_PASS_FILTER = "highPassFilter"
 	"""High-Pass Filter applied to the voice."""
 	
-	Priority = "priority"
+	PRIORITY = "priority"
 	"""Priority given to the voice."""
 	
 	IS_STARTED = "isStarted"
