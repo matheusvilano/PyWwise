@@ -175,10 +175,10 @@ class TransportObjectInfo:
 		:param kvpairs: A dictionary to extract information from.
 		:return: A new instance with object GUID, game object, and transport object populated. No additional properties.
 		"""
-		object = GUID(kvpairs["object"]) if kvpairs.get("object") is not None else GUID.get_null()
+		obj = GUID(kvpairs["object"]) if kvpairs.get("object") is not None else GUID.get_null()
 		game_object = int(kvpairs["gameObject"]) if kvpairs.get("gameObject") is not None else -1
 		transport = int(kvpairs["transport"]) if kvpairs.get("transport") is not None else -1
-		return cls(object, game_object, transport)
+		return cls(obj, game_object, transport)
 
 
 @_dataclass
