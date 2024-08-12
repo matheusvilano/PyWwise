@@ -1,10 +1,8 @@
-import unittest
 import time
+import unittest
+
 import pywwise
-from pywwise.enums import *
-from pywwise.types import *
 from pywwise.structs import *
-from constants import *
 
 ak = pywwise.new_waapi_connection()
 
