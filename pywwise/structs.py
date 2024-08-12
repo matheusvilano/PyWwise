@@ -418,13 +418,13 @@ class AudioObjectInfo:
 class BusPipelineInfo:
 	"""Contains information about an audio bus captured in the profiler."""
 	
-	pipeline_ID: int
+	pipeline_id: int
 	"""Pipeline ID of the bus. Unsigned Integer 32-bit. Range: [0,4294967295]"""
 	
-	gameObject_ID: int
+	game_object_id: GameObjectID
 	"""Game Object ID corresponding to the voice. Unsigned Integer 64-bit. Range: [0,18446744073709551615]"""
 	
-	object_GUID: GUID
+	object_guid: GUID
 	"""Object GUID corresponding to the bus. An object GUID of the form: {aabbcc00-1122-3344-5566-77889900aabb}."""
 	
 	other: dict[EBusOptions | str, _Any] = _field(default_factory=dict)
@@ -440,7 +440,7 @@ class BusPipelineInfo:
 class CPUStatisticsInfo:
 	"""Information about the amount of CPU percentage used by each element."""
 	
-	element_Name: str
+	element_name: str
 	"""The name of the element on which we calculate CPU usage."""
 	
 	id: int
@@ -452,16 +452,16 @@ class CPUStatisticsInfo:
 	type: str
 	"""The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
 	
-	percent_Inclusive: float
+	percent_inclusive: float
 	"""The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""
 	
-	percent_Exclusive: float
+	percent_exclusive: float
 	"""The percentage of CPU time spent only in the execution of the element itself."""
 	
-	milliseconds_Inclusive: float
+	milliseconds_inclusive: float
 	"""The milliseconds of CPU time spent in the execution of the element and those that it uses (calls)."""
 	
-	milliseconds_Exclusive: float
+	milliseconds_exclusive: float
 	"""The milliseconds of CPU time spent only in the execution of the element itself."""
 
 
@@ -475,10 +475,10 @@ class GameObjectRegistrationData:
 	name: str
 	"""The name of the game object."""
 	
-	registration_Time: int
+	registration_time: int
 	"""The time at which the game object was registered. Integer 32-bit. Range: [-2147483648,2147483647]."""
 	
-	unregistration_Time: int
+	unregistration_time: int
 	"""The time at which the game object was unregistered. Integer 32-bit. Range: [-2147483648,2147483647]."""
 
 
@@ -487,10 +487,10 @@ class LoadedMediaInfo:
 	"""Information about a media file loaded into memory as a result of the PrepareEvent() and PrepareGameSyncs()
 	functions."""
 
-	media_Id: ShortID
+	media_id: ShortID
 	"""The short ID of the media file."""
 	
-	file_Name: Name
+	file_name: Name
 	"""The name of the media file."""
 	
 	format: str
@@ -499,7 +499,7 @@ class LoadedMediaInfo:
 	size: int
 	"""The size (in bytes) of the media file."""
 	
-	sound_Bank: Name
+	sound_bank: Name
 	"""The name of the SoundBank that contains the media file."""
 
 
@@ -521,14 +521,14 @@ class PerformanceMonitorCounterInfo:
 class ActiveRTPCInfo:
 	"""Information about an active RTCP associated with a playing voice."""
 	
-	id: GUID
+	guid: GUID
 	"""The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. An object GUID of the form:
 	{aabbcc00-1122-3344-5566-77889900aabb}."""
 	
 	name: Name
 	"""The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
 	
-	gameObject_Id: GameObjectID
+	game_object_id: GameObjectID
 	"""The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs. A game object
 	ID, unsigned integer 64-bit. Range: [0,18446744073709551615]."""
 	
