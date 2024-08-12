@@ -175,9 +175,9 @@ class ESpeakerBitMask(_IntEnum):
 	AMBISONICS_5TH = 0x0
 	"""Ambisonics 5th order"""
 	
-	def get_name(self) -> str:  # _Self is not compatible with staticmethod.
+	def get_name(self) -> str:
 		"""
-        Gets the name of the speaker as shown in the docstring (documentation).
+		Gets the name of the speaker as shown in the docstring (documentation).
         :return: A string with the name of the speaker bit mask. If invalid, the returned string will contain "None".
         """
 		match self.value:
@@ -1614,7 +1614,7 @@ class EPerformanceMonitorMembers(_StrEnum):
 
 class EActiveRTPCMembers(_StrEnum):
 	"""Enumeration of defined members for an ActiveRTPCInfo return structure."""
-
+	
 	ID = "id"
 	"""The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object."""
 	
