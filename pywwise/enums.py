@@ -178,8 +178,8 @@ class ESpeakerBitMask(_IntEnum):
 	def get_name(self) -> str:
 		"""
 		Gets the name of the speaker as shown in the docstring (documentation).
-        :return: A string with the name of the speaker bit mask. If invalid, the returned string will contain "None".
-        """
+		:return: A string with the name of the speaker bit mask. If invalid, the returned string will contain "None".
+		"""
 		match self.value:
 			case ESpeakerBitMask.LFE:
 				return "0.1"
