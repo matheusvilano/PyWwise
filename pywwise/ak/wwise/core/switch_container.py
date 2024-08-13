@@ -3,7 +3,7 @@ from waapi import WaapiClient as _WaapiClient
 from pywwise.decorators import callback
 from pywwise.enums import EReturnOptions
 from pywwise.structs import SwitchContainerAssignment, WwiseObjectInfo
-from pywwise.types import GUID, ProjectPath
+from pywwise.primitives import GUID, ProjectPath
 
 
 class SwitchContainer:

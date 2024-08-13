@@ -4,7 +4,7 @@ from pywwise.decorators import callback
 from pywwise.enums import ECaptureLogItemType, ECaptureLogSeverity
 from pywwise.statics import EnumStatics
 from pywwise.structs import CaptureLogItem
-from pywwise.types import GameObjectID, GUID, Name, PlayingID, ShortID
+from pywwise.primitives import GameObjectID, GUID, Name, PlayingID, ShortID
 
 
 class CaptureLog:

@@ -1,14 +1,15 @@
+from base64 import b64decode as _b64decode
 from datetime import datetime as _datetime
 from os import makedirs as _makedirs
-from base64 import b64decode as _b64decode
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.ui.commands import Commands as _Commands
 from pywwise.ak.wwise.ui.project import Project as _Project
-from pywwise.structs import Rect, WwiseObjectInfo
-from pywwise.enums import EReturnOptions, EObjectType
-from pywwise.types import GUID, Name, SystemPath, ProjectPath
+from pywwise.aliases import SystemPath
 from pywwise.decorators import callback
+from pywwise.enums import EReturnOptions, EObjectType
+from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.structs import Rect, WwiseObjectInfo
 
 
 class UI:

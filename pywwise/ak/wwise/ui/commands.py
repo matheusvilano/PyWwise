@@ -1,7 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.structs import PlatformInfo, CommandInfo, WwiseObjectInfo
-from pywwise.types import GUID, ShortID, ProjectPath, Name
+from pywwise.primitives import GUID, ShortID, ProjectPath, Name
 from pywwise.enums import ECommand, EObjectType, EReturnOptions
 from pywwise.decorators import callback
 from pywwise.statics import EnumStatics

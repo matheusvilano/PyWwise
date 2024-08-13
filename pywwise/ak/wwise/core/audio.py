@@ -4,7 +4,7 @@ from pywwise.decorators import callback
 from pywwise.enums import EReturnOptions, EImportOperation
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
-from pywwise.types import SystemPath
+from pywwise.aliases import SystemPath
 
 
 class Audio:

@@ -1,15 +1,16 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
-from pywwise.enums import EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions, \
-	EGameObjectRegistrationDataMembers, \
-	ELoadedMediaMembers, EPerformanceMonitorMembers, ETimeCursor, EVoicePipelineReturnOptions, EReturnOptions
-from pywwise.structs import ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo, \
-	GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo, PlayingVoiceProperties, \
-	StreamObjectInfo, \
-	VoiceContributionHierarchy, VoiceContributionParameter, VoiceInspectorContribution, WwiseObjectInfo
-from pywwise.types import GameObjectID, GUID, Name, ShortID, SystemPath
+from pywwise.aliases import SystemPath
 from pywwise.decorators import callback
+from pywwise.enums import (EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions,
+                           EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EPerformanceMonitorMembers,
+                           ETimeCursor, EVoicePipelineReturnOptions, EReturnOptions)
+from pywwise.primitives import GameObjectID, GUID, Name, ShortID
+from pywwise.structs import (ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo,
+                             GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo,
+                             PlayingVoiceProperties, StreamObjectInfo, VoiceContributionHierarchy,
+                             VoiceContributionParameter, VoiceInspectorContribution, WwiseObjectInfo)
 
 
 class Profiler:

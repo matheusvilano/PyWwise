@@ -1,8 +1,9 @@
 from typing import Collection as _Collection
 from waapi import WaapiClient as _WaapiClient
+from pywwise.aliases import SystemPath
 from pywwise.enums import EReturnOptions, ESourceControlSearchFilter, ESourceFileReturnOptions
+from pywwise.primitives import OriginalsPath
 from pywwise.structs import LogItem, SourceControlStatus, SourceFileInfo, WwiseObjectInfo
-from pywwise.types import OriginalsPath, SystemPath
 
 
 class SourceControl:

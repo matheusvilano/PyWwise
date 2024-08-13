@@ -1,6 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.enums import EObjectType
-from pywwise.types import GUID, Name, ProjectPath
+from pywwise.primitives import GUID, Name, ProjectPath
 
 
 class AudioSourcePeaks:

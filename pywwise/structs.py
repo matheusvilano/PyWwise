@@ -1,13 +1,13 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from typing import Any as _Any, Self as _Self
+from pywwise.aliases import RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
                            EVoicePipelineReturnOptions, EWwiseBuildPlatform)
 from pywwise.statics import EnumStatics
-from pywwise.types import (GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, RegexPattern, ShortID,
-                           SystemPath)
+from pywwise.primitives import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
 
 
 @_dataclass

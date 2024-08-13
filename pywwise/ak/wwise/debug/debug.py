@@ -1,7 +1,7 @@
 from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
-from pywwise.types import SystemPath
+from pywwise.aliases import SystemPath
 from pywwise.enums import EBitDepth, ESampleRate, ESpeakerBitMask, EWaveform
 from pywwise.decorators import callback, debug_build_only
 

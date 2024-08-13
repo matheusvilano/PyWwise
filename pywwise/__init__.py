@@ -1,9 +1,10 @@
 from logging import CRITICAL as _LEVEL_CRITICAL, getLogger as _get_logger
 from waapi import SequentialThreadExecutor, CallbackExecutor
 from pywwise.ak import Ak as _Ak
+from pywwise.aliases import *
 from pywwise.enums import *
 from pywwise.structs import *
-from pywwise.types import *
+from pywwise.primitives import *
 from pywwise.waql import *
 
 _get_logger("waapi").setLevel(_LEVEL_CRITICAL)

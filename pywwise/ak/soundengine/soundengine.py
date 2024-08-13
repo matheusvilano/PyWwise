@@ -1,7 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.enums import EActionOnEventType, EFadeCurve, ESpeakerBitMask
 from pywwise.structs import AuxSendValue, Vector3
-from pywwise.types import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
+from pywwise.primitives import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
 
 class SoundEngine:

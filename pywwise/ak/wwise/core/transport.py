@@ -4,7 +4,7 @@ from pywwise.decorators import callback
 from pywwise.enums import EObjectType, ETransportExecuteActions, ETransportState
 from pywwise.statics import EnumStatics
 from pywwise.structs import TransportObjectInfo
-from pywwise.types import GameObjectID, GUID, Name, ProjectPath
+from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath
 
 
 class Transport:

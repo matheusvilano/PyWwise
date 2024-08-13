@@ -1,11 +1,12 @@
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
+from pywwise.aliases import SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import ELogSeverity, EObjectType, EReturnOptions, EInclusionOperation
+from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
 from pywwise.structs import LogItem, SoundBankData, SoundBankGenerationInfo, WwiseObjectInfo, ExternalSourceInfo, \
 	SoundBankInfo, SoundBankInclusion
-from pywwise.types import GUID, Name, ProjectPath, ShortID, SystemPath
 
 
 class SoundBank:

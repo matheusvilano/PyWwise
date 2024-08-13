@@ -7,7 +7,7 @@ from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAtten
                            EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
 from pywwise.statics import EnumStatics
 from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
-from pywwise.types import GUID, Name, ProjectPath
+from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.waql import WAQL
 
 

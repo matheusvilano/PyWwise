@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from typing import Iterator as _Iterator, Self as _Self
+from pywwise.aliases import RegexPattern
 from pywwise.enums import EObjectType, EWaqlSelectExpression
+from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 from pywwise.structs import WaqlCondition
-from pywwise.types import GUID, Name, ProjectPath, RegexPattern, ShortID
 
 
 class WAQL:

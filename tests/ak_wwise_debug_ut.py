@@ -1,9 +1,9 @@
 import unittest
 
-import pywwise
+from pywwise import *
 from constants import *
 
-ak = pywwise.new_waapi_connection()
+ak = new_waapi_connection()
 
 
 class AkWwiseDebugTest(unittest.TestCase):
