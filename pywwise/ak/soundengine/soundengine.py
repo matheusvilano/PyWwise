@@ -1,5 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import EActionOnEventType, EFadeCurve, ESpeakerBitMask
+from pywwise.aliases import ListOrTuple
+from pywwise.enums import EActionOnEventType, EFadeCurve, EMultiPositionType, ESpeakerBitMask
 from pywwise.structs import AuxSendValue, Vector3
 from pywwise.primitives import GameObjectID, GUID, Name, PlayingID, ProjectPath, ShortID
 
@@ -155,19 +156,21 @@ class SoundEngine:
 		        "seekToNearestMarker": seek_to_nearest_marker, "playingId": playing_id}
 		return self._client.call("ak.soundengine.seekOnEvent", args) is not None
 	
-	def set_default_listeners(self, listeners: set[GameObjectID]) -> bool:
+	def set_default_listeners(self, listeners: ListOrTuple[GameObjectID]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setdefaultlisteners.html \n
 		Sets the default active listeners for all subsequent game objects that are registered. See
 		`AK::SoundEngine::SetDefaultListeners`.
 		:param listeners: The array of listener game object IDs. Game objects must have been previously registered.
+						  Duplicates are ignored.
 		:return: Whether the call succeeded. True does not mean the informed IDs were all valid.
 		"""
-		args = {"listeners": list(listeners), "numListeners": len(listeners)}
+		listeners = list(dict.fromkeys(listeners))
+		args = {"listeners": listeners, "numListeners": len(listeners)}
 		return self._client.call("ak.soundengine.setDefaultListeners", args) is not None
 	
 	def set_game_object_aux_send_values(self, game_obj: GameObjectID,
-	                                    aux_send_values: tuple[AuxSendValue, ...]) -> bool:
+	                                    aux_send_values: ListOrTuple[AuxSendValue]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setgameobjectauxsendvalues.html \n
 		Sets the Auxiliary Buses to route the specified game object. See `AK::SoundEngine::SetGameObjectAuxSendValues`.
@@ -197,22 +200,23 @@ class SoundEngine:
 		args = {"emitter": emitter, "listener": listener, "controlValue": control_value}
 		return self._client.call("ak.soundengine.setGameObjectAuxSendValues", args) is not None
 	
-	def set_listeners(self, emitter: GameObjectID, listeners: set[GameObjectID]) -> bool:
+	def set_listeners(self, emitter: GameObjectID, listeners: ListOrTuple[GameObjectID]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setlisteners.html \n
 		Sets a single game object's active listeners. By default, all new game objects have no listeners active,
 		but this behavior can be overridden with `SetDefaultListeners()`. Inactive listeners are not computed. See
 		`AK::SoundEngine::SetListeners`.
 		:param emitter: The ID of the emitter Game Object to set listeners for.
-		:param listeners: The ID of the listeners being set.
+		:param listeners: The ID of the listeners being set. Duplicates are ignored.
 		:return: Whether the call succeeded. Note: passing unregistered IDs will cause no change, but the function will
 				 still return True.
 		"""
+		listeners = list(dict.fromkeys(listeners))
 		args = {"emitter": emitter, "listeners": list(listeners)}
 		return self._client.call("ak.soundengine.setListeners", args) is not None
 	
 	def set_listener_spatialization(self, listener: GameObjectID, spatialized: bool, channel_config: ESpeakerBitMask,
-	                                volume_offsets: tuple[float, ...]) -> bool:
+	                                volume_offsets: ListOrTuple[float]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setlistenerspatialization.html \n
 		Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for
@@ -224,17 +228,37 @@ class SoundEngine:
 		:return: Whether the call succeeded. True does not mean the arguments where all valid.
 		"""
 		args = {"listener": listener, "spatialized": spatialized,
-		        "channelConfig": channel_config.value, "volumeOffsets": list(volume_offsets)}
+		        "channelConfig": channel_config.value, "volumeOffsets": volume_offsets}
 		return self._client.call("ak.soundengine.setListenerSpatialization", args) is not None
 	
-	def set_multiple_positions(self):
+	def set_multiple_positions(self, game_obj: GameObjectID, orientation_front: ListOrTuple[Vector3],
+	                           orientation_top: ListOrTuple[Vector3], position: ListOrTuple[Vector3],
+	                           multi_position_type: EMultiPositionType) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setmultiplepositions.html \n
 		Sets multiple positions for a single game object. Setting multiple positions for a single game object is
 		a way to simulate multiple emission sources while using the resources of only one voice. This can be used
 		to simulate wall openings, area sounds, or multiple objects emitting the same sound in the same area. See
 		`AK::SoundEngine::SetMultiplePositions`.
+		:param game_obj: The ID of the game object to set the position for.
+		:param orientation_front: The orientation (front).
+		:param orientation_top: The orientation (top).
+		:param position: The position to set.
+		:param multi_position_type: How to set up the multiple positions.
+		:raise ValueError: If the lengths of orientation_front, orientation_top, and position are not equal.
+		:return: Whether the call succeeded.
 		"""
+		if len({orientation_front, orientation_top, position}) != 1:  # 1 means different lengths, in this context
+			raise ValueError("The amount of values in `orientation_front`, `orientation_top`, "
+			                 "and `position` must be equal.")
+		
+		args = {"gameObject": game_obj,
+		        "multiPositionType": multi_position_type,
+		        "positions": [{"orientationFront": orientation_front[i],
+		                       "orientationTop": orientation_top[i],
+		                       "position": position[i]} for i in range(len(position))]}
+		
+		return self._client.call("ak.soundengine.setMultiplePositions", args) is not None
 	
 	def set_object_obstruction_and_occlusion(self, emitter: GameObjectID, listener: GameObjectID,
 	                                         obstruction_level: float, occlusion_level: float) -> bool:

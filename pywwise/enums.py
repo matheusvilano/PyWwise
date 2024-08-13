@@ -2072,3 +2072,19 @@ class EWwiseBuildPlatform(_StrEnum):
 	
 	LINUX = "linux"
 	"""Any linux-based distribution."""
+
+
+class EMultiPositionType(_IntEnum):
+	"""An enumeration of multi-position types."""
+	
+	SINGLE_SOURCE = 0,
+	"""Used for normal sounds, not expected to pass to AK::SoundEngine::SetMultiplePosition() (if done, only the first
+	position will be used)."""
+	
+	MULTI_SOURCES = 1,
+	"""Simulate multiple sources in one sound playing, adding volumes. For instance, all the torches on your level
+	emitting using only one sound."""
+	
+	MULTI_DIRECTIONS = 2
+	"""Simulate one sound coming from multiple directions. Useful for repositionning sounds based on wall openings or
+	to simulate areas like forest or rivers (in combination with spreading in the attenuation of the sounds)."""
