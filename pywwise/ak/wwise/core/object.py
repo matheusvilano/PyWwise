@@ -1,4 +1,5 @@
-from typing import Any as _Any, Collection as _Collection
+from types import NoneType
+from typing import Any as _Any, Collection as _Collection, Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.decorators import callback
@@ -699,34 +700,87 @@ class Object:
 		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "notes": notes}
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
-	def set_property(self):
+	def set_property(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                 property_name: str, value: NoneType | bool | int | float | str,
+	                 platform: GUID | Name = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setproperty.html \n
 		Sets a property value of an object for a specific platform. Refer to Wwise Objects Reference for more
 		information on the properties available on each object type. Refer to `ak.wwise.core.object.set_reference` to
 		set a reference to an object. Refer to `ak.wwise.core.object.get` to obtain the value of a property for an
 		object.
+		:param obj: The GUID, typed name, or project path of the object for which to set the specified property.
+					Although using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`)
+					are supported.
+		:param property_name: The name of the property to set a new value for.
+		:param value: The new value for the property.
+		:param platform: The GUID or unique name of the platform for which to set the property.
+		:return: Whether this call succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "property": property_name,
+		        "value": value,
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.setProperty", args) is not None
 	
-	def set_randomizer(self):
+	def set_randomizer(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
+	                   enabled: bool, min_value: float = None, max_value: float = None,
+	                   platform: GUID | Name = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setrandomizer.html \n
 		Sets the randomizer values of a property of an object for a specific platform. Refer to Wwise Objects Reference
 		for more information on the properties available on each object type.
+		:param obj: The GUID, typed name, or project path of the object for which to set the randomizer. Although using
+					a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
+		:param property_name: The name of the property to set the randomizer for.
+		:param enabled: If `True`, the randomizer will be enabled; else, if `False`, it will be disabled.
+		:param min_value: Minimum value that the randomizer can offset by. Range: [*,0]
+		:param max_value: Maximum value that the randomizer can offset by. Range: [0,*]
+		:param platform: The GUID or unique name of the platform for which to set the randomizer.
+		:return: Whether this call succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "property": property_name,
+		        "enabled": enabled,
+		        **({"min": min_value if min_value <= 0.0 else 0.0} if min_value is not None else {}),
+		        **({"max": max_value if max_value >= 0.0 else 0.0} if max_value is not None else {}),
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.setRandomizer", args) is not None
 	
-	def set_reference(self):
+	def set_reference(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                  reference: str, value: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                  platform: GUID | Name = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setreference.html \n
 		Sets an object's reference value. Refer to Wwise Objects Reference for more information on the references
 		available on each object type.
+		:param obj: The GUID, typed name, or project path of the object for which to set the reference. Although using
+					a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
+		:param reference: The name of the reference to set.
+		:param value: The new value for the reference. This must be a GUID, typed name, or project path. Although
+						  using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`)
+						  are supported.
+		:param platform: The GUID or unique name of the platform for which to set the reference.
+		:return: Whether this call succeeded.
 		"""
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "reference": reference,
+		        "value": value if not isinstance(value, tuple) else f"{value[0].get_type_name()}:{value[1]}",
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.setReference", args) is not None
 	
-	def set_state_groups(self):
+	def set_state_groups(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                     groups: Collection[GUID | Name | ProjectPath]):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstategroups.html \n
 		Sets the State Group objects associated with an object. Note, this will remove any previously associated State
 		Group.
+		:param obj: The GUID, typed name, or project path of the object for which to set the state groups. Although
+					using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
+					supported.
+		:param groups: The state groups to set. This can be any collection containing GUIDs, names, or project paths.
+					   It is recommended to pass a `tuple` as the collection.
+		:return: Whether this call succeeded.
 		"""
 	
 	def set_state_properties(self):
