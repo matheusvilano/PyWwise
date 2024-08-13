@@ -1,5 +1,4 @@
 from waapi import WaapiClient as _WaapiClient
-
 from pywwise import ConnectionStatusInfo, RemoteConsoleInformation, SystemPath
 
 
