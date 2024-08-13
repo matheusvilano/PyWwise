@@ -1078,3 +1078,73 @@ class GlobalWwiseInfo:
 	
 	directories: WwiseDirectories
 	"""Collection of directories used by Wwise."""
+
+
+@_dataclass
+class RemoteConsoleInformation:
+	"""A dataclass representing the information of an available console capable of connecting Wwise authoring to
+	a Sound Engine instance."""
+	
+	name: str
+	"""Name of the remote console as returned by the executable."""
+
+	platform: str
+	"""Platform of the remote console as returned by the executable."""
+
+	custom_platform: str
+	"""Platform, as defined in the project platforms of the remote console as returned by the executable."""
+
+	host: str
+	"""The IPv4 of the connected host. This can also be a file path if Wwise is connected to a local file
+	(profiler session). For using WAAPI on Mac, please refer to Using WAAPI on Mac."""
+
+	app_name: str
+	"""The name of the connected application as returned by the executable. Must be used when connecting to a specific
+	 Sound Engine instance."""
+
+	command_port: int
+	"""The command port. Can be used when connecting to a specific Sound Engine instance."""
+	
+	def __hash__(self):
+		""":return: The instance's hash."""
+		return hash(str(self.__dict__))
+
+	@property
+	def dictionary(self) -> dict[str, str | int]:
+		""":return: The instance represented as a dictionary."""
+		as_dict = dict()
+		as_dict["name"] = self.name
+		as_dict["platform"] = self.platform
+		as_dict["customPlatform"] = self.custom_platform
+		as_dict["host"] = self.host
+		as_dict["appName"] = self.app_name
+		as_dict["commandPort"] = self.command_port
+		return as_dict
+
+	
+@_dataclass
+class ConnectionStatusInfo:
+	"""A dataclass containing information about the current connection."""
+	
+	is_connected: bool
+	"""Indicates if the Wwise Authoring application is connected to a Wwise Sound Engine process."""
+	
+	status: str
+	"""The current connection status in text."""
+	
+	console: RemoteConsoleInformation
+	"""Remote console associated with the connection."""
+	
+	def __hash__(self):
+		""":return: The instance's hash."""
+		return hash(str(self.__dict__))
+	
+	@property
+	def dictionary(self) -> dict[str, str | int]:
+		""":return: The instance represented as a dictionary."""
+		as_dict = dict()
+		as_dict["isConnected"] = self.is_connected
+		as_dict["status"] = self.status
+		as_dict["console"] = self.console
+		return as_dict
+	
