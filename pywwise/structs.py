@@ -2,7 +2,7 @@ from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from types import NoneType as _NoneType
 from typing import Any as _Any, Self as _Self
-from pywwise.aliases import RegexPattern, SystemPath
+from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,

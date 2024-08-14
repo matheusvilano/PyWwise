@@ -1,11 +1,7 @@
 import unittest
-import pywwise
-from pywwise.enums import *
-from pywwise.types import *
-from pywwise.structs import *
-from constants import *
+from pywwise import *
 
-ak = pywwise.new()
+ak = new_waapi_connection()
 
 
 class AkWwiseCoreAudio(unittest.TestCase):
