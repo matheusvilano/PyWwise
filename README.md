@@ -21,7 +21,7 @@ an instance of Wwise using the factory function `new_waapi_connection`. PyWwise 
 or topic will let you know what will be needed. Using an IDE like JetBrains PyCharm Community is recommended.
 
 Since PyWwise is entirely based on WAAPI and the [`waapi-client`](https://pypi.org/project/waapi-client/) package, you 
-may also use the official [Wwise Authoring API Reference](https://www.audiokinetic.com/en/library/edge/?source=SDK&id=waapi_index.html), 
+may also use the official [Wwise Authoring API Reference](https://www.audiokinetic.com/library/edge/?source=SDK&id=waapi_index.html), 
 which is maintained by Audiokinetic. Their documentation provides a complete list of functions and topics which are all 
 supported and reflected by PyWwise.
 

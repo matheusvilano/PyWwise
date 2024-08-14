@@ -137,7 +137,7 @@ class Profiler:
 	
 	def enable_profiler_data(self, data_types: set[tuple[EDataTypes, bool]]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_enableprofilerdata.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_enableprofilerdata.html \n
 		Specifies the type of data you want to capture. Overrides the user's profiler settings.
 		:param data_types: A set of tuples. Each tuple contains the data type you want to capture via an enum and
 						   if profiler capture will be enabled for said data type (Defaults to true).
@@ -153,7 +153,7 @@ class Profiler:
 	def get_audio_objects(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
 	                      return_options: set[EAudioObjectOptions] = None) -> tuple[AudioObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
 		Retrieves the Audio Objects at a specific profiler capture time.
 		:param time: Time in milliseconds to query for Audio Objects, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
@@ -208,7 +208,7 @@ class Profiler:
 	def get_busses(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
 	               return_options: set[EBusOptions] = None) -> tuple[BusPipelineInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getbusses.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getbusses.html \n
 		Retrieves the busses at a specific profiler capture time.
 		:param time: Time in milliseconds to query for a bus pipeline, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query.
@@ -254,7 +254,7 @@ class Profiler:
 	
 	def get_cpu_usage(self, time: ETimeCursor | int) -> tuple[CPUStatisticsInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcpuusage.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcpuusage.html \n
 		Retrieves CPU usage statistics at a specific profiler capture time. This data can also be found
 		in the Advanced Profiler, under the CPU tab. To ensure the CPU data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`. The returned data includes "Inclusive" and
@@ -288,7 +288,7 @@ class Profiler:
 	
 	def get_cursor_time(self, time: ETimeCursor) -> int:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcursortime.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcursortime.html \n
 		Returns the current time of the specified profiler cursor, in milliseconds.
 		:param time: Time Cursor from which to acquire the time.
 		:return: The current position of the specified Time Cursor, in ms. If function fails, it returns -1.
@@ -305,7 +305,7 @@ class Profiler:
 	
 	def get_game_objects(self, time: ETimeCursor | int) -> tuple[GameObjectRegistrationData, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getgameobjects.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getgameobjects.html \n
 		Retrieves the game objects at a specific profiler capture time.
 		:param time: The time in milliseconds to query for game objects. This parameter can have 2 possible values: int
 					 or ETimeCursor. The int is the time to query. The ETimeCursor can have two values: user or capture.
@@ -334,7 +334,7 @@ class Profiler:
 	
 	def get_loaded_media(self, time: ETimeCursor | int) -> tuple[LoadedMediaInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getloadedmedia.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getloadedmedia.html \n
 		Retrieves the loaded media at a specific profiler capture time. This data can also be found in
 		the Advanced Profiler, under the Loaded Media tab. To ensure the Loaded Media data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`.
@@ -364,7 +364,7 @@ class Profiler:
 	
 	def get_performance_monitor(self, time: ETimeCursor | int) -> tuple[PerformanceMonitorCounterInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getperformancemonitor.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getperformancemonitor.html \n
 		Retrieves the Performance Monitor statistics at a specific profiler capture time. Refer to Wwise
 		Authoring Performance Monitor Counter Identifiers for the available counters.
 		:param time: Time in milliseconds to query for media, or a Time Cursor from which to acquire the time.
@@ -394,7 +394,7 @@ class Profiler:
 	
 	def get_rtpcs(self, time: ETimeCursor | int) -> tuple[ActiveRTPCInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getrtpcs.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getrtpcs.html \n
 		Retrieves active RTPCs at a specific profiler capture time.
 		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
@@ -423,7 +423,7 @@ class Profiler:
 	
 	def get_streamed_media(self, time: ETimeCursor | int) -> tuple[StreamObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getstreamedmedia.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getstreamedmedia.html \n
 		Retrieves the streaming media at a specific profiler capture time. This data can also be found in
 		the Advanced Profiler, under the Streams tab. To ensure the Streams data is received,
 		refer to `ak.wwise.core.profiler.enable_profiler_data`.
@@ -463,7 +463,7 @@ class Profiler:
 	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: int,
 	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy | None:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
 		Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path,
 		resolved from pipeline IDs.
 		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
@@ -519,7 +519,7 @@ class Profiler:
 	def get_voices(self, time: ETimeCursor | int, voice_pipeline_id: int = None,
 	               return_options: set[EVoicePipelineReturnOptions] = None) -> tuple[PlayingVoiceProperties, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoices.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoices.html \n
 		Retrieves the voices at a specific profiler capture time.
 		:param time: Time in milliseconds to query for RTPCs, or a Time Cursor from which to acquire the time.
 					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
@@ -565,7 +565,7 @@ class Profiler:
 	
 	def save_capture(self, file_path: SystemPath) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_savecapture.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_savecapture.html \n
 		Saves profiler as a .prof file according to the given file path.
 		:param file_path: The file path to save the profiler to. Make sure to include .prof file extension.
 						  E.g. C:\\MyProject\\capture.prof
@@ -582,7 +582,7 @@ class Profiler:
 	
 	def start_capture(self) -> int:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_startcapture.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_startcapture.html \n
 		Starts the profiler capture and returns the time at the beginning of the capture, in milliseconds.
 		:return: The time at the beginning of the capture, in milliseconds. If method fails to call, it will return -1.
 		"""
@@ -595,7 +595,7 @@ class Profiler:
 	
 	def stop_capture(self) -> int:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_stopcapture.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_stopcapture.html \n
 		Stops the profiler capture and returns the time at the end of the capture, in milliseconds.
 		:return: The time at the end of the capture, in milliseconds. If method fails to call, it will return -1.
 		"""

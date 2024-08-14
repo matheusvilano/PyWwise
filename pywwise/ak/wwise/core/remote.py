@@ -14,7 +14,7 @@ class Remote:
 	
 	def connect(self, host: str | SystemPath, app_name: str = None, command_port: int = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_remote_connect.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_remote_connect.html \n
 		Connects the Wwise Authoring application to a Wwise Sound Engine running executable or to a saved
 		profile file. The host must be running code with communication enabled. If only "host" is
 		provided, Wwise connects to the first Sound Engine instance found. To distinguish between
@@ -46,7 +46,7 @@ class Remote:
 	
 	def disconnect(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_remote_disconnect.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_remote_disconnect.html \n
 		Disconnects the Wwise Authoring application from a connected Wwise Sound Engine running executable.
 		:return: True if the disconnection is successful, False otherwise.
 		"""
@@ -54,7 +54,7 @@ class Remote:
 	
 	def get_available_consoles(self) -> tuple[RemoteConsoleInformation, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_remote_getavailableconsoles.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_remote_getavailableconsoles.html \n
 		Retrieves all consoles available for connecting Wwise Authoring to a Sound Engine instance.
 		:return: A tuple of RemoteConsoleInformation objects. Each object represents an available remote console.
 		"""
@@ -81,7 +81,7 @@ class Remote:
 	
 	def get_connection_status(self) -> ConnectionStatusInfo:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_remote_getconnectionstatus.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_remote_getconnectionstatus.html \n
 		Retrieves the connection status.
 		:return: A ConnectionStatusInfo object, detailing into more detail the state of current connection.
 		"""

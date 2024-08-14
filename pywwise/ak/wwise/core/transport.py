@@ -44,7 +44,7 @@ class Transport:
 	def create(self, wwise_obj: tuple[EObjectType, Name] | GUID | ProjectPath,
 	           game_obj: GameObjectID = None) -> int:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_create.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_create.html \n
 		Creates a transport object for the given Wwise object. The return transport object can be used to
 		play, stop, pause and resume the Wwise object via the other transport functions.
 		:param wwise_obj: The ID (GUID), name, or project path of the object to control via the transport object.
@@ -70,7 +70,7 @@ class Transport:
 	
 	def destroy(self, transport_id: int) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_destroy.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_destroy.html \n
 		Destroys the given transport object.
 		:param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
 							 sure you create a transport object before calling this function.
@@ -90,7 +90,7 @@ class Transport:
 	
 	def execute_action(self, transport_action: ETransportExecuteActions, transport_id: int = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_executeaction.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_executeaction.html \n
 		Executes an action on the given transport object, or all transport objects if none is specified.
 		:param transport_action: The action to execute. Use ETransportExecuteActions to see the available actions.
 		:param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
@@ -102,7 +102,7 @@ class Transport:
 	
 	def get_list(self) -> tuple[TransportObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_getlist.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_getlist.html \n
 		Returns the list of transport objects.
 		:return: A list of transport objects.
 		"""
@@ -125,7 +125,7 @@ class Transport:
 	
 	def get_state(self, transport_id: int) -> ETransportState:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_getstate.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_getstate.html \n
 		Gets the state of the given transport object.
 		:param transport_id: The transport object ID to be used with all other ak.wwise.core.transport functions. Make
 							 sure you create a transport object before calling this function.
@@ -144,7 +144,7 @@ class Transport:
 	
 	def prepare(self, obj: GUID | ProjectPath | tuple[EObjectType, Name]) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
 		Prepare the object and its dependencies for playback. Use this function before calling
 		`PostEventSync` or `PostMIDIOnEventSync` from `IAkGlobalPluginContext`.
 		:param obj: The name of the object qualified by its type in the form of type:name.
@@ -158,7 +158,7 @@ class Transport:
 	
 	def use_originals(self, flag: bool = False) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_transport_useoriginals.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_useoriginals.html \n
 		Sets the Original/Converted transport toggle globally. This allows playing the original or the
 		converted sound files.
 		:param flag: True to enable original files, False to use converted files. If no value is
