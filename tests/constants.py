@@ -1,4 +1,10 @@
-from pywwise.types import *
+from pywwise.aliases import SystemPath
+from pywwise.primitives import Name, ProjectPath, ShortID, GUID
+
+RESOURCES_PROJECT__PATH = SystemPath(__file__).parent / ".." / "resources"
+WWISE_PROJECT__PATH = RESOURCES_PROJECT__PATH / "wwise" / "PyWwise.wproj"
+WAVE_ASSET__PATH = RESOURCES_PROJECT__PATH / "waves" / "WaveAsset_Test.wav"
+DEFINITION_TSV__PATH = RESOURCES_PROJECT__PATH / "data" / "SoundBank_DefinitionFile_Test.tsv"
 
 ACOUSTIC_TEXTURE__NAME = Name("AcousticTexture_Test")
 ACOUSTIC_TEXTURE__PATH = ProjectPath(r"\Virtual Acoustics\Default Work Unit\AcousticTexture_Test")
