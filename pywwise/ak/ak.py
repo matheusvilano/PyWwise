@@ -14,7 +14,7 @@ class Ak:
 	def __init__(self, url: str = "ws://127.0.0.1:8080/waapi", allow_exception: bool = False,
 	             callback_executor: CallbackExecutor = SequentialThreadExecutor,
 	             is_debug_build: bool = False, is_console_instance: bool = False,
-	             watch_list: ListOrTuple[WwiseObjectWatch, ...] = ()):
+	             watch_list: ListOrTuple[WwiseObjectWatch] = ()):
 		"""
 		Constructor.
 		:param url: URL of the Wwise Authoring API WAMP server, defaults to `ws://127.0.0.1:8080/waapi`.

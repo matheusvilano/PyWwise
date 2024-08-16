@@ -12,7 +12,7 @@ SystemPath: _TypeAlias = _Path
 RegexPattern: _TypeAlias = _Pattern
 """Represents a Regex pattern."""
 
-UnionType: _TypeVar = _TypeVar("UnionType", bound=_Union)
+UnionType: _TypeVar = _TypeVar("UnionType")
 """Type variable for Unions."""
 
 ListOrTuple: _TypeAlias = _Union[_List[UnionType], _Tuple[UnionType, ...]]
