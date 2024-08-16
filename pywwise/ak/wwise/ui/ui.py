@@ -1,14 +1,15 @@
+from base64 import b64decode as _b64decode
 from datetime import datetime as _datetime
 from os import makedirs as _makedirs
-from base64 import b64decode as _b64decode
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.ui.commands import Commands as _Commands
 from pywwise.ak.wwise.ui.project import Project as _Project
-from pywwise.structs import Rect, WwiseObjectInfo
-from pywwise.enums import EReturnOptions, EObjectType
-from pywwise.types import GUID, Name, SystemPath, ProjectPath
+from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
+from pywwise.enums import EReturnOptions, EObjectType
+from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.structs import Rect, WwiseObjectInfo
 
 
 class UI:
@@ -26,7 +27,7 @@ class UI:
 		
 		self.selection_changed = _RefEvent(tuple[WwiseObjectInfo, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_selectionchanged.html
 		\nSent when the selection changes in the project.
 		\n**Event Data**:
 		\n- A tuple of WwiseObjectInfo instances (each containing a GUID, a name, a type, and a path).
@@ -46,16 +47,12 @@ class UI:
 		"""
 		objects = list[WwiseObjectInfo]()
 		for obj in kwargs["objects"]:
-			guid = GUID(obj["id"])
-			name = Name(obj["name"])
-			typename = EObjectType.from_type_name(obj["type"])
-			path = ProjectPath(obj["path"])
-			objects.append(WwiseObjectInfo(guid, name, typename, path))
+			objects.append(WwiseObjectInfo.from_dict(obj))
 		event(tuple(objects))
 	
 	def bring_to_foreground(self) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_bringtoforeground.html \n
 		Bring Wwise main window to foreground. Refer to `SetForegroundWindow` and `AllowSetForegroundWindow`
 		on MSDN for more information on the restrictions. Refer to `ak.wwise.core.get_info` to obtain the
 		Wwise process ID for `AllowSetForegroundWindow`.
@@ -66,7 +63,7 @@ class UI:
 	def capture_screen(self, view_name: str = None, view_selection_channel: int = None, capture_rect: Rect = None,
 	                   output_path: SystemPath = None) -> tuple[str, str]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_capturescreen.html \n
 		Captures a part of the Wwise UI relative to a view.
 		:param view_name: The name of the view as displayed in Wwise UI. By default, the whole UI is captured.
 		:param view_selection_channel: The selection channel of the view. Can be a value of 1, 2, 3 or 4. By default,
@@ -104,13 +101,13 @@ class UI:
 		
 		return content_type, content_base
 	
-	def get_selected_objects(self, return_options: set[EReturnOptions] = None, platform: str = None,
+	def get_selected_objects(self, returns: ListOrTuple[EReturnOptions] = None, platform: str = None,
 	                         language: str = None) -> tuple[WwiseObjectInfo, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
-		:param return_options: The additional return options. By default, this function returns only the GUID and Name
-							   of the selected objects.
+		:param returns: The additional return options. By default, this function returns only the GUID and Name
+							   of the selected objects. Duplicates are ignored.
 		:param platform: If specified, this function will get information from the specified platform instead of the
 						 current platform.
 		:param language: If specified, this function will get information from the specified language instead of the
@@ -120,17 +117,14 @@ class UI:
 				  values in the dictionary, use the EReturnOptions enum as the keys. If this function call fails, an
 				  empty tuple is returned.
 		"""
-		returns = (EReturnOptions.GUID, EReturnOptions.NAME, EReturnOptions.TYPE, EReturnOptions.PATH)
-		options = {"return": set(returns)}  # to ensure only unique values
+		returns = list(dict.fromkeys(returns)) if returns is not None else list[EReturnOptions]()
+		returns.extend(EReturnOptions.get_defaults())
+		options = {"return": returns}  # to ensure only unique values
 		
-		if return_options is not None:
-			options["return"].update(return_options)
 		if platform is not None:
 			options["platform"] = platform
 		if language is not None:
 			options["language"] = language
-		
-		options["return"] = [ret for ret in options["return"]]  # must be a list for JSON serialization
 		
 		results = self._client.call("ak.wwise.ui.getSelectedObjects", {}, options=options)
 		results = results.get("objects") if results is not None else None
@@ -144,7 +138,7 @@ class UI:
 			name = Name(result[EReturnOptions.NAME])
 			typename = EObjectType.from_type_name(result[EReturnOptions.TYPE])
 			path = ProjectPath(result[EReturnOptions.PATH])
-			other = {key: value for key, value in result.items() if key not in returns}
+			other = {key: value for key, value in result.items() if key not in returns_defaults}
 			objects.append(WwiseObjectInfo(guid, name, typename, path, other))
 		
 		return tuple(objects)

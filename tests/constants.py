@@ -1,4 +1,5 @@
-from pywwise.types import *
+from pywwise.aliases import SystemPath
+from pywwise.primitives import Name, ProjectPath, ShortID, GUID
 
 RESOURCES_PROJECT__PATH = SystemPath(__file__).parent / ".." / "resources"
 WWISE_PROJECT__PATH = RESOURCES_PROJECT__PATH / "wwise" / "PyWwise.wproj"

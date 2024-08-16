@@ -1,7 +1,7 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.decorators import callback
-from pywwise.types import SystemPath
+from pywwise.aliases import SystemPath
 
 
 class Project:
@@ -16,7 +16,7 @@ class Project:
 		
 		self.loaded = _RefEvent()
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_project_loaded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_loaded.html
 		\nSent when the project has been successfully loaded.
 		"""
 		
@@ -24,7 +24,7 @@ class Project:
 		
 		self.post_closed = _RefEvent()
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_project_postclosed.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_postclosed.html
 		\nSent when the after the project is completely closed.
 		"""
 		
@@ -32,7 +32,7 @@ class Project:
 		
 		self.pre_closed = _RefEvent()
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_project_preclosed.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_preclosed.html
 		\nSent when the project begins closing.
 		"""
 		
@@ -40,7 +40,7 @@ class Project:
 		
 		self.saved = _RefEvent(tuple[SystemPath, ...])
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_project_saved.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_saved.html
 		\nSent when the project has been saved.
 		\n**Event Data**:
 		\n- A tuple containing the absolute paths to the Work Unit and Project files that were modified.
@@ -55,7 +55,7 @@ class Project:
 		:param event: The event to broadcast.
 		"""
 		event()
-		
+	
 	@callback
 	def _on_post_closed(self, event: _RefEvent):
 		"""
@@ -63,7 +63,7 @@ class Project:
 		:param event: The event to broadcast.
 		"""
 		event()
-		
+	
 	@callback
 	def _on_pre_closed(self, event: _RefEvent):
 		"""
@@ -83,7 +83,7 @@ class Project:
 	
 	def save(self, auto_check_out_to_version_control: bool = True) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_project_save.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_save.html \n
 		Saves the current project.
 		:param auto_check_out_to_version_control: Whether to automatically check out changes to version control.
 		:return: Whether the operation succeeded.

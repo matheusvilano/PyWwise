@@ -1,5 +1,6 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
+from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
 from pywwise.enums import ELogChannel, ELogSeverity
 from pywwise.statics import EnumStatics
@@ -18,7 +19,7 @@ class Log:
 		
 		self.item_added = _RefEvent(ELogChannel, LogItem)
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_itemadded.html
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_log_itemadded.html
         \nSent when an item is added to the log. To retrieve the complete log, refer to `ak.wwise.core.log.get`.
         \n**Event Data**:
         \n- The channel on which the item was added.
@@ -44,7 +45,7 @@ class Log:
 	def add_item(self, message: str, severity: ELogSeverity = ELogSeverity.MESSAGE,
 	             channel: ELogChannel = ELogChannel.GENERAL) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_additem.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_log_additem.html \n
 		Adds a new item to the logs on the specified channel.
 		:param message: The text of the message to add.
 		:param severity: The severity of the message to add.
@@ -54,11 +55,12 @@ class Log:
 		args = {"message": message, "severity": severity.value, "channel": channel.value}
 		return self._client.call("ak.wwise.core.log.addItem", args) is not None
 	
-	def clear(self, channels: ELogChannel | set[ELogChannel] = None) -> bool:
+	def clear(self, channels: ELogChannel | ListOrTuple[ELogChannel] = None) -> bool:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_clear.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_log_clear.html \n
 		Clears the logs on one or more channels.
-		:param channels: The channel or channels to clear.
+		:param channels: The channel or channels to clear. Duplicates will be ignored. If `None`, all channels will be
+						 cleared.
 		:return: Whether the call succeeded.
 		"""
 		if channels is None:
@@ -75,7 +77,7 @@ class Log:
 	
 	def get(self, channel: ELogChannel = ELogChannel.GENERAL) -> tuple[LogItem, ...]:
 		"""
-		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_log_get.html \n
+		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_log_get.html \n
 		Retrieves the latest log for a specific channel. Refer to `ak.wwise.core.log.item_added` to be
 		notified when an item is added to the log. The log is empty when used in WwiseConsole.
 		:param channel: The channel to clear.

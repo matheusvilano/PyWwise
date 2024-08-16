@@ -1,14 +1,11 @@
-import unittest
-import pywwise
-from pywwise.enums import *
-from pywwise.types import *
-from pywwise.structs import *
+from unittest import TestCase
 from constants import *
+from pywwise import *
 
-ak = pywwise.new()
+ak = new_waapi_connection()
 
 
-class AkWwiseCoreSoundbankTest(unittest.TestCase):
+class AkWwiseCoreSoundbankTest(TestCase):
 
 	def test__convert_external_sources(self):
 		paths = list[WAVE_ASSET__PATH]
