@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from types import NoneType as _NoneType

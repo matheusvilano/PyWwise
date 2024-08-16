@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from enum import Enum as _Enum
 from re import findall as _re_findall, match as _re_match, split as _re_split
 from typing import Any as _Any, Type as _Type, TypeVar as _TypeVar

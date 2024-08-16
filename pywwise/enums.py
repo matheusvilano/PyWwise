@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import Self as _Self
 from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 

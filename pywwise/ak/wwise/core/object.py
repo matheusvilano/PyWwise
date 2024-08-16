@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from types import NoneType
 from typing import Any as _Any, Collection as _Collection, Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler

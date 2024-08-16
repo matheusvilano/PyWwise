@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.decorators import callback

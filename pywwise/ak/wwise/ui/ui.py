@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from base64 import b64decode as _b64decode
 from datetime import datetime as _datetime
 from os import makedirs as _makedirs

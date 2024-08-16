@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 def callback(func):
 	"""
 	A decorator for PyWwise callbacks. Checks if the associated event is valid and has any subscribers. If it has at

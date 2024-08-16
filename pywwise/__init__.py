@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from logging import CRITICAL as _LEVEL_CRITICAL, getLogger as _get_logger
 from waapi import SequentialThreadExecutor, CallbackExecutor
 from pywwise.ak import Ak as _Ak

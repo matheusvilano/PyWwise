@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
 from pywwise.ak.soundengine import SoundEngine as _SoundEngine
 from pywwise.ak.wwise import Wwise as _Wwise

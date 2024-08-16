@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from waapi import WaapiClient as _WaapiClient
 from pywwise.aliases import SystemPath
 from pywwise.structs import PlatformInfo

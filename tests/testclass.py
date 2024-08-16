@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 import asyncio
 from unittest import TestCase
 from pywwise import new_waapi_connection as ak_new

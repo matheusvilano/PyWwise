@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from pathlib import Path as _Path
 from re import Pattern as _Pattern
 from typing import (TypeAlias as _TypeAlias, TypeVar as _TypeVar, Union as _Union, List as _List, Tuple as _Tuple,

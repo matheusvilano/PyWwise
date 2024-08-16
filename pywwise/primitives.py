@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import Self as _Self
 from uuid import UUID as _UUID
 from abc import ABC as _ABC, abstractmethod as _abstractmethod

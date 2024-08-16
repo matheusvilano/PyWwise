@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 class SingletonMeta(type):
 	"""Metaclass for singletons."""
 	

@@ -1,3 +1,6 @@
+# Copyright 2024 Matheus Vilano
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
