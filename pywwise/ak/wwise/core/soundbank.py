@@ -141,7 +141,7 @@ class SoundBank:
 		log = self._client.call("ak.wwise.core.soundbank.generate", args).get("logs")
 		return log if log is not None else dict()
 	
-	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath):
+	def get_inclusions(self, sound_bank: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
 		Retrieves a SoundBank's inclusion list.
