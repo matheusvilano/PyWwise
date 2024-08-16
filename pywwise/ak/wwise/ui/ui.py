@@ -138,7 +138,7 @@ class UI:
 			name = Name(result[EReturnOptions.NAME])
 			typename = EObjectType.from_type_name(result[EReturnOptions.TYPE])
 			path = ProjectPath(result[EReturnOptions.PATH])
-			other = {key: value for key, value in result.items() if key not in returns_defaults}
+			other = {key: value for key, value in result.items() if key not in EReturnOptions.get_defaults()}
 			objects.append(WwiseObjectInfo(guid, name, typename, path, other))
 		
 		return tuple(objects)
