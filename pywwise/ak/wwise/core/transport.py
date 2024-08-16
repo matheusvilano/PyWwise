@@ -2,9 +2,9 @@ from simplevent import RefEvent as _RefEvent
 from waapi import EventHandler as _EventHandler, WaapiClient as _WaapiClient
 from pywwise.decorators import callback
 from pywwise.enums import EObjectType, ETransportExecuteActions, ETransportState
+from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import TransportObjectInfo
-from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath
 
 
 class Transport:

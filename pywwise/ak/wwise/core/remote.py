@@ -1,5 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise import ConnectionStatusInfo, RemoteConsoleInformation, SystemPath
+from pywwise.aliases import SystemPath
+from pywwise.structs import ConnectionStatusInfo, RemoteConsoleInformation
 
 
 class Remote:
@@ -94,14 +95,12 @@ class Remote:
 			name=result["console"].get("name"),
 			platform=result["console"].get("platform"),
 			custom_platform=result["console"].get("customPlatform"),
-			host=result["console"].get("host"),
-			)
+			host=result["console"].get("host"),)
 		
 		connection_status: ConnectionStatusInfo = ConnectionStatusInfo(
 			is_connected=result.get("isConnected"),
 			status=result.get("status"),
-			console=console
-		)
+			console=console)
 		
 		return connection_status
 		

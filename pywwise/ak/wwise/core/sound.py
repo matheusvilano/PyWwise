@@ -1,7 +1,7 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.enums import EObjectType
-from pywwise.structs import PlatformInfo
 from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.structs import PlatformInfo
 
 
 class Sound:

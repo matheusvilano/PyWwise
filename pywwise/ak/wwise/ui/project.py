@@ -1,6 +1,6 @@
 from waapi import WaapiClient as _WaapiClient
-from pywwise.structs import PlatformInfo
 from pywwise.aliases import SystemPath
+from pywwise.structs import PlatformInfo
 
 
 class Project:
