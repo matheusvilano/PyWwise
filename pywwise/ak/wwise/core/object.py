@@ -662,18 +662,21 @@ class Object:
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
 		import audio files to Wwise.
 		"""
+		raise NotImplementedError()
 	
 	def set_attenuation_curve(self):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setattenuationcurve.html \n
 		Sets the specified attenuation curve for a given attenuation object.
 		"""
+		raise NotImplementedError()
 	
 	def set_linked(self):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setlinked.html \n
 		Link or unlink a property/reference or object list to a particular platform.
 		"""
+		raise NotImplementedError()
 	
 	def set_name(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, new_name: Name | str) -> bool:
 		"""
@@ -782,6 +785,7 @@ class Object:
 					   It is recommended to pass a `tuple` as the collection.
 		:return: Whether this call succeeded.
 		"""
+		raise NotImplementedError()
 	
 	def set_state_properties(self):
 		"""
@@ -789,3 +793,4 @@ class Object:
 		Set the state properties of an object. Note, this will remove any previous state property, including the
 		default ones.
 		"""
+		raise NotImplementedError()
