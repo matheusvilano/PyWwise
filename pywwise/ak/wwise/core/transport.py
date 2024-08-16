@@ -41,13 +41,13 @@ class Transport:
 		kwargs["gameObject"] = GameObjectID(kwargs.get("gameObject", -1))  # -1 means the ID is invalid
 		event(kwargs["transport"], kwargs["state"], kwargs["object"], kwargs["gameObject"])
 	
-	def create(self, wwise_obj: tuple[EObjectType, Name] | GUID | ProjectPath,
+	def create(self, wwise_obj: GUID | tuple[EObjectType, Name] | ProjectPath,
 	           game_obj: GameObjectID = None) -> int:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_create.html \n
 		Creates a transport object for the given Wwise object. The return transport object can be used to
 		play, stop, pause and resume the Wwise object via the other transport functions.
-		:param wwise_obj: The ID (GUID), name, or project path of the object to control via the transport object.
+		:param wwise_obj: The ID (GUID), typed name, or project path of the object to control via the transport object.
 		:param game_obj: The game object to use for playback.
 		:return: Transport object ID to be used with all other ak.wwise.core.transport functions. Returns -1 if function
 				 call failed.
@@ -142,14 +142,13 @@ class Transport:
 		# from_value will [attempt to] convert any value to the specified Enum subclass.
 		return EnumStatics.from_value(ETransportState, result.get("state", "None"))
 	
-	def prepare(self, obj: GUID | ProjectPath | tuple[EObjectType, Name]) -> bool:
+	def prepare(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath ) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
 		Prepare the object and its dependencies for playback. Use this function before calling
 		`PostEventSync` or `PostMIDIOnEventSync` from `IAkGlobalPluginContext`.
-		:param obj: The name of the object qualified by its type in the form of type:name.
-					   Only object types that have globally-unique names or Short Ids are supported.
-					   Ex: Event:Play_Sound_01, Global:245489792.
+		:param obj: The GUID, typed name, or project path of the object to prepare. Only object types that have
+					globally-unique names are supported (e.g. EObjectType.EVENT).
 		:return: True if the call was successful, False otherwise.
 		"""
 		is_name = isinstance(obj, tuple)
@@ -161,8 +160,8 @@ class Transport:
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_useoriginals.html \n
 		Sets the Original/Converted transport toggle globally. This allows playing the original or the
 		converted sound files.
-		:param flag: True to enable original files, False to use converted files. If no value is
-		provided, system will default to using converted files.
+		:param flag: True to enable original files, False to use converted files. If no value is provided, system will
+					 default to using converted files.
 		:return: True if the call was successful, False otherwise.
 		"""
 		args = {"enable": flag}

@@ -1,7 +1,7 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
-from pywwise.aliases import SystemPath
+from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import (EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions,
                            EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EPerformanceMonitorMembers,
@@ -135,14 +135,15 @@ class Profiler:
 		value = WwiseObjectInfo.from_dict(kwargs["switch"])
 		event(group, value, kwargs["gameObjectID"])
 	
-	def enable_profiler_data(self, data_types: set[tuple[EDataTypes, bool]]) -> bool:
+	def enable_profiler_data(self, data_types: ListOrTuple[tuple[EDataTypes, bool]]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_enableprofilerdata.html \n
 		Specifies the type of data you want to capture. Overrides the user's profiler settings.
-		:param data_types: A set of tuples. Each tuple contains the data type you want to capture via an enum and
+		:param data_types: An array of tuples. Each tuple contains the data type you want to capture via an enum and
 						   if profiler capture will be enabled for said data type (Defaults to true).
 		:return: It returns a bool indicating whether the call was successful or not.
 		"""
+		data_types = list(dict.fromkeys(data_types))
 		args = {"dataTypes": list()}
 		
 		for data_type in data_types:
@@ -151,7 +152,7 @@ class Profiler:
 		return self._client.call("ak.wwise.core.profiler.enableProfilerData", args) is not None
 	
 	def get_audio_objects(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
-	                      return_options: set[EAudioObjectOptions] = None) -> tuple[AudioObjectInfo, ...]:
+	                      returns: ListOrTuple[EAudioObjectOptions] = None) -> tuple[AudioObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getaudioobjects.html \n
 		Retrieves the Audio Objects at a specific profiler capture time.
@@ -161,8 +162,8 @@ class Profiler:
 					 be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
 					 capture.
 		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a Bus instance to get.
-		:param return_options: Members to return for each Audio Object. Defaults to Audio Object ID, Bus Pipeline ID,
-							   Instigator Pipeline ID and Effect Class ID.
+		:param returns: Members to return for each Audio Object. Defaults to Audio Object ID, Bus Pipeline ID,
+						Instigator Pipeline ID and Effect Class ID.
 		:return: For each profiled audio object, an AudioObjectInfo containing an object's ID, pipeline ID,
 				 instigator pipeline ID, effect class ID and a dictionary containing additional information
 				 (requested via `return_options`). When accessing the values in the dictionary, use the
@@ -173,12 +174,10 @@ class Profiler:
 		if bus_pipeline_id is not None:
 			args["busPipelineId"] = bus_pipeline_id
 		
-		returns = [EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
-		           EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID]
-		options = {"return": returns}
-		
-		if return_options is not None:
-			options["return"].extend(list(return_options))
+		returns = list(returns) if returns is not None else list[EAudioObjectOptions]()
+		returns.extend((EAudioObjectOptions.AUDIO_OBJECT_ID, EAudioObjectOptions.BUS_PIPELINE_ID,
+		                EAudioObjectOptions.INSTIGATOR_PIPELINE_ID, EAudioObjectOptions.EFFECT_CLASS_ID,))
+		options = {"return": list(dict.fromkeys(returns))}  # Remove duplicates
 		
 		results = self._client.call("ak.wwise.core.profiler.getAudioObjects", args, options=options)
 		results = results.get("return", list[dict]())
@@ -206,7 +205,7 @@ class Profiler:
 		return tuple(objects)
 	
 	def get_busses(self, time: ETimeCursor | int, bus_pipeline_id: int = None,
-	               return_options: set[EBusOptions] = None) -> tuple[BusPipelineInfo, ...]:
+	               returns: ListOrTuple[EBusOptions] = None) -> tuple[BusPipelineInfo, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getbusses.html \n
 		Retrieves the busses at a specific profiler capture time.
@@ -217,7 +216,8 @@ class Profiler:
 					 capture.
 		:param bus_pipeline_id: Unsigned Integer 32-bit. Range: [0,4294967295] The pipeline ID of a single bus instance
 								to get.
-		:param return_options: Members to return for each bus. Defaults to Pipeline ID, GameObject ID, and Object GUID.
+		:param returns: Members to return for each bus. If `None` the default returns are used: Pipeline ID, GameObject
+						ID, and Object GUID.
 		:return: For each profiled bus pipeline, a BusPipelineInfo containing a Pipeline ID, GameObject ID,
 				 Object GUID and a dictionary containing additional information
 				 (requested via `return_options`). When accessing the values in the dictionary, use the
@@ -228,11 +228,9 @@ class Profiler:
 		if bus_pipeline_id is not None:
 			args["busPipelineId"] = bus_pipeline_id
 		
-		returns = [EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID]
-		options = {"return": list(returns)}
-		
-		if return_options is not None:
-			options["return"].extend(list(return_options))
+		returns = list(returns) if returns is not None else list[EBusOptions]()
+		returns.extend([EBusOptions.PIPELINE_ID, EBusOptions.GAME_OBJECT_ID, EBusOptions.OBJECT_GUID])
+		options = {"return": list(dict.fromkeys(returns))}  # Remove duplicates
 		
 		results = self._client.call("ak.wwise.core.profiler.getBusses", args, options=options)
 		results = results.get("return")
@@ -461,7 +459,7 @@ class Profiler:
 		return tuple(streams)
 	
 	def get_voice_contributions(self, time: ETimeCursor | int, voice_pipeline_id: int,
-	                            busses_pipeline_id: tuple = None) -> VoiceContributionHierarchy | None:
+	                            bus_pipeline_ids: ListOrTuple[int] = None) -> VoiceContributionHierarchy | None:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoicecontributions.html \n
 		Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path,
@@ -473,16 +471,16 @@ class Profiler:
 					 capture.
 		:param voice_pipeline_id: The pipeline ID of the voice to get contributions from. Identifies a playing voice
 								  instance ID
-		:param busses_pipeline_id: The pipeline IDs of buses belonging to a common voice path. An empty array defaults
-								   to the dry path. Identifies a playing voice instance ID
+		:param bus_pipeline_ids: The pipeline IDs of buses belonging to a common voice path. An empty array defaults
+								 to the dry path. Identifies a playing voice instance ID
 		:return: The hierarchy of objects with parameters contributing to the voice, ordered from top-level parent to
 				 the voice object. If no information was found, `None` is returned.
 		"""
 		args = {"time": time, "voicePipelineID": voice_pipeline_id}
 		
-		if busses_pipeline_id is not None:
-			args["bussesPipelineID"] = busses_pipeline_id
-			
+		if bus_pipeline_ids is not None:
+			args["bussesPipelineID"] = bus_pipeline_ids
+		
 		results = self._client.call("ak.wwise.core.profiler.getVoiceContributions", args)
 		
 		if results is None:
@@ -493,7 +491,8 @@ class Profiler:
 		if results is None:
 			return None
 		
-		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0), results.get("LPF", 0.0),
+		hierarchy = VoiceContributionHierarchy(results.get("volume", 0.0),
+		                                       results.get("LPF", 0.0),
 		                                       results.get("HPF", 0.0))
 		
 		def get_children(parent: VoiceContributionHierarchy | VoiceInspectorContribution, children: list[dict]):
@@ -517,7 +516,7 @@ class Profiler:
 			return hierarchy
 	
 	def get_voices(self, time: ETimeCursor | int, voice_pipeline_id: int = None,
-	               return_options: set[EVoicePipelineReturnOptions] = None) -> tuple[PlayingVoiceProperties, ...]:
+	               returns: ListOrTuple[EVoicePipelineReturnOptions] = None) -> tuple[PlayingVoiceProperties, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getvoices.html \n
 		Retrieves the voices at a specific profiler capture time.
@@ -528,23 +527,20 @@ class Profiler:
 					 capture.
 		:param voice_pipeline_id: The pipeline ID of the voice to get contributions from. Identifies a playing voice
 								  instance ID
-		:param return_options: The additional return options. By default, this function returns only the Pipeline ID,
-							   Game Object ID, and Object GUID.
+		:param returns: The additional return options. By default, this function returns only the Pipeline ID,
+						Game Object ID, and Object GUID.
 		:return: An array of playing voices and their properties. Specify additional return options to extract more
 				 data.
 		"""
 		args = {"time": time}
-		returns = (EVoicePipelineReturnOptions.PIPELINE_ID,
-		           EVoicePipelineReturnOptions.GAME_OBJECT_ID,
-		           EVoicePipelineReturnOptions.OBJECT_GUID,)
-		options = {"return": set(returns)}
+		returns = list(returns) if returns is not None else list[EVoicePipelineReturnOptions]()
+		returns.extend((EVoicePipelineReturnOptions.PIPELINE_ID,
+		                EVoicePipelineReturnOptions.GAME_OBJECT_ID,
+		                EVoicePipelineReturnOptions.OBJECT_GUID,))
+		options = {"return": list(dict.fromkeys(returns))}  # Remove duplicates
 		
-		if return_options is not None:
-			options["return"].update(return_options)
 		if voice_pipeline_id is not None:
 			args["voicePipelineID"] = voice_pipeline_id
-		
-		options["return"] = [ret for ret in options["return"]]  # must be a list for JSON serialization
 		
 		results = self._client.call("ak.wwise.core.profiler.getVoices", args, options=options)
 		results = results.get("return") if results is not None else None
@@ -605,4 +601,3 @@ class Profiler:
 			return result.get("return")
 		else:
 			return -1
-		

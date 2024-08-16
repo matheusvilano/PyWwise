@@ -68,7 +68,7 @@ class Audio:
         """
         raise NotImplementedError()
 
-    def mute(self, objs: tuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool) -> bool:
+    def mute(self, objs: ListOrTuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_audio_mute.html \n
         Mute or unmute objects.
@@ -98,7 +98,7 @@ class Audio:
         """
         return self._client.call("ak.wwise.core.audio.resetSolo") is not None
 
-    def solo(self, objs: tuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool):
+    def solo(self, objs: ListOrTuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_audio_solo.html \n
         Solos an object.

@@ -1,5 +1,6 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
+from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
 from pywwise.enums import ELogChannel, ELogSeverity
 from pywwise.statics import EnumStatics
@@ -54,11 +55,12 @@ class Log:
 		args = {"message": message, "severity": severity.value, "channel": channel.value}
 		return self._client.call("ak.wwise.core.log.addItem", args) is not None
 	
-	def clear(self, channels: ELogChannel | set[ELogChannel] = None) -> bool:
+	def clear(self, channels: ELogChannel | ListOrTuple[ELogChannel] = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_log_clear.html \n
 		Clears the logs on one or more channels.
-		:param channels: The channel or channels to clear.
+		:param channels: The channel or channels to clear. Duplicates will be ignored. If `None`, all channels will be
+						 cleared.
 		:return: Whether the call succeeded.
 		"""
 		if channels is None:

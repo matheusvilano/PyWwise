@@ -1,6 +1,7 @@
 from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
 from pywwise.ak.soundengine import SoundEngine as _SoundEngine
 from pywwise.ak.wwise import Wwise as _Wwise
+from pywwise.aliases import ListOrTuple
 from pywwise.structs import WwiseObjectWatch
 
 
@@ -10,7 +11,7 @@ class Ak:
 	def __init__(self, url: str = "ws://127.0.0.1:8080/waapi", allow_exception: bool = False,
 	             callback_executor: CallbackExecutor = SequentialThreadExecutor,
 	             is_debug_build: bool = False, is_console_instance: bool = False,
-	             watch_list: tuple[WwiseObjectWatch, ...] = ()):
+	             watch_list: ListOrTuple[WwiseObjectWatch, ...] = ()):
 		"""
 		Constructor.
 		:param url: URL of the Wwise Authoring API WAMP server, defaults to `ws://127.0.0.1:8080/waapi`.

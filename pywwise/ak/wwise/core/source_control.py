@@ -1,6 +1,5 @@
-from typing import Collection as _Collection
 from waapi import WaapiClient as _WaapiClient
-from pywwise.aliases import SystemPath
+from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.enums import EReturnOptions, ESourceControlSearchFilter, ESourceFileReturnOptions
 from pywwise.primitives import OriginalsPath
 from pywwise.structs import LogItem, SourceControlStatus, SourceFileInfo, WwiseObjectInfo
@@ -16,7 +15,7 @@ class SourceControl:
 		"""
 		self._client = client
 	
-	def add(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
+	def add(self, files: ListOrTuple[SystemPath]) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_add.html \n
 		Add files to source control. Equivalent to Mark for Add for Perforce.
@@ -27,7 +26,7 @@ class SourceControl:
 		result = self._client.call("ak.wwise.core.sourceControl.add", {"files": files})
 		return tuple([LogItem.from_dict(result["log"])] if result is not None else [])
 	
-	def check_out(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
+	def check_out(self, files: ListOrTuple[SystemPath]) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_checkout.html \n
 		Check out files from source control. Equivalent to Check Out for Perforce.
@@ -38,7 +37,7 @@ class SourceControl:
 		result = self._client.call("ak.wwise.core.sourceControl.checkOut", {"files": files})
 		return tuple([LogItem.from_dict(result["log"])] if result is not None else [])
 	
-	def commit(self, files: _Collection[SystemPath], message: str) -> tuple[LogItem, ...]:
+	def commit(self, files: ListOrTuple[SystemPath], message: str) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_commit.html \n
 		Commit files to source control. Equivalent to Submit Changes for Perforce.
@@ -50,7 +49,7 @@ class SourceControl:
 		result = self._client.call("ak.wwise.core.sourceControl.commit", {"files": files, "message": message})
 		return tuple([LogItem.from_dict(result["log"])] if result is not None else [])
 	
-	def delete(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
+	def delete(self, files: ListOrTuple[SystemPath]) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_delete.html \n
 		Delete files from source control. Equivalent to Mark for Delete for Perforce.
@@ -93,7 +92,7 @@ class SourceControl:
 			returns.append(SourceFileInfo(file, usage, is_missing))
 		return tuple(returns)
 	
-	def get_status(self, files: _Collection[tuple[SystemPath, SystemPath]]) -> tuple[
+	def get_status(self, files: ListOrTuple[tuple[SystemPath, SystemPath]]) -> tuple[
 		tuple[LogItem, ...], tuple[SourceControlStatus, ...]]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_getstatus.html \n
@@ -111,7 +110,7 @@ class SourceControl:
 		                                      result.get("result", dict()).get("owner", ""))])
 		return logs, statuses
 	
-	def move(self, files: _Collection[tuple[SystemPath, SystemPath]]) -> tuple[LogItem, ...]:
+	def move(self, files: ListOrTuple[tuple[SystemPath, SystemPath]]) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_move.html \n
 		Move or rename files in source control. Always pass the same number of elements in files and
@@ -124,7 +123,7 @@ class SourceControl:
 		result = self._client.call("ak.wwise.core.sourceControl.move", args)
 		return tuple([LogItem.from_dict(result["log"])] if result is not None else [])
 	
-	def revert(self, files: _Collection[SystemPath]) -> tuple[LogItem, ...]:
+	def revert(self, files: ListOrTuple[SystemPath]) -> tuple[LogItem, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sourcecontrol_revert.html \n
 		Revert changes to files in source control.
