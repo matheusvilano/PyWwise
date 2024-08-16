@@ -31,5 +31,5 @@ if __name__ == "__main__":
         },
         python_requires=">=3.12",
         url="https://github.com/matheusvilano/PyWwise.git",
-        version="0.0.2",
+        version="0.0.3",
     )
