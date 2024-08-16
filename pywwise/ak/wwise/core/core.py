@@ -47,12 +47,14 @@ class Core:
 		and additional Lua scripts to load prior to the main script. The script can return a value. All
 		arguments will be passed to the Lua script in the "wa_args" global variable.
 		"""
+		raise NotImplementedError()
 	
 	def get_info(self):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_getinfo.html \n
 		Retrieve global Wwise information.
 		"""
+		raise NotImplementedError()
 	
 	def get_project_info(self):
 		"""
@@ -60,4 +62,4 @@ class Core:
 		Retrieve information about the current project opened, including platforms, languages and project
 		directories.
 		"""
-		
+		raise NotImplementedError()
