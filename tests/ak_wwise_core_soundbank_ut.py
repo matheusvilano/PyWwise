@@ -1,22 +1,19 @@
-import unittest
-
-import pywwise
+from unittest import TestCase
 from constants import *
-from pywwise.enums import *
-from pywwise.structs import *
+from pywwise import *
 
-ak = pywwise.new_waapi_connection()
+ak = new_waapi_connection()
 
 
-class AkWwiseCoreSoundbankTest(unittest.TestCase):
+class AkWwiseCoreSoundbankTest(TestCase):
 
 	def test__convert_external_sources(self):
-		paths = list(SystemPath.glob(WAVE_ASSET__PATH))
+		paths = list[WAVE_ASSET__PATH]
 		results = ak.wwise.core.soundbank.convert_external_sources(paths)
 		self.assertIsNotNone(results)
 	
 	def test__generate(self):
-		sound_bank_list = [{"name": SOUNDBANK__NAME}]
+		sound_bank_list = list[{"name": SOUNDBANK__NAME}]
 		results = ak.wwise.core.soundbank.generate(sound_bank_list)
 		self.assertIsNotNone(results)
 	
@@ -25,7 +22,7 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 		self.assertIsNotNone(results)
 	
 	def test__process_definition_files(self):
-		paths = list(DEFINITION_TSV__PATH)
+		paths = list[DEFINITION_TSV__PATH]
 		results = ak.wwise.core.soundbank.process_definition_files(paths)
 		self.assertIsNotNone(results)
 	
@@ -33,6 +30,5 @@ class AkWwiseCoreSoundbankTest(unittest.TestCase):
 		soundbank = SOUNDBANK__GUID
 		operation = EInclusionOperation.ADD
 		inclusions = (SoundBankInclusion(EVENT__GUID, [EInclusionFilter.EVENTS, EInclusionFilter.STRUCTURES, EInclusionFilter.MEDIA]),)
-		results = ak.wwise.core.soundbank.set_inclusions(soundbank, operation,
-		                                                 inclusions)
+		results = ak.wwise.core.soundbank.set_inclusions(soundbank, operation, inclusions)
 		self.assertIsNotNone(results)
