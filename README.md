@@ -81,7 +81,7 @@ ak.wwise.debug.generate_tone_wav(output_path, bit_depth, sample_rate)
 ### Setting the position of a GameObject in the sound engine
 PyWwise also has tons of dataclasses - classes that are primarily containers of data. Good examples are `Vector3` 
 (commonly used to represent a point in 3D space) and `PlatformInfo` (represents a platform entry in Wwise's Platform 
-Manager). Here is example using those 2 dataclasses:
+Manager). Here is example using `Vector3`:
 
 ```python
 from pywwise import new_waapi_connection, GameObjectID, Vector3
