@@ -105,13 +105,14 @@ class SoundBank:
 		:param sound_banks: A list of SoundBanks to generate.
 		:param platforms: A list of platforms to generate. By default, all platforms will be generated.
 		:param languages: A list of languages to generate. By default, all languages will be generated. To skip
-		languages, pass an empty set (`set()`) as the argument.
+						  languages, pass an empty set (`set()`) as the argument.
 		:param clear_audio_file_cache: Deletes the content of the Wwise audio file cache folder prior to converting
-		source files and generating SoundBanks, which ensures that all source files are reconverted.
+									   source files and generating SoundBanks, which ensures that all source files are
+									   reconverted.
 		:param write_to_disk: Will write the sound bank and info file to disk.
 		:param rebuild_init_bank: Use this option to force a rebuild of the Init bank for each specified platform.
 		:return: The SoundBank generation log, as a dictionary. An empty dictionary means the log could not be
-		retrieved.
+				  retrieved.
 		"""
 		# Remove duplicates in collections
 		sound_banks = list(dict.fromkeys(sound_banks)) if sound_banks is not None else list[SoundBankInfo]()
