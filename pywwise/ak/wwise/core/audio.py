@@ -5,10 +5,10 @@ from waapi import WaapiClient as _WaapiClient
 from simplevent import RefEvent as _RefEvent
 from pywwise.aliases import SystemPath, ListOrTuple
 from pywwise.decorators import callback
-from pywwise.enums import EReturnOptions, EObjectType, EImportOperation
+from pywwise.enums import ELogSeverity, EReturnOptions, EObjectType, EImportOperation
 from pywwise.primitives import Name, GUID, ProjectPath
 from pywwise.statics import EnumStatics
-from pywwise.structs import WwiseObjectInfo, AudioImportEntry
+from pywwise.structs import AudioImportEntry, ConversionLogItem, WwiseObjectInfo
 
 
 class Audio:
@@ -47,6 +47,23 @@ class Audio:
             objects.append(WwiseObjectInfo.from_dict(obj))
         event(EnumStatics.from_value(EImportOperation, kwargs["operation"]), tuple(objects),
               tuple([SystemPath(file) for file in kwargs.get("files", ())]))
+
+    def convert(self, objects: ListOrTuple[GUID | Name | ProjectPath], platforms: ListOrTuple[GUID | Name],
+                languages: ListOrTuple[Name]) -> tuple[ConversionLogItem, ...]:
+        """
+        Creates converted audio files. When errors occur, this function returns a list of messages with corresponding
+        levels of severity. The converted audio files are located within the ".cache" folder in the Wwise project
+        root folder.
+        :param objects: An array of object GUIDs, unique Names, or Project Paths.
+        :param platforms: An array of platform GUIDs or unique Names.
+        :param languages: An array of language unique Names.
+        :return: A tuple of logged entries with associated messages and severities. If empty, the conversion(s) worked
+                 without any errors, warnings, etc.
+        """
+        args = {"objects": objects, "platforms": platforms, "languages": languages}
+        result: dict[str, list[dict[str, str]]] = self._client.call("ak.wwise.core.audio.convert", args)
+        return tuple(ConversionLogItem(EnumStatics.from_value(ELogSeverity, error["severity"]),
+                                       error.get("message", "")) for error in result.get("errors", ()))
 
     # "import" is a reserved keyword, so function name does not match that of WAAPI
     def import_files(self, imports: ListOrTuple[AudioImportEntry], operation: EImportOperation):
@@ -100,6 +117,9 @@ class Audio:
         :return: Whether the call succeeded. True does not necessarily mean objects were unsoloed successfully.
         """
         return self._client.call("ak.wwise.core.audio.resetSolo") is not None
+
+    def set_conversion_plugin(self):
+        raise NotImplementedError()
 
     def solo(self, objs: ListOrTuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool) -> bool:
         """
