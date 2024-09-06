@@ -1194,3 +1194,13 @@ class AudioImportEntry:
     properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
     """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the 
     associated object) or `@@` (a reference to the source of override)."""
+
+
+@_dataclass
+class ConversionLogItem:
+    
+    severity: ELogSeverity
+    """Severity of the logged message."""
+    
+    message: str
+    """Message logged by the system."""
