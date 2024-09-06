@@ -70,12 +70,11 @@ class Audio:
     def import_files(self, imports: ListOrTuple[AudioImportEntry], operation: EImportOperation):
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_audio_import.html \n
-        Creates Wwise objects and imports audio files. This function does not return an error when
-        something fails during the import process, please refer to the log for the result of each import
-        command. This function uses the same importation processor available through the Tab Delimited
-        import in the Audio File Importer. The function returns an array of all objects created,
-        replaced or re-used. Use the options to specify how the objects are returned. For more
-        information, refer to Importing Audio Files and Creating Structures.
+        Creates Wwise objects and imports audio files. This function does not return an error when something fails
+        during the import process, please refer to the log for the result of each import command. This function uses
+        the same importation processor available through the Tab Delimited import in the Audio File Importer. The
+        function returns an array of all objects created, replaced or re-used. Use the options to specify how the
+        objects are returned. For more information, refer to Importing Audio Files and Creating Structures.
         """
         raise NotImplementedError()
 
