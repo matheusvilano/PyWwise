@@ -31,7 +31,7 @@ dependencies = [
 "Git Repository" = "https://github.com/matheusvilano/PyWwise.git"
 
 [tool.setuptools.packages]
-find = { where = ["pywwise"], include = ["*"] }
+find = { where = ["pywwise"], include = ["pywwise", "pywwise.*"] }
 
 [tool.setuptools.package-data]
-"pywwise" = ["*.py"]
+"pywwise" = ["*.py", "**/*.py"]
