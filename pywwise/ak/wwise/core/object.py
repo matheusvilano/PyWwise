@@ -703,7 +703,7 @@ class Object:
 		:param notes: The new notes.
 		:return: Whether this call succeeded.
 		"""
-		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "notes": notes}
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "value": notes}
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
