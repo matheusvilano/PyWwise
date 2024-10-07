@@ -2,19 +2,19 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.core.audio import Audio as _Audio
-from pywwise.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
-from pywwise.ak.wwise.core.log import Log as _Log
-from pywwise.ak.wwise.core.object import Object as _Object
-from pywwise.ak.wwise.core.project import Project as _Project
-from pywwise.ak.wwise.core.profiler import Profiler as _Profiler
-from pywwise.ak.wwise.core.remote import Remote as _Remote
-from pywwise.ak.wwise.core.sound import Sound as _Sound
-from pywwise.ak.wwise.core.soundbank import SoundBank as _SoundBank
-from pywwise.ak.wwise.core.source_control import SourceControl as _SourceControl
-from pywwise.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
-from pywwise.ak.wwise.core.transport import Transport as _Transport
-from pywwise.ak.wwise.core.undo import Undo as _Undo
+from pywwise.waapi.ak.wwise.core.audio import Audio as _Audio
+from pywwise.waapi.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
+from pywwise.waapi.ak.wwise.core.log import Log as _Log
+from pywwise.waapi.ak.wwise.core.object import Object as _Object
+from pywwise.waapi.ak.wwise.core.project import Project as _Project
+from pywwise.waapi.ak.wwise.core.profiler import Profiler as _Profiler
+from pywwise.waapi.ak.wwise.core.remote import Remote as _Remote
+from pywwise.waapi.ak.wwise.core.sound import Sound as _Sound
+from pywwise.waapi.ak.wwise.core.soundbank import SoundBank as _SoundBank
+from pywwise.waapi.ak.wwise.core.source_control import SourceControl as _SourceControl
+from pywwise.waapi.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
+from pywwise.waapi.ak.wwise.core.transport import Transport as _Transport
+from pywwise.waapi.ak.wwise.core.undo import Undo as _Undo
 from pywwise.structs import WwiseObjectWatch
 
 

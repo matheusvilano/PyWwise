@@ -3,7 +3,7 @@
 
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
+from pywwise.waapi.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import (EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions,
