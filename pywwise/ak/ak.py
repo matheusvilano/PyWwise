@@ -1,6 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from typing import Self as _Self
 from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
 from pywwise.ak.soundengine import SoundEngine as _SoundEngine
 from pywwise.ak.wwise import Wwise as _Wwise
@@ -30,6 +31,32 @@ class Ak:
 		self.soundengine = _SoundEngine(self._client)
 		self.wwise = _Wwise(self._client, is_debug_build, is_console_instance, watch_list)
 	
-	def __del__(self):
+	def __enter__(self) -> _Self:
+		"""
+		Enter the context (re: `with` statement).
+		:return: This instance of the `Ak` class.
+		"""
+		return self
+	
+	def __exit__(self, exc_type, exc_value, traceback):
+		"""
+		Exit the context (re: `with` statement).
+		:param exc_type: The exception type, if any.
+		:param exc_value: The exception value, if any.
+		:param traceback: The traceback, if any exception(s) were raised.
+		:return: Whether an exception was raised.
+		"""
+		self._client.disconnect()
+		return bool(exc_type)
+
+	def is_connected(self):
+		"""
+		Check if this instance is connected to Wwise.
+		:return: Whether this instance is connected to Wwise.
+		"""
+		return self._client.is_connected()
+	
+	def disconnect(self):
 		"""Disconnect from Wwise."""
 		self._client.disconnect()
+
