@@ -804,7 +804,7 @@ class Object:
 		return self._client.call("ak.wwise.core.object.setReference", args) is not None
 	
 	def set_state_groups(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
-	                     groups: Collection[GUID | Name | ProjectPath]):
+	                     groups: ListOrTuple[GUID | Name | ProjectPath]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstategroups.html \n
 		Sets the State Group objects associated with an object. Note, this will remove any previously associated State
@@ -816,7 +816,11 @@ class Object:
 					   It is recommended to pass a `tuple` as the collection.
 		:return: Whether this call succeeded.
 		"""
-		raise NotImplementedError()
+		groups = [group if not isinstance(group, Name) else f"{EObjectType.STATE_GROUP.get_type_name()}:{group}"
+		          for group in groups]
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "stateGroups": groups}
+		return self._client.call("ak.wwise.core.object.setStateGroups", args) is not None
 	
 	def set_state_properties(self):
 		"""
