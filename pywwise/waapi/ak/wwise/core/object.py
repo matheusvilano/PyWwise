@@ -7,7 +7,8 @@ from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
-from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
+from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, EListMode,
+                           ENameConflictStrategy,
                            EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
 from pywwise.statics import EnumStatics
 from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
@@ -658,15 +659,36 @@ class Object:
 		
 		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
-	def set(self):
+	def set(self, operations: ListOrTuple[dict[str, _Any]],
+	        platform: GUID | Name = None,
+	        on_name_conflict: ENameConflictStrategy = ENameConflictStrategy.FAIL,
+	        list_mode: EListMode = EListMode.APPEND,
+	        auto_add_to_version_control: bool = True) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
 		Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
-		in a list, Setting name, notes, properties and references. Refer to Importing Audio Files and Creating
-		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
-		import audio files to Wwise.
+		in a list, Setting name, notes, properties and references. See the official Audiokinetic documentation for
+		details and complex examples.
+		:param operations: A JSON-like dictionary defining the operations to execute. Example operation:
+						   `{"object": "\\Actor-Mixer Hierarchy\\Default Work Unit\\MySound",
+						   "name": "MyCoolSound",
+						   "notes": "Sound object modified by a Python script.",
+						   "@Volume": -6.0,
+						   "@OutputBus": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Environment"
+				           }`.
+		:param platform: If targeting a specific platform, you must specify its GUID or unique Name.
+		:param on_name_conflict: The strategy to use when solving name conflicts.
+		:param list_mode: The strategy to use when an object already exists in a list.
+		:param auto_add_to_version_control: Whether objects should be automatically added to, removed from, and/or
+											edited in version control.
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"objects": operations,
+		        "onNameConflict": on_name_conflict,
+		        "listMode": list_mode,
+		        "autoAddToSourceControl": auto_add_to_version_control,
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.set", args) is not None
 	
 	def set_attenuation_curve(self, obj: GUID | Name | ProjectPath,
 	                          curve_type: EAttenuationCurveType,
