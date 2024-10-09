@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.console import Console as _Console
-from pywwise.ak.wwise.debug import Debug as _Debug
-from pywwise.ak.wwise.core import Core as _Core
-from pywwise.ak.wwise.ui import UI as _UI
-from pywwise.ak.wwise.waapi import Waapi as _Waapi
+from pywwise.waapi.ak.wwise.console import Console as _Console
+from pywwise.waapi.ak.wwise.debug import Debug as _Debug
+from pywwise.waapi.ak.wwise.core import Core as _Core
+from pywwise.waapi.ak.wwise.ui import UI as _UI
+from pywwise.waapi.ak.wwise.waapi import Waapi as _Waapi
 from pywwise.structs import WwiseObjectWatch
 
 

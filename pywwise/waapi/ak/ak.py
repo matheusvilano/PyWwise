@@ -3,8 +3,8 @@
 
 from typing import Self as _Self
 from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
-from pywwise.ak.soundengine import SoundEngine as _SoundEngine
-from pywwise.ak.wwise import Wwise as _Wwise
+from pywwise.waapi.ak.soundengine import SoundEngine as _SoundEngine
+from pywwise.waapi.ak.wwise import Wwise as _Wwise
 from pywwise.aliases import ListOrTuple
 from pywwise.structs import WwiseObjectWatch
 
