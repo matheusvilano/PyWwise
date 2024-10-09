@@ -947,7 +947,7 @@ class WaqlCondition:
 class GraphPoint2D:
     """A dataclass describing a point on a 2D graph."""
 
-    position: tuple[Vector2]
+    position: Vector2
     """The position of the point on the graph."""
 
     shape: EAttenuationCurveShape = EAttenuationCurveShape.LINEAR

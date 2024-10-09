@@ -658,23 +658,39 @@ class Object:
 		
 		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
-	def set(self, object: ListOrTuple[GUID]):
+	def set(self):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
 		Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
 		in a list, Setting name, notes, properties and references. Refer to Importing Audio Files and Creating
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
 		import audio files to Wwise.
-		:param objects:
 		"""
-		pass
+		raise NotImplementedError()
 	
-	def set_attenuation_curve(self):
+	def set_attenuation_curve(self, obj: GUID | Name | ProjectPath,
+	                          curve_type: EAttenuationCurveType,
+	                          usage: EAttenuationCurveUsage,
+	                          points: ListOrTuple[GraphPoint2D],
+	                          platform: GUID | Name = None):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setattenuationcurve.html \n
 		Sets the specified attenuation curve for a given attenuation object.
+		:param obj: The GUID, name, or project path of the attenuation curve.
+		:param curve_type: The attenuation curve type to use.
+		:param usage: Defines if the curve has no points, has its own set of points, or uses those of the
+					  VolumeDryUsage curve.
+		:param points: An array of points defining a curve.
+		:param platform: If setting an attenuation curve for a specific platform, you must pass the platform GUID or
+						 Name.
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION.get_type_name()}:{obj[1]}",
+		        "curveType": curve_type,
+		        "use": usage,
+		        "points": [{"x": point.position.x, "y": point.position.y, "shape": point.shape} for point in points],
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.setAttenuationCurve", args) is not None
 	
 	def set_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
 	               platform: GUID | Name, is_linked: bool) -> bool:
