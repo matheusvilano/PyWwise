@@ -822,10 +822,18 @@ class Object:
 		        "stateGroups": groups}
 		return self._client.call("ak.wwise.core.object.setStateGroups", args) is not None
 	
-	def set_state_properties(self):
+	def set_state_properties(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                         properties: ListOrTuple[str]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstateproperties.html \n
 		Set the state properties of an object. Note, this will remove any previous state property, including the
 		default ones.
+		:param obj: The GUID, typed name, or project path of the object for which to set the state groups. Although
+			using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
+			supported.
+		:param properties: An array containing the names of the state properties to set.
+		:return: Whether this call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "stateProperties": properties}
+		return self._client.call("ak.wwise.core.object.setStateProperties", args) is not None
