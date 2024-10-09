@@ -5,6 +5,7 @@ from types import NoneType
 from typing import Any as _Any, Collection as _Collection, Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
+from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
 from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
                            EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
@@ -657,15 +658,16 @@ class Object:
 		
 		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
-	def set(self):
+	def set(self, object: ListOrTuple[GUID]):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
 		Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
 		in a list, Setting name, notes, properties and references. Refer to Importing Audio Files and Creating
 		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
 		import audio files to Wwise.
+		:param objects:
 		"""
-		raise NotImplementedError()
+		pass
 	
 	def set_attenuation_curve(self):
 		"""
@@ -674,12 +676,22 @@ class Object:
 		"""
 		raise NotImplementedError()
 	
-	def set_linked(self):
+	def set_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
+	               platform: GUID | Name, is_linked: bool) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setlinked.html \n
 		Link or unlink a property/reference or object list to a particular platform.
+		:param obj: The GUID, typed name, or project path of the object on which to link or unlink a property or
+					reference. Although using a name is supported, only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported.
+		:param property_name: The name of the property to link or unlink.
+		:param platform: The platform for which to link or unlink.
+		:param is_linked: Whether the object should be linked (`True`) or unlinked (`False`).
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "property": property_name, "platform": platform, "linked": is_linked}
+		return self._client.call("ak.wwise.core.object.setLinked", args) is not None
 	
 	def set_name(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, new_name: Name | str) -> bool:
 		"""
