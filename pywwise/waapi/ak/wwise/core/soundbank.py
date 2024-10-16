@@ -89,12 +89,7 @@ class SoundBank:
 	    :param sources: An array of external sources files and corresponding arguments. Duplicates are ignored.
 	    :return: Whether the call succeeded.
 	    """
-		args = {"sources": list[dict[str, str]]()}
-		
-		# Remove duplicates; for each element, append to "sources" key.
-		for source in list[ExternalSourceInfo](dict.fromkeys(sources)):
-			args["sources"].append(source.dictionary)
-		
+		args = {"sources": [source.dictionary for source in sources]}
 		return self._client.call("ak.wwise.core.soundbank.convertExternalSources", args) is not None
 	
 	def generate(self, sound_banks: ListOrTuple[SoundBankInfo] = None, platforms: ListOrTuple[GUID | Name] = None,
@@ -124,15 +119,15 @@ class SoundBank:
 		
 		args = dict()
 		
-		if sound_banks is not None:
-			args["soundbanks"] = [sound_bank.dictionary for sound_bank in sound_banks]
+		if sound_banks:  # if valid and not empty
+			args["soundbanks"] = [{"name": sound_bank} for sound_bank in sound_banks]
 		else:
 			args["rebuildSoundBanks"] = True
 		
-		if platforms is not None:  # None = all platforms; no need to handle that here.
-			args["platforms"] = [platform for platform in platforms]
+		if platforms:  # None = all platforms; no need to handle that here.
+			args["platforms"] = platforms
 		
-		if languages is not None and len(languages) > 0:  # None = all languages; no need to handle that here.
+		if languages:  # None = all languages; no need to handle that here.
 			args["languages"] = languages
 		else:  # no languages; user explicitly passed an empty set
 			args["skipLanguages"] = True
@@ -151,7 +146,9 @@ class SoundBank:
 		:param sound_bank: The GUID, name, or project path of the SoundBank to get inclusions from.
 		:return: An array of SoundBank inclusions.
 		"""
-		args = {"soundbank": f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}"}
+		if isinstance(sound_bank, Name):
+			sound_bank = f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}"
+		args = {"soundbank": sound_bank}
 		results = self._client.call("ak.wwise.core.soundbank.getInclusions", args)
 		return results.get("object"), results.get("filter")
 	

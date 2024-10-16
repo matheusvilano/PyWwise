@@ -112,9 +112,9 @@ class ExternalSourceInfo:
 
     @property
     def dictionary(self) -> dict[str, str]:
-        as_dict = {"input": self.input, "platform": self.platform}
+        as_dict = {"input": str(self.input), "platform": str(self.platform)}
         if self.output is not None:
-            as_dict["output"] = self.output
+            as_dict["output"] = str(self.output)
         return as_dict
 
 
