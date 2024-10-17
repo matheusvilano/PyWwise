@@ -2104,3 +2104,15 @@ class EMultiPositionType(_IntEnum):
 	MULTI_DIRECTIONS = 2
 	"""Simulate one sound coming from multiple directions. Useful for repositionning sounds based on wall openings or
 	to simulate areas like forest or rivers (in combination with spreading in the attenuation of the sounds)."""
+
+
+class EListMode(_StrEnum):
+	"""An enumeration of list modes (behaviours."""
+	
+	REPLACE_ALL = "replaceAll"
+	"""Remove all existing objects and add the new objects, with the duplicate restriction."""
+	
+	APPEND = "append"
+	"""Add the new objects to the list if possible, keeping existing objects. Some lists might not permit duplicate
+	equivalent objects: e.g., some properties of RTPCs in the RTPC list are exclusive so there can only be one RTPC
+	with that property."""

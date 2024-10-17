@@ -6,9 +6,11 @@ from simplevent import RefEvent as _RefEvent
 from pywwise.aliases import SystemPath, ListOrTuple
 from pywwise.decorators import callback
 from pywwise.enums import EReturnOptions, EObjectType, EAudioImportOperation, EBasePlatform, EImportOperation
+from pywwise.enums import ELogSeverity, EReturnOptions, EObjectType, EImportOperation
 from pywwise.primitives import Name, GUID, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import DPlatformInfo, WwiseObjectInfo, DAudioImportEntry
+from pywwise.structs import AudioImportEntry, ConversionLogItem, WwiseObjectInfo
 
 
 class Audio:
@@ -47,6 +49,24 @@ class Audio:
             objects.append(WwiseObjectInfo.from_dict(obj))
         event(EnumStatics.from_value(EAudioImportOperation, kwargs["operation"]), tuple(objects),
               tuple([SystemPath(file) for file in kwargs.get("files", ())]))
+
+    def convert(self, objects: ListOrTuple[GUID | Name | ProjectPath], platforms: ListOrTuple[GUID | Name],
+                languages: ListOrTuple[Name]) -> tuple[ConversionLogItem, ...]:
+        """
+        https://www.audiokinetic.com/en/library/2024.1.0_8598/?source=SDK&id=ak_wwise_core_audio_convert.html \n
+        Creates converted audio files. When errors occur, this function returns a list of messages with corresponding
+        levels of severity. The converted audio files are located within the ".cache" folder in the Wwise project
+        root folder.
+        :param objects: An array of object GUIDs, unique Names, or Project Paths.
+        :param platforms: An array of platform GUIDs or unique Names.
+        :param languages: An array of language unique Names.
+        :return: A tuple of logged entries with associated messages and severities. If empty, the conversion(s) worked
+                 without any errors, warnings, etc.
+        """
+        args = {"objects": objects, "platforms": platforms, "languages": languages}
+        result: dict[str, list[dict[str, str]]] = self._client.call("ak.wwise.core.audio.convert", args)
+        return tuple(ConversionLogItem(EnumStatics.from_value(ELogSeverity, error["severity"]),
+                                       error.get("message", "")) for error in result.get("errors", ()))
 
     # "import" is a reserved keyword, so function name does not match that of WAAPI
     def import_files(self, default_import_properties: DAudioImportEntry,
@@ -154,6 +174,18 @@ class Audio:
         :return: Whether the call succeeded. True does not necessarily mean objects were unsoloed successfully.
         """
         return self._client.call("ak.wwise.core.audio.resetSolo") is not None
+
+    def set_conversion_plugin(self, conversion: GUID | Name | ProjectPath, plugin: Name, platform: GUID | Name) -> bool:
+        """
+        https://www.audiokinetic.com/en/library/2024.1.0_8598/?source=SDK&id=ak_wwise_core_audio_setconversionplugin.html \n
+        :param conversion: The GUID, Name, or Project Path or a Conversion shareset.
+        :param plugin: The name of the plugin to use for future conversions (e.g. Vorbis).
+        :param platform: The GUID or Name of the platform to which the settings apply.
+        :return: Whether the call succeeded.
+        """
+        conversion = conversion if not isinstance(conversion, Name) else f"{EObjectType.CONVERSION}:{conversion}"
+        args = {"conversion": conversion, "plugin": plugin, "platform": platform}
+        return self._client.call("ak.wwise.core.audio.setConversionPlugin", args) is not None
 
     def solo(self, objs: ListOrTuple[GUID | tuple[EObjectType, Name] | ProjectPath], value: bool) -> bool:
         """

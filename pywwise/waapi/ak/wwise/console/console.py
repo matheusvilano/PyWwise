@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.console.project import Project as _Project
+from pywwise.waapi.ak.wwise.console.project import Project as _Project
 
 
 class Console:

@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pywwise"
-version = "0.0.3"
+version = "0.0.7"
 description = "A comprehensive Wwise Authoring API wrapper - fully documented, with auto-completion in mind."
 authors = [{ name = "Matheus Vilano" }]
 license = { file = "LICENSE" }
+readme = "README.md"
 requires-python = ">=3.12"
 keywords = ["audiokinetic", "wwise", "waapi", "game", "audio", "sound", "automation", "scripting", "asset", "pipeline"]
 
@@ -30,4 +31,7 @@ dependencies = [
 "Git Repository" = "https://github.com/matheusvilano/PyWwise.git"
 
 [tool.setuptools.packages]
-find = { where = ["pywwise"] }
+find = { where = ["."], include = ["pywwise", "pywwise.*"] }
+
+[tool.setuptools.package-data]
+"pywwise" = ["**/*.py"]

@@ -112,9 +112,9 @@ class ExternalSourceInfo:
 
     @property
     def dictionary(self) -> dict[str, str]:
-        as_dict = {"input": self.input, "platform": self.platform}
+        as_dict = {"input": str(self.input), "platform": str(self.platform)}
         if self.output is not None:
-            as_dict["output"] = self.output
+            as_dict["output"] = str(self.output)
         return as_dict
 
 
@@ -282,7 +282,7 @@ class CommandInfo:
     shortcut can be changed in the Keyboard Shortcut Manager."""
 
     redirect_outputs: bool = False
-    """Defines if the standard output streams of the program (stdout + stderr) should be redirected and logged to Wwise
+    """Defines if the standard output streams of the program (stdout + stderr) should be redirected and logged to Wwise 
     on termination. The value is of boolean type and false by default."""
 
     context_menu: ContextMenuInfo = None
@@ -947,7 +947,7 @@ class WaqlCondition:
 class GraphPoint2D:
     """A dataclass describing a point on a 2D graph."""
 
-    position: tuple[Vector2]
+    position: Vector2
     """The position of the point on the graph."""
 
     shape: EAttenuationCurveShape = EAttenuationCurveShape.LINEAR
@@ -1214,4 +1214,15 @@ class DAudioImportEntry:
     additional_properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
     """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
     associated object) or `@@` (a reference to the source of override)."""
+
+
+@_dataclass
+class ConversionLogItem:
+    
+    severity: ELogSeverity
+    """Severity of the logged message."""
+    
+    message: str
+    """Message logged by the system."""
+
     

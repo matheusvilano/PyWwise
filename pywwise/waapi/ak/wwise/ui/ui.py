@@ -6,8 +6,8 @@ from datetime import datetime as _datetime
 from os import makedirs as _makedirs
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.ui.commands import Commands as _Commands
-from pywwise.ak.wwise.ui.project import Project as _Project
+from pywwise.waapi.ak.wwise.ui.commands import Commands as _Commands
+from pywwise.waapi.ak.wwise.ui.project import Project as _Project
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import EReturnOptions, EObjectType

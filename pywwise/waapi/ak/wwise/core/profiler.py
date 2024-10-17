@@ -3,7 +3,7 @@
 
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
-from pywwise.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
+from pywwise.waapi.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import (EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions,
@@ -363,6 +363,15 @@ class Profiler:
 		
 		return tuple(loaded_media)
 	
+	def get_meters(self):
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getmeters.html \n
+		Retrieves the Meter data for all registered buses, aux buses and devices. Only the master audio bus is
+		registered by default. Use `ak.wwise.core.profiler.registerMeter` for other buses, before retrieval of the
+		meter data.
+		"""
+		raise NotImplementedError()
+	
 	def get_performance_monitor(self, time: ETimeCursor | int) -> tuple[PerformanceMonitorCounterInfo, ...]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getperformancemonitor.html \n
@@ -562,6 +571,15 @@ class Profiler:
 		
 		return tuple(voices)
 	
+	def register_meter(self):
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_registermeter.html \n
+		Registers a bus, an aux bus or device to receive meter data. Only the master audio bus is registered by default.
+		Use `ak.wwise.core.profiler.getMeters` to retrieve the meter data after registering. Every call to
+		`ak.wwise.core.profiler.registerMeter` must have a matching call to `ak.wwise.core.profiler.unregisterMeter`.
+		"""
+		raise NotImplementedError()
+	
 	def save_capture(self, file_path: SystemPath) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_savecapture.html \n
@@ -604,3 +622,10 @@ class Profiler:
 			return result.get("return")
 		else:
 			return -1
+	
+	def unregister_meter(self):
+		"""
+		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_unregistermeter.html \n
+		Unregisters a bus or device that was registered with `ak.wwise.core.profiler.registerMeter`.
+		"""
+		raise NotImplementedError()

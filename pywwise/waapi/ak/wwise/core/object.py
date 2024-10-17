@@ -5,8 +5,10 @@ from types import NoneType
 from typing import Any as _Any, Collection as _Collection, Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
+from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
-from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, ENameConflictStrategy,
+from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, EListMode,
+                           ENameConflictStrategy,
                            EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
 from pywwise.statics import EnumStatics
 from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
@@ -657,29 +659,77 @@ class Object:
 		
 		return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
 	
-	def set(self):
+	def set(self, operations: ListOrTuple[dict[str, _Any]],
+	        platform: GUID | Name = None,
+	        on_name_conflict: ENameConflictStrategy = ENameConflictStrategy.FAIL,
+	        list_mode: EListMode = EListMode.APPEND,
+	        auto_add_to_version_control: bool = True) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
 		Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
-		in a list, Setting name, notes, properties and references. Refer to Importing Audio Files and Creating
-		Structures for more information about creating objects. Also refer to `ak.wwise.core.audio.import_files` to
-		import audio files to Wwise.
+		in a list, Setting name, notes, properties and references. See the official Audiokinetic documentation for
+		details and complex examples.
+		:param operations: A JSON-like dictionary defining the operations to execute. Example operation:
+						   `{"object": "\\Actor-Mixer Hierarchy\\Default Work Unit\\MySound",
+						   "name": "MyCoolSound",
+						   "notes": "Sound object modified by a Python script.",
+						   "@Volume": -6.0,
+						   "@OutputBus": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Environment"
+				           }`.
+		:param platform: If targeting a specific platform, you must specify its GUID or unique Name.
+		:param on_name_conflict: The strategy to use when solving name conflicts.
+		:param list_mode: The strategy to use when an object already exists in a list.
+		:param auto_add_to_version_control: Whether objects should be automatically added to, removed from, and/or
+											edited in version control.
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"objects": operations,
+		        "onNameConflict": on_name_conflict,
+		        "listMode": list_mode,
+		        "autoAddToSourceControl": auto_add_to_version_control,
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.set", args) is not None
 	
-	def set_attenuation_curve(self):
+	def set_attenuation_curve(self, obj: GUID | Name | ProjectPath,
+	                          curve_type: EAttenuationCurveType,
+	                          usage: EAttenuationCurveUsage,
+	                          points: ListOrTuple[GraphPoint2D],
+	                          platform: GUID | Name = None):
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setattenuationcurve.html \n
 		Sets the specified attenuation curve for a given attenuation object.
+		:param obj: The GUID, name, or project path of the attenuation curve.
+		:param curve_type: The attenuation curve type to use.
+		:param usage: Defines if the curve has no points, has its own set of points, or uses those of the
+					  VolumeDryUsage curve.
+		:param points: An array of points defining a curve.
+		:param platform: If setting an attenuation curve for a specific platform, you must pass the platform GUID or
+						 Name.
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, Name) else f"{EObjectType.ATTENUATION.get_type_name()}:{obj[1]}",
+		        "curveType": curve_type,
+		        "use": usage,
+		        "points": [{"x": point.position.x, "y": point.position.y, "shape": point.shape} for point in points],
+		        **({"platform": platform} if platform is not None else {})}
+		return self._client.call("ak.wwise.core.object.setAttenuationCurve", args) is not None
 	
-	def set_linked(self):
+	def set_linked(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, property_name: str,
+	               platform: GUID | Name, is_linked: bool) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setlinked.html \n
 		Link or unlink a property/reference or object list to a particular platform.
+		:param obj: The GUID, typed name, or project path of the object on which to link or unlink a property or
+					reference. Although using a name is supported, only types with globally-unique names (e.g.
+					`EObjectType.EVENT`) are supported.
+		:param property_name: The name of the property to link or unlink.
+		:param platform: The platform for which to link or unlink.
+		:param is_linked: Whether the object should be linked (`True`) or unlinked (`False`).
+		:return: Whether the call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "property": property_name, "platform": platform, "linked": is_linked}
+		return self._client.call("ak.wwise.core.object.setLinked", args) is not None
 	
 	def set_name(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath, new_name: Name | str) -> bool:
 		"""
@@ -703,7 +753,7 @@ class Object:
 		:param notes: The new notes.
 		:return: Whether this call succeeded.
 		"""
-		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "notes": notes}
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}", "value": notes}
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
@@ -776,7 +826,7 @@ class Object:
 		return self._client.call("ak.wwise.core.object.setReference", args) is not None
 	
 	def set_state_groups(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
-	                     groups: Collection[GUID | Name | ProjectPath]):
+	                     groups: ListOrTuple[GUID | Name | ProjectPath]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstategroups.html \n
 		Sets the State Group objects associated with an object. Note, this will remove any previously associated State
@@ -788,12 +838,24 @@ class Object:
 					   It is recommended to pass a `tuple` as the collection.
 		:return: Whether this call succeeded.
 		"""
-		raise NotImplementedError()
+		groups = [group if not isinstance(group, Name) else f"{EObjectType.STATE_GROUP.get_type_name()}:{group}"
+		          for group in groups]
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "stateGroups": groups}
+		return self._client.call("ak.wwise.core.object.setStateGroups", args) is not None
 	
-	def set_state_properties(self):
+	def set_state_properties(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
+	                         properties: ListOrTuple[str]) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setstateproperties.html \n
 		Set the state properties of an object. Note, this will remove any previous state property, including the
 		default ones.
+		:param obj: The GUID, typed name, or project path of the object for which to set the state groups. Although
+			using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
+			supported.
+		:param properties: An array containing the names of the state properties to set.
+		:return: Whether this call succeeded.
 		"""
-		raise NotImplementedError()
+		args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
+		        "stateProperties": properties}
+		return self._client.call("ak.wwise.core.object.setStateProperties", args) is not None
