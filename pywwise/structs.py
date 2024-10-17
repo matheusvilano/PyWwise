@@ -80,7 +80,7 @@ class AuxSendValue:
 
 
 @_dataclass
-class PlatformInfo:
+class DPlatformInfo:
     """Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
 
     name: str
@@ -195,11 +195,11 @@ class ContextMenuInfo:
     """Defines a forward-separated path for the parent sub menus. If empty, the menu is inserted at the first level."""
 
     visible_for: set[EObjectType] = None
-    """Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects 
+    """Defines a comma-separated list of the object types for which the item is visible. Refer to Wwise Objects
     Reference for the list of types supported. If empty, any type is allowed."""
 
     enabled_for: set[EObjectType] = None
-    """Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects 
+    """Defines a comma-separated list of the object types for which the item is enabled. Refer to Wwise Objects
     Reference for the list of types supported. If empty, any type is allowed."""
 
     def __hash__(self):
@@ -223,7 +223,7 @@ class MainMenuInfo:
     """Data-only class storing information about a command's main menu, which is part of an add-on command's argument"""
 
     main_menu_base_path: str
-    """Defines a forward-separated path for the parent sub menus. It must at least define one level, which is associated 
+    """Defines a forward-separated path for the parent sub menus. It must at least define one level, which is associated
     to the top menu."""
 
     def __hash__(self):
@@ -242,47 +242,47 @@ class CommandInfo:
     """Data-only class storing information about an add-on command."""
 
     id: str
-    """Defines a human readable unique ID for the command. To reduce risk of ID conflicts, please use a concatenation of 
+    """Defines a human readable unique ID for the command. To reduce risk of ID conflicts, please use a concatenation of
     the author name, the product name and the command name (e.g. 'mv.pywwise.do_something)."""
 
     display_name: str
     """Defines the name displayed in the user interface. (e.g. Do Something)"""
 
     program: str = None
-    """Defines the program or script to run when the command is executed. Arguments are specified in 'args'. Note that 
+    """Defines the program or script to run when the command is executed. Arguments are specified in 'args'. Note that
     common directories variables can be used, such as ${CurrentCommandDirectory}."""
 
     lua_script: str = None
-    """Defines a lua script file path to run inside Wwise process when the command is executed. Arguments are specified 
+    """Defines a lua script file path to run inside Wwise process when the command is executed. Arguments are specified
     in 'args'. Note that common directories variables can be used, such as ${CurrentCommandDirectory}."""
 
     lua_paths: list[str] = None
-    """Defines an array of paths to be used to load additional lua scripts. Here is an example of a lua path 
+    """Defines an array of paths to be used to load additional lua scripts. Here is an example of a lua path
     C:/path_to_folder/?.lua. Note that common directories variables can be used, such as ${CurrentCommandDirectory}."""
 
     lua_selected_return: list[str] = None
-    """Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script 
+    """Specifies an array of return expressions for the selected objects in Wwise. This will be available to the script
     in a lua table array in wa_args.selected. Several values provided for the option."""
 
     start_mode: EStartMode = EStartMode.SINGLE_SELECTION_SINGLE_PROCESS
-    """Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user 
+    """Specifies how to expand variables in the arguments field in case of multiple selection in the Wwise user
     interface."""
 
     args: str = None
-    """Defines the arguments. Refer to the documentation for the list of supported built-in variables. Note that in the 
+    """Defines the arguments. Refer to the documentation for the list of supported built-in variables. Note that in the
     event of a multiple selection, the variables are expanded based on the startMode field. Note that common directories 
     variables can be used, such as ${CurrentCommandDirectory}."""
 
     cwd: str = None
-    """Defines the current working directory to execute the program. Note that common directories variables can be used, 
+    """Defines the current working directory to execute the program. Note that common directories variables can be used,
     such as ${CurrentCommandDirectory}."""
 
     default_shortcut: str = None
-    """Defines the shortcut to use by default for this command. If the shortcut conflicts, it won't be used. This 
+    """Defines the shortcut to use by default for this command. If the shortcut conflicts, it won't be used. This
     shortcut can be changed in the Keyboard Shortcut Manager."""
 
     redirect_outputs: bool = False
-    """Defines if the standard output streams of the program (stdout + stderr) should be redirected and logged to Wwise 
+    """Defines if the standard output streams of the program (stdout + stderr) should be redirected and logged to Wwise
     on termination. The value is of boolean type and false by default."""
 
     context_menu: ContextMenuInfo = None
@@ -1154,43 +1154,64 @@ class ConnectionStatusInfo:
 
 
 @_dataclass
-class AudioImportEntry:
+class DAudioImportEntry:
     """Dataclass representing a single entry for an audio import operation."""
-
-    obj_path: ProjectPath
-    """The project path of the Wwise object to create. Example: "/Actor-Mixer Hierarchy/Default Work Unit/<Random 
-    Container>MyContainer/<Sound>MySound" will create a `RandomSequenceContainer` (with `RandomOrSequence=1`) called 
+    
+    import_language: str = ""
+    """Imports the language for the audio file import (taken from the project's defined languages, found in the WPROJ
+    file LanguageList)."""
+    
+    import_location: GUID | tuple[EObjectType, Name] | ProjectPath = None
+    """Object ID (GUID), name, or path used as root relative object paths.  The name of the object qualified by its type
+    or Short ID in the form of type:name or Global:shortId. Only object types that have globally-unique names or Short
+    Ids are supported. Ex: Event:Play_Sound_01, Global:245489792 string A project path to a Wwise object, including the
+    category and the work-unit. For example: \Actor-Mixer Hierarchy\Default Work Unit\New Sound SFX."""
+    
+    audio_file: str = ""
+    """Path to media file to import. This path must be accessible from Wwise. For using WAAPI on Mac, please refer to
+    Using WAAPI on Mac ."""
+    
+    audio_file_base64: str = ""
+    """Base64 encoded WAV audio file data to import with its target file path relative to the Originals folder,
+    separated by a vertical bar. E.g. 'MySound.wav|UklGRu...'."""
+    
+    object_path: ProjectPath = None
+    """The project path of the Wwise object to create. Example: "/Actor-Mixer Hierarchy/Default Work Unit/<Random
+    Container>MyContainer/<Sound>MySound" will create a `RandomSequenceContainer` (with `RandomOrSequence=1`) called
     "MyContainer" and a `Sound` called "MySound"."""
-
-    obj_path_root: GUID | tuple[EObjectType, Name] | ProjectPath = None
-    """The GUID, typed name, or project path of the Wwise object to use as the "root" of the specified path 
-    (`obj_path`). Although using a typed name is supported, it will only work for types that enforce globally-unique 
-    names (e.g. `EObjectType.EVENT`); therefore, using a typed name is NOT recommended."""
-
-    file_path: SystemPath = None
-    """Path to media file to import. This path must be accessible from Wwise. If no path is specified, Wwise objects are
-    still created, but no audio file is imported."""
-
-    language: Name = Name("SFX")
-    """The language to set for this entry. The default is "SFX" (the language for `Sound SFX` objects)."""
-
-    originals_path: OriginalsPath = None
-    """Specifies the 'originals' sub-folder in which to place the imported audio file. This folder is relative to the 
-    'originals' folder in which the file would normally be imported. Example: if importing an SFX, then the audio file 
-    is imported to the folder Originals/SFX/originalsPath."""
-
-    obj_notes: str = ""
+    
+    originals_sub_folder: OriginalsPath = None
+    """Specifies the 'originals' sub-folder in which to place the imported audio file. This folder is relative to the
+    'originals' folder in which the file would normally be imported. Example: if importing an SFX, then the audio file
+    is imported to the folder Originals\SFX\originalsPath."""
+    
+    object_type: EObjectType | str = ""
+    """Specifies the type of object to create when importing an audio file. This type can also be specified directly in
+    the objectPath. Refer to Wwise Objects Reference for the available types."""
+    
+    notes: str = ""
     """The "Notes" field of the created object."""
-
-    source_notes: str = ""
+    
+    audio_source_notes: str = ""
     """The "Notes" field of the created audio source object."""
-
+    
+    switch_assignation: str = ""
+    """Defines a Switch Group or State Group that is associated to a Switch Container, within the Actor-Mixer Hierarchy
+     only. Also defines which Switch Container's child is assigned to which Switch or State from the associated group.
+     Refer to Tab Delimited Import in the Wwise Help documentation for more information."""
+    
     event: ProjectPath = None
-    """Defines the path and name of an Event to be created for the imported object."""
-
+    """Defines the path and name of an Event to be created for the imported object. Refer to Tab Delimited Import in the
+     Wwise Help documentation for more information."""
+    
     dialogue_event: ProjectPath = None
-    """Defines the path and name of a Dialogue Event to be created for the imported object."""
-
-    properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
-    """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the 
+    """Defines the path and name of a Dialogue Event to be created for the imported object. Refer to Tab Delimited
+    Import in the Wwise Help documentation for more information."""
+    
+    regex: tuple[str, _NoneType | bool | int | float | str] = None
+    """Specifies a Wwise object property and its value. Property names are prefixed with `@`"""
+    
+    additional_properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
+    """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
     associated object) or `@@` (a reference to the source of override)."""
+    

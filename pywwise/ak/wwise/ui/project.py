@@ -3,7 +3,7 @@
 
 from waapi import WaapiClient as _WaapiClient
 from pywwise.aliases import SystemPath
-from pywwise.structs import PlatformInfo
+from pywwise.structs import DPlatformInfo
 
 
 class Project:
@@ -29,7 +29,7 @@ class Project:
 		result = self._client.call("ak.wwise.ui.project.close", args)
 		return result.get("hadProjectOpen")
 	
-	def create(self, path: SystemPath, platforms: set[PlatformInfo] = None, languages: set[str] = None) -> bool:
+	def create(self, path: SystemPath, platforms: set[DPlatformInfo] = None, languages: set[str] = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_create.html \n
 		Creates, saves and opens new empty project, specified by path and platform. The project has no

@@ -1371,6 +1371,19 @@ class EImportOperation(_StrEnum):
 	"""Replacement of an already-existing Wwise object."""
 
 
+class EAudioImportOperation(_StrEnum):
+	"""An enumeration of possible audio import operations."""
+	
+	CREATE_NEW = "createNew"
+	"""Creates a new object; the object is given the desired name if possible, otherwise a new unique name is used."""
+	
+	USE_EXISTING = "useExisting"
+	"""Uses the object if it exists, updating the specified properties; otherwise it creates a new object. This is the default value."""
+	
+	REPLACE_EXISTING = "replaceExisting"
+	""" creates a new object; if an existing object has the same name then the existing object is destroyed."""
+
+
 class EDataTypes(_StrEnum):
 	"""Enumeration of possible data types to capture in the profiler"""
 	

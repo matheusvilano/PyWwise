@@ -110,7 +110,7 @@ class UI:
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_getselectedobjects.html \n
 		Retrieves the list of objects currently selected by the user in the active view.
 		:param returns: The additional return options. By default, this function returns only the GUID and Name
-							   of the selected objects. Duplicates are ignored.
+						of the selected objects. Duplicates are ignored.
 		:param platform: If specified, this function will get information from the specified platform instead of the
 						 current platform.
 		:param language: If specified, this function will get information from the specified language instead of the
