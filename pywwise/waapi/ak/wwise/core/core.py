@@ -1,6 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
 from pywwise.waapi.ak.wwise.core.audio import Audio as _Audio
 from pywwise.waapi.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
@@ -15,7 +16,7 @@ from pywwise.waapi.ak.wwise.core.source_control import SourceControl as _SourceC
 from pywwise.waapi.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
 from pywwise.waapi.ak.wwise.core.transport import Transport as _Transport
 from pywwise.waapi.ak.wwise.core.undo import Undo as _Undo
-from pywwise.aliases import SystemPath
+from pywwise.aliases import SystemPath, ListOrTuple
 from pywwise.enums import EWwiseBuildConfiguration, EWwiseBuildPlatform, EBasePlatform, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.structs import (WwiseGlobalInfo, WwiseObjectWatch, WwiseVersionInfo, WwiseGlobalDirectories, LanguageInfo,
@@ -48,16 +49,30 @@ class Core:
 		self.transport = _Transport(client)
 		self.undo = _Undo(client)
 	
-	def execute_lua_script(self):
+	def execute_lua_script(self, lua_script: SystemPath,
+	                       lua_paths: ListOrTuple[SystemPath] = (),
+	                       requires: ListOrTuple[str] = (),
+	                       do_files: ListOrTuple[SystemPath] = ()) -> _Any | None:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_executeluascript.html \n
-		Execute a Lua script. Optionally, specify additional Lua search paths, additional modules,
-		and additional Lua scripts to load prior to the main script. The script can return a value. All
-		arguments will be passed to the Lua script in the "wa_args" global variable.
+		Execute a Lua script. Optionally, specify additional Lua search paths, additional modules, and additional Lua
+		scripts to load prior to the main script. The script can return a value. All arguments will be passed to the
+		Lua script in the "wa_args" global variable.
+		:param lua_script: The Lua script to load and execute.
+		:param lua_paths: An array of paths to be used to search additional Lua modules.
+		:param requires: An array of additional modules to be loaded at runtime using the `require` system in Lua. Note
+						 that the following folders are automatically added in the Lua path: "PROJECT/Add-ons/Lua",
+						 "APPDATA/Audiokinetic/Wwise/Add-ons/Lua", and "INSTALLDIR/Authoring/Data/Add-ons/Lua".
+		:param do_files: An array of additional Lua files to load before the main Lua script is loaded and executed. It
+						 is also possible to specify a directory in which all Lua files will be loaded.
+		:return: Result returned by the Lua script. Use a return statement at the end of the Lua script.
 		"""
-		raise NotImplementedError()
+		args = {"luaScript": str(lua_script), "luaPaths": [str(path) for path in lua_paths],
+		        "requires": requires, "doFiles": [str(file) for file in do_files]}
+		result = self._client.call("ak.wwise.core.executeLuaScript", args)
+		return result.get("return", None) if result is not None else None
 	
-	def get_info(self):
+	def get_info(self) -> WwiseGlobalInfo:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_getinfo.html \n
 		Retrieve global Wwise information.
@@ -90,11 +105,11 @@ class Core:
 		                       directories=dirs,
 		                       copyright_info=info["copyright"])
 	
-	def get_project_info(self):
+	def get_project_info(self) -> WwiseProjectInfo:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_getprojectinfo.html \n
-		Retrieve information about the current project opened, including platforms, languages and project
-		directories.
+		Retrieve information about the current project opened, including platforms, languages and project directories.
+		:return: A WwiseProjectInfo instance containing information about a Wwise project.
 		"""
 		info = self._client.call("ak.wwise.core.getProjectInfo")
 		
