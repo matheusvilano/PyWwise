@@ -15,7 +15,10 @@ from pywwise.waapi.ak.wwise.core.source_control import SourceControl as _SourceC
 from pywwise.waapi.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
 from pywwise.waapi.ak.wwise.core.transport import Transport as _Transport
 from pywwise.waapi.ak.wwise.core.undo import Undo as _Undo
-from pywwise.structs import WwiseObjectWatch
+from pywwise.enums import EWwiseBuildConfiguration, EWwiseBuildPlatform
+from pywwise.primitives import GUID
+from pywwise.structs import WwiseGlobalInfo, WwiseObjectWatch, WwiseVersionInfo, WwiseDirectories
+from pywwise.statics import EnumStatics
 
 
 class Core:
@@ -56,8 +59,33 @@ class Core:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_getinfo.html \n
 		Retrieve global Wwise information.
+		:return: A WwiseGlobalInfo object containing information about Wwise (e.g. version, platform, etc.).
 		"""
-		raise NotImplementedError()
+		info = self._client.call("ak.wwise.core.getInfo")
+		
+		version = info["version"]
+		version = WwiseVersionInfo(version["displayName"], version["year"], version["major"], version["minor"],
+		                           version["build"], version["nickname"], version["schema"])
+		
+		config = EnumStatics.from_value(EWwiseBuildConfiguration, info["configuration"])
+		
+		platform = EnumStatics.from_value(EWwiseBuildPlatform, info["platform"])
+		
+		dirs = info["directories"]
+		dirs = WwiseDirectories(dirs["install"], dirs["authoring"], dirs["bin"], dirs["help"], dirs["user"])
+		
+		return WwiseGlobalInfo(session_id=GUID(info["sessionId"]),
+		                       api_version=float(info["apiVersion"]),
+		                       display_name=info["displayName"],
+		                       branch=info["branch"],
+		                       version=version,
+		                       configuration=config,
+		                       platform=platform,
+		                       is_command_line=info["isCommandLine"],
+		                       process_id=info["processId"],
+		                       process_path=info["processPath"],
+		                       directories=dirs,
+		                       copyright_info=info["copyright"])
 	
 	def get_project_info(self):
 		"""
