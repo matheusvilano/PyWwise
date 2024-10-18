@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from dataclasses import dataclass as _dataclass, field as _field
-from pathlib import Path as _Path
 from types import NoneType as _NoneType
 from typing import Any as _Any, Self as _Self
 from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
@@ -101,20 +100,20 @@ class PlatformInfo:
 class ExternalSourceInfo:
 	"""Data-only class storing information about an external source."""
 	
-	input: _Path
+	input: SystemPath
 	"""The path where the external source's WAV file is located."""
 	
 	platform: Name | GUID
 	"""The name or GUID of the platform this external source is associated with."""
 	
-	output: _Path
+	output: SystemPath
 	"""The output path of the external source's WEM (after conversions)."""
 	
 	@property
 	def dictionary(self) -> dict[str, str]:
-		as_dict = {"input": self.input, "platform": self.platform}
+		as_dict = {"input": str(self.input), "platform": str(self.platform)}
 		if self.output is not None:
-			as_dict["output"] = self.output
+			as_dict["output"] = str(self.output)
 		return as_dict
 
 
@@ -1041,47 +1040,6 @@ class WwiseDirectories:
 	
 	user: SystemPath
 	"""The Wwise user data directory root."""
-
-
-@_dataclass
-class GlobalWwiseInfo:
-	"""A dataclass representing global information about Wwise."""
-	
-	session_id: GUID
-	"""Wwise session id."""
-	
-	api_version: float
-	"""Version of the Wwise Authoring API. Range: [1,*]."""
-	
-	display_name: str
-	"""Wwise display name."""
-	
-	branch: str
-	"""Branch built."""
-	
-	copyright: str
-	"""Copyright information."""
-	
-	version: WwiseVersionInfo
-	"""Wwise version object."""
-	
-	is_debug_build: bool
-	"""Indicates if the Wwise build is a release build (`False`) or debug build (`True`)."""
-	
-	build_platform: EWwiseBuildPlatform
-	"""The platform on which Wwise was built."""
-	
-	command_line: bool
-	"""Whether Wwise is running in command line."""
-	
-	process_id: int
-	"""The process identifier of Wwise."""
-	
-	process_path: str
-	"""The process path of Wwise."""
-	
-	directories: WwiseDirectories
-	"""Collection of directories used by Wwise."""
 
 
 @_dataclass
