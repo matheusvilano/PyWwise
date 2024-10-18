@@ -15,9 +15,11 @@ from pywwise.waapi.ak.wwise.core.source_control import SourceControl as _SourceC
 from pywwise.waapi.ak.wwise.core.switch_container import SwitchContainer as _SwitchContainer
 from pywwise.waapi.ak.wwise.core.transport import Transport as _Transport
 from pywwise.waapi.ak.wwise.core.undo import Undo as _Undo
-from pywwise.enums import EWwiseBuildConfiguration, EWwiseBuildPlatform
-from pywwise.primitives import GUID
-from pywwise.structs import WwiseGlobalInfo, WwiseObjectWatch, WwiseVersionInfo, WwiseDirectories
+from pywwise.aliases import SystemPath
+from pywwise.enums import EWwiseBuildConfiguration, EWwiseBuildPlatform, EBasePlatform, EObjectType, EReturnOptions
+from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.structs import (WwiseGlobalInfo, WwiseObjectWatch, WwiseVersionInfo, WwiseGlobalDirectories, LanguageInfo,
+                             PlatformInfo, WwiseObjectInfo, WwiseProjectInfo)
 from pywwise.statics import EnumStatics
 
 
@@ -72,7 +74,8 @@ class Core:
 		platform = EnumStatics.from_value(EWwiseBuildPlatform, info["platform"])
 		
 		dirs = info["directories"]
-		dirs = WwiseDirectories(dirs["install"], dirs["authoring"], dirs["bin"], dirs["help"], dirs["user"])
+		dirs = WwiseGlobalDirectories(SystemPath(dirs["install"]), SystemPath(dirs["authoring"]),
+		                              SystemPath(dirs["bin"]), SystemPath(dirs["help"]), SystemPath(dirs["user"]))
 		
 		return WwiseGlobalInfo(session_id=GUID(info["sessionId"]),
 		                       api_version=float(info["apiVersion"]),
@@ -93,4 +96,23 @@ class Core:
 		Retrieve information about the current project opened, including platforms, languages and project
 		directories.
 		"""
-		raise NotImplementedError()
+		info = self._client.call("ak.wwise.core.getProjectInfo")
+		
+		languages = [LanguageInfo(guid=lang["id"], name=lang["name"], short_id=lang["shortId"])
+		             for lang in info["languages"]]
+		
+		platforms = [PlatformInfo(name=plat["name"], base=EnumStatics.from_value(EBasePlatform, plat["baseName"]),
+		                          guid=plat["id"], sound_bank_path=SystemPath(plat["soundBankPath"]),
+		                          copied_media_path=plat["copiedMediaPath"])
+		             for plat in info["platforms"]]
+		
+		conversion = info["defaultConversion"]["id"]
+		conversion = self._client.call("ak.wwise.core.object.get",  # We need this call here to get the ProjectPath.
+		                               {"waql": f"$ from object \"{conversion}\""},  # It will always return 1 item.
+		                               options={"return": EReturnOptions.get_defaults()})["return"][0]
+		conversion = WwiseObjectInfo(GUID(conversion["id"]), Name(conversion["name"]),
+		                             EObjectType.CONVERSION, ProjectPath(conversion["path"]))
+		
+		return WwiseProjectInfo(info["name"], info["displayTitle"], SystemPath(info["path"]), GUID(info["id"]),
+		                        info["isDirty"], GUID(info["currentLanguageId"]), GUID(info["referenceLanguageId"]),
+		                        GUID(info["currentPlatformId"]), languages, platforms, conversion)

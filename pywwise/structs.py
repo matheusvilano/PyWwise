@@ -82,14 +82,20 @@ class AuxSendValue:
 class PlatformInfo:
 	"""Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
 	
-	name: str
+	name: str | Name
 	"""The name of this platform."""
 	
-	base_platform: EBasePlatform
+	base: EBasePlatform
 	"""The base platform."""
 	
 	guid: GUID = None
 	"""The GUID of this platform."""
+	
+	sound_bank_path: SystemPath = None
+	"""The path on which the SoundBank files are generated for this platform."""
+	
+	copied_media_path: SystemPath = None
+	"""The path on which the SoundBank media files are generated for this platform."""
 	
 	def __hash__(self):
 		""":return: The PlatformInfo hash."""
@@ -1164,7 +1170,7 @@ class ConversionLogItem:
 
 
 @_dataclass
-class WwiseDirectories:
+class WwiseGlobalDirectories:
 	"""A dataclass containing paths to standard Wwise directories."""
 	
 	install: SystemPath
@@ -1217,8 +1223,88 @@ class WwiseGlobalInfo:
 	process_path: str
 	"""The process path of Wwise."""
 	
-	directories: WwiseDirectories
+	directories: WwiseGlobalDirectories
 	"""Collection or directories used by Wwise."""
 	
 	copyright_info: str
 	"""Copyright information."""
+
+
+@_dataclass
+class LanguageInfo:
+	"""Language information."""
+	
+	guid: GUID
+	"""Language identifier."""
+	
+	name: Name
+	"""Language name."""
+	
+	short_id: ShortID
+	"""Language short (32-bit) identifier."""
+
+
+@_dataclass
+class WwiseProjectDirectories:
+	"""Dataclass with information about the Wwise project directories."""
+	
+	root: SystemPath
+	"""The root directory of the Wwise project."""
+	
+	cache: SystemPath
+	"""The cache directory of the Wwise project, as specified in the Project Settings. Contains generated media files
+	in the WEM format."""
+	
+	originals: SystemPath
+	"""The Originals directory of the Wwise project, as specified in the Project Settings. Contains original media files
+	in the WAV format."""
+	
+	sound_bank_output_root: SystemPath
+	"""The SoundBank output root directory of the project, as specified in the Project Settings. This is where BNK, TXT
+	H, XML, and JSON files are placed after a SoundBank generation."""
+	
+	commands: SystemPath
+	"""The Commands directory of the project, as specified in the Project Settings. This is where JSON files that
+	specify add-on commands are stored."""
+	
+	properties: SystemPath
+	"""The Properties directory of the project. This is usually the root Wwise project directory."""
+
+
+@_dataclass
+class WwiseProjectInfo:
+	"""Information about a Wwise project."""
+	
+	name: Name
+	"""The name of the Wwise project as stored in the XML data in the WPROJ file. This is NOT the name of the WPROJ
+	file."""
+	
+	title: str
+	"""The complete text from the Wwise titlebar."""
+	
+	path: SystemPath
+	"""The absolute path of the WPROJ file."""
+	
+	guid: GUID
+	"""Project identifier."""
+	
+	is_dirty: bool
+	"""True if the Project or any of the Work Units have unsaved changes."""
+	
+	current_language_guid: GUID
+	"""The current Language set in the user interface."""
+	
+	reference_language_guid: GUID
+	"""The reference Language set in the Language settings."""
+	
+	current_platform_guid: GUID
+	"""The current Platform set in the user interface."""
+	
+	languages: tuple[LanguageInfo, ...]
+	"""The languages defined in the project."""
+	
+	platforms: tuple[PlatformInfo, ...]
+	"""The platforms defined in the project."""
+	
+	default_conversion: WwiseObjectInfo
+	"""The default Conversion Settings object."""
