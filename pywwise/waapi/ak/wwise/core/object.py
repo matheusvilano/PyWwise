@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from types import NoneType
-from typing import Any as _Any, Collection as _Collection, Collection
+from typing import Any as _Any, Collection as _Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from pywwise.aliases import ListOrTuple
