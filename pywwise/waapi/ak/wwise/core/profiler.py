@@ -683,6 +683,5 @@ class Profiler:
 								     globally-unique names or Short Ids are supported. Ex: Event:Play_Sound_01
 		:return: Returns a boolean that indicates if the call was successful.
 		"""
-		result = self._client.call("ak.wwise.core.profiler.unregisterMeter",
-		                           {"object": object_to_unregister})
-		return True if result is not None else False
+		return self._client.call("ak.wwise.core.profiler.unregisterMeter",
+		                           {"object": object_to_unregister}) is not None

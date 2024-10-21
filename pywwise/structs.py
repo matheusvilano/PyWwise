@@ -1157,82 +1157,71 @@ class ConnectionStatusInfo:
 class DAudioImportEntry:
     """Dataclass representing a single entry for an audio import operation."""
     
-    import_language: str = ""
-    """Imports the language for the audio file import (taken from the project's defined languages, found in the WPROJ
-    file LanguageList)."""
+    object_path: ProjectPath
+    """The project path of the Wwise object to create, including the name of the object to create. Example:
+    "/Actor-Mixer Hierarchy/Default Work Unit/<RandomContainer>MyContainer/<Sound>MySound" will create a
+    `RandomSequenceContainer` (with `RandomOrSequence=1`) called "MyContainer" and a `Sound` called "MySound"."""
     
-    import_location: GUID | tuple[EObjectType, Name] | ProjectPath = None
-    """Object ID (GUID), name, or path used as root relative object paths.  The name of the object qualified by its type
+    root_path: GUID | tuple[EObjectType, Name] | ProjectPath = None
+    """Object ID (GUID), name, or path used as root relative object paths. The name of the object qualified by its type
     or Short ID in the form of type:name or Global:shortId. Only object types that have globally-unique names or Short
     Ids are supported. Ex: Event:Play_Sound_01, Global:245489792 string A project path to a Wwise object, including the
-    category and the work-unit. For example: \Actor-Mixer Hierarchy\Default Work Unit\New Sound SFX."""
+    category and the work-unit. For example: /Actor-Mixer Hierarchy/Default Work Unit/New Sound SFX."""
     
-    audio_file: str = ""
+    audio_file_path: SystemPath = None
     """Path to media file to import. This path must be accessible from Wwise. For using WAAPI on Mac, please refer to
     Using WAAPI on Mac ."""
     
-    audio_file_base64: str = ""
+    audio_file_base64: bytes = None
     """Base64 encoded WAV audio file data to import with its target file path relative to the Originals folder,
     separated by a vertical bar. E.g. 'MySound.wav|UklGRu...'."""
     
-    object_path: ProjectPath = None
-    """The project path of the Wwise object to create. Example: "/Actor-Mixer Hierarchy/Default Work Unit/<Random
-    Container>MyContainer/<Sound>MySound" will create a `RandomSequenceContainer` (with `RandomOrSequence=1`) called
-    "MyContainer" and a `Sound` called "MySound"."""
-    
-    originals_sub_folder: OriginalsPath = None
+    originals_path: OriginalsPath = None
     """Specifies the 'originals' sub-folder in which to place the imported audio file. This folder is relative to the
-    'originals' folder in which the file would normally be imported. Example: if importing an SFX, then the audio file
-    is imported to the folder Originals\SFX\originalsPath."""
+    'originals' folder in which the file would normally be imported. Example: if importing an SFX, the audio file
+    is imported to the folder "/Originals/SFX/{originals_path}"."""
     
-    object_type: EObjectType | str = ""
+    object_type: EObjectType = None
     """Specifies the type of object to create when importing an audio file. This type can also be specified directly in
     the objectPath. Refer to Wwise Objects Reference for the available types."""
     
-    notes: str = ""
+    object_notes: str = ""
     """The "Notes" field of the created object."""
     
-    audio_source_notes: str = ""
+    source_notes: str = ""
     """The "Notes" field of the created audio source object."""
     
-    switch_assignation: str = ""
-    """Defines a Switch Group or State Group that is associated to a Switch Container, within the Actor-Mixer Hierarchy
-     only. Also defines which Switch Container's child is assigned to which Switch or State from the associated group.
-     Refer to Tab Delimited Import in the Wwise Help documentation for more information."""
-    
     event: ProjectPath = None
-    """Defines the path and name of an Event to be created for the imported object. Refer to Tab Delimited Import in the
-     Wwise Help documentation for more information."""
+    """Defines the path and name of an Event to be created for the imported object.
+    Example: "/Events/Default Work Unit/MyEvent"."""
     
     dialogue_event: ProjectPath = None
-    """Defines the path and name of a Dialogue Event to be created for the imported object. Refer to Tab Delimited
-    Import in the Wwise Help documentation for more information."""
+    """Defines the path and name of a Dialogue Event to be created for the imported object.
+    Example: "/Dynamic Dialogue/Default Work Unit/MyEvent"."""
     
-    regex: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
-    """Specifies a Wwise object property and its value. Property names are prefixed with `@`"""
+    language: GUID | Name = None
+    """Imports the language for the audio file import (taken from the project's defined languages, found in the WPROJ
+    file LanguageList)."""
     
-    additional_properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
+    properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = ()
     """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
     associated object) or `@@` (a reference to the source of override)."""
     
     @property
     def dictionary(self) -> dict[str, str | int | float | bool | Any | None]:
         """:return: The instance represented as a dictionary"""
-        as_dict = dict()
-        as_dict["importLanguage"] = self.import_language
-        as_dict["importLocation"] = self.import_location
-        as_dict["audioFile"] = self.audio_file
-        as_dict["audioFileBase64"] = self.audio_file_base64
-        as_dict["originalsSubFolder"] = self.originals_sub_folder
-        as_dict["objectPath"] = self.object_path
-        as_dict["objectType"] = self.object_type
-        as_dict["notes"] = self.notes
-        as_dict["audioSourceNotes"] = self.audio_source_notes
-        as_dict["switchAssignation"] = self.switch_assignation
-        as_dict["event"] = self.event
-        as_dict["dialogueEvent"] = self.dialogue_event
-        as_dict["regex(^@[:_a-zA-Z0-9]+$)"] = self.regex
-        return as_dict
+        return {**({"objectPath": self.object_path} if self.object_path is not None else {}),
+                **({"importLocation": self.root_path} if self.root_path is not None else {}),
+                **({"audioFile": str(self.audio_file_path)} if self.audio_file_path is not None else {}),
+                **({"audioFileBase64": self.audio_file_base64} if self.audio_file_base64 is not None else {}),
+                **({"originalsSubFolder": self.originals_path} if self.originals_path is not None else {}),
+                **({"objectType": self.object_type.get_type_name()} if self.object_type is not None else {}),
+                **({"notes": self.object_notes} if self.object_notes is not None else {}),
+                **({"audioSourceNotes": self.source_notes} if self.source_notes is not None else {}),
+                **({"event": self.event} if self.event is not None else {}),
+                **({"dialogueEvent": self.dialogue_event} if self.dialogue_event is not None else {}),
+                **({"importLanguage": self.language} if self.language is not None else {}),
+                **dict(self.properties)}
 
 
 @_dataclass
