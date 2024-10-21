@@ -145,7 +145,7 @@ class Transport:
 		# from_value will [attempt to] convert any value to the specified Enum subclass.
 		return EnumStatics.from_value(ETransportState, result.get("state", "None"))
 	
-	def prepare(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath ) -> bool:
+	def prepare(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_transport_prepare.html \n
 		Prepare the object and its dependencies for playback. Use this function before calling

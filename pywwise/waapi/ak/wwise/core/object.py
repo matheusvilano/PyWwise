@@ -1,9 +1,9 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from types import NoneType
+from types import NoneType as _NoneType
 from typing import Any as _Any, Collection as _Collection
-
+from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
 from waapi import EventHandler as _EventHandler, WaapiClient as _WaapiClient
 
@@ -758,7 +758,7 @@ class Object:
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
-	                 property_name: str, value: NoneType | bool | int | float | str,
+	                 property_name: str, value: _NoneType | bool | int | float | str,
 	                 platform: GUID | Name = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setproperty.html \n

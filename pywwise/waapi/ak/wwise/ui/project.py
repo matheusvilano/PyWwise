@@ -49,7 +49,7 @@ class Project:
 		if platforms is not None:
 			args["platforms"] = list()
 			for platform in platforms:
-				args["platforms"].append({"name": platform.name, "basePlatform": platform.base_platform})
+				args["platforms"].append({"name": platform.name, "basePlatform": platform.base})
 		if languages is not None:
 			args["languages"] = list(languages)
 		

@@ -2107,7 +2107,7 @@ class EMultiPositionType(_IntEnum):
 
 
 class EListMode(_StrEnum):
-	"""An enumeration of list modes behaviours."""
+	"""An enumeration of list modes (behaviours)."""
 	
 	REPLACE_ALL = "replaceAll"
 	"""Remove all existing objects and add the new objects, with the duplicate restriction."""
@@ -2116,3 +2116,13 @@ class EListMode(_StrEnum):
 	"""Add the new objects to the list if possible, keeping existing objects. Some lists might not permit duplicate
 	equivalent objects: e.g., some properties of RTPCs in the RTPC list are exclusive so there can only be one RTPC
 	with that property."""
+
+
+class EWwiseBuildConfiguration(_StrEnum):
+	"""An enumeration of Wwise build types."""
+	
+	RELEASE = "release"
+	"""Release build configuration."""
+	
+	DEBUG = "debug"
+	"""Debug build configuration."""

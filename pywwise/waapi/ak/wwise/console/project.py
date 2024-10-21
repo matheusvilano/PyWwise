@@ -50,7 +50,7 @@ class Project:
 		platforms = list(dict.fromkeys(platforms))
 		args = {"path": str(project_path), "platforms": list(), "languages": [language for language in languages]}
 		for platform in platforms:
-			args["platforms"].append({"name": platform.name, "basePlatform": platform.base_platform})
+			args["platforms"].append({"name": platform.name, "basePlatform": platform.base})
 		return self._client.call("ak.wwise.console.project.create", args) is not None
 	
 	@console_instance_only
