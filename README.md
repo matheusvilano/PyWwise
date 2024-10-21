@@ -40,7 +40,7 @@ ak.disconnect()
 ```
 
 Alternatively, you may use a `with` statement for context management, so the connection to Wwise is automatically closed 
-once the `with` block is done. Here a variation of the previous example:
+once the `with` block is done. Here is a variation on the previous example:
 
 ```python
 from pywwise import new_waapi_connection, SystemPath
