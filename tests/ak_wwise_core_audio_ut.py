@@ -1,12 +1,13 @@
 import unittest
+
 from pywwise import *
 
 ak = new_waapi_connection()
 
 
 class AkWwiseCoreAudio(unittest.TestCase):
-	pass
+    pass
 
 
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()

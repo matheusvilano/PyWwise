@@ -3,8 +3,8 @@
 
 from pathlib import Path as _Path
 from re import Pattern as _Pattern
-from typing import (TypeAlias as _TypeAlias, TypeVar as _TypeVar, Union as _Union, List as _List, Tuple as _Tuple,
-                    Set as _Set)
+from typing import (List as _List, Set as _Set, Tuple as _Tuple, TypeAlias as _TypeAlias, TypeVar as _TypeVar,
+                    Union as _Union)
 
 SystemPath: _TypeAlias = _Path
 """Represents a filesystem path."""

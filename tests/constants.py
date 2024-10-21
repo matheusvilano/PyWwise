@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.aliases import SystemPath
-from pywwise.primitives import Name, ProjectPath, ShortID, GUID
+from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 
 RESOURCES_PROJECT__PATH = SystemPath(__file__).parent / ".." / "resources"
 WWISE_PROJECT__PATH = RESOURCES_PROJECT__PATH / "wwise" / "PyWwise.wproj"
@@ -40,7 +40,8 @@ AUX_BUS__SHORT = ShortID(2455487724)
 AUX_BUS__GUID = GUID("{75DBAA74-71BF-4325-A30A-EED68F9A1F3C}")
 
 BLEND_CONTAINER__NAME = Name("BlendContainer_Test")
-BLEND_CONTAINER__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\BlendContainer_Test")
+BLEND_CONTAINER__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\BlendContainer_Test")
 BLEND_CONTAINER__SHORT = ShortID(571427951)
 BLEND_CONTAINER__GUID = GUID("{1EBC0D80-23AE-4094-85EB-C315E26DF47D}")
 
@@ -105,17 +106,20 @@ MUSIC_SWITCH_CONTAINER__SHORT = ShortID(188990294)
 MUSIC_SWITCH_CONTAINER__GUID = GUID("{306CD70E-1060-4754-B4D9-7A595AD3E502}")
 
 MUSIC_PLAYLIST_CONTAINER__NAME = Name("MusicPlaylistContainer_Test")
-MUSIC_PLAYLIST_CONTAINER__PATH = ProjectPath(r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test")
+MUSIC_PLAYLIST_CONTAINER__PATH = ProjectPath(
+    r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test")
 MUSIC_PLAYLIST_CONTAINER__SHORT = ShortID(850509625)
 MUSIC_PLAYLIST_CONTAINER__GUID = GUID("{89E23454-3798-49C0-8C58-D50CF490CCBF}")
 
 MUSIC_SEGMENT__NAME = Name("MusicSegment_Test")
-MUSIC_SEGMENT__PATH = ProjectPath(r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test\MusicSegment_Test")
+MUSIC_SEGMENT__PATH = ProjectPath(
+    r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test\MusicSegment_Test")
 MUSIC_SEGMENT__SHORT = ShortID(398977418)
 MUSIC_SEGMENT__GUID = GUID("{A28758CF-0B29-4FB9-9D7B-AC002F444C02}")
 
 MUSIC_TRACK__NAME = Name("MusicTrack_Test")
-MUSIC_TRACK__PATH = ProjectPath(r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test\MusicSegment_Test\MusicTrack_Test")
+MUSIC_TRACK__PATH = ProjectPath(
+    r"\Interactive Music Hierarchy\Default Work Unit\MusicSwitchContainer_Test\MusicPlaylistContainer_Test\MusicSegment_Test\MusicTrack_Test")
 MUSIC_TRACK__SHORT = ShortID(127101824)
 MUSIC_TRACK__GUID = GUID("{9A86ED1E-D60A-40A3-ADCF-106CFBFF17DB}")
 
@@ -125,22 +129,26 @@ QUERY__SHORT = ShortID(0)
 QUERY__GUID = GUID("{7C55BFCF-5BA1-45EA-85EB-910EFCC90A81}")
 
 RANDOM_CONTAINER__NAME = Name("RandomContainer_Test")
-RANDOM_CONTAINER__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\RandomContainer_Test")
+RANDOM_CONTAINER__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\RandomContainer_Test")
 RANDOM_CONTAINER__SHORT = ShortID(173937654)
 RANDOM_CONTAINER__GUID = GUID("{C90BC3F5-AD78-489C-954D-C297EEA62E5D}")
 
 SEQUENCE_CONTAINER__NAME = Name("SequenceContainer_Test")
-SEQUENCE_CONTAINER__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SequenceContainer_Test")
+SEQUENCE_CONTAINER__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SequenceContainer_Test")
 SEQUENCE_CONTAINER__SHORT = ShortID(2898814)
 SEQUENCE_CONTAINER__GUID = GUID("{A57159AC-E64B-4E58-9569-7DA1AA422B25}")
 
 SOUND_SFX__NAME = Name("SoundSfx_Test")
-SOUND_SFX__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SoundSfx_Test")
+SOUND_SFX__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SoundSfx_Test")
 SOUND_SFX__SHORT = ShortID(236491565)
 SOUND_SFX__GUID = GUID("{082B80EF-B825-4CE2-A2B7-46850ECDE6FF}")
 
 SOUND_VOICE__NAME = Name("SoundVoice_Test")
-SOUND_VOICE__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SoundVoice_Test")
+SOUND_VOICE__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SoundVoice_Test")
 SOUND_VOICE__SHORT = ShortID(76119712)
 SOUND_VOICE__GUID = GUID("{39049D64-C7C2-4D6D-848A-6A740F091740}")
 
@@ -170,7 +178,8 @@ STATE_VALUE_NOTNONE__SHORT = ShortID(2345074806)
 STATE_VALUE_NOTNONE__GUID = GUID("{6341E917-4A47-4E7A-B896-1EB35D55F005}")
 
 SWITCH_CONTAINER__NAME = Name("SwitchContainer_Test")
-SWITCH_CONTAINER__PATH = ProjectPath(r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SwitchContainer_Test")
+SWITCH_CONTAINER__PATH = ProjectPath(
+    r"\Actor-Mixer Hierarchy\Default Work Unit\VirtualFolder_Test\ActorMixer_Test\SwitchContainer_Test")
 SWITCH_CONTAINER__SHORT = ShortID(376289075)
 SWITCH_CONTAINER__GUID = GUID("{CF6162C6-E6AA-4C83-B47A-C6689D4A4090}")
 

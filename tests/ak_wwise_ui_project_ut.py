@@ -36,9 +36,9 @@ class AkWwiseUiProjectTest(unittest.TestCase):
 
     def test__create_project_with_platforms(self):
         output_path = RESOURCES_PROJECT__PATH / "TestProject02" / "TestProject02.wproj"
-        pywwise_platform = DPlatformInfo(name="PyWwise", base_platform=EBasePlatform.WINDOWS)
-        windows_platform = DPlatformInfo(name="Windows", base_platform=EBasePlatform.WINDOWS)
-        android_platform = DPlatformInfo(name="Android", base_platform=EBasePlatform.ANDROID)
+        pywwise_platform = PlatformInfo(name="PyWwise", base_platform=EBasePlatform.WINDOWS)
+        windows_platform = PlatformInfo(name="Windows", base_platform=EBasePlatform.WINDOWS)
+        android_platform = PlatformInfo(name="Android", base_platform=EBasePlatform.ANDROID)
         platforms = [pywwise_platform, windows_platform, android_platform]
         ak.wwise.ui.project.create(output_path, platforms, None)
         time.sleep(5)
