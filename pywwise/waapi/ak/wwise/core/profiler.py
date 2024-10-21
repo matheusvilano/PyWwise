@@ -7,9 +7,10 @@ from pywwise.waapi.ak.wwise.core.capture_log import CaptureLog as _CaptureLog
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import (EActiveRTPCMembers, EBusOptions, ECPUStatisticsMembers, EDataTypes, EAudioObjectOptions,
-                           EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EPerformanceMonitorMembers,
+                           EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EObjectType,
+                           EPerformanceMonitorMembers,
                            ETimeCursor, EVoicePipelineReturnOptions, EReturnOptions)
-from pywwise.primitives import GameObjectID, GUID, Name, ShortID
+from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath, ShortID
 from pywwise.structs import (ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo,
                              GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo,
                              PlayingVoiceProperties, StreamObjectInfo, VoiceContributionHierarchy,
@@ -363,14 +364,57 @@ class Profiler:
 		
 		return tuple(loaded_media)
 	
-	def get_meters(self):
+	def get_meters(self, time: ETimeCursor | int,  returns: ListOrTuple[EReturnOptions] = None, platform: str = None,
+	               language: str = None) -> tuple[WwiseObjectInfo, ...]:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_getmeters.html \n
 		Retrieves the Meter data for all registered buses, aux buses and devices. Only the master audio bus is
 		registered by default. Use `ak.wwise.core.profiler.registerMeter` for other buses, before retrieval of the
 		meter data.
+		:param time: Time in milliseconds to query for media, or a Time Cursor from which to acquire the time.
+					 This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
+					 ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
+					 manipulated by the user, while the Capture Time Cursor represents the latest time of the current
+					 capture.
+		:param returns: The additional return options. By default, this function returns only the GUID and Name
+						of the selected objects. Duplicates are ignored.
+		:param platform: If specified, this function will get information from the specified platform instead of the
+						 current platform.
+		:param language: If specified, this function will get information from the specified language instead of the
+						 current language.
+		:returns: For each selected object, a WwiseObjectInfo containing an object's GUID, name, path, type, and a
+				  dictionary containing additional information (requested via `return_options`). When accessing the
+				  values in the dictionary, use the EReturnOptions enum as the keys. If this function call fails, an
+				  empty tuple is returned.
 		"""
-		raise NotImplementedError()
+		args = {"time": time}
+		
+		returns = list(dict.fromkeys(returns)) if returns is not None else list[EReturnOptions]()
+		returns.extend(EReturnOptions.get_defaults())
+		
+		options = {"return": returns}
+		
+		if platform is not None:
+			options["platform"] = platform
+		if language is not None:
+			options["language"] = language
+		
+		results = self._client.call("ak.wwise.core.profiler.getMeters", args, options=options)
+		results = results.get("objects") if results is not None else None
+		if results is None:
+			return ()
+		
+		objects = list[WwiseObjectInfo]()
+		
+		for result in results:
+			guid = GUID(result[EReturnOptions.GUID])
+			name = Name(result[EReturnOptions.NAME])
+			typename = EObjectType.from_type_name(result[EReturnOptions.TYPE])
+			path = ProjectPath(result[EReturnOptions.PATH])
+			other = {key: value for key, value in result.items() if key not in EReturnOptions.get_defaults()}
+			objects.append(WwiseObjectInfo(guid, name, typename, path, other))
+		
+		return tuple(objects)
 	
 	def get_performance_monitor(self, time: ETimeCursor | int) -> tuple[PerformanceMonitorCounterInfo, ...]:
 		"""
@@ -571,14 +615,20 @@ class Profiler:
 		
 		return tuple(voices)
 	
-	def register_meter(self):
+	def register_meter(self, object_to_register: GUID | ProjectPath | str) -> bool:
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_registermeter.html \n
 		Registers a bus, an aux bus or device to receive meter data. Only the master audio bus is registered by default.
 		Use `ak.wwise.core.profiler.getMeters` to retrieve the meter data after registering. Every call to
 		`ak.wwise.core.profiler.registerMeter` must have a matching call to `ak.wwise.core.profiler.unregisterMeter`.
+		:param object_to_register: The ID (GUID), name, or path of the object to receive meter data. This object must
+								   be a bus, an aux bus or a device. The name of the object qualified by its type or
+								   Short ID in the form of type:name or Global:shortId. Only object types that have
+								   globally-unique names or Short Ids are supported. Ex: Event:Play_Sound_01
+		:return: Returns a boolean that indicates if the call was successful.
 		"""
-		raise NotImplementedError()
+		result = self._client.call("ak.wwise.core.profiler.registerMeter", {"object": object_to_register})
+		return True if result is not None else False
 	
 	def save_capture(self, file_path: SystemPath) -> bool:
 		"""
@@ -623,9 +673,15 @@ class Profiler:
 		else:
 			return -1
 	
-	def unregister_meter(self):
+	def unregister_meter(self, object_to_unregister: GUID | ProjectPath | str):
 		"""
 		https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_profiler_unregistermeter.html \n
 		Unregisters a bus or device that was registered with `ak.wwise.core.profiler.registerMeter`.
+		:param object_to_unregister: The ID (GUID), name, or path of the object to receive meter data. This object must
+									 be a bus, an aux bus or a device. The name of the object qualified by its type or
+								     Short ID in the form of type:name or Global:shortId. Only object types that have
+								     globally-unique names or Short Ids are supported. Ex: Event:Play_Sound_01
+		:return: Returns a boolean that indicates if the call was successful.
 		"""
-		raise NotImplementedError()
+		return self._client.call("ak.wwise.core.profiler.unregisterMeter",
+		                           {"object": object_to_unregister}) is not None

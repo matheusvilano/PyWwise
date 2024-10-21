@@ -6,7 +6,7 @@ from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import console_instance_only
 from pywwise.enums import EBasePlatform
 from pywwise.primitives import Name
-from pywwise.structs import PlatformInfo
+from pywwise.structs import DPlatformInfo
 
 
 class Project:
@@ -33,7 +33,7 @@ class Project:
 	
 	@console_instance_only
 	def create(self, project_path: SystemPath,
-	           platforms: ListOrTuple[PlatformInfo] = (PlatformInfo("Windows", EBasePlatform.WINDOWS),),
+	           platforms: ListOrTuple[DPlatformInfo] = (DPlatformInfo("Windows", EBasePlatform.WINDOWS),),
 	           languages: ListOrTuple[Name] = tuple(Name("English(US)"))) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_console_project_create.html \n

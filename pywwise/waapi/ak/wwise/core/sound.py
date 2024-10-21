@@ -4,7 +4,7 @@
 from waapi import WaapiClient as _WaapiClient
 from pywwise.enums import EObjectType
 from pywwise.primitives import GUID, Name, ProjectPath
-from pywwise.structs import PlatformInfo
+from pywwise.structs import DPlatformInfo
 
 
 class Sound:
@@ -18,7 +18,7 @@ class Sound:
 		self._client = client
 	
 	def set_active_source(self, sound: GUID | Name | ProjectPath, source: GUID | Name | ProjectPath,
-	                      platform: PlatformInfo | Name | GUID = None) -> bool:
+	                      platform: DPlatformInfo | Name | GUID = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_sound_setactivesource.html \n
 		Sets which version of the source is being used for the specified sound. Use `ak.wwise.core.object.get` with the

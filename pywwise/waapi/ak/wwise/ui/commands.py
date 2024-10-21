@@ -7,7 +7,7 @@ from pywwise.decorators import callback
 from pywwise.enums import ECommand, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, ShortID, ProjectPath, Name
 from pywwise.statics import EnumStatics
-from pywwise.structs import PlatformInfo, CommandInfo, WwiseObjectInfo
+from pywwise.structs import DPlatformInfo, CommandInfo, WwiseObjectInfo
 
 
 class Commands:
@@ -58,7 +58,7 @@ class Commands:
 	
 	def execute(self, command: ECommand,
 	            objects: tuple[WwiseObjectInfo | GUID | ProjectPath | ShortID | tuple[EObjectType, Name]] = None,
-	            platforms: set[PlatformInfo | Name | GUID] = None, value: str | float | bool = None) -> bool:
+	            platforms: set[DPlatformInfo | Name | GUID] = None, value: str | float | bool = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_commands_execute.html \n
 		Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise
@@ -99,7 +99,7 @@ class Commands:
 				match platform:
 					case GUID() | Name():
 						args["platforms"].append(platform)
-					case PlatformInfo():
+					case DPlatformInfo():
 						args["platforms"].append(platform.guid)
 		if value is not None:
 			args["value"] = value

@@ -1,18 +1,19 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from types import NoneType
+from types import NoneType as _NoneType
 from typing import Any as _Any, Collection as _Collection
 from waapi import WaapiClient as _WaapiClient, EventHandler as _EventHandler
 from simplevent import RefEvent as _RefEvent
+from waapi import EventHandler as _EventHandler, WaapiClient as _WaapiClient
+
 from pywwise.aliases import ListOrTuple
 from pywwise.decorators import callback
-from pywwise.enums import (EAttenuationCurveType, EAttenuationCurveUsage, EAttenuationCurveShape, EListMode,
-                           ENameConflictStrategy,
-                           EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
+from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EListMode,
+                           ENameConflictStrategy, EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
+from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
-from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.waql import WAQL
 
 
@@ -464,7 +465,7 @@ class Object:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getattenuationcurve.html \n
 		Gets the specified attenuation curve for a given attenuation object.
-		:param obj: The GUID,  name, or project path of the Attenuation object to get the curve from.
+		:param obj: The GUID, name, or project path of the Attenuation object to get the curve from.
 		:param etype: The type of the attenuation curve to get.
 		:param platform: The GUID or unique name of the platform to get the curve from. If unspecified, the platform
 						 used will be whichever one is active in the Wwise authoring app or console.
@@ -489,7 +490,7 @@ class Object:
 		return AttenuationCurve(points, usage, etype)
 	
 	def get_property_and_reference_names(self, obj: EObjectType | GUID | tuple[EObjectType, Name] | ProjectPath) -> \
-			tuple[str]:
+		tuple[str]:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_getpropertyandreferencenames.html \n
 		Retrieves the list of property and reference names for an object.
@@ -636,7 +637,7 @@ class Object:
 		:param source: The GUID, typed name, or project path of the object to copy properties from. Although using a
 					   name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are
 					   supported.
-		:param targets: A collection of GUIDs, typed names, and/or project paths of  objects to paste properties into.
+		:param targets: A collection of GUIDs, typed names, and/or project paths of objects to paste properties into.
 						Although using a name is supported, only types with globally-unique names (e.g.
 						EObjectType.EVENT`) are supported.
 		:param paste_mode: Defines how to paste properties into target objects. See options in `EPropertyPasteMode`.
@@ -757,7 +758,7 @@ class Object:
 		return self._client.call("ak.wwise.core.object.setNotes", args) is not None
 	
 	def set_property(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
-	                 property_name: str, value: NoneType | bool | int | float | str,
+	                 property_name: str, value: _NoneType | bool | int | float | str,
 	                 platform: GUID | Name = None) -> bool:
 		"""
 		https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setproperty.html \n

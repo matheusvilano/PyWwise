@@ -3,7 +3,7 @@
 
 from dataclasses import dataclass as _dataclass, field as _field
 from types import NoneType as _NoneType
-from typing import Any as _Any, Self as _Self
+from typing import Any as _Any, Any, Self as _Self
 from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
@@ -77,9 +77,9 @@ class AuxSendValue:
 	control_value: float
 	"""The intended value."""
 
-
+  
 @_dataclass
-class PlatformInfo:
+class DPlatformInfo:
 	"""Structure for storing basic platform info. Useful when creating a new project or adding a new platform to a project."""
 	
 	name: str | Name
@@ -1118,50 +1118,80 @@ class ConnectionStatusInfo:
 
 
 @_dataclass
-class AudioImportEntry:
-	"""Dataclass representing a single entry for an audio import operation."""
-	
-	obj_path: ProjectPath
-	"""The project path of the Wwise object to create. Example: "/Actor-Mixer Hierarchy/Default Work Unit/<Random
-	Container>MyContainer/<Sound>MySound" will create a `RandomSequenceContainer` (with `RandomOrSequence=1`) called
-	"MyContainer" and a `Sound` called "MySound"."""
-	
-	obj_path_root: GUID | tuple[EObjectType, Name] | ProjectPath = None
-	"""The GUID, typed name, or project path of the Wwise object to use as the "root" of the specified path
-	(`obj_path`). Although using a typed name is supported, it will only work for types that enforce globally-unique
-	names (e.g. `EObjectType.EVENT`); therefore, using a typed name is NOT recommended."""
-	
-	file_path: SystemPath = None
-	"""Path to media file to import. This path must be accessible from Wwise. If no path is specified, Wwise objects are
-	still created, but no audio file is imported."""
-	
-	language: Name = Name("SFX")
-	"""The language to set for this entry. The default is "SFX" (the language for `Sound SFX` objects)."""
-	
-	originals_path: OriginalsPath = None
-	"""Specifies the 'originals' sub-folder in which to place the imported audio file. This folder is relative to the
-	'originals' folder in which the file would normally be imported. Example: if importing an SFX, then the audio file
-	is imported to the folder Originals/SFX/originalsPath."""
-	
-	obj_notes: str = ""
-	"""The "Notes" field of the created object."""
-	
-	source_notes: str = ""
-	"""The "Notes" field of the created audio source object."""
-	
-	event: ProjectPath = None
-	"""Defines the path and name of an Event to be created for the imported object."""
-	
-	dialogue_event: ProjectPath = None
-	"""Defines the path and name of a Dialogue Event to be created for the imported object."""
-	
-	properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
-	"""A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
-	associated object) or `@@` (a reference to the source of override)."""
+class DAudioImportEntry:
+    """Dataclass representing a single entry for an audio import operation."""
+    
+    object_path: ProjectPath
+    """The project path of the Wwise object to create, including the name of the object to create. Example:
+    "/Actor-Mixer Hierarchy/Default Work Unit/<RandomContainer>MyContainer/<Sound>MySound" will create a
+    `RandomSequenceContainer` (with `RandomOrSequence=1`) called "MyContainer" and a `Sound` called "MySound"."""
+    
+    root_path: GUID | tuple[EObjectType, Name] | ProjectPath = None
+    """Object ID (GUID), name, or path used as root relative object paths. The name of the object qualified by its type
+    or Short ID in the form of type:name or Global:shortId. Only object types that have globally-unique names or Short
+    Ids are supported. Ex: Event:Play_Sound_01, Global:245489792 string A project path to a Wwise object, including the
+    category and the work-unit. For example: /Actor-Mixer Hierarchy/Default Work Unit/New Sound SFX."""
+    
+    audio_file_path: SystemPath = None
+    """Path to media file to import. This path must be accessible from Wwise. For using WAAPI on Mac, please refer to
+    Using WAAPI on Mac ."""
+    
+    audio_file_base64: bytes = None
+    """Base64 encoded WAV audio file data to import with its target file path relative to the Originals folder,
+    separated by a vertical bar. E.g. 'MySound.wav|UklGRu...'."""
+    
+    originals_path: OriginalsPath = None
+    """Specifies the 'originals' sub-folder in which to place the imported audio file. This folder is relative to the
+    'originals' folder in which the file would normally be imported. Example: if importing an SFX, the audio file
+    is imported to the folder "/Originals/SFX/{originals_path}"."""
+    
+    object_type: EObjectType = None
+    """Specifies the type of object to create when importing an audio file. This type can also be specified directly in
+    the objectPath. Refer to Wwise Objects Reference for the available types."""
+    
+    object_notes: str = ""
+    """The "Notes" field of the created object."""
+    
+    source_notes: str = ""
+    """The "Notes" field of the created audio source object."""
+    
+    event: ProjectPath = None
+    """Defines the path and name of an Event to be created for the imported object.
+    Example: "/Events/Default Work Unit/MyEvent"."""
+    
+    dialogue_event: ProjectPath = None
+    """Defines the path and name of a Dialogue Event to be created for the imported object.
+    Example: "/Dynamic Dialogue/Default Work Unit/MyEvent"."""
+    
+    language: GUID | Name = None
+    """Imports the language for the audio file import (taken from the project's defined languages, found in the WPROJ
+    file LanguageList)."""
+    
+    properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = ()
+    """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
+    associated object) or `@@` (a reference to the source of override)."""
+    
+    @property
+    def dictionary(self) -> dict[str, str | int | float | bool | Any | None]:
+        """:return: The instance represented as a dictionary"""
+        return {**({"objectPath": self.object_path} if self.object_path is not None else {}),
+                **({"importLocation": self.root_path} if self.root_path is not None else {}),
+                **({"audioFile": str(self.audio_file_path)} if self.audio_file_path is not None else {}),
+                **({"audioFileBase64": self.audio_file_base64} if self.audio_file_base64 is not None else {}),
+                **({"originalsSubFolder": self.originals_path} if self.originals_path is not None else {}),
+                **({"objectType": self.object_type.get_type_name()} if self.object_type is not None else {}),
+                **({"notes": self.object_notes} if self.object_notes is not None else {}),
+                **({"audioSourceNotes": self.source_notes} if self.source_notes is not None else {}),
+                **({"event": self.event} if self.event is not None else {}),
+                **({"dialogueEvent": self.dialogue_event} if self.dialogue_event is not None else {}),
+                **({"importLanguage": self.language} if self.language is not None else {}),
+                **dict(self.properties)}
 
-
+    
 @_dataclass
 class ConversionLogItem:
+  """Dataclass representing a log item related to conversions."""
+  
 	severity: ELogSeverity
 	"""Severity of the logged message."""
 	
