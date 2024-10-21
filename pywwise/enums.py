@@ -2107,7 +2107,7 @@ class EMultiPositionType(_IntEnum):
 
 
 class EListMode(_StrEnum):
-	"""An enumeration of list modes (behaviours."""
+	"""An enumeration of list modes behaviours."""
 	
 	REPLACE_ALL = "replaceAll"
 	"""Remove all existing objects and add the new objects, with the duplicate restriction."""

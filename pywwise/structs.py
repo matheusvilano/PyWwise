@@ -4,7 +4,7 @@
 from dataclasses import dataclass as _dataclass, field as _field
 from pathlib import Path as _Path
 from types import NoneType as _NoneType
-from typing import Any as _Any, Self as _Self
+from typing import Any as _Any, Any, Self as _Self
 from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
@@ -1208,12 +1208,31 @@ class DAudioImportEntry:
     """Defines the path and name of a Dialogue Event to be created for the imported object. Refer to Tab Delimited
     Import in the Wwise Help documentation for more information."""
     
-    regex: tuple[str, _NoneType | bool | int | float | str] = None
+    regex: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
     """Specifies a Wwise object property and its value. Property names are prefixed with `@`"""
     
     additional_properties: ListOrTuple[tuple[str, _NoneType | bool | int | float | str]] = None
     """A collection of key-value pairs, where keys are property names prefixed by either `@` (a reference to the
     associated object) or `@@` (a reference to the source of override)."""
+    
+    @property
+    def dictionary(self) -> dict[str, str | int | float | bool | Any | None]:
+        """:return: The instance represented as a dictionary"""
+        as_dict = dict()
+        as_dict["importLanguage"] = self.import_language
+        as_dict["importLocation"] = self.import_location
+        as_dict["audioFile"] = self.audio_file
+        as_dict["audioFileBase64"] = self.audio_file_base64
+        as_dict["originalsSubFolder"] = self.originals_sub_folder
+        as_dict["objectPath"] = self.object_path
+        as_dict["objectType"] = self.object_type
+        as_dict["notes"] = self.notes
+        as_dict["audioSourceNotes"] = self.audio_source_notes
+        as_dict["switchAssignation"] = self.switch_assignation
+        as_dict["event"] = self.event
+        as_dict["dialogueEvent"] = self.dialogue_event
+        as_dict["regex(^@[:_a-zA-Z0-9]+$)"] = self.regex
+        return as_dict
 
 
 @_dataclass
