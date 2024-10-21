@@ -9,7 +9,7 @@ from pywwise.decorators import callback
 from pywwise.enums import EAudioImportOperation, EImportOperation, ELogSeverity, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
-from pywwise.structs import ConversionLogItem, DAudioImportEntry, WwiseObjectInfo
+from pywwise.structs import ConversionLogItem, AudioImportEntry, WwiseObjectInfo
 
 
 class Audio:
@@ -69,7 +69,7 @@ class Audio:
                                        error.get("message", "")) for error in result.get("errors", ()))
     
     # "import" is a reserved keyword, so function name does not match that of WAAPI
-    def import_files(self, imports: ListOrTuple[DAudioImportEntry],
+    def import_files(self, imports: ListOrTuple[AudioImportEntry],
                      operation: EAudioImportOperation = EAudioImportOperation.USE_EXISTING,
                      auto_add_to_version_control: bool = True,
                      auto_checkout_to_version_control: bool = True,

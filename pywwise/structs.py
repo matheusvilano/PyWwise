@@ -1119,7 +1119,7 @@ class ConnectionStatusInfo:
 
 
 @_dataclass
-class DAudioImportEntry:
+class AudioImportEntry:
     """Dataclass representing a single entry for an audio import operation."""
     
     object_path: ProjectPath
