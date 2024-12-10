@@ -9,7 +9,7 @@ from pywwise.decorators import callback
 from pywwise.enums import EAudioImportOperation, EImportOperation, ELogSeverity, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
-from pywwise.structs import ConversionLogItem, AudioImportEntry, WwiseObjectInfo
+from pywwise.structs import AudioImportEntry, ConversionLogItem, WwiseObjectInfo
 
 
 class Audio:
@@ -71,8 +71,8 @@ class Audio:
     # "import" is a reserved keyword, so function name does not match that of WAAPI
     def import_files(self, imports: ListOrTuple[AudioImportEntry],
                      operation: EAudioImportOperation = EAudioImportOperation.USE_EXISTING,
-                     auto_add_to_version_control: bool = True,
-                     auto_checkout_to_version_control: bool = True,
+                     version_control_auto_add: bool = True,
+                     version_control_auto_checkout: bool = True,
                      platform: Name | GUID = None,
                      language: Name | GUID = None) -> tuple[WwiseObjectInfo, ...]:
         """
@@ -87,23 +87,24 @@ class Audio:
                         here, the value in this object will take precedence over the one in defaults.
         :param operation: Determines how import object creation is performed. Make use of EImportOperation to select
                           the desired import operation.
-        :param auto_add_to_version_control: Determines if Wwise automatically performs a source control Add operation on
-                                            the imported files. Defaults to true.
-        :param auto_checkout_to_version_control: Determines if Wwise automatically performs a source control Checkout
-                                                 operation (when applicable) on the modified files. Defaults to true.
+        :param version_control_auto_add: Determines if Wwise automatically performs a source control Add operation on
+                                         the imported files. Defaults to true. Only supported in Wwise 2023 or above.
+        :param version_control_auto_checkout: Determines if Wwise automatically performs a source control Checkout
+                                              operation (when applicable) on the modified files. Defaults to true. Only
+                                              supported in Wwise 2023 or above.
         :param platform: Determines what platform the Wwise object is returned. This is an optional argument. When not
                          specified, the current platform is used.
         :param language: Determines the language to be used.
         :return: A tuple of WwiseObjectInfo instances, representing the objects that were created and/or edited.
         """
         args = {"importOperation": operation,
-                "autoAddToSourceControl": auto_add_to_version_control,
-                "autoCheckOutToSourceControl": auto_checkout_to_version_control,
-                "imports": [entry.dictionary for entry in imports]}
+                "imports": [entry.dictionary for entry in imports],
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},
+                   {"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
         
         options = {"return": EReturnOptions.get_defaults(),
-                   **({"platform": platform} if platform is not None else {}),
-                   **({"language": language} if language is not None else {})}
+                   **({"platform": platform} if platform is not None else {},
+                      {"language": language} if language is not None else {},)}
         
         result = self._client.call("ak.wwise.core.audio.import", args, options=options)
         objects = result.get("objects", ()) if isinstance(result, dict) else ()
@@ -120,8 +121,8 @@ class Audio:
                              platform: Name | GUID = None,
                              operation: EImportOperation = EAudioImportOperation.USE_EXISTING,
                              root_path: GUID | tuple[EObjectType, Name] | ProjectPath = None,
-                             auto_add_to_version_control: bool = True,
-                             auto_checkout_to_version_control: bool = True) -> tuple[WwiseObjectInfo, ...]:
+                             version_control_auto_add: bool = True,
+                             version_control_auto_checkout: bool = True) -> tuple[WwiseObjectInfo, ...]:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_audio_importtabdelimited.html \n
         Scripted object creation and audio file import from a tab-delimited file.
@@ -134,21 +135,22 @@ class Audio:
                          platform will be used.
         :param root_path: The GUID, typed name, or path used as root relative object paths. Although using a typed name
                           is supported, it will only work with globally-unique names (e.g. Event names).
-        :param auto_add_to_version_control: Determines if Wwise automatically performs a source control Add operation on
-                                            the imported files. Defaults to true.
-        :param auto_checkout_to_version_control: Determines if Wwise automatically performs a source control Checkout
-                                                 operation (when applicable) on the modified files. Defaults to true.
+        :param version_control_auto_add: Determines if Wwise automatically performs a source control Add operation on
+                                         the imported files. Defaults to true. Only supported in Wwise 2023 or above.
+        :param version_control_auto_checkout: Determines if Wwise automatically performs a source control Checkout
+                                              operation (when applicable) on the modified files. Defaults to true. Only
+                                              supported in Wwise 2023 or above.
         """
         args = {"importLanguage": language,
                 "importOperation": operation,
                 "importFile": str(tsv_file),
                 "importLocation": root_path,
-                "autoAddToSourceControl": auto_add_to_version_control,
-                "autoCheckOutToSourceControl": auto_checkout_to_version_control}
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},
+                   {"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
         
         options = {"return": EReturnOptions.get_defaults(),
-                   **({"platform": platform} if platform is not None else {}),
-                   **({"language": language} if language is not None else {})}
+                   **({"platform": platform} if platform is not None else {},
+                      {"language": language} if language is not None else {},)}
         
         result = self._client.call("ak.wwise.core.audio.importTabDelimited", args, options=options)
         objects = result.get("objects", ()) if isinstance(result, dict) else ()

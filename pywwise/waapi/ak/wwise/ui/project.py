@@ -58,7 +58,7 @@ class Project:
         return path.exists()
     
     def open(self, path: SystemPath, is_migration_required: bool = False, bypass_save: bool = True,
-             auto_checkout_to_source_control: bool = True) -> bool:
+             version_control_auto_checkout: bool = True) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_ui_project_open.html \n
         Opens a project, specified by path. Please refer to `ak.wwise.core.project.loaded` for further
@@ -66,17 +66,19 @@ class Project:
         :param path: The path to the project WPROJ file. For using WAAPI on Mac, please refer to Using WAAPI on Mac.
         :param is_migration_required: Whether migration is required or not.
         :param bypass_save: Indicates if the user should not be prompted to save the current project.
-                            **Defaults to true.**
-        :param auto_checkout_to_source_control: Determines if Wwise automatically performs a Checkout source control
-                                                operation for affected work units and for the project. **Defaults to
-                                                true.**
-        :return Returns whether the project was open.
+        :param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
+                                              operation for affected work units and for the project. Only supported
+                                              in Wwise 2023 or above.
+        :return: Returns whether the project was open.
         """
         if not path.exists():
             return False
-        args = {"path": str(path)}
+        
         migration_action = "migrate" if is_migration_required else "fail"
-        args["onMigrationRequired"] = migration_action
-        args["bypassSave"] = bypass_save
-        args["autoCheckoutToSourceControl"] = auto_checkout_to_source_control
+        
+        args = {"path": str(path),
+                "onMigrationRequired": migration_action,
+                "bypassSave": bypass_save,
+                **({"autoCheckoutToSourceControl": False} if not version_control_auto_checkout else {},)}
+        
         return self._client.call("ak.wwise.ui.project.open", args) is not None

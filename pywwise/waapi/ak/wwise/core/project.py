@@ -85,12 +85,13 @@ class Project:
         """
         event(tuple(SystemPath(path) for path in kwargs.get("modifiedPaths", dict())))
     
-    def save(self, auto_check_out_to_version_control: bool = True) -> bool:
+    def save(self, version_control_auto_checkout: bool = True) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_project_save.html \n
         Saves the current project.
-        :param auto_check_out_to_version_control: Whether to automatically check out changes to version control.
+        :param version_control_auto_checkout: Whether to automatically check out changes to version control. Only
+                                              supported in Wwise 2023 or above.
         :return: Whether the operation succeeded.
         """
-        args = {"autoCheckOutToSourceControl": auto_check_out_to_version_control}
+        args = {"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else dict()
         return self._client.call("ak.wwise.core.project.save", args) is not None

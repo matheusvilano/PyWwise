@@ -341,16 +341,17 @@ class Object:
                        supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
         :param name_conflict_strategy: The strategy to use in case of a name conflict.
         :param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
-                                              operation for affected work units and for the project.
+                                              operation for affected work units and for the project. Only supported in
+                                              Wwise 2023 or above.
         :param version_control_auto_add: Determines if Wwise automatically performs an Add source control operation for
-                                         affected work units.
+                                         affected work units. Only supported in Wwise 2023 or above.
         :return: The new object as a WwiseObjectInfo, or None if the operation failed.
         """
         args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
                 "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
                 "onNameConflict": name_conflict_strategy,
-                "autoCheckOutToSourceControl": version_control_auto_checkout,
-                "autoAddToSourceControl": version_control_auto_add}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},
+                   {"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
         options = {"return": EReturnOptions.get_defaults()}
         
         results = self._client.call("ak.wwise.core.object.copy", args, options=options)
@@ -362,7 +363,7 @@ class Object:
     
     def create(self, name: Name | str, etype: EObjectType, parent: GUID | tuple[EObjectType, Name] | ProjectPath,
                name_conflict_strategy: ENameConflictStrategy = ENameConflictStrategy.FAIL, notes: str = "",
-               version_control_auto_checkout: bool = True, platform: Name | GUID = None) -> WwiseObjectInfo | None:
+               version_control_auto_add: bool = True, platform: Name | GUID = None) -> WwiseObjectInfo | None:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_create.html \n
         Creates an object of type 'type', as a child of 'parent'. Refer to Importing Audio Files and Creating
@@ -374,18 +375,17 @@ class Object:
         :param parent: The GUID, typed name, or project path of the new object's parent.
         :param name_conflict_strategy: The strategy to adopt in case of name conflicts.
         :param notes: The notes to append to the new Wwise object.
-        :param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
-                                              operation for affected work units and for the project.
+        :param version_control_auto_add: Determines if Wwise automatically performs a Checkout source control operation
+                                         for affected work units and for the project. Only supported in Wwise 2023 or
+                                         above.
         :param platform: Specify what platform to create the object for. Usually not necessary.
         :return: The new object as a WwiseObjectInfo, or None if the operation failed.
         """
-        args = dict()
-        args["name"] = name
-        args["type"] = etype.get_type_name()
-        args["parent"] = f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent
-        args["onNameConflict"] = name_conflict_strategy.value
-        args["notes"] = notes
-        args["autoAddToSourceControl"] = version_control_auto_checkout
+        args = {"name": name, "type": etype.get_type_name(),
+                "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
+                "onNameConflict": name_conflict_strategy.value,
+                "notes": notes,
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
         if platform is not None:
             args["platform"] = platform
         
@@ -405,11 +405,12 @@ class Object:
         :param obj: The GUID, typed name, or project path of the object to delete. Although using a name is supported,
                     only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
         :param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
-                                              operation for affected work units and for the project.
+                                              operation for affected work units and for the project. Only supported in
+                                              Wwise 2023 or above.
         :return: Whether the operation succeeded.
         """
         args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
-                "autoCheckOutToSourceControl": version_control_auto_checkout}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
         return self._client.call("ak.wwise.core.object.delete", args) is not None
     
     def diff(self, source: GUID | tuple[EObjectType, Name] | ProjectPath,
@@ -610,12 +611,13 @@ class Object:
                        only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
         :param name_conflict_strategy: The strategy to use in case of a name conflict.
         :param version_control_auto_checkout: Determines if Wwise automatically performs a Checkout source control
-                                              operation for affected work units and for the project.
+                                              operation for affected work units and for the project. Only supported
+                                              in Wwise 2023 or above.
         """
         args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
                 "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
                 "onNameConflict": name_conflict_strategy,
-                "autoCheckOutToSourceControl": version_control_auto_checkout}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
         
         results = self._client.call("ak.wwise.core.object.move", args)
         if results is None:
@@ -664,7 +666,7 @@ class Object:
             platform: GUID | Name = None,
             on_name_conflict: ENameConflictStrategy = ENameConflictStrategy.FAIL,
             list_mode: EListMode = EListMode.APPEND,
-            auto_add_to_version_control: bool = True) -> bool:
+            version_control_auto_add: bool = True) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_set.html \n
         Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
@@ -680,15 +682,15 @@ class Object:
         :param platform: If targeting a specific platform, you must specify its GUID or unique Name.
         :param on_name_conflict: The strategy to use when solving name conflicts.
         :param list_mode: The strategy to use when an object already exists in a list.
-        :param auto_add_to_version_control: Whether objects should be automatically added to, removed from, and/or
-                                            edited in version control.
+        :param version_control_auto_add: Whether objects should be automatically added to, removed from, and/or
+                                         edited in version control. Only supported in Wwise 2023 or above.
         :return: Whether the call succeeded.
         """
         args = {"objects": operations,
                 "onNameConflict": on_name_conflict,
                 "listMode": list_mode,
-                "autoAddToSourceControl": auto_add_to_version_control,
-                **({"platform": platform} if platform is not None else {})}
+                **({"platform": platform} if platform is not None else {},
+                   {"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
         return self._client.call("ak.wwise.core.object.set", args) is not None
     
     def set_attenuation_curve(self, obj: GUID | Name | ProjectPath,
