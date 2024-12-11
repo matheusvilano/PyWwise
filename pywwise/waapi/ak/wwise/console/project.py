@@ -71,5 +71,5 @@ class Project:
         migration_action = "migrate" if is_migration_allowed else "fail"
         args = {"path": str(project_path),
                 "onMigrationRequired": migration_action,
-                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {})}
         return self._client.call("ak.wwise.console.project.open", args) is not None

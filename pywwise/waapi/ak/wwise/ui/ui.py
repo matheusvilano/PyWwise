@@ -131,7 +131,7 @@ class UI:
         if language is not None:
             options["language"] = language
         
-        results = self._client.call("ak.wwise.ui.getSelectedObjects", {}, options=options)
+        results = self._client.call("ak.wwise.ui.getSelectedObjects", dict(), options=options)
         results = results.get("objects") if results is not None else None
         if results is None:
             return ()

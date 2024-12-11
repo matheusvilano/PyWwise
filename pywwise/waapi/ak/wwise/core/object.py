@@ -350,8 +350,8 @@ class Object:
         args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
                 "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
                 "onNameConflict": name_conflict_strategy,
-                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},
-                   {"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {}),
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {})}
         options = {"return": EReturnOptions.get_defaults()}
         
         results = self._client.call("ak.wwise.core.object.copy", args, options=options)
@@ -385,7 +385,7 @@ class Object:
                 "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
                 "onNameConflict": name_conflict_strategy.value,
                 "notes": notes,
-                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {})}
         if platform is not None:
             args["platform"] = platform
         
@@ -410,7 +410,7 @@ class Object:
         :return: Whether the operation succeeded.
         """
         args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
-                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {})}
         return self._client.call("ak.wwise.core.object.delete", args) is not None
     
     def diff(self, source: GUID | tuple[EObjectType, Name] | ProjectPath,
@@ -617,7 +617,7 @@ class Object:
         args = {"object": f"{obj[0].get_type_name()}:{obj[1]}" if isinstance(obj, tuple) else obj,
                 "parent": f"{parent[0].get_type_name()}:{parent[1]}" if isinstance(parent, tuple) else parent,
                 "onNameConflict": name_conflict_strategy,
-                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {})}
         
         results = self._client.call("ak.wwise.core.object.move", args)
         if results is None:
@@ -689,8 +689,8 @@ class Object:
         args = {"objects": operations,
                 "onNameConflict": on_name_conflict,
                 "listMode": list_mode,
-                **({"platform": platform} if platform is not None else {},
-                   {"autoAddToSourceControl": False} if not version_control_auto_add else {},)}
+                **({"platform": platform} if platform is not None else {}),
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {})}
         return self._client.call("ak.wwise.core.object.set", args) is not None
     
     def set_attenuation_curve(self, obj: GUID | Name | ProjectPath,

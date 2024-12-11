@@ -79,6 +79,6 @@ class Project:
         args = {"path": str(path),
                 "onMigrationRequired": migration_action,
                 "bypassSave": bypass_save,
-                **({"autoCheckoutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoCheckoutToSourceControl": False} if not version_control_auto_checkout else {})}
         
         return self._client.call("ak.wwise.ui.project.open", args) is not None

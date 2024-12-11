@@ -99,12 +99,12 @@ class Audio:
         """
         args = {"importOperation": operation,
                 "imports": [entry.dictionary for entry in imports],
-                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},
-                   {"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {}),
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {})}
         
         options = {"return": EReturnOptions.get_defaults(),
-                   **({"platform": platform} if platform is not None else {},
-                      {"language": language} if language is not None else {},)}
+                   **({"platform": platform} if platform is not None else {}),
+                   **({"language": language} if language is not None else {})}
         
         result = self._client.call("ak.wwise.core.audio.import", args, options=options)
         objects = result.get("objects", ()) if isinstance(result, dict) else ()
@@ -145,12 +145,12 @@ class Audio:
                 "importOperation": operation,
                 "importFile": str(tsv_file),
                 "importLocation": root_path,
-                **({"autoAddToSourceControl": False} if not version_control_auto_add else {},
-                   {"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {},)}
+                **({"autoAddToSourceControl": False} if not version_control_auto_add else {}),
+                **({"autoCheckOutToSourceControl": False} if not version_control_auto_checkout else {})}
         
         options = {"return": EReturnOptions.get_defaults(),
-                   **({"platform": platform} if platform is not None else {},
-                      {"language": language} if language is not None else {},)}
+                   **({"platform": platform} if platform is not None else {}),
+                   **({"language": language} if language is not None else {})}
         
         result = self._client.call("ak.wwise.core.audio.importTabDelimited", args, options=options)
         objects = result.get("objects", ()) if isinstance(result, dict) else ()
