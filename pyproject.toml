@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pywwise"
-version = "0.1.3"
+version = "0.1.4"
 description = "A comprehensive Wwise Authoring API wrapper - fully documented, with auto-completion in mind."
 authors = [{ name = "Matheus Vilano" }]
 license = { file = "LICENSE" }
