@@ -118,17 +118,28 @@ class GUID(_PyWwiseStr):
 
 
 class ProjectPath(_PyWwiseStr):
-    """A project path (e.g. `"/Actor-Mixer Hierarchy/Default Work Unit/MyActorMixer"`)."""
+    """A project path (e.g. `"\\Actor-Mixer Hierarchy\\Default Work Unit\\MyActorMixer"`)."""
     
-    def __new__(cls, path: str) -> str:
+    def __new__(cls, path: str, windows_style: bool = True) -> str:
         """
-        Creates a new ProjectPath. You can think of this as a string container.
+        Creates a new ProjectPath. You can think of this as a path-like string container. By default, any path will be
+        automatically converted to a Windows-style path. Example: `"/Actor-Mixer Hierarchy/Default Work Unit"` will be
+        converted to `"\\Actor-Mixer Hierarchy\\Default Work Unit"`. This behaviour can be overridden.
         :param path: The project path of the Wwise object.
+        :param windows_style: Whether the path should be forced to a Windows-style format. Example: if `True`,
+                              `"/Actor-Mixer Hierarchy/Default Work Unit"` will be converted to
+                              `"\\Actor-Mixer Hierarchy\\Default Work Unit"`.
         :return: A new ProjectPath.
         :raise ValueError: If the path is empty.
         """
         if len(path) <= 0:
             raise ValueError("The provided path is empty. Must be a valid path-like string.")
+        
+        path = path.replace("/", "\\")
+        
+        if path[0] != "\\":
+            path = f"\\{path}"
+            
         return str.__new__(cls, path)
 
 
