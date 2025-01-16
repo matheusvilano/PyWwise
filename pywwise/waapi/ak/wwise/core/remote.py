@@ -73,13 +73,13 @@ class Remote:
         if results is None:
             return tuple()
         
-        consoles: list[RemoteConsoleInformation] = [RemoteConsoleInformation(
-            name=console.get("name"),
-            platform=console.get("platform"),
-            custom_platform=console.get("customPlatform"),
-            host=console.get("host"),
-            app_name=console.get("appName"),
-            command_port=console.get("commandPort"),
+        consoles = [RemoteConsoleInformation(
+            name=console.get("name", ""),
+            platform=console.get("platform", ""),
+            custom_platform=console.get("customPlatform", ""),
+            host=console.get("host", ""),
+            app_name=console.get("appName", ""),
+            command_port=console.get("commandPort", -1),
         ) for console in results]
         
         return tuple(consoles)
@@ -93,17 +93,17 @@ class Remote:
         result = self._client.call("ak.wwise.core.remote.getConnectionStatus", {})
         
         if result is None:
-            return ConnectionStatusInfo()
+            result = dict()
         
-        console: RemoteConsoleInformation = RemoteConsoleInformation(
-            name=result["console"].get("name"),
-            platform=result["console"].get("platform"),
-            custom_platform=result["console"].get("customPlatform"),
-            host=result["console"].get("host"), )
+        console = result.get("console", dict())
+        console = RemoteConsoleInformation(
+            name=console.get("name", ""),
+            platform=console.get("platform", ""),
+            custom_platform=console.get("customPlatform", ""),
+            host=console.get("host", ""),
+            app_name=console.get("appName", ""),
+            command_port=console.get("commandPort", -1))
         
-        connection_status: ConnectionStatusInfo = ConnectionStatusInfo(
-            is_connected=result.get("isConnected"),
-            status=result.get("status"),
-            console=console)
-        
-        return connection_status
+        return ConnectionStatusInfo(is_connected=result.get("isConnected", False),
+                                    status=result.get("status", "Failed to retrieve connection status."),
+                                    console=console)
