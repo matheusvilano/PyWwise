@@ -26,7 +26,7 @@ class _PyWwiseType(_ABC):
 class _PyWwiseID(int, _PyWwiseType):
     """The base class for `int` subclasses in PyWwise which represent numeric identifiers."""
     
-    def __new__(cls, value: int) -> int:
+    def __new__(cls, value: int) -> _Self:
         """
         Creates a new ID.
         :param value: The ID.
@@ -49,7 +49,7 @@ class _PyWwiseID(int, _PyWwiseType):
 class _PyWwiseStr(str, _PyWwiseType):
     """The base class for `str` subclasses in PyWwise which represent alphanumeric values."""
     
-    def __new__(cls, chars: str) -> str:
+    def __new__(cls, chars: str) -> _Self:
         """
         Instantiates a new PyWwiseStr.
         :param chars: The string to use to create a new PyWwiseStr.
@@ -69,7 +69,7 @@ class _PyWwiseStr(str, _PyWwiseType):
 class Name(_PyWwiseStr):
     """A Wwise object Name. This is usually intended to be used with unique objects (e.g. State Groups)."""
     
-    def __new__(cls, name: str) -> str:
+    def __new__(cls, name: str) -> _Self:
         """
         Instantiates a new Name.
         :param name: The string to use to create a new Name.
@@ -84,7 +84,7 @@ class Name(_PyWwiseStr):
 class GUID(_PyWwiseStr):
     """A Wwise object GUID (e.g. `"{63726145-57FB-490B-B611-738BD3EF2F72}"`."""
     
-    def __new__(cls, guid: str) -> str:
+    def __new__(cls, guid: str) -> _Self:
         """
         Instantiates a new GUID.
         :param guid: The string to use to create a new GUID.
@@ -120,7 +120,7 @@ class GUID(_PyWwiseStr):
 class ProjectPath(_PyWwiseStr):
     """A project path (e.g. `"\\Actor-Mixer Hierarchy\\Default Work Unit\\MyActorMixer"`)."""
     
-    def __new__(cls, path: str, windows_style: bool = True) -> str:
+    def __new__(cls, path: str, windows_style: bool = True) -> _Self:
         """
         Creates a new ProjectPath. You can think of this as a path-like string container. By default, any path will be
         automatically converted to a Windows-style path. Example: `"/Actor-Mixer Hierarchy/Default Work Unit"` will be
@@ -146,7 +146,7 @@ class ProjectPath(_PyWwiseStr):
 class OriginalsPath(_PyWwiseStr):
     """A source file path, relative to the Originals folder. Note: the Originals path can be customized in Wwise."""
     
-    def __new__(cls, path: str) -> str:
+    def __new__(cls, path: str) -> _Self:
         """
         Creates a new OriginalsPath. You can think of this as a string container.
         :param path: The source file path, relative to the Originals folder.
