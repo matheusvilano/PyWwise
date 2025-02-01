@@ -2,9 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pathlib import Path as _Path
+from pywwise.waapi.ak import Ak as _Ak
 from re import Pattern as _Pattern
 from typing import (List as _List, Set as _Set, Tuple as _Tuple, TypeAlias as _TypeAlias, TypeVar as _TypeVar,
                     Union as _Union)
+
+WwiseConnection: _TypeAlias = _Ak
+"""Represents a connection to Wwise."""
 
 SystemPath: _TypeAlias = _Path
 """Represents a filesystem path."""
