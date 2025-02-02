@@ -2,7 +2,38 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
+from types import NoneType as _NoneType
 from typing import Self as _Self
+
+from pywwise.objects import (WwiseObject as _WwiseObject, AcousticTexture as _AcousticTexture, Action as _Action,
+                             ActionException as _ActionException, ActorMixer as _ActorMixer,
+                             Attenuation as _Attenuation, AudioDevice as _AudioDevice, AudioSource as _AudioSource,
+                             AuxBus as _AuxBus, BlendContainer as _BlendContainer, BlendTrack as _BlendTrack,
+                             Bus as _Bus, ControlSurfaceBinding as _ControlSurfaceBinding,
+                             ControlSurfaceBindingGroup as _ControlSurfaceBindingGroup,
+                             ControlSurfaceSession as _ControlSurfaceSession, Conversion as _Conversion,
+                             Curve as _Curve, CustomState as _CustomState, DialogueEvent as _DialogueEvent,
+                             Effect as _Effect, EffectSlot as _EffectSlot, Event as _Event,
+                             ExternalSource as _ExternalSource, ExternalSourceFile as _ExternalSourceFile,
+                             Folder as _Folder, GameParameter as _GameParameter, Language as _Language,
+                             Marker as _Marker, Metadata as _Metadata, MidiFileSource as _MidiFileSource,
+                             MidiParameter as _MidiParameter, MixingSession as _MixingSession, Modifier as _Modifier,
+                             ModulatorEnvelope as _ModulatorEnvelope, ModulatorLfo as _ModulatorLfo,
+                             ModulatorTime as _ModulatorTime, MultiSwitchEntry as _MultiSwitchEntry,
+                             MusicClip as _MusicClip, MusicClipMidi as _MusicClipMidi, MusicCue as _MusicCue,
+                             MusicEventCue as _MusicEventCue, MusicFade as _MusicFade,
+                             MusicPlaylistContainer as _MusicPlaylistContainer, MusicPlaylistItem as _MusicPlaylistItem,
+                             MusicSegment as _MusicSegment, MusicStinger as _MusicStinger,
+                             MusicSwitchContainer as _MusicSwitchContainer, MusicTrack as _MusicTrack,
+                             MusicTrackSequence as _MusicTrackSequence, MusicTransition as _MusicTransition,
+                             ObjectSettingAssoc as _ObjectSettingAssoc, Panner as _Panner, Path2d as _Path2d,
+                             Platform as _Platform, PluginDataSource as _PluginDataSource, Position as _Position,
+                             Project as _Project, Query as _Query, RandomSequenceContainer as _RandomSequenceContainer,
+                             Rtpc as _Rtpc, SearchCriteria as _SearchCriteria, Sound as _Sound, SoundBank as _SoundBank,
+                             SoundcasterSession as _SoundcasterSession, SourcePlugin as _SourcePlugin, State as _State,
+                             StateGroup as _StateGroup, Switch as _Switch, SwitchContainer as _SwitchContainer,
+                             SwitchGroup as _SwitchGroup, Trigger as _Trigger,
+                             UserProjectSettings as _UserProjectSettings, WorkUnit as _WorkUnit)
 
 
 class EActionOnEventType(_IntEnum):
@@ -518,79 +549,79 @@ class EReturnOptions(_StrEnum):
 class EObjectType(tuple[int, int, str], _Enum):
     """An enumeration of class IDs for all different Wwise objects."""
     
-    UNKNOWN = -1, -1, "Unknown"
-    ACOUSTIC_TEXTURE = 72, 4718608, "AcousticTexture"
-    ACTION = 5, 327696, "Action"
-    ACTION_EXCEPTION = 76, 4980752, "ActionException"
-    ACTOR_MIXER = 8, 524304, "ActorMixer"
-    ATTENUATION = 41, 2686992, "Attenuation"
-    AUDIO_DEVICE = 71, 4653072, "AudioDevice"
-    AUDIO_SOURCE = 0, 16, "AudioSource"
-    AUX_BUS = 61, 3997712, "AuxBus"
-    BLEND_CONTAINER = 29, 1900560, "BlendContainer"
-    BLEND_TRACK = 30, 1966096, "BlendTrack"
-    BUS = 21, 1376272, "Bus"
-    CONTROL_SURFACE_BINDING = 67, 4390928, "ControlSurfaceBinding"
-    CONTROL_SURFACE_BINDING_GROUP = 68, 4456464, "ControlSurfaceBindingGroup"
-    CONTROL_SURFACE_SESSION = 66, 4325392, "ControlSurfaceSession"
-    CONVERSION = 55, 3604496, "Conversion"
-    CURVE = 14, 917520, "Curve"
-    CUSTOM_STATE = 79, 5177360, "CustomState"
-    DIALOGUE_EVENT = 46, 3014672, "DialogueEvent"
-    EFFECT = 17, 1114128, "Effect"
-    EFFECT_SLOT = 84, 5505040, "EffectSlot"
-    EVENT = 4, 262160, "Event"
-    EXTERNAL_SOURCE = 57, 3735568, "ExternalSource"
-    EXTERNAL_SOURCE_FILE = 56, 3670032, "ExternalSourceFile"
-    FOLDER = 2, 131088, "Folder"
-    GAME_PARAMETER = 23, 1507344, "GameParameter"
-    LANGUAGE = 75, 4915216, "Language"
-    MARKER = 82, 5373968, "Marker"
-    METADATA = 81, 5308432, "Metadata"
-    MIDI_FILE_SOURCE = 80, 5242896, "MidiFileSource"
-    MIDI_PARAMETER = 63, 4128784, "MidiParameter"
-    MIXING_SESSION = 53, 3473424, "MixingSession"
-    MODIFIER = 15, 983056, "Modifier"
-    MODULATOR_ENVELOPE = 65, 4259856, "ModulatorEnvelope"
-    MODULATOR_LFO = 64, 4194320, "ModulatorLfo"
-    MODULATOR_TIME = 78, 5111824, "ModulatorTime"
-    MULTI_SWITCH_ENTRY = 83, 655360016, "MultiSwitchEntry"
-    MUSIC_CLIP = 60, 3932176, "MusicClip"
-    MUSIC_CLIP_MIDI = 62, 4063248, "MusicClipMidi"
-    MUSIC_CUE = 59, 3866640, "MusicCue"
-    MUSIC_EVENT_CUE = 77, 5046288, "MusicEventCue"
-    MUSIC_FADE = 39, 2555920, "MusicFade"
-    MUSIC_PLAYLIST_CONTAINER = 34, 2228240, "MusicPlaylistContainer"
-    MUSIC_PLAYLIST_ITEM = 36, 2359312, "MusicPlaylistItem"
-    MUSIC_SEGMENT = 27, 1769488, "MusicSegment"
-    MUSIC_STINGER = 38, 2490384, "MusicStinger"
-    MUSIC_SWITCH_CONTAINER = 35, 2293776, "MusicSwitchContainer"
-    MUSIC_TRACK = 28, 1835024, "MusicTrack"
-    MUSIC_TRACK_SEQUENCE = 58, 3801104, "MusicTrackSequence"
-    MUSIC_TRANSITION = 37, 2424848, "MusicTransition"
-    OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssociation"  # wrongly listed as "ObjectSettingAssoc" in AK docs?
-    PANNER = 42, 2752528, "Panner"
-    PATH_2D = 11, 720912, "Path2d"
-    PLATFORM = 69, 4522000, "Platform"
-    PLUGIN_DATA_SOURCE = 54, 3538960, "PluginDataSource"
-    POSITION = 12, 786448, "Position"
-    PROJECT = 3, 196624, "Project"
-    QUERY = 32, 2097168, "Query"
-    RANDOM_SEQUENCE_CONTAINER = 9, 589840, "RandomSequenceContainer"
-    RTPC = 22, 1441808, "Rtpc"  # AK docs list as capitalized ("Rtpc"), but return values are all caps?
-    SEARCH_CRITERIA = 33, 2162704, "SearchCriteria"
-    SOUND = 1, 65552, "Sound"
-    SOUND_BANK = 18, 1179664, "SoundBank"
-    SOUNDCASTER_SESSION = 26, 1703952, "SoundcasterSession"
-    SOURCE_PLUGIN = 16, 1048592, "SourcePlugin"
-    STATE = 6, 393232, "State"
-    STATE_GROUP = 7, 458768, "StateGroup"
-    SWITCH = 20, 1310736, "Switch"
-    SWITCH_CONTAINER = 10, 655376, "SwitchContainer"
-    SWITCH_GROUP = 19, 1245200, "SwitchGroup"
-    TRIGGER = 40, 2621456, "Trigger"
-    USER_PROJECT_SETTINGS = 51, 3342352, "UserProjectSettings"
-    WORK_UNIT = 25, 1638416, "WorkUnit"
+    UNKNOWN = -1, -1, "Unknown", _NoneType
+    ACOUSTIC_TEXTURE = 72, 4718608, "AcousticTexture", _AcousticTexture
+    ACTION = 5, 327696, "Action", _Action
+    ACTION_EXCEPTION = 76, 4980752, "ActionException", _ActionException
+    ACTOR_MIXER = 8, 524304, "ActorMixer", _ActorMixer
+    ATTENUATION = 41, 2686992, "Attenuation", _Attenuation
+    AUDIO_DEVICE = 71, 4653072, "AudioDevice", _AudioDevice
+    AUDIO_SOURCE = 0, 16, "AudioSource", _AudioSource
+    AUX_BUS = 61, 3997712, "AuxBus", _AuxBus
+    BLEND_CONTAINER = 29, 1900560, "BlendContainer", _BlendContainer
+    BLEND_TRACK = 30, 1966096, "BlendTrack", _BlendTrack
+    BUS = 21, 1376272, "Bus", _Bus
+    CONTROL_SURFACE_BINDING = 67, 4390928, "ControlSurfaceBinding", _ControlSurfaceBinding
+    CONTROL_SURFACE_BINDING_GROUP = 68, 4456464, "ControlSurfaceBindingGroup", _ControlSurfaceBindingGroup
+    CONTROL_SURFACE_SESSION = 66, 4325392, "ControlSurfaceSession", _ControlSurfaceSession
+    CONVERSION = 55, 3604496, "Conversion", _Conversion
+    CURVE = 14, 917520, "Curve", _Curve
+    CUSTOM_STATE = 79, 5177360, "CustomState", _CustomState
+    DIALOGUE_EVENT = 46, 3014672, "DialogueEvent", _DialogueEvent
+    EFFECT = 17, 1114128, "Effect", _Effect
+    EFFECT_SLOT = 84, 5505040, "EffectSlot", _EffectSlot
+    EVENT = 4, 262160, "Event", _Event
+    EXTERNAL_SOURCE = 57, 3735568, "ExternalSource", _ExternalSource
+    EXTERNAL_SOURCE_FILE = 56, 3670032, "ExternalSourceFile", _ExternalSourceFile
+    FOLDER = 2, 131088, "Folder", _Folder
+    GAME_PARAMETER = 23, 1507344, "GameParameter", _GameParameter
+    LANGUAGE = 75, 4915216, "Language", _Language
+    MARKER = 82, 5373968, "Marker", _Marker
+    METADATA = 81, 5308432, "Metadata", _Metadata
+    MIDI_FILE_SOURCE = 80, 5242896, "MidiFileSource", _MidiFileSource
+    MIDI_PARAMETER = 63, 4128784, "MidiParameter", _MidiParameter
+    MIXING_SESSION = 53, 3473424, "MixingSession", _MixingSession
+    MODIFIER = 15, 983056, "Modifier", _Modifier
+    MODULATOR_ENVELOPE = 65, 4259856, "ModulatorEnvelope", _ModulatorEnvelope
+    MODULATOR_LFO = 64, 4194320, "ModulatorLfo", _ModulatorLfo
+    MODULATOR_TIME = 78, 5111824, "ModulatorTime", _ModulatorTime
+    MULTI_SWITCH_ENTRY = 83, 655360016, "MultiSwitchEntry", _MultiSwitchEntry
+    MUSIC_CLIP = 60, 3932176, "MusicClip", _MusicClip
+    MUSIC_CLIP_MIDI = 62, 4063248, "MusicClipMidi", _MusicClipMidi
+    MUSIC_CUE = 59, 3866640, "MusicCue", _MusicCue
+    MUSIC_EVENT_CUE = 77, 5046288, "MusicEventCue", _MusicEventCue
+    MUSIC_FADE = 39, 2555920, "MusicFade", _MusicFade
+    MUSIC_PLAYLIST_CONTAINER = 34, 2228240, "MusicPlaylistContainer", _MusicPlaylistContainer
+    MUSIC_PLAYLIST_ITEM = 36, 2359312, "MusicPlaylistItem", _MusicPlaylistItem
+    MUSIC_SEGMENT = 27, 1769488, "MusicSegment", _MusicSegment
+    MUSIC_STINGER = 38, 2490384, "MusicStinger", _MusicStinger
+    MUSIC_SWITCH_CONTAINER = 35, 2293776, "MusicSwitchContainer", _MusicSwitchContainer
+    MUSIC_TRACK = 28, 1835024, "MusicTrack", _MusicTrack
+    MUSIC_TRACK_SEQUENCE = 58, 3801104, "MusicTrackSequence", _MusicTrackSequence
+    MUSIC_TRANSITION = 37, 2424848, "MusicTransition", _MusicTransition
+    OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssociation", _ObjectSettingAssoc  # "ObjectSettingAssoc" in docs?
+    PANNER = 42, 2752528, "Panner", _Panner
+    PATH_2D = 11, 720912, "Path2d", _Path2d
+    PLATFORM = 69, 4522000, "Platform", _Platform
+    PLUGIN_DATA_SOURCE = 54, 3538960, "PluginDataSource", _PluginDataSource
+    POSITION = 12, 786448, "Position", _Position
+    PROJECT = 3, 196624, "Project", _Project
+    QUERY = 32, 2097168, "Query", _Query
+    RANDOM_SEQUENCE_CONTAINER = 9, 589840, "RandomSequenceContainer", _RandomSequenceContainer
+    RTPC = 22, 1441808, "Rtpc", _Rtpc
+    SEARCH_CRITERIA = 33, 2162704, "SearchCriteria", _SearchCriteria
+    SOUND = 1, 65552, "Sound", _Sound
+    SOUND_BANK = 18, 1179664, "SoundBank", _SoundBank
+    SOUNDCASTER_SESSION = 26, 1703952, "SoundcasterSession", _SoundcasterSession
+    SOURCE_PLUGIN = 16, 1048592, "SourcePlugin", _SourcePlugin
+    STATE = 6, 393232, "State", _State
+    STATE_GROUP = 7, 458768, "StateGroup", _StateGroup
+    SWITCH = 20, 1310736, "Switch", _Switch
+    SWITCH_CONTAINER = 10, 655376, "SwitchContainer", _SwitchContainer
+    SWITCH_GROUP = 19, 1245200, "SwitchGroup", _SwitchGroup
+    TRIGGER = 40, 2621456, "Trigger", _Trigger
+    USER_PROJECT_SETTINGS = 51, 3342352, "UserProjectSettings", _UserProjectSettings
+    WORK_UNIT = 25, 1638416, "WorkUnit", _WorkUnit
     
     @classmethod
     def from_plugin_id(cls, plugin_id: int):
@@ -643,6 +674,10 @@ class EObjectType(tuple[int, int, str], _Enum):
     def get_type_name(self) -> str:
         """:return: The Wwise object type's name, as a string."""
         return self.value[2]
+
+    def get_class(self) -> type[_WwiseObject] | type[_NoneType]:
+        """:return: The Wwise object PyWwise type."""
+        return self.value[3]
 
 
 class EStartMode(_StrEnum):
