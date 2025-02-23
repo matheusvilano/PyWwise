@@ -589,14 +589,14 @@ class CPUStatisticsInfo:
     element_name: str
     """The name of the element on which we calculate CPU usage."""
     
-    id: int
+    class_id: int
     """Class ID of the element."""
     
     instances: int
     """An estimation of the number of instances of the element."""
     
     type: str
-    """The type of element. For example, Codec, Source, Effect, Mixer or Sink."""
+    """The type of element. Examples: Codec, Source, Effect, Mixer, Sink, etc."""
     
     percent_inclusive: float
     """The percentage of CPU time spent in the execution of the element and those that it uses (calls)."""

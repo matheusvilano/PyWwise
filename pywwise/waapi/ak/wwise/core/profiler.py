@@ -6,7 +6,7 @@ from waapi import WaapiClient as _WaapiClient
 
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
-from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, ECPUStatisticsMembers, EDataTypes,
+from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, EDataTypes,
                            EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EObjectType,
                            EPerformanceMonitorMembers, EReturnOptions, ETimeCursor, EVoicePipelineReturnOptions)
 from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath, ShortID
@@ -268,25 +268,37 @@ class Profiler:
                      The ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can
                      be manipulated by the user, while the Capture Time Cursor represents the latest time of the current
                      capture.
-        :return: For each element profiled, a CPUStatisticsInfo struct containing information about the amount of CPU
-                 percentage used by each element is returned. When accessing the values in the dictionary, use the
-                 ECPUStatisticsMembers enum as the keys. If this function call fails, an empty tuple is returned.
+        :return: A tuple of CPUStatisticsInfo instances containing information about the amount of CPU percentage used
+                 by each element.
         """
         args = {"time": time}
         
-        results = self._client.call("ak.wwise.core.profiler.getCpuUsage", args)
-        results = results.get("return")
+        results: dict[str, list[dict[str, int | float | str]]] = self._client.call("ak.wwise.core.profiler.getCpuUsage",
+                                                                                   args)
         
         if results is None:
-            return tuple()
+            return tuple[CPUStatisticsInfo, ...]()
         
-        objects = list[CPUStatisticsInfo]()
+        results: list[dict[str, int | float | str]] = results.get("return")  # Simplifying data structure.
+        
+        if not results:  # Empty.
+            return tuple[CPUStatisticsInfo, ...]()
+        
+        stats = list[CPUStatisticsInfo]()
         
         for result in results:
-            info = CPUStatisticsInfo({k: v for k, v in result.items() if k not in ECPUStatisticsMembers})
-            objects.append(info)
+            element_name = result.get("elementName", "")
+            class_id = result.get("id", -1)
+            instances = result.get("instances", -1)
+            etype = result.get("type", "")
+            percent_inclusive = result.get("percentInclusive", -1.0)
+            percent_exclusive = result.get("percentExclusive", -1.0)
+            ms_inclusive = result.get("millisecondsInclusive", -1.0)
+            ms_exclusive = result.get("millisecondsExclusive", -1.0)
+            stats.append(CPUStatisticsInfo(element_name, class_id, instances, etype, percent_inclusive,
+                                           percent_exclusive, ms_inclusive, ms_exclusive))
         
-        return tuple(objects)
+        return tuple(stats)
     
     def get_cursor_time(self, time: ETimeCursor) -> int:
         """
