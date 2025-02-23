@@ -615,7 +615,7 @@ class CPUStatisticsInfo:
 class GameObjectRegistrationData:
     """Data of a profiled game object and its registration data."""
     
-    id: int
+    id: GameObjectID
     """The ID of the game object. Unsigned Integer 64-bit. Range: [0,18446744073709551615]."""
     
     name: str

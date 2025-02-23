@@ -6,9 +6,9 @@ from waapi import WaapiClient as _WaapiClient
 
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
-from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, EDataTypes,
-                           EGameObjectRegistrationDataMembers, ELoadedMediaMembers, EObjectType,
-                           EPerformanceMonitorMembers, EReturnOptions, ETimeCursor, EVoicePipelineReturnOptions)
+from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, EDataTypes, ELoadedMediaMembers,
+                           EObjectType, EPerformanceMonitorMembers, EReturnOptions, ETimeCursor,
+                           EVoicePipelineReturnOptions)
 from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath, ShortID
 from pywwise.structs import (ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo,
                              GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo,
@@ -332,17 +332,23 @@ class Profiler:
         args = {"time": time}
         
         results = self._client.call("ak.wwise.core.profiler.getGameObjects", args)
-        results = results.get("return")
         
         if results is None:
-            return tuple()
+            return tuple[GameObjectRegistrationData, ...]()
+        
+        results = results.get("return")
+        
+        if not results:  # Empty.
+            return tuple[GameObjectRegistrationData, ...]()
         
         objects = list[GameObjectRegistrationData]()
         
         for result in results:
-            info = GameObjectRegistrationData(
-                {k: v for k, v in result.items() if k not in EGameObjectRegistrationDataMembers})
-            objects.append(info)
+            ak_id = GameObjectID(result.get("id", GameObjectID.get_null()))
+            name = result.get("name", "")
+            register_time = result.get("registerTime", -1)
+            unregister_time = result.get("unregisterTime", -1)
+            objects.append(GameObjectRegistrationData(ak_id, name, register_time, unregister_time))
         
         return tuple(objects)
     

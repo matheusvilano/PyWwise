@@ -1552,22 +1552,6 @@ class EBusOptions(_StrEnum):
     """Depth level of the bus in the pipeline."""
 
 
-class EGameObjectRegistrationDataMembers(_StrEnum):
-    """Enumeration of defined members for a GameObjectRegistrationData return structure. """
-    
-    ID = "id"
-    """The ID of the game object."""
-    
-    NAME = "name"
-    """The name of the game object."""
-    
-    REGISTRATION_TIME = "registrationTime"
-    """The time at which the game object was registered."""
-    
-    UNREGISTRATION_TIME = "unregistrationTime"
-    """The time at which the game object was unregistered."""
-
-
 class ELoadedMediaMembers(_StrEnum):
     """Enumeration of defined members for a LoadedMedia return structure. """
     
