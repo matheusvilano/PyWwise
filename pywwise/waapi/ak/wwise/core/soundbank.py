@@ -6,7 +6,7 @@ from waapi import WaapiClient as _WaapiClient
 
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
-from pywwise.enums import EInclusionOperation, ELogSeverity, EObjectType, EReturnOptions
+from pywwise.enums import EInclusionFilter, EInclusionOperation, ELogSeverity, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import (ExternalSourceInfo, LogItem, SoundBankData, SoundBankGenerationInfo, SoundBankInclusion,
@@ -140,7 +140,7 @@ class SoundBank:
         log = self._client.call("ak.wwise.core.soundbank.generate", args).get("logs")
         return log if log is not None else dict()
     
-    def get_inclusions(self, sound_bank: GUID | Name | ProjectPath) -> tuple[str, str]:
+    def get_inclusions(self, sound_bank: GUID | Name | ProjectPath) -> tuple[SoundBankInclusion, ...]:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_soundbank_getinclusions.html \n
         Retrieves a SoundBank's inclusion list.
@@ -149,9 +149,26 @@ class SoundBank:
         """
         if isinstance(sound_bank, Name):
             sound_bank = f"{EObjectType.SOUND_BANK.get_type_name()}:{sound_bank}"
+        
         args = {"soundbank": sound_bank}
         results = self._client.call("ak.wwise.core.soundbank.getInclusions", args)
-        return results.get("object"), results.get("filter")
+        
+        if results is None:
+            return tuple[SoundBankInclusion, ...]()
+        
+        results = results.get("inclusions", ())
+        
+        if not results:  # Empty.
+            return tuple[SoundBankInclusion, ...]()
+        
+        inclusions = list[SoundBankInclusion]()
+        
+        for result in results:
+            obj: GUID = GUID(result.get("object", GUID.get_null()))
+            filters = tuple([EnumStatics.from_value(EInclusionFilter, _filter) for _filter in result.get("filter", ())])
+            inclusions.append(SoundBankInclusion(obj, filters))
+        
+        return tuple[SoundBankInclusion, ...](inclusions)
     
     def process_definition_files(self, files: ListOrTuple[SystemPath]) -> bool:
         """
