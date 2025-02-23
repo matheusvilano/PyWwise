@@ -373,7 +373,7 @@ class SoundBankInclusion:
     """The GUID, ProjectPath, or Name of the object to add/remove from the SoundBank's inclusion list.
     NOTE: Name is only supported for globally-unique names (e.g. Events, State Groups, etc.)."""
     
-    filters: list[EInclusionFilter]
+    filters: tuple[EInclusionFilter, ...]
     """Specifies what relations are being included. Possible Values: events, structures, media"""
     
     def __hash__(self) -> int:
