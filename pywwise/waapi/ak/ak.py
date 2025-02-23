@@ -1,7 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Self as _Self
+from typing import Self as _Self, TypeAlias as _TypeAlias
 
 from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
 
@@ -61,3 +61,7 @@ class Ak:
     def disconnect(self):
         """Disconnect from Wwise."""
         self._client.disconnect()
+
+
+WwiseConnection: _TypeAlias = Ak  # This cannot exist in aliases.py due to a circular import issue.
+"""Represents a connection to Wwise."""

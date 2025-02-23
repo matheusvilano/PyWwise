@@ -6,11 +6,6 @@ from re import Pattern as _Pattern
 from typing import (List as _List, Set as _Set, Tuple as _Tuple, TypeAlias as _TypeAlias, TypeVar as _TypeVar,
                     Union as _Union)
 
-from pywwise.waapi.ak import Ak as _Ak
-
-WwiseConnection: _TypeAlias = _Ak
-"""Represents a connection to Wwise."""
-
 SystemPath: _TypeAlias = _Path
 """Represents a filesystem path."""
 

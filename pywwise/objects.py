@@ -1,7 +1,9 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise import GUID, Name, ProjectPath, WwiseConnection, WwiseObjectInfo
+from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.structs import WwiseObjectInfo
+from pywwise.waapi.ak.ak import WwiseConnection
 
 
 class WwiseObject:

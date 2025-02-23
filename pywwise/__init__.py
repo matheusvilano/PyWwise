@@ -1,7 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from logging import CRITICAL as _LEVEL_CRITICAL, getLogger as _get_logger
+from logging import CRITICAL as _LEVEL_CRITICAL, getLogger as _getLogger
 
 from waapi import CallbackExecutor, SequentialThreadExecutor
 
@@ -9,10 +9,10 @@ from pywwise.aliases import *
 from pywwise.enums import *
 from pywwise.primitives import *
 from pywwise.structs import *
-from pywwise.waapi.ak import Ak as _Ak
+from pywwise.waapi.ak import Ak as _Ak, WwiseConnection
 from pywwise.waql import *
 
-_get_logger("waapi").setLevel(_LEVEL_CRITICAL)
+_getLogger("waapi").setLevel(_LEVEL_CRITICAL)
 
 
 def new_waapi_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: bool = False,
@@ -40,4 +40,4 @@ def set_waapi_logging(level: int):
     :param level: The level, represented as an integer. Common values: NOTSET=0, DEBUG=10, INFO=20, WARNING=30,
                   ERROR=40, CRITICAL=50.
     """
-    _get_logger("waapi").setLevel(level)
+    _getLogger("waapi").setLevel(level)

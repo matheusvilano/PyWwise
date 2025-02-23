@@ -7,9 +7,9 @@ from typing import Any, Any as _Any, Self as _Self
 
 from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
-						   EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
-						   ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
-						   EVoicePipelineReturnOptions, EWwiseBuildConfiguration, EWwiseBuildPlatform)
+                           EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
+                           ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
+                           EVoicePipelineReturnOptions, EWwiseBuildConfiguration, EWwiseBuildPlatform)
 from pywwise.primitives import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
 

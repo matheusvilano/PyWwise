@@ -10,7 +10,7 @@ from pywwise.enums import EBasePlatform, EObjectType, EReturnOptions, EWwiseBuil
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import (LanguageInfo, PlatformInfo, WwiseGlobalDirectories, WwiseGlobalInfo, WwiseObjectInfo,
-							 WwiseObjectWatch, WwiseProjectInfo, WwiseVersionInfo)
+                             WwiseObjectWatch, WwiseProjectInfo, WwiseVersionInfo)
 from pywwise.waapi.ak.wwise.core.audio import Audio as _Audio
 from pywwise.waapi.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
 from pywwise.waapi.ak.wwise.core.log import Log as _Log
@@ -115,13 +115,22 @@ class Core:
         """
         info = self._client.call("ak.wwise.core.getProjectInfo")
         
-        languages = [LanguageInfo(guid=lang["id"], name=lang["name"], short_id=lang["shortId"])
-                     for lang in info["languages"]]
+        name = Name(info.get("name", Name.get_null()))
+        display_title = info.get("displayTitle", "")
+        path = SystemPath(info.get("path", ""))
+        guid = GUID(info.get("id", GUID.get_null()))
+        is_dirty = info.get("isDirty", False)
+        current_language_id = GUID(info.get("currentLanguageId", GUID.get_null()))
+        reference_language_id = GUID(info.get("referenceLanguageId", GUID.get_null()))
+        current_platform_id = GUID(info.get("currentPlatformId", GUID.get_null()))
         
-        platforms = [PlatformInfo(name=plat["name"], base=EnumStatics.from_value(EBasePlatform, plat["baseName"]),
-                                  guid=plat["id"], sound_bank_path=SystemPath(plat["soundBankPath"]),
-                                  copied_media_path=plat["copiedMediaPath"])
-                     for plat in info["platforms"]]
+        languages = tuple([LanguageInfo(guid=lang["id"], name=lang["name"], short_id=lang["shortId"])
+                           for lang in info["languages"]])
+        
+        platforms = tuple([PlatformInfo(name=plat["name"], base=EnumStatics.from_value(EBasePlatform, plat["baseName"]),
+                                        guid=plat["id"], sound_bank_path=SystemPath(plat["soundBankPath"]),
+                                        copied_media_path=plat["copiedMediaPath"])
+                           for plat in info["platforms"]])
         
         conversion = info["defaultConversion"]["id"]
         conversion = self._client.call("ak.wwise.core.object.get",  # We need this call here to get the ProjectPath.
@@ -130,6 +139,5 @@ class Core:
         conversion = WwiseObjectInfo(GUID(conversion["id"]), Name(conversion["name"]),
                                      EObjectType.CONVERSION, ProjectPath(conversion["path"]))
         
-        return WwiseProjectInfo(info["name"], info["displayTitle"], SystemPath(info["path"]), GUID(info["id"]),
-                                info["isDirty"], GUID(info["currentLanguageId"]), GUID(info["referenceLanguageId"]),
-                                GUID(info["currentPlatformId"]), languages, platforms, conversion)
+        return WwiseProjectInfo(name, display_title, path, guid, is_dirty, current_language_id, reference_language_id,
+                                current_platform_id, languages, platforms, conversion)
