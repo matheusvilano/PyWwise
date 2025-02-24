@@ -654,13 +654,13 @@ class PerformanceMonitorCounterInfo:
     """Information about a performance monitor counter and its value."""
     
     name: str
-    """name of the counter as shown in Wwise Authoring."""
+    """Name of the counter as shown in Wwise Authoring."""
     
-    id: int
-    """unique Id of the counter."""
+    identifier: str
+    """Unique identifier of the counter."""
     
     value: float
-    """value of counter at given time."""
+    """Value of counter at given time. If invalid, value will be equivalent to `float("-inf")`."""
 
 
 @_dataclass

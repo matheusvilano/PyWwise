@@ -1571,19 +1571,6 @@ class ELoadedMediaMembers(_StrEnum):
     """The name of the SoundBank that contains the media file."""
 
 
-class EPerformanceMonitorMembers(_StrEnum):
-    """Enumeration of defined members for a PerformanceMonitorCounter return structure. """
-    
-    NAME = "name"
-    """Name of the counter as shown in Wwise Authoring."""
-    
-    ID = "id"
-    """Unique Id of the counter."""
-    
-    VALUE = "value"
-    """Value of counter at given time."""
-
-
 class EActiveRTPCMembers(_StrEnum):
     """Enumeration of defined members for an ActiveRTPCInfo return structure."""
     

@@ -441,8 +441,8 @@ class Profiler:
     def get_performance_monitor(self, time: ETimeCursor | int) -> tuple[PerformanceMonitorCounterInfo, ...]:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getperformancemonitor.html \n
-        Retrieves the Performance Monitor statistics at a specific profiler capture time. Refer to Wwise
-        Authoring Performance Monitor Counter Identifiers for the available counters.
+        Retrieves the Performance Monitor statistics at a specific profiler capture time. Refer to Wwise Authoring
+        Performance Monitor Counter Identifiers for the available counters.
         :param time: Time in milliseconds to query for media, or a Time Cursor from which to acquire the time.
                      This parameter can have 2 possible values: int or ETimeCursor. The int is the time to query. The
                      ETimeCursor can have two values: user or capture. The User Time Cursor is the one that can be
@@ -454,19 +454,24 @@ class Profiler:
         args = {"time": time}
         
         results = self._client.call("ak.wwise.core.profiler.getPerformanceMonitor", args)
-        results = results.get("return")
         
         if results is None:
-            return tuple()
+            return tuple[PerformanceMonitorCounterInfo, ...]()
+        
+        results = results.get("return")
+        
+        if not results:  # Empty.
+            return tuple[PerformanceMonitorCounterInfo, ...]()
         
         entries = list[PerformanceMonitorCounterInfo]()
         
         for result in results:
-            info = PerformanceMonitorCounterInfo(
-                {k: v for k, v in result.items() if k not in EPerformanceMonitorMembers})
-            entries.append()
+            name: str = result.get("name", "")
+            identifier: str = result.get("id", "")
+            value: float = result.get("value", float("-inf"))
+            entries.append(PerformanceMonitorCounterInfo(name, identifier, value))
         
-        return tuple(entries)
+        return tuple[PerformanceMonitorCounterInfo, ...](entries)
     
     def get_rtpcs(self, time: ETimeCursor | int) -> tuple[ActiveRTPCInfo, ...]:
         """
