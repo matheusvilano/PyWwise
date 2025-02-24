@@ -141,3 +141,12 @@ class Core:
         
         return WwiseProjectInfo(name, display_title, path, guid, is_dirty, current_language_id, reference_language_id,
                                 current_platform_id, languages, platforms, conversion)
+    
+    def ping(self) -> bool:
+        """
+        https://www.audiokinetic.com/en/library/edge/?source=SDK&id=ak_wwise_core_ping.html \n
+        Verify if WAAPI is currently available.
+        :return: `True` if WAAPI is available. Note that WAAPI is not available when a modal dialog is shown.
+        """
+        result = self._client.call("ak.wwise.core.ping")
+        return False if result is None else result.get("isAvailable", False)
