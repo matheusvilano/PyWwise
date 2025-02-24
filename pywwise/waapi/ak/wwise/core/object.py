@@ -522,6 +522,8 @@ class Object:
                     `EObjectType.EVENT`) are supported. Using the type (`EObjectType`) is recommended over the other
                     options, if possible.
         :param property_name: The name of the property to retrieve.
+        :return: A `PropertyInfo` instance containing information about an object property. That does NOT include the
+                 property value.
         """
         match obj:
             case EObjectType():
