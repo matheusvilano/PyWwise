@@ -135,12 +135,30 @@ class ProjectPath(_PyWwiseStr):
         if len(path) <= 0:
             raise ValueError("The provided path is empty. Must be a valid path-like string.")
         
-        path = path.replace("/", "\\")
+        delimiter = "\\" if windows_style else "/"
         
-        if path[0] != "\\":
-            path = f"\\{path}"
-            
-        return str.__new__(cls, path)
+        if windows_style:
+            path = path.replace("/", "\\")
+        else:
+            path = path.replace("\\", "/")
+        
+        if path[0] != delimiter:
+            path = f"{delimiter}{path}"
+        
+        if path[-1] == delimiter:
+            path = path[:-1]
+        
+        path = str.__new__(cls, path)
+        path._delimiter = delimiter
+        return path
+    
+    def __getitem__(self, item: int | slice) -> str | list[str]:
+        """
+        Gets one or more components from the path.
+        :param item: The index or slice to use.
+        :return: One or more components from the path.
+        """
+        return self.split(self._delimiter)[1:][item]
 
 
 class OriginalsPath(_PyWwiseStr):
