@@ -6,8 +6,8 @@ from waapi import WaapiClient as _WaapiClient
 
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
-from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, EDataTypes, ELoadedMediaMembers,
-                           EObjectType, EReturnOptions, ETimeCursor, EVoicePipelineReturnOptions)
+from pywwise.enums import (EAudioObjectOptions, EBusOptions, EDataTypes, EObjectType, EReturnOptions, ETimeCursor,
+                           EVoicePipelineReturnOptions)
 from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath, ShortID
 from pywwise.structs import (ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo,
                              GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo,
@@ -308,7 +308,7 @@ class Profiler:
         """
         args = {"time": time}
         
-        result = self._client.call("ak.wwise.core.profiler.getCursorTime ", args)
+        result = self._client.call("ak.wwise.core.profiler.getCursorTime", args)
         result = result.get("return")
         
         if result is None or result < 0:
@@ -486,7 +486,7 @@ class Profiler:
         """
         args = {"time": time}
         
-        results = self._client.call("ak.wwise.core.profiler.getRTPCs ", args)
+        results = self._client.call("ak.wwise.core.profiler.getRTPCs", args)
         
         if results is None:
             return tuple[ActiveRTPCInfo, ...]()
@@ -499,9 +499,11 @@ class Profiler:
         rtpcs = list[ActiveRTPCInfo]()
         
         for result in results:
-            info = ActiveRTPCInfo(
-                {k: v for k, v in result.items() if k not in EActiveRTPCMembers})
-            rtpcs.append(info)
+            guid = GUID(result.get("id", GUID.get_null()))
+            name = Name(result.get("name", Name.get_null()))
+            obj_id = GameObjectID(result.get("gameObjectId", GameObjectID.get_null()))
+            value = result.get("value", float("-inf"))
+            rtpcs.append(ActiveRTPCInfo(guid, name, obj_id, value))
         
         return tuple[ActiveRTPCInfo, ...](rtpcs)
     
@@ -521,7 +523,7 @@ class Profiler:
         """
         args = {"time": time}
         
-        results = self._client.call("ak.wwise.core.profiler.getStreamedMedia ", args)
+        results = self._client.call("ak.wwise.core.profiler.getStreamedMedia", args)
         results = results.get("return")
         
         if results is None:

@@ -679,7 +679,8 @@ class ActiveRTPCInfo:
     ID, unsigned integer 64-bit. Range: [0,18446744073709551615]."""
     
     value: float
-    """The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
+    """The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time. If invalid, the value
+    will be equivalent to `float("-inf")`."""
 
 
 @_dataclass

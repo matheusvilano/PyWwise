@@ -1552,41 +1552,6 @@ class EBusOptions(_StrEnum):
     """Depth level of the bus in the pipeline."""
 
 
-class ELoadedMediaMembers(_StrEnum):
-    """Enumeration of defined members for a LoadedMedia return structure. """
-    
-    MEDIA_ID = "mediaId"
-    """The short ID of the media file"""
-    
-    FILE_NAME = "fileName"
-    """The name of the media file."""
-    
-    FORMAT = "format"
-    """The audio format of the media file."""
-    
-    SIZE = "size"
-    """The size (in bytes) of the media file."""
-    
-    SOUND_BANK = "soundBank"
-    """The name of the SoundBank that contains the media file."""
-
-
-class EActiveRTPCMembers(_StrEnum):
-    """Enumeration of defined members for an ActiveRTPCInfo return structure."""
-    
-    ID = "id"
-    """The ID (GUID) of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object."""
-    
-    NAME = "name"
-    """The name of the Game Parameter, LFO, Time, Envelope or MIDI Parameter object. The name of the object."""
-    
-    GAME_OBJECT_ID = "gameObjectId"
-    """The Game Object associated with the RTPC scope, or AK_INVALID_GAME_OBJECT for global scope RTPCs."""
-    
-    VALUE = "value"
-    """The value of the Game Parameter, LFO, Time, Envelope or MIDI Parameter at the cursor time."""
-
-
 class EVoicePipelineReturnOptions(_StrEnum):
     """Enumeration of defined members for a voice pipeline return structure."""
     
