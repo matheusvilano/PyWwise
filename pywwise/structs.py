@@ -639,7 +639,7 @@ class LoadedMediaInfo:
     file_name: Name
     """The name of the media file."""
     
-    format: str
+    audio_format: str
     """The audio format of the media file."""
     
     size: int

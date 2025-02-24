@@ -372,15 +372,19 @@ class Profiler:
         results = results.get("return")
         
         if results is None:
-            return tuple()
+            return tuple[LoadedMediaInfo, ...]()
         
         loaded_media = list[LoadedMediaInfo]()
         
         for result in results:
-            info = LoadedMediaInfo({k: v for k, v in result.items() if k not in ELoadedMediaMembers})
-            loaded_media.append(info)
+            media_id = ShortID(result.get("mediaId", ShortID.get_null()))
+            file_name = Name(result.get("fileName", Name.get_null()))
+            audio_format = result.get("format", "")
+            size = result.get("size", -1)
+            sound_bank = Name(result.get("soundBank", Name.get_null()))
+            loaded_media.append(LoadedMediaInfo(media_id, file_name, audio_format, size, sound_bank))
         
-        return tuple(loaded_media)
+        return tuple[LoadedMediaInfo, ...](loaded_media)
     
     def get_meters(self, time: ETimeCursor | int, returns: ListOrTuple[EReturnOptions] = None, platform: str = None,
                    language: str = None) -> tuple[WwiseObjectInfo, ...]:
