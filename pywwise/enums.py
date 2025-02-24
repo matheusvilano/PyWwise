@@ -220,6 +220,8 @@ class ESpeakerBitMask(_IntEnum):
                 return "Ambisonics 4th order"
             case ESpeakerBitMask.AMBISONICS_5TH:
                 return "Ambisonics 5th order"
+            case _:
+                return "None"
 
 
 class EBasePlatform(_StrEnum):
