@@ -47,7 +47,7 @@ class Audio:
         objects = list[WwiseObjectInfo]()
         for obj in kwargs.get("objects", dict()):
             objects.append(WwiseObjectInfo.from_dict(obj))
-        event(EnumStatics.from_value(EAudioImportOperation, kwargs["operation"]), tuple(objects),
+        event(EnumStatics.from_value(EImportOperation, kwargs["operation"]), tuple(objects),
               tuple([SystemPath(file) for file in kwargs.get("files", ())]))
     
     def convert(self, objects: ListOrTuple[GUID | Name | ProjectPath], platforms: ListOrTuple[GUID | Name],
