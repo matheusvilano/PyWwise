@@ -459,14 +459,14 @@ class Profiler:
         if results is None:
             return tuple()
         
-        performance_monitor_counter = list[PerformanceMonitorCounterInfo]()
+        entries = list[PerformanceMonitorCounterInfo]()
         
         for result in results:
             info = PerformanceMonitorCounterInfo(
                 {k: v for k, v in result.items() if k not in EPerformanceMonitorMembers})
-            performance_monitor_counter.append(info)
+            entries.append()
         
-        return tuple(performance_monitor_counter)
+        return tuple(entries)
     
     def get_rtpcs(self, time: ETimeCursor | int) -> tuple[ActiveRTPCInfo, ...]:
         """
@@ -483,19 +483,23 @@ class Profiler:
         args = {"time": time}
         
         results = self._client.call("ak.wwise.core.profiler.getRTPCs ", args)
-        results = results.get("return")
         
         if results is None:
-            return tuple()
+            return tuple[ActiveRTPCInfo, ...]()
         
-        active_rtpcs = list[ActiveRTPCInfo]()
+        results = results.get("return", ())
+        
+        if not results:  # Empty.
+            return tuple[ActiveRTPCInfo, ...]()
+        
+        rtpcs = list[ActiveRTPCInfo]()
         
         for result in results:
             info = ActiveRTPCInfo(
                 {k: v for k, v in result.items() if k not in EActiveRTPCMembers})
-            active_rtpcs.append(info)
+            rtpcs.append(info)
         
-        return tuple(active_rtpcs)
+        return tuple[ActiveRTPCInfo, ...](rtpcs)
     
     def get_streamed_media(self, time: ETimeCursor | int) -> tuple[StreamObjectInfo, ...]:
         """
