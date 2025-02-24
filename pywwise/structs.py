@@ -1124,7 +1124,7 @@ class AudioImportEntry:
     
     object_path: ProjectPath
     """The project path of the Wwise object to create, including the name of the object to create. Example:
-    "/Actor-Mixer Hierarchy/Default Work Unit/<RandomContainer>MyContainer/<Sound>MySound" will create a
+    "/Actor-Mixer Hierarchy/Default Work Unit/<Random Container>MyContainer/<Sound SFX>MySound" will create a
     `RandomSequenceContainer` (with `RandomOrSequence=1`) called "MyContainer" and a `Sound` called "MySound"."""
     
     root_path: GUID | tuple[EObjectType, Name] | ProjectPath = None
