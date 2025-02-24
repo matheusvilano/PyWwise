@@ -7,8 +7,7 @@ from waapi import WaapiClient as _WaapiClient
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import (EActiveRTPCMembers, EAudioObjectOptions, EBusOptions, EDataTypes, ELoadedMediaMembers,
-                           EObjectType, EPerformanceMonitorMembers, EReturnOptions, ETimeCursor,
-                           EVoicePipelineReturnOptions)
+                           EObjectType, EReturnOptions, ETimeCursor, EVoicePipelineReturnOptions)
 from pywwise.primitives import GameObjectID, GUID, Name, ProjectPath, ShortID
 from pywwise.structs import (ActiveRTPCInfo, AudioObjectInfo, AudioObjectMetadata, BusPipelineInfo, CPUStatisticsInfo,
                              GameObjectRegistrationData, LoadedMediaInfo, PerformanceMonitorCounterInfo,
