@@ -1,7 +1,11 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-def callback(func):
+from functools import wraps as _wraps
+from typing import Any as _Any, Callable as _Callable
+
+
+def callback(func: _Callable) -> _Callable:
     """
     A decorator for PyWwise callbacks. Checks if the associated event is valid and has any subscribers. If it has at
     least one subscriber, it will be broadcast. For the decorated function to work properly: \n
@@ -22,7 +26,32 @@ def callback(func):
     return wrapper
 
 
-def debug_build_only(func):
+def console_instance_only(func: _Callable) -> _Callable:
+    """
+    A decorator for functions that can only be called on a console instance of Wwise. Checks the owner object's
+    `is_console_instance` (or, alternatively, `_is_console_instance`); if `None` or `False`, the decorated function will
+    NOT be called and an exception is raised. Note: if there is no owner object, the check defaults to `None`. \n
+    :param func: The function to decorate.
+    :raise: NameError - if `is_console_instance` does not exist.
+    :raise: ValueError - if `is_console_instance` is False.
+    :return: The decorated function.
+    """
+    attr_name = "is_console_instance"
+    
+    def wrapper(self, *args, **kwargs):
+        flag = getattr(self, attr_name) \
+            if hasattr(self, attr_name) \
+            else getattr(self, f"_{attr_name}", None)
+        if flag is None:
+            raise NameError(f"Object '{self}' does not have an attribute named '{attr_name}'.")
+        if flag is True:
+            raise ValueError(f"Debug function called on a non-console instance of 'Ak'.")
+        return func(self, *args, **kwargs)
+    
+    return wrapper
+
+
+def debug_build_only(func: _Callable) -> _Callable:
     """
     A decorator for PyWwise debug-only functions. Checks the owner object's `is_debug_build` (or, alternatively,
     `_is_debug_build`); if `None` or `False`, the decorated function will NOT be called and an exception is raised.
@@ -47,26 +76,23 @@ def debug_build_only(func):
     return wrapper
 
 
-def console_instance_only(func):
+def wwise_property(name: str) -> _Callable:
     """
-    A decorator for functions that can only be called on a console instance of Wwise. Checks the owner object's
-    `is_console_instance` (or, alternatively, `_is_console_instance`); if `None` or `False`, the decorated function will
-    NOT be called and an exception is raised. Note: if there is no owner object, the check defaults to `None`. \n
-    :param func: The function to decorate.
-    :raise: NameError - if `is_console_instance` does not exist.
-    :raise: ValueError - if `is_console_instance` is False.
-    :return: The decorated function.
+    A decorator for Wwise properties, references, and lists. Created to be used primarily with properties in
+    `WwiseObject` types.
+    :param name: The name of the property, reference, or list.
+    :return: The decorated function (which is, in this case, a property).
     """
-    attr_name = "is_console_instance"
     
-    def wrapper(self, *args, **kwargs):
-        flag = getattr(self, attr_name) \
-            if hasattr(self, attr_name) \
-            else getattr(self, f"_{attr_name}", None)
-        if flag is None:
-            raise NameError(f"Object '{self}' does not have an attribute named '{attr_name}'.")
-        if flag is True:
-            raise ValueError(f"Debug function called on a non-console instance of 'Ak'.")
-        return func(self, *args, **kwargs)
+    def decorator(getter: _Callable):
+        @property
+        @_wraps(getter)
+        def wrapper(self):
+            return getter(self, name)  # Inject the property name
+        
+        def setter(self, value: _Any):
+            self._ak.wwise.core.object.set_property(self._guid, name, value)  # Use the same name
+        
+        return wrapper.setter(setter)  # Attach setter to the property
     
-    return wrapper
+    return decorator
