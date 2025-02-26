@@ -18,7 +18,7 @@ _getLogger("waapi").setLevel(_LEVEL_CRITICAL)
 def new_waapi_connection(url: str = "ws://127.0.0.1:8080/waapi", *, allow_exception: bool = False,
                          callback_executor: CallbackExecutor = SequentialThreadExecutor,
                          is_debug_build: bool = False, is_console_instance: bool = False,
-                         watch_list: tuple[WwiseObjectWatch, ...] = ()):
+                         watch_list: tuple[WwiseObjectWatch, ...] = ()) -> WwiseConnection:
     """
     Connects to an instance of Wwise.
     :param url: URL of the Wwise Authoring API WAMP server, defaults to `ws://127.0.0.1:8080/waapi`.
