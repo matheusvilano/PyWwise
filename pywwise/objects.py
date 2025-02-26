@@ -1,6 +1,6 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
-
+from pywwise import EObjectType
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.structs import WwiseObjectInfo
 from pywwise.waapi.ak.ak import WwiseConnection
@@ -9,16 +9,35 @@ from pywwise.waapi.ak.ak import WwiseConnection
 class WwiseObject:
     """The base class for any class that serves as interface for getting/setting properties on Wwise objects."""
     
-    def __init__(self, obj: WwiseObjectInfo, ak: WwiseConnection):
+    def __init__(self, info: WwiseObjectInfo, ak: WwiseConnection):
         """
         Conversion-type constructor. Uses generic object info to create a strongly-typed object.
-        :param obj: A `WwiseObjectInfo` instance, which contains generic information such as the `GUID` of the object.
+        :param info: A `WwiseObjectInfo` instance, which contains generic information such as the `GUID` of the object.
         """
-        super().__init__(obj, ak)
+        super().__init__(info, ak)
         self._ak: WwiseConnection = ak
-        self._guid: GUID = obj.guid
-        self._name: Name = obj.name
-        self._path: ProjectPath = obj.path
+        self._guid: GUID = info.guid
+        self._query: str = f"$ from object \"{self._guid}\""
+    
+    def get_info(self) -> WwiseObjectInfo:
+        """
+        A conversion function that will convert a `WwiseObject` instance to a `WwiseObjectInfo` instance. The former is
+        *dynamic* and can retrieve data from Wwise dynamically, while the latter is *constant* and caches information
+        (which is not necessarily up-to-date).
+        :return: This object as a `WwiseObjectInfo`.
+        """
+        return self._ak.wwise.core.object.get(self._query, self._guid)[0]
+    
+    def set_info(self, info: WwiseObjectInfo):
+        """
+        A conversion-like function that will get the attributes of a `WwiseObjectInfo` instance and assign their values
+        to matching attributes of this `WwiseObject` instance. Note that you likely will never use this function. This
+        is just a convenience used during the development of PyWwise, but it *could* prove useful in edge cases
+        involving GUID changes - which, again, are *very* unlikely.
+        :param info: The object containing the information to update.
+        """
+        self._guid = info.guid
+        self._query = f"$ from object \"{self._guid}\""
     
     @property
     def guid(self) -> GUID:
@@ -34,7 +53,7 @@ class WwiseObject:
         Get name.
         :return: Current name.
         """
-        return self._name
+        return self.get_info().name
     
     @name.setter
     def name(self, name: Name | str):
@@ -50,7 +69,7 @@ class WwiseObject:
         Get path.
         :return: Current path.
         """
-        return self._path
+        return self.get_info().path
     
     @path.setter
     def path(self, path: ProjectPath):
@@ -64,6 +83,14 @@ class WwiseObject:
         if tokens[-1] == self.name:  # We only need the path up to the parent.
             path = tokens[:-1]  # Remove name.
         self._ak.wwise.core.object.move(self.guid, path)
+
+    @classmethod
+    def etype(cls) -> EObjectType:
+        """
+        Get this type's `EObjectType` value.
+        :return: The type information in the form of an `EObjectType` instance.
+        """
+        return EObjectType.from_type_name(cls.__name__)
 
 
 class AcousticTexture(WwiseObject):
