@@ -7,6 +7,7 @@ from waapi import CallbackExecutor, SequentialThreadExecutor
 
 from pywwise.aliases import *
 from pywwise.enums import *
+from pywwise.objects import *
 from pywwise.primitives import *
 from pywwise.structs import *
 from pywwise.waapi.ak import Ak as _Ak, WwiseConnection

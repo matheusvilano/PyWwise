@@ -5,9 +5,11 @@ from enum import Enum as _Enum
 from types import NoneType as _NoneType
 from typing import Any as _Any
 
-from pywwise import EObjectType, EReturnOptions, ListOrTuple
-from pywwise.decorators import wwise_property
+from pywwise import E3DSpatialization
+from pywwise.aliases import ListOrTuple
+from pywwise.enums import E3DPosition, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
 from pywwise.waapi.ak.ak import WwiseConnection
 
@@ -31,9 +33,9 @@ class WwiseObject:
         :param default: The default value, in case retrieving the value fails.
         :return: The value of the property. This *can* be `None`.
         """
-        return self.get_info((name,)).other.get(name, default)
+        return self._get_info((name,)).other.get(name, default)
     
-    def get_info(self, returns_and_properties: ListOrTuple[EReturnOptions | str] = ()) -> WwiseObjectInfo:
+    def _get_info(self, returns_and_properties: ListOrTuple[EReturnOptions | str] = ()) -> WwiseObjectInfo:
         """
         A conversion function that will convert a `WwiseObject` instance to a `WwiseObjectInfo` instance. The former is
         *dynamic* and can retrieve data from Wwise dynamically, while the latter is *constant* and caches information
@@ -48,7 +50,7 @@ class WwiseObject:
         """
         return self._ak.wwise.core.object.get(self._query, returns_and_properties)[0]
     
-    def set_info(self, info: WwiseObjectInfo):
+    def _set_info(self, info: WwiseObjectInfo):
         """
         A conversion-like function that will get the attributes of a `WwiseObjectInfo` instance and assign their values
         to matching attributes of this `WwiseObject` instance. Note that you likely will never use this function. This
@@ -73,7 +75,7 @@ class WwiseObject:
         Get name.
         :return: Current name.
         """
-        return self.get_info().name
+        return self._get_info().name
     
     @name.setter
     def name(self, name: Name | str):
@@ -89,7 +91,7 @@ class WwiseObject:
         Get path.
         :return: Current path.
         """
-        return self.get_info().path
+        return self._get_info().path
     
     @path.setter
     def path(self, path: ProjectPath):
@@ -908,15 +910,25 @@ class Sound(WwiseObject):
         super().__init__(info, ak)
         raise NotImplementedError("WwiseObject types will only be feature-complete in Beta 2.")  # TODO: Implement this!
     
-    @wwise_property("3DPosition")
-    def position_3d(self, name: str) -> int:
+    @property
+    def position_3d(self) -> E3DPosition:
         """:return: The current 3D Position value.."""
-        return self._get_property(name)
+        return EnumStatics.from_value(E3DPosition, self._get_property("3DPosition"))
     
     @position_3d.setter
-    def position_3d(self, value: int):
+    def position_3d(self, value: E3DPosition):
         """:param value: The new 3D Position value."""
         self._ak.wwise.core.object.set_property(self._guid, "3DPosition", value)
+    
+    @property
+    def spatialization_3d(self) -> E3DSpatialization:
+        """:return: The current 3D Spatialization value.."""
+        return EnumStatics.from_value(E3DSpatialization, self._get_property("3DSpatialization"))
+
+    @spatialization_3d.setter
+    def spatialization_3d(self, value: E3DSpatialization):
+        """:param value: The new 3D Spatialization value."""
+        self._ak.wwise.core.object.set_property(self._guid, "3DSpatialization", value)
 
 
 class SoundBank(WwiseObject):

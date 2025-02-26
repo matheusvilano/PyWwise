@@ -1,8 +1,7 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from functools import wraps as _wraps
-from typing import Any as _Any, Callable as _Callable
+from typing import Callable as _Callable
 
 
 def callback(func: _Callable) -> _Callable:
@@ -74,25 +73,3 @@ def debug_build_only(func: _Callable) -> _Callable:
         return func(self, *args, **kwargs)
     
     return wrapper
-
-
-def wwise_property(name: str) -> _Callable:
-    """
-    A decorator for Wwise properties, references, and lists. Created to be used primarily with properties in
-    `WwiseObject` types.
-    :param name: The name of the property, reference, or list.
-    :return: The decorated function (which is, in this case, a property).
-    """
-    
-    def decorator(getter: _Callable):
-        @property
-        @_wraps(getter)
-        def wrapper(self):
-            return getter(self, name)  # Inject the property name
-        
-        def setter(self, value: _Any):
-            self._ak.wwise.core.object.set_property(self._guid, name, value)  # Use the same name
-        
-        return wrapper.setter(setter)  # Attach setter to the property
-    
-    return decorator

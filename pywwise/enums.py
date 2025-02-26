@@ -2425,14 +2425,14 @@ class EActionType(_IntEnum):
     RESET_PLAYLIST = 42
 
 
-class EPositioning(_IntEnum):
+class E3DPosition(_IntEnum):
     """An enumeration of the types of 3D positioning."""
     EMITTER = 0
     EMITTER_WITH_AUTOMATION = 1
     LISTENER_WITH_AUTOMATION = 2
 
 
-class ESpatialization(_IntEnum):
+class E3DSpatialization(_IntEnum):
     """An enumeration of the types of 3D spatialization."""
     NONE = 0
     POSITION = 1
