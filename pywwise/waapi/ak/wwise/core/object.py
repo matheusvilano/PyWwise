@@ -809,7 +809,7 @@ class Object:
         return self._client.call("ak.wwise.core.object.setRandomizer", args) is not None
     
     def set_reference(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
-                      reference: str, value: GUID | tuple[EObjectType, Name] | ProjectPath,
+                      reference_name: str, value: GUID | tuple[EObjectType, Name] | ProjectPath,
                       platform: GUID | Name = None) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_setreference.html \n
@@ -817,7 +817,7 @@ class Object:
         available on each object type.
         :param obj: The GUID, typed name, or project path of the object for which to set the reference. Although using
                     a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`) are supported.
-        :param reference: The name of the reference to set.
+        :param reference_name: The name of the reference to set.
         :param value: The new value for the reference. This must be a GUID, typed name, or project path. Although
                           using a name is supported, only types with globally-unique names (e.g. `EObjectType.EVENT`)
                           are supported.
@@ -825,7 +825,7 @@ class Object:
         :return: Whether this call succeeded.
         """
         args = {"object": obj if not isinstance(obj, tuple) else f"{obj[0].get_type_name()}:{obj[1]}",
-                "reference": reference,
+                "reference": reference_name,
                 "value": value if not isinstance(value, tuple) else f"{value[0].get_type_name()}:{value[1]}",
                 **({"platform": platform} if platform is not None else {})}
         return self._client.call("ak.wwise.core.object.setReference", args) is not None

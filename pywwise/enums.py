@@ -2437,5 +2437,11 @@ class E3DSpatialization(_IntEnum):
     NONE = 0
     POSITION = 1
     POSITION_AND_ORIENTATION = 2
+    
+
+class ELoudnessNormalizationType(_IntEnum):
+    """An enumeration of loudness normalization types."""
+    INTEGRATED = 0
+    MOMENTARY_MAX = 1
 
 # endregion
