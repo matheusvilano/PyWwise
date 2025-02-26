@@ -8,7 +8,7 @@ from waapi import WaapiClient as _WaapiClient
 
 from pywwise.aliases import SystemPath
 from pywwise.decorators import callback, debug_build_only
-from pywwise.enums import EBitDepth, ESampleRate, ESpeakerBitMask, EWaveform
+from pywwise.enums import EBitDepth, ESampleRate, ESpeakerBitMask, EWaveformStr
 
 
 class Debug:
@@ -76,7 +76,7 @@ class Debug:
                           sample_rate: ESampleRate = ESampleRate.SR_44100,
                           channel_config: ESpeakerBitMask = ESpeakerBitMask.MONO, attack_time: float = 0.0,
                           sustain_time: float = 1.0, sustain_level: float = 0.0, release_time: float = 0.0,
-                          waveform: EWaveform = EWaveform.SILENCE, frequency: float = 440.0) -> bool:
+                          waveform: EWaveformStr = EWaveformStr.SILENCE, frequency: float = 440.0) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_debug_generatetonewav.html \n
         Generate a WAV file playing a tone with a simple envelope and save it to the specified location. This

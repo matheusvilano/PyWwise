@@ -5,6 +5,8 @@ from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 from typing import Self as _Self
 
 
+# region WAAPI
+
 class EActionOnEventType(_IntEnum):
     """Enumeration of available actions to be executed on an event (see `ak.soundengine.execute_action_on_event`)."""
     
@@ -335,7 +337,7 @@ class ESampleRate(_IntEnum):
     """300Hz"""
 
 
-class EWaveform(_StrEnum):
+class EWaveformStr(_StrEnum):
     """An enumeration of the default waveforms available in Wwise."""
     
     SILENCE = "silence"
@@ -420,7 +422,7 @@ class EReturnOptions(_StrEnum):
     """Maximum attenuation radius."""
     
     MEDIA_SIZE = "mediaSize"
-    """The media size"""  # TODO: What is the unit of measurement here? Probably bytes, but we should check and add that to the docstring.
+    """The media size"""  # TODO: What is the unit of measurement here? Probably bytes, but we should verify that.
     
     MUSIC_PLAYLIST_ROOT = "music:playlistRoot"  # same as "musicPlaylistRoot"
     """The music playlist root."""
@@ -435,7 +437,7 @@ class EReturnOptions(_StrEnum):
     """Notes attached to the object."""
     
     OBJECT_SIZE = "objectSize"
-    """The object size."""  # TODO: What is the unit of measurement here? Probably bytes, but we should check and add that to the docstring.
+    """The object size."""  # TODO: What is the unit of measurement here? Probably bytes but we should verify that.
     
     ORIGINAL_FILE_PATH = "originalFilePath"  # same as "originalWavFilePath"
     """The file path."""
@@ -444,7 +446,7 @@ class EReturnOptions(_StrEnum):
     """The file path of the original asset, relative to the project folders."""
     
     OWNER = "owner"
-    """The owner of the object."""  # TODO: What does this mean? Same as parent? Test, then enhance this docstring. If same as parent, may be removed.
+    """The owner of the object."""  # TODO: Unclear. Same as parent? Test; if same as parent, may be removed.
     
     PARENT = "parent"
     """The parent of the object."""
@@ -480,13 +482,13 @@ class EReturnOptions(_StrEnum):
     """State properties."""
     
     STRUCTURE_SIZE = "structureSize"
-    """The size of the structure."""  # TODO: What is the unit of measurement here? Probably bytes, but we should check and add that to the docstring.
+    """The size of the structure."""  # TODO: Unit of measurement here? Probably bytes, but we should verify that.
     
     SWITCH_CONTAINER_CHILD_CONTEXT = "switchContainerChild:context"  # same as "switchContainerChildContext"
     """The context (re: children) of a Switch Container. This assumes the object in question is a Switch Container."""
     
     TOTAL_SIZE = "totalSize"
-    """The total size."""  # TODO: What is the unit of measurement here? Probably bytes, but we should check and add that to the docstring.
+    """The total size."""  # TODO: Unit of measurement here? Probably bytes, but we should verify that.
     
     TYPE = "type"
     """The name of the type. Examples: RandomSequenceContainer, MusicTrack, AudioFileSource, etc."""
@@ -2036,3 +2038,404 @@ class EWwiseBuildConfiguration(_StrEnum):
     
     DEBUG = "debug"
     """Debug build configuration."""
+
+
+# endregion
+
+# region Objects
+
+class ERandomOrSequence(_IntEnum):
+    """An enumeration of random and sequence container types. A better alternative than using a `bool` or `int`."""
+    SEQUENCE = 0
+    RANDOM = 1
+
+
+class ECustomCueJumpMatchMode(_IntEnum):
+    """An enumeration of the different ways to jump to a custom music cue."""
+    MATCH_SOURCE_CUE_NAME = 0
+    MATCH_SPECIFIC_NAME = 1
+
+
+class EDestinationContextType(_IntEnum):
+    """An enumeration of the different types of destination. Useful when setting Music Transitions (e.g. Any->None)."""
+    ANY = 0
+    NOTHING = 1
+    OBJECT = 2
+
+
+class ESegmentSyncPoint(_IntEnum):
+    """An enumeration of the different sync points for music segments."""
+    IMMEDIATE = 0
+    NEXT_GRID = 1
+    NEXT_BAR = 2
+    NEXT_BEAT = 3
+    NEXT_CUE = 4
+    CUSTOM_CUE = 5
+    ENTRY_CUE = 6
+    EXIT_CUE = 7
+    NEVER = 8  # Only available/valid for Music Tracks
+
+
+class EPlaylistItemType(_IntEnum):
+    """An enumeration of the different types of playlist items."""
+    GROUP = 0
+    SEGMENT = 1
+
+
+class EPlaylistMode(_IntEnum):
+    """An enumeration of the different behaviours for playlists (e.g. Music Playlist)."""
+    SEQUENCE_CONTINUOUS = 0
+    SEQUENCE_STEP = 1
+    RANDOM_CONTINUOUS = 2
+    RANDOM_STEP = 3
+
+
+class ERandomType(_IntEnum):
+    """An enumeration of the different behaviours for randomization."""
+    SHUFFLE = 0
+    STANDARD = 1
+
+
+class EMidiTempoSource(_IntEnum):
+    """An enumeration of the different valid MIDI tempo sources."""
+    HIERARCHY = 0
+    FILE = 1
+
+
+class EMusicalDuration(_IntEnum):
+    """An enumeration of the different grid frequencies (note durations)."""
+    
+    NONE = 0  # No
+    CUSTOM = 1
+    
+    FOUR_BARS = 50
+    TWO_BARS = 51
+    ONE_BAR = 52
+    ONE_BEAT = 53
+    
+    WHOLE_NOTE = 54
+    HALF_NOTE = 55
+    QUARTER_NOTE = 56
+    EIGHTH_NOTE = 57
+    SIXTEENTH_NOTE = 64
+    THIRTYSECOND_NOTE = 67
+    
+    HALF_TRIPLET = 58
+    QUATER_TRIPLET = 59
+    EIGHTH_TRIPLET = 60
+    SIXTEENTH_TRIPLET = 65
+    THIRTYSECOND_TRIPLET = 68
+    
+    HALF_DOTTED = 61
+    QUATER_DOTTED = 62
+    EIGHTH_DOTTED = 63
+    SIXTEENTH_DOTTED = 66
+    THIRTYSECOND_DOTTED = 69
+
+
+class EFadeType(_IntEnum):
+    """An enumeration of the fade types: \"in\" and \"out\"."""
+    FADE_IN = 0
+    FADE_OUT = 1
+
+
+class EMusicCueType(_IntEnum):
+    """An enumeration of the different music cue types. Music Event Cues are NOT included in this enumeration."""
+    ENTRY = 0
+    EXIT = 1
+    USER = 2  # Custom Cue
+
+
+class EFadeMode(_IntEnum):
+    """An enumeration of the fade modes. Valid for both fade-ins and fade-outs."""
+    AUTOMATIC = 0
+    MANUAL = 1
+
+
+class EWaveformInt(_IntEnum):
+    """An enumeration of the standard waveforms. Useful when designing LFO sharesets."""
+    SINE = 0
+    TRIANGLE = 1
+    SQUARE = 2
+    SAW_UP = 3
+    SAW_DOWN = 4
+    RANDOM = 5
+
+
+class EModulatorScope(_IntEnum):
+    """An enumeration of the different scopes for a modulator (e.g. an LFO)."""
+    VOICE = 0
+    NOTE_OR_EVENT = 1
+    GAME_OBJECT = 2
+    GLOBAL = 3
+
+
+class EEnvelopeTriggerOn(_IntEnum):
+    """An enumeration of the different moments to trigger an envelope."""
+    PLAY = 1
+    NOTE_OFF = 2
+
+
+class EInterpolationMode(_IntEnum):
+    """An enumeration of the interpolation modes."""
+    NONE = 0
+    SLEW_RATE = 1
+    FILTERING_OVER_TIME = 2  # FOT
+
+
+class EBuiltInParameter(_IntEnum):
+    """An enumeration of all built-in parameters."""
+    NONE = 0
+    DISTANCE = 1
+    AZIMUTH = 2
+    ELEVATION = 3
+    EMITTER_CONE = 4
+    OBSTRUCTION = 5
+    OCCLUSION = 6
+    LISTENER_CONE = 7
+    DIFFRACTION = 8
+    TRANSMISSION_LOSS = 9
+
+
+class EMatchMode(_IntEnum):
+    """An enumeration of the different match modes (when, for example, picking a random sound in a Random Container."""
+    BEST_MATCH = 0
+    WEIGHTED = 1
+
+
+class ESampleRateConversionQuality(_IntEnum):
+    """An enumeration of the different sample rate conversion methods (qualities)."""
+    NORMAL = 0
+    HIGH = 1
+
+
+class EChannelConversionSettings(_IntEnum):
+    """An enumeration of the different channel conversion settings."""
+    MONO = 0
+    STEREO = 1
+    MONO_DROP = 2
+    STEREO_DROP = 3
+    AS_INPUT = 4
+
+
+class EControlSurfaceBindingGroupType(_IntEnum):
+    """An enumeration of the different group types for control surface bindings."""
+    GLOBAL = 0
+    USER_BINDING_GROUP = 2
+    USER_BINDING_GROUP_ROOT = 3
+    CURRENT_SELECTION = 4
+
+
+class EControlSurfaceBindingTargetType(_IntEnum):
+    """An enumeration of the different target types for control surface bindings."""
+    PROPERTY = 0
+    ACTION = 1
+    COMMAND = 2
+
+
+class EPlayMode(_IntEnum):
+    """An enumeration of the different Play Modes (as used in, for example, Random and Sequence containers)."""
+    CONTINUOUS = 0
+    STEP = 1
+
+
+class EPlayMechanismSpecialTransitionsType(_IntEnum):
+    """An enumeration of the different transition types available for a RandomSequenceContainer in Wwise."""
+    XFADE_AMP = 0
+    XFADE_POWER = 4
+    DELAY = 1
+    SAMPLE_ACCURATE = 2
+    TRIGGER_RATE = 3
+
+
+class EBusChannelConfiguration(_IntEnum):
+    """An enumeration of the different channel configurations available in Wwise."""
+    
+    # Default
+    SAME_AS_PARENT = 0  # The default value in any Bus.
+    
+    # Only available in Wwise 2021 or above.
+    SAME_AS_MAIN_MIX = 3584
+    SAME_AS_PASSTHROUGH_MIX = 3840
+    AUDIO_OBJECTS = 768
+    
+    # Standards
+    MONO_1_0 = 16641
+    STEREO_2_0 = 12546
+    MISC_2_1 = 45315
+    LRC_3_0 = 28931
+    QUAD_4_0 = 6304004
+    SURROUND_5_1 = 6353158
+    SURROUND_7_1 = 6549768
+    MISC_LFE = 33025
+    
+    # 3D
+    MISC_5_1_2 = 90239240
+    MISC_7_1_2 = 90435850
+    MISC_7_1_4 = 761524492
+    
+    # Ambisonics
+    AMBISONICS_1ST = 516
+    AMBISONICS_2ND = 521
+    AMBISONICS_3RD = 528
+    AMBISONICS_4TH = 537
+    AMBISONICS_5TH = 548
+    
+    # Auro
+    AURO_9_1 = 761327882
+    AURO_10_1 = 769716491
+    AUTO_11_1 = 803270924
+    AUTO_13_1 = 803467534
+
+
+class EMarkerInputMode(_IntEnum):
+    """An enumeration of the different ways to add markers to an Audio Source."""
+    IMPORT_FROM_FILE = 0
+    DETECT_FROM_TRANSIENTS = 1
+    MANUAL_MARKERS = 2
+
+
+class EVirtualVoiceQueueBehaviour:
+    """An enumeration of the different potential behaviours to execute once a virtual voice is becoming physical."""
+    PLAY_FROM_BEGINNING = 0
+    PLAY_FROM_ELAPSED_TIME = 1
+    RESUME = 2
+
+
+class ESpeakerPanning(_IntEnum):
+    """An enumeration of the different speaker panning modes."""
+    DIRECT_ASSIGNMENT = 0
+    BALANCE_FADE = 1
+    STEERING = 2  # Only available in Wwise 2021 or above.
+
+
+class EOverLimitBehaviour(_IntEnum):
+    """An enumeration of the behaviours to execute once playback for a group of voices goes over the set limit."""
+    KILL_VOICE = 0
+    USE_VIRTUAL_VOICE_SETTINGS = 1
+
+
+class EMidiPlayOnNoteType(_IntEnum):
+    """An enumeration of the basic MIDI note events."""
+    NOTE_ON = 0
+    NOTE_OFF = 1
+
+
+class EDiscardBehaviour(_IntEnum):
+    """An enumeration of the different discard behaviours in Wwise."""
+    DISCARD_OLDEST_INSTANCE = 0
+    DISCARD_NEWEST_INSTANCE = 1
+
+
+class EVirtualVoiceBehaviour(_IntEnum):
+    """An enumeration of the different virtual voice behaviours."""
+    CONTINUE_TO_PLAY = 0
+    KILL_VOICE = 1
+    SEND_TO_VIRTUAL_VOICE = 2
+    KILL_IF_FINITE_ELSE_VIRTUAL = 3
+
+
+class ESetterType(_IntEnum):
+    """An enumeration of the two ways to set a value in Wwise."""
+    ABSOLUTE = 0
+    RELATIVE = 1
+
+
+class ESeekType(_IntEnum):
+    """An enumeration of the two seek types in Wwise."""
+    PERCENT = 0
+    TIME = 1
+
+
+class EScope(_IntEnum):
+    """An enumeration of the two scope types in Wwise."""
+    GAME_OBJECT = 0
+    GLOBAL = 1
+
+
+class ECurve(_IntEnum):
+    """An enumeration of all Curves available in Wwise."""
+    LOGARITHMIC_BASE_3 = 0
+    SINE = 1
+    LOGARITHMIC_BASE_1_41 = 2
+    INVERTED_S_CURVE = 3
+    LINEAR = 4
+    S_CURVE = 5
+    EXPONENTIAL_BASE_1_41 = 6
+    RECIPROCAL_SINE = 7
+    EXPONENTIAL_BASE_3 = 8
+
+
+class EActionType(_IntEnum):
+    """An enumeration of all Action types available in Wwise."""
+    
+    PLAY = 1
+    STOP = 2
+    STOP_ALL = 3
+    PAUSE = 7
+    PAUSE_ALL = 8
+    RESUME = 9
+    RESUME_ALL = 10
+    BREAK = 34
+    SEEK = 36
+    SEEK_ALL = 37
+    
+    POST_EVENT = 41
+    
+    SET_BUS_VOLUME = 11
+    RESET_BUS_VOLUME = 14
+    RESET_BUS_VOLUME_ALL = 15
+    SET_VOICE_VOLUME = 12
+    RESET_VOICE_VOLUME = 16
+    RESET_VOICE_VOLUME_ALL = 17
+    
+    SET_VOICE_PITCH = 13
+    RESET_PITCH = 18
+    RESET_PITCH_ALL = 19
+    
+    SET_LPF = 26
+    RESET_LPF = 27
+    RESET_LPF_ALL = 28
+    SET_HPF = 29
+    RESET_HPF = 30
+    RESET_HPF_ALL = 31
+    
+    MUTE = 4
+    UNMUTE = 5
+    UNMUTE_ALL = 6
+    
+    SET_GAME_PARAMETER = 38
+    RESET_GAME_PARAMETER = 39
+    
+    ENABLE_STATE = 20
+    DISABLE_STATE = 21
+    SET_STATE = 22
+    
+    SET_SWITCH = 23
+    
+    TRIGGER = 35
+    
+    ENABLE_BYPASS = 24
+    DISABLE_BYPASS = 25
+    RESET_BYPASS_EFFECT = 32
+    RESET_BYPASS_EFFECT_ALL = 33
+    
+    RELEASE_ENVELOPE = 40
+    
+    RESET_PLAYLIST = 42
+
+
+class EPositioning(_IntEnum):
+    """An enumeration of the types of 3D positioning."""
+    EMITTER = 0
+    EMITTER_WITH_AUTOMATION = 1
+    LISTENER_WITH_AUTOMATION = 2
+
+
+class ESpatialization(_IntEnum):
+    """An enumeration of the types of 3D spatialization."""
+    NONE = 0
+    POSITION = 1
+    POSITION_AND_ORIENTATION = 2
+
+# endregion
