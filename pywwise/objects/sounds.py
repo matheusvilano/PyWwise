@@ -8,8 +8,11 @@ from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, EL
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
                            EVirtualVoiceQueueBehaviour)
 from pywwise.objects.buses import AuxBus, Bus
+from pywwise.objects.conversions import Conversion
 from pywwise.objects.effects import EffectSlot
-from pywwise.objects.types import Attenuation, Conversion, WwiseObject
+from pywwise.objects.positioning import Attenuation
+from pywwise.objects.syncs import Rtpc
+from pywwise.objects.types import WwiseObject
 from pywwise.primitives import GUID
 
 
