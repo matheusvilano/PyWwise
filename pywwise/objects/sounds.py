@@ -160,5 +160,11 @@ class Sound(WwiseObject):
 
 
 class SourcePlugin(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.SOURCE_PLUGIN`."""
+    """
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_sourceplugin.html \n
+    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
+    the class represented by `EObjectType.SOURCE_PLUGIN`.
+    """
+    colour = WwiseProperty[int]("Color", int)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
