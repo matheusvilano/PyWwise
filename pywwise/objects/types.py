@@ -3,24 +3,23 @@
 
 from enum import Enum as _Enum
 from types import NoneType as _NoneType
-from typing import Any as _Any
+from typing import Any as _Any, TypeVar as _TypeVar
 
-from pywwise.enums import EObjectType
 from pywwise.primitives import GUID, Name, ProjectPath
-from pywwise.structs import WwiseObjectInfo
 from pywwise.waapi.ak.ak import WwiseConnection
 
 
 class WwiseObject:
     """The base class for any class that serves as interface for getting/setting properties on Wwise objects."""
     
-    def __init__(self, info: WwiseObjectInfo, ak: WwiseConnection, platform: GUID | Name | _NoneType = None):
+    def __init__(self, guid: GUID, ak: WwiseConnection,
+                 platform: GUID | Name | _NoneType = None):
         """
-        Conversion-type constructor. Uses generic object info to create a strongly-typed object.
-        :param info: A `WwiseObjectInfo` instance, which contains generic information such as the `GUID` of the object.
+        Uses a GUID to create a strongly-typed dynamic object, capable of fetching information from Wwise as needed.
+        :param guid: A `WwiseObjectInfo` instance, which contains generic information such as the `GUID` of the object.
         """
         self._ak: WwiseConnection = ak
-        self._guid: GUID = info.guid
+        self._guid: GUID = guid if isinstance(guid, GUID) else getattr(guid, "guid", GUID.get_null())
         self._query: str = f"$ from object \"{self._guid}\""
         self._platform = platform
     
@@ -84,11 +83,6 @@ class WwiseObject:
         if tokens[-1] == self.name:  # We only need the path up to the parent.
             path = tokens[:-1]  # Remove name.
         self._ak.wwise.core.object.move(self.guid, path)
-    
-    @classmethod
-    def etype(cls) -> EObjectType:
-        """
-        Get this type's `EObjectType` value.
-        :return: The type information in the form of an `EObjectType` instance.
-        """
-        return EObjectType.from_type_name(cls.__name__)
+
+
+WwiseObjectType = _TypeVar("WwiseObjectType", bound=WwiseObject)

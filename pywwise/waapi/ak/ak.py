@@ -3,7 +3,7 @@
 
 from typing import Self as _Self, TypeAlias as _TypeAlias
 
-from waapi import (CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient)
+from waapi import CallbackExecutor, SequentialThreadExecutor, WaapiClient as _WaapiClient
 
 from pywwise.aliases import ListOrTuple
 from pywwise.structs import WwiseObjectWatch

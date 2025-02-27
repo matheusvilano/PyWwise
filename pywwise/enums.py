@@ -4,6 +4,10 @@
 from enum import Enum as _Enum, IntEnum as _IntEnum, StrEnum as _StrEnum
 from typing import Self as _Self
 
+from pywwise.modules import LazyModule
+
+_PyWwiseObjects = LazyModule("pywwise.objects")
+
 
 # region WAAPI
 
@@ -597,7 +601,7 @@ class EObjectType(tuple[int, int, str], _Enum):
     WORK_UNIT = 25, 1638416, "WorkUnit"
     
     @classmethod
-    def from_plugin_id(cls, plugin_id: int):
+    def from_plugin_id(cls, plugin_id: int) -> _Self:
         """
         Gets an enum member by plugin ID.
         :param plugin_id: The plugin ID.
@@ -610,7 +614,7 @@ class EObjectType(tuple[int, int, str], _Enum):
         return cls.UNKNOWN
     
     @classmethod
-    def from_class_id(cls, class_id: int):
+    def from_class_id(cls, class_id: int) -> _Self:
         """
         Gets an enum member by class ID.
         :param class_id: The class ID.
@@ -623,7 +627,7 @@ class EObjectType(tuple[int, int, str], _Enum):
         return cls.UNKNOWN
     
     @classmethod
-    def from_type_name(cls, type_name: str):
+    def from_type_name(cls, type_name: str) -> _Self:
         """
         Gets an enum member by type name.
         :param type_name: The type name.
@@ -636,6 +640,16 @@ class EObjectType(tuple[int, int, str], _Enum):
                 return member
         return cls.UNKNOWN
     
+    @classmethod
+    def from_class(cls, etype: type) -> _Self:
+        """
+        Gets an enum member by type.
+        :param etype: The type.
+        :return: An enum member whose type name matches the specified type name. If no valid member was found, UNKNOWN
+                 is returned instead.
+        """
+        return cls.from_type_name(etype.__name__)
+    
     def get_plugin_id(self) -> int:
         """:return: The Wwise object type's PluginID."""
         return self.value[0]
@@ -647,6 +661,10 @@ class EObjectType(tuple[int, int, str], _Enum):
     def get_type_name(self) -> str:
         """:return: The Wwise object type's name, as a string."""
         return self.value[2]
+    
+    def get_class(self) -> type:
+        """:return: The Wwise object type's PyWwise class."""
+        return getattr(_PyWwiseObjects, self.value[2], None)
 
 
 class EStartMode(_StrEnum):
@@ -2437,7 +2455,7 @@ class E3DSpatialization(_IntEnum):
     NONE = 0
     POSITION = 1
     POSITION_AND_ORIENTATION = 2
-    
+
 
 class ELoudnessNormalizationType(_IntEnum):
     """An enumeration of loudness normalization types."""
