@@ -21,7 +21,7 @@ class WwiseProperty(_Generic[_T]):
         Initializer.
         :param name: The name of the property.
         :param etype: The type of the property. If using the `WwiseProperty[Type]` syntax, this parameter MUST match
-        the type specified in brackets. Due to a limitation in the Python syntax, this
+        the type specified in brackets. Due to a limitation in the Python syntax, `etype` cannot be used for type hints.
         """
         self._name = name
         self._type = etype
