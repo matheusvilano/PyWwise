@@ -35,11 +35,13 @@ class WwiseProperty(_Generic[_T]):
         """
         getter = getattr(instance, "get_property")
         if getter is None:
-            TypeError("An object encapsulating a WwiseProperty must implement the `get_property` function.")
+            raise TypeError(
+                "An object encapsulating a `WwiseProperty` must implement the `get_property` function.")
         
         ak = getattr(instance, "_ak")
         if ak is None:
-            TypeError("An object encapsulating a WwiseProperty must have a protected WwiseConnection called `_ak`.")
+            raise TypeError(
+                "An object encapsulating a `WwiseProperty` must define a protected `WwiseConnection` named `_ak`.")
         
         value = getter(self._name)
         
@@ -56,11 +58,11 @@ class WwiseProperty(_Generic[_T]):
         """
         setter = getattr(instance, "set_property")
         if setter is None:
-            TypeError("The owner of WwiseProperty must implement the `set_property` function.")
+            raise TypeError("The owner of WwiseProperty must implement the `set_property` function.")
         if issubclass(value.__class__, pywwise.objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
             value = value.guid
         instance.set_property(self._name, value, isinstance(value, GUID))
-
+    
     @property
     def type(self) -> _Type[_T]:
         """:return: The type of this property."""
