@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EActionType, EScope, ESeekType, ESetterType
+from pywwise.enums import EActionType, EMatchMode, EScope, ESeekType, ESetterType
 from pywwise.objects.effects import Effect, EffectSlot
+from pywwise.objects.syncs import MultiSwitchEntry, StateGroup, SwitchGroup
 from pywwise.objects.types import WwiseObject
 
 
@@ -43,13 +44,25 @@ class Action(WwiseObject):
 class ActionException(WwiseObject):
     """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.ACTION_EXCEPTION`."""
+    colour = WwiseProperty[int]("Color", int)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    target = WwiseProperty[WwiseObject]("Target", WwiseObject)
 
 
 class DialogueEvent(WwiseObject):
     """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.DIALOGUE_EVENT`."""
+    arguments = WwiseProperty[list[SwitchGroup | StateGroup]]("Arguments", list[SwitchGroup | StateGroup])
+    colour = WwiseProperty[int]("Color", int)
+    entries = WwiseProperty[list[MultiSwitchEntry]]("Entries", list[MultiSwitchEntry])
+    mode = WwiseProperty[EMatchMode]("Mode", EMatchMode)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    probability = WwiseProperty[int]("Probability", int)
 
 
 class Event(WwiseObject):
     """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.EVENT`."""
+    colour = WwiseProperty[int]("Color", int)
+    inclusion = WwiseProperty[bool]("Inclusion", bool)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)

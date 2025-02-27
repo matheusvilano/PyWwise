@@ -19,11 +19,6 @@ class BlendTrack(WwiseObject):
     the class represented by `EObjectType.BLEND_TRACK`."""
 
 
-class MultiSwitchEntry(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.MULTI_SWITCH_ENTRY`."""
-
-
 class ObjectSettingAssoc(WwiseObject):
     """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.OBJECT_SETTING_ASSOC`."""
