@@ -6,7 +6,7 @@ from typing import Self as _Self
 
 from pywwise.modules import LazyModule
 
-_PyWwiseObjects = LazyModule("pywwise.objects")
+_pywwise_objects = LazyModule("pywwise.objects")
 
 
 # region WAAPI
@@ -664,7 +664,7 @@ class EObjectType(tuple[int, int, str], _Enum):
     
     def get_class(self) -> type:
         """:return: The Wwise object type's PyWwise class."""
-        return getattr(_PyWwiseObjects, self.value[2], None)
+        return getattr(_pywwise_objects, self.value[2], None)
 
 
 class EStartMode(_StrEnum):

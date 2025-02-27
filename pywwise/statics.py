@@ -9,7 +9,7 @@ from pywwise.metas import StaticMeta
 from pywwise.modules import LazyModule
 
 _EnumType = _TypeVar("_EnumType", bound=_Enum)
-_PyWwiseEnums = LazyModule("pywwise.enums")  # To avoid circular imports.
+_pywwise_enums = LazyModule("pywwise.enums")  # To avoid circular imports.
 
 
 class EnumStatics(metaclass=StaticMeta):
@@ -51,7 +51,7 @@ class StringStatics(metaclass=StaticMeta):
         :return: Whether the string is formatted in accordance to one of the common case styles (see
                  `pywwise.enums.ECaseStyle` for a complete list).
         """
-        for case in _PyWwiseEnums.ECaseStyle:
+        for case in _pywwise_enums.ECaseStyle:
             if _re_match(case, text):
                 return True
         return False
@@ -63,7 +63,7 @@ class StringStatics(metaclass=StaticMeta):
         :param text: The string to convert to camelCase.
         :return: The string, with the camelCase format.
         """
-        if _re_match(_PyWwiseEnums.ECaseStyle.CAMEL, text):
+        if _re_match(_pywwise_enums.ECaseStyle.CAMEL, text):
             return text
         tokens = _re_split(r"[-_\s]", text)
         if tokens == [text]:  # Handle PascalCase or camelCase
@@ -77,9 +77,9 @@ class StringStatics(metaclass=StaticMeta):
         :param text: The string to convert to kebab-case.
         :return: The string, with the kebab-case format.
         """
-        if _re_match(_PyWwiseEnums.ECaseStyle.KEBAB, text):
+        if _re_match(_pywwise_enums.ECaseStyle.KEBAB, text):
             return text
-        if _re_match(_PyWwiseEnums.ECaseStyle.PASCAL, text) or _re_match(_PyWwiseEnums.ECaseStyle.CAMEL, text):
+        if _re_match(_pywwise_enums.ECaseStyle.PASCAL, text) or _re_match(_pywwise_enums.ECaseStyle.CAMEL, text):
             tokens = _re_findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", text)
         else:
             tokens = _re_split(r"[-_\s]", text)
@@ -92,7 +92,7 @@ class StringStatics(metaclass=StaticMeta):
         :param text: The string to convert to PascalCase.
         :return: The string, with the PascalCase format.
         """
-        if _re_match(_PyWwiseEnums.ECaseStyle.PASCAL, text):
+        if _re_match(_pywwise_enums.ECaseStyle.PASCAL, text):
             return text
         as_camel = StringStatics.to_camel_case(text)
         return f"{as_camel[0].upper()}{as_camel[1:]}"
@@ -104,7 +104,7 @@ class StringStatics(metaclass=StaticMeta):
         :param text: The string to convert to snake_case.
         :return: The string, with the snake_case format.
         """
-        if _re_match(_PyWwiseEnums.ECaseStyle.SNAKE, text):
+        if _re_match(_pywwise_enums.ECaseStyle.SNAKE, text):
             return text
         return StringStatics.to_kebab_case(text).replace('-', '_')
     
@@ -115,7 +115,7 @@ class StringStatics(metaclass=StaticMeta):
         :param text: The string to convert to UPPER_CASE.
         :return: The string, with the UPPER_CASE format.
         """
-        if _re_match(_PyWwiseEnums.ECaseStyle.UPPER, text):
+        if _re_match(_pywwise_enums.ECaseStyle.UPPER, text):
             return text
         return StringStatics.to_snake_case(text).upper()
 
