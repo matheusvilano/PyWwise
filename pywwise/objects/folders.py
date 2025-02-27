@@ -25,4 +25,3 @@ class WorkUnit(WwiseObject):
     colour = WwiseProperty[int]("Color", int)
     inclusion = WwiseProperty[bool]("Inclusion", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    

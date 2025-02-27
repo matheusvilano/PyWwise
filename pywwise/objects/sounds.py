@@ -17,18 +17,54 @@ from pywwise.primitives import GUID
 
 
 class AudioSource(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.AUDIO_SOURCE`."""
+    """
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_audiofilesource.html \n
+    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
+    the class represented by `EObjectType.AUDIO_SOURCE`.
+    """
+    channel_config_override = WwiseProperty[int]("ChannelConfigOverride", int)
+    colour = WwiseProperty[int]("Color", int)
+    conversion = WwiseProperty[Conversion]("Conversion", Conversion)
+    crossfade_duration = WwiseProperty[float]("CrossfadeDuration", float)
+    crossfade_shape = WwiseProperty[int]("CrossfadeShape", int)
+    fade_in_duration = WwiseProperty[float]("FadeInDuration", float)
+    fade_in_shape = WwiseProperty[int]("FadeInShape", int)
+    fade_out_duration = WwiseProperty[float]("FadeOutDuration", float)
+    fade_out_shape = WwiseProperty[int]("FadeOutShape", int)
+    hdr_envelope = WwiseProperty[float]("HdrEnvelope", float)
+    loop_begin = WwiseProperty[float]("LoopBegin", float)
+    loop_end = WwiseProperty[float]("LoopEnd", float)
+    marker_detection_sensitivity = WwiseProperty[float]("MarkerDetectionSensitivity", float)
+    marker_input_mode = WwiseProperty[int]("MarkerInputMode", int)
+    # markers = WwiseProperty[list[Marker]]("Markers", list[Marker])
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    override_conversion = WwiseProperty[bool]("OverrideConversion", bool)
+    override_wav_loop = WwiseProperty[bool]("OverrideWavLoop", bool)
+    trim_begin = WwiseProperty[float]("TrimBegin", float)
+    trim_end = WwiseProperty[float]("TrimEnd", float)
+    volume_offset = WwiseProperty[float]("VolumeOffset", float)
 
 
 class ExternalSource(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.EXTERNAL_SOURCE`."""
+    """
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_externalsource.html \n
+    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
+    the class represented by `EObjectType.EXTERNAL_SOURCE`.
+    """
 
 
 class ExternalSourceFile(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.EXTERNAL_SOURCE_FILE`."""
+    """
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_externalsourcefile.html \n
+    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
+    the class represented by `EObjectType.EXTERNAL_SOURCE_FILE`.
+    """
+    analysis_type = WwiseProperty[int]("AnalysisType", int)
+    conversion = WwiseProperty[Conversion]("Conversion", Conversion)
+    loudness_normalization_target = WwiseProperty[float]("LoudnessNormalizationTarget", float)
+    loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType]("LoudnessNormalizationType",
+                                                                            ELoudnessNormalizationType)
+    override_conversion = WwiseProperty[bool]("OverrideConversion", bool)
 
 
 class Marker(WwiseObject):
@@ -44,8 +80,12 @@ class Marker(WwiseObject):
 
 
 class PluginDataSource(WwiseObject):
-    """A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.PLUGIN_DATA_SOURCE`."""
+    """
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_plugindatasource.html \n
+    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
+    the class represented by `EObjectType.PLUGIN_DATA_SOURCE`.
+    """
+    data_file_name = WwiseProperty[str]("DataFileName", str)
 
 
 class Sound(WwiseObject):
