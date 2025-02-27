@@ -21,7 +21,7 @@ class SoundEngine:
     
     def execute_action_on_event(self, event: Name | ShortID | GUID, action_type: EActionOnEventType,
                                 game_object: GameObjectID, transition_duration: int = 0,
-                                fade_curve: EFadeCurve = EFadeCurve.LINEAR) -> dict:
+                                fade_curve: EFadeCurve = EFadeCurve.LINEAR) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_executeactiononevent.html \n
         Executes an action on all nodes that are referenced in the specified event in a Play action.
@@ -30,11 +30,12 @@ class SoundEngine:
         :param game_object: The ID of the game object.
         :param transition_duration: The fade duration in milliseconds.
         :param fade_curve: The curve to use for the fade.
-        :return: If the call succeeds, this function will return an empty dictionary.
+        :return: Whether this call succeeded.
         """
         args = {"event": event, "actionType": action_type, "gameObject": game_object,
                 "transitionDuration": transition_duration, "fadeCurve": fade_curve}
-        return self._client.call("ak.soundengine.executeActionOnEvent", args)
+        result = self._client.call("ak.soundengine.executeActionOnEvent", args)
+        return bool(result) if result is not None else False
     
     def get_state(self, state_group: Name | ShortID | GUID | ProjectPath) -> tuple[str, str]:
         """
