@@ -6,6 +6,7 @@ from collections.abc import Sequence as _Sequence
 from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.syncs import Rtpc
+from pywwise.enums import EEnvelopeTriggerOn, EModulatorScope, EModulatorScopeLimited, EWaveformInt
 
 
 class Modifier(WwiseObject):
@@ -34,8 +35,8 @@ class ModulatorEnvelope(WwiseObject):
     envelope_stop_playback = WwiseProperty[bool]("EnvelopeStopPlayback", bool)
     envelope_sustain_level = WwiseProperty[float]("EnvelopeSustainLevel", float)
     envelope_sustain_time = WwiseProperty[float]("EnvelopeSustainTime", float)
-    envelope_trigger_on = WwiseProperty[int]("EnvelopeTriggerOn", int)
-    modulator_scope = WwiseProperty[int]("ModulatorScope", int)
+    envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
+    modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
 
@@ -53,8 +54,8 @@ class ModulatorLfo(WwiseObject):
     lfo_initial_phase = WwiseProperty[float]("LfoInitialPhase", float)
     lfo_pwm = WwiseProperty[float]("LfoPWM", float)
     lfo_smoothing = WwiseProperty[float]("LfoSmoothing", float)
-    lfo_waveform = WwiseProperty[int]("LfoWaveform", int)
-    modulator_scope = WwiseProperty[int]("ModulatorScope", int)
+    lfo_waveform = WwiseProperty[EWaveformInt]("LfoWaveform", EWaveformInt)
+    modulator_scope = WwiseProperty[EModulatorScope]("ModulatorScope", EModulatorScope)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
 
@@ -67,8 +68,8 @@ class ModulatorTime(WwiseObject):
     """
     colour = WwiseProperty[int]("Color", int)
     envelope_stop_playback = WwiseProperty[bool]("EnvelopeStopPlayback", bool)
-    envelope_trigger_on = WwiseProperty[int]("EnvelopeTriggerOn", int)
-    modulator_scope = WwiseProperty[int]("ModulatorScope", int)
+    envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
+    modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
     time_mod_duration = WwiseProperty[float]("TimeModDuration", float)

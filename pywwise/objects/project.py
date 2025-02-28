@@ -3,6 +3,8 @@
 
 from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import (ECaseStyleLimited, EActionNamePosition, EFilterBehaviour, ELineEnding,
+                           ESoundBankDefinitionFormat, EFFTWindowSize)
 
 
 class Language(WwiseObject):
@@ -29,7 +31,7 @@ class Project(WwiseObject):
     the class represented by `EObjectType.PROJECT`.
     """
     always_save_media_ids_file = WwiseProperty[bool]("AlwaysSaveMediaIdsFile", bool)
-    auto_detect_fft_window_size = WwiseProperty[int]("AutoDetectFFTWindowSize", int)
+    auto_detect_fft_window_size = WwiseProperty[EFFTWindowSize]("AutoDetectFFTWindowSize", EFFTWindowSize)
     auto_detect_threshold_high = WwiseProperty[float]("AutoDetectThresholdHigh", float)
     auto_detect_threshold_low = WwiseProperty[float]("AutoDetectThresholdLow", float)
     auto_detect_threshold_medium = WwiseProperty[float]("AutoDetectThresholdMedium", float)
@@ -41,12 +43,12 @@ class Project(WwiseObject):
     comm_serial_post_base = WwiseProperty[int]("CommSerialPostBase", int)
     copy_loose_streamed_media = WwiseProperty[bool]("CopyLooseStreamedMedia", bool)
     default_language = WwiseProperty[str]("DefaultLanguage", str)
-    event_action_name_position = WwiseProperty[int]("EventActionNamePosition", int)
-    event_name_case_type = WwiseProperty[int]("EventNameCaseType", int)
+    event_action_name_position = WwiseProperty[EActionNamePosition]("EventActionNamePosition", EActionNamePosition)
+    event_name_case_type = WwiseProperty[ECaseStyleLimited]("EventNameCaseType", ECaseStyleLimited)
     event_name_modify_case = WwiseProperty[int]("EventNameModifyCase", int)
     external_sources_input_path = WwiseProperty[str]("ExternalSourcesInputPath", str)
     external_sources_output_path = WwiseProperty[str]("ExternalSourcesOutputPath", str)
-    filter_behaviour = WwiseProperty[int]("FilterBehavior", int)
+    filter_behaviour = WwiseProperty[EFilterBehaviour]("FilterBehavior", EFilterBehaviour)
     garbage_collect_wave_analysis = WwiseProperty[bool]("GarbageCollectWaveAnalysis", bool)
     generate_main_sound_bank = WwiseProperty[bool]("GenerateMainSoundBank", bool)
     generate_multiple_banks = WwiseProperty[bool]("GenerateMultipleBanks", bool)
@@ -54,7 +56,7 @@ class Project(WwiseObject):
     generate_sound_bank_xml = WwiseProperty[bool]("GenerateSoundBankXML", bool)
     global_voices_limit = WwiseProperty[int]("GlobalVoicesLimit", int)
     license_key = WwiseProperty[str]("LicenseKey", str)
-    line_ending = WwiseProperty[int]("LineEnding", int)
+    line_ending = WwiseProperty[ELineEnding]("LineEnding", ELineEnding)
     max_dangerous_virtual_voices = WwiseProperty[int]("MaxDangerousVirtualVoices", int)
     max_messages_per_message_id = WwiseProperty[int]("MaxMessagesPerMessageId", int)
     media_auto_bank_sub_folders = WwiseProperty[bool]("MediaAutoBankSubFolders", bool)
@@ -62,7 +64,8 @@ class Project(WwiseObject):
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     remove_unused_generated_files = WwiseProperty[bool]("RemoveUnusedGeneratedFiles", bool)
     sound_bank_allow_exceeding_sb = WwiseProperty[bool]("SoundBankAllowExceedingSB", bool)
-    sound_bank_definition_file_format = WwiseProperty[int]("SoundBankDefinitionFileFormat", int)
+    sound_bank_definition_file_format = WwiseProperty[ESoundBankDefinitionFormat]("SoundBankDefinitionFileFormat",
+                                                                                  ESoundBankDefinitionFormat)
     sound_bank_generate_definition_file = WwiseProperty[bool]("SoundBankGenerateDefinitionFile", bool)
     sound_bank_generate_estimated_duration = WwiseProperty[bool]("SoundBankGenerateEstimatedDuration", bool)
     sound_bank_generate_header_file = WwiseProperty[bool]("SoundBankGenerateHeaderFile", bool)

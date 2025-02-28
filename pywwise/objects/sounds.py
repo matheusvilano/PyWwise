@@ -6,7 +6,7 @@ from collections.abc import Sequence as _Sequence
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
-                           EVirtualVoiceQueueBehaviour)
+                           EVirtualVoiceQueueBehaviour, EFadeShape, EMarkerInputMode, EExternalAnalysisType)
 from pywwise.objects.buses import AuxBus, Bus
 from pywwise.objects.conversions import Conversion
 from pywwise.objects.effects import EffectSlot
@@ -14,6 +14,7 @@ from pywwise.objects.positioning import Attenuation
 from pywwise.objects.syncs import Rtpc
 from pywwise.objects.types import WwiseObject
 from pywwise.primitives import GUID
+from pywwise.objects.markers import Marker
 
 
 class AudioSource(WwiseObject):
@@ -26,17 +27,17 @@ class AudioSource(WwiseObject):
     colour = WwiseProperty[int]("Color", int)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     crossfade_duration = WwiseProperty[float]("CrossfadeDuration", float)
-    crossfade_shape = WwiseProperty[int]("CrossfadeShape", int)
+    crossfade_shape = WwiseProperty[EFadeShape]("CrossfadeShape", EFadeShape)
     fade_in_duration = WwiseProperty[float]("FadeInDuration", float)
-    fade_in_shape = WwiseProperty[int]("FadeInShape", int)
+    fade_in_shape = WwiseProperty[EFadeShape]("FadeInShape", EFadeShape)
     fade_out_duration = WwiseProperty[float]("FadeOutDuration", float)
-    fade_out_shape = WwiseProperty[int]("FadeOutShape", int)
+    fade_out_shape = WwiseProperty[EFadeShape]("FadeOutShape", EFadeShape)
     hdr_envelope = WwiseProperty[float]("HdrEnvelope", float)
     loop_begin = WwiseProperty[float]("LoopBegin", float)
     loop_end = WwiseProperty[float]("LoopEnd", float)
     marker_detection_sensitivity = WwiseProperty[float]("MarkerDetectionSensitivity", float)
-    marker_input_mode = WwiseProperty[int]("MarkerInputMode", int)
-    # markers = WwiseProperty[list[Marker]]("Markers", list[Marker])
+    marker_input_mode = WwiseProperty[EMarkerInputMode]("MarkerInputMode", EMarkerInputMode)
+    markers = WwiseProperty[list[Marker]]("Markers", list[Marker])
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     override_conversion = WwiseProperty[bool]("OverrideConversion", bool)
     override_wav_loop = WwiseProperty[bool]("OverrideWavLoop", bool)
@@ -59,24 +60,12 @@ class ExternalSourceFile(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.EXTERNAL_SOURCE_FILE`.
     """
-    analysis_type = WwiseProperty[int]("AnalysisType", int)
+    analysis_type = WwiseProperty[EExternalAnalysisType]("AnalysisType", EExternalAnalysisType)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     loudness_normalization_target = WwiseProperty[float]("LoudnessNormalizationTarget", float)
     loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType]("LoudnessNormalizationType",
                                                                             ELoudnessNormalizationType)
     override_conversion = WwiseProperty[bool]("OverrideConversion", bool)
-
-
-class Marker(WwiseObject):
-    """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_marker.html \n
-    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.MARKER`.
-    """
-    colour = WwiseProperty[int]("Color", int)
-    label = WwiseProperty[str]("Label", str)
-    override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    time = WwiseProperty[float]("Time", float)
 
 
 class PluginDataSource(WwiseObject):

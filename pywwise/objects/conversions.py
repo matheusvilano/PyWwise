@@ -3,6 +3,7 @@
 
 from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import ESampleRate, ESampleRateConversionQuality, EChannelConversionSettings
 
 
 class Conversion(WwiseObject):
@@ -12,14 +13,15 @@ class Conversion(WwiseObject):
     the class represented by `EObjectType.CONVERSION`.
     """
     allow_channel_upmix = WwiseProperty[bool]("AllowChannelUpmix", bool)
-    channels = WwiseProperty[int]("Channels", int)
+    channels = WwiseProperty[EChannelConversionSettings]("Channels", EChannelConversionSettings)
     colour = WwiseProperty[int]("Color", int)
     lr_mix = WwiseProperty[float]("LRMix", float)
-    max_sample_rate = WwiseProperty[int]("MaxSampleRate", int)
-    min_sample_rate = WwiseProperty[int]("MinSampleRate", int)
+    max_sample_rate = WwiseProperty[ESampleRate]("MaxSampleRate", ESampleRate)
+    min_sample_rate = WwiseProperty[ESampleRate]("MinSampleRate", ESampleRate)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     remove_dc_offset = WwiseProperty[bool]("RemoveDCOffset", bool)
-    sr_conversion_quality = WwiseProperty[int]("SRConversionQuality", int)
-    sample_rate = WwiseProperty[int]("SampleRate", int)
+    sr_conversion_quality = WwiseProperty[ESampleRateConversionQuality]("SRConversionQuality",
+                                                                        ESampleRateConversionQuality)
+    sample_rate = WwiseProperty[ESampleRate]("SampleRate", ESampleRate)
     use_dither = WwiseProperty[bool]("UseDither", bool)
     use_filename_marker = WwiseProperty[bool]("UseFilenameMarker", bool)
