@@ -19,8 +19,9 @@ class WwiseObject(_ABC):
     def __init__(self, guid: GUID, ak: WwiseConnection,
                  platform: GUID | Name | _NoneType = None):
         """
-        Uses a GUID to create a strongly-typed dynamic object, capable of fetching information from Wwise as needed.
-        :param guid: A `WwiseObjectInfo` instance, which contains generic information such as the `GUID` of the object.
+        Uses a GUID to initialize a strongly-typed dynamic object, capable of fetching information from Wwise as needed.
+        :param guid: If you may also pass a `WwiseObjectInfo` instance - this function will extract only the GUID.
+        :param platform: If you want your object to only be used on a specific platform, specify which one here.
         """
         self._ak: WwiseConnection = ak
         self._guid: GUID = guid if isinstance(guid, GUID) else getattr(guid, "guid", GUID.get_null())
