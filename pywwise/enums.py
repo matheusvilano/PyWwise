@@ -64,37 +64,6 @@ class EFadeCurve(_IntEnum):
     """y = 1"""
 
 
-class EFadeShape(_IntEnum):
-    """An Enumeration of available fade shape options"""
-    
-    LOG_3 = 0
-    """y = log2(1+x)/log2(3)"""
-    
-    SINE = 1
-    """y = sin((PI/2)x)"""
-    
-    LOG_1 = 2
-    """y = log2(1+x)"""
-    
-    INV_S_CURVE = 3
-    """y = 1 - (1-x)^2"""
-    
-    LINEAR = 4
-    """y = x"""
-    
-    S_CURVE = 6
-    """y = x^2 * (3-2x)"""
-    
-    EXP_1 = 7
-    """y = x^2"""
-    
-    SINE_RECIP = 8
-    """y = 1 - sin((PI/2)(1-x))"""
-    
-    EXP_3 = 9
-    """y = x^3"""
-
-
 class EAttenuationCurveShape(_StrEnum):
     """Enumeration of available curve shapes. Usually used with functions related to attenuation curves."""
     
@@ -2545,5 +2514,36 @@ class ECaseStyleSimple(_IntEnum):
     """Enumeration of limited set of simplified case styles."""
     ALL_LOWERCASE = 0
     ALL_UPPERCASE = 1
+
+
+class EFadeShape(_IntEnum):
+    """An Enumeration of available fade shape options"""
+    
+    LOG_3 = 0
+    """y = log2(1+x)/log2(3)"""
+    
+    SINE = 1
+    """y = sin((PI/2)x)"""
+    
+    LOG_1 = 2
+    """y = log2(1+x)"""
+    
+    INV_S_CURVE = 3
+    """y = 1 - (1-x)^2"""
+    
+    LINEAR = 4
+    """y = x"""
+    
+    S_CURVE = 6
+    """y = x^2 * (3-2x)"""
+    
+    EXP_1 = 7
+    """y = x^2"""
+    
+    SINE_RECIP = 8
+    """y = 1 - sin((PI/2)(1-x))"""
+    
+    EXP_3 = 9
+    """y = x^3"""
 
 # endregion
