@@ -4,7 +4,7 @@
 from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (ECaseStyleSimple, EActionNamePosition, EFilterBehaviour, ELineEnding,
-                           ESoundBankDefinitionFormat, EFFTWindowSize)
+                           ESoundBankDefinitionFormat, EFftWindowSize)
 
 
 class Language(WwiseObject):
