@@ -1,7 +1,11 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from collections.abc import Sequence as _Sequence
+
+from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
+from pywwise.objects.rtpc import Rtpc
 
 
 class Attenuation(WwiseObject):
@@ -10,3 +14,14 @@ class Attenuation(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.ATTENUATION`.
     """
+    colour = WwiseProperty[int]("Color", int)
+    cone_attenuation = WwiseProperty[float]("ConeAttenuation", float)
+    cone_high_pass_filter_value = WwiseProperty[int]("ConeHighPassFilterAngle", int)
+    cone_inner_angle = WwiseProperty[int]("ConeInnerAngle", int)
+    cone_low_pass_filter_value = WwiseProperty[int]("ConeLowPassFilterAngle", int)
+    cone_outer_angle = WwiseProperty[int]("ConeOuterAngle", int)
+    cone_use = WwiseProperty[bool]("ConeUse", bool)
+    height_spread_enable = WwiseProperty[bool]("HeightSpreadEnable", bool)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    radius_max = WwiseProperty[float]("RadiusMax", float)
