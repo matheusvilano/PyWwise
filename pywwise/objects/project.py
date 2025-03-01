@@ -5,6 +5,7 @@ from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EFftWindowSize, EFilterBehaviour, ELineEnding,
                            ESoundBankDefinitionFormat)
 from pywwise.objects.abc import WwiseObject
+from pywwise.primitives import ProjectPath
 
 
 class Project(WwiseObject):
@@ -29,8 +30,8 @@ class Project(WwiseObject):
     event_action_name_position = WwiseProperty[EActionNamePosition]("EventActionNamePosition", EActionNamePosition)
     event_name_case_type = WwiseProperty[ECaseStyleSimple]("EventNameCaseType", ECaseStyleSimple)
     event_name_modify_case = WwiseProperty[int]("EventNameModifyCase", int)
-    external_sources_input_path = WwiseProperty[str]("ExternalSourcesInputPath", str)
-    external_sources_output_path = WwiseProperty[str]("ExternalSourcesOutputPath", str)
+    external_sources_input_path = WwiseProperty[ProjectPath]("ExternalSourcesInputPath", ProjectPath)
+    external_sources_output_path = WwiseProperty[ProjectPath]("ExternalSourcesOutputPath", ProjectPath)
     filter_behaviour = WwiseProperty[EFilterBehaviour]("FilterBehavior", EFilterBehaviour)
     garbage_collect_wave_analysis = WwiseProperty[bool]("GarbageCollectWaveAnalysis", bool)
     generate_main_sound_bank = WwiseProperty[bool]("GenerateMainSoundBank", bool)
@@ -57,7 +58,7 @@ class Project(WwiseObject):
     sound_bank_generate_print_guid = WwiseProperty[bool]("SoundBankGeneratePrintGUID", bool)
     sound_bank_generate_print_path = WwiseProperty[bool]("SoundBankGeneratePrintPath", bool)
     sound_bank_generate_readable_file = WwiseProperty[bool]("SoundBankGenerateReadableFile", bool)
-    sound_bank_header_file_path = WwiseProperty[str]("SoundBankHeaderFilePath", str)
+    sound_bank_header_file_path = WwiseProperty[ProjectPath]("SoundBankHeaderFilePath", ProjectPath)
     sound_bank_include_soundbank_names_strings = WwiseProperty[bool]("SoundBankIncludeSoundbankNamesStrings", bool)
     sound_bank_paths = WwiseProperty[str]("SoundBankPaths", str)
     sound_bank_post_generate_custom_cmd_description = WwiseProperty[str]("SoundBankPostGenerateCustomCmdDescription",
