@@ -1688,12 +1688,6 @@ class ECaseStyle(_StrEnum):
     """Tokens separated by underscores (`_`; 'UPPER_CASE' or '_UPPER_CASE'), all upper-case."""
 
 
-class ECaseStyleLimited(_IntEnum):
-    """Enumeration of limited set of simplified case styles."""
-    ALL_LOWERCASE = 0
-    ALL_UPPERCASE = 1
-
-
 class ELogChannel(_StrEnum):
     """An enumeration of Wwise log channels."""
     
@@ -2537,21 +2531,19 @@ class ELineEnding(_IntEnum):
 class ESoundBankDefinitionFormat(_IntEnum):
     """Enumeration of valid SoundBank definition formats."""
     FORMAT_0 = 0
-    """Format 0."""
-    
     FORMAT_1 = 1
-    """Format 1."""
 
 
 class EExternalAnalysisType(_IntEnum):
     """Enumeration of valid analysis types for external source files."""
     ANALYSIS_TYPE_0 = 0
-    """Type 0."""
-    
     ANALYSIS_TYPE_1 = 1
-    """Type 1."""
-    
     ANALYSIS_TYPE_2 = 2
-    """Type 2."""
+
+
+class ECaseStyleSimple(_IntEnum):
+    """Enumeration of limited set of simplified case styles."""
+    ALL_LOWERCASE = 0
+    ALL_UPPERCASE = 1
 
 # endregion
