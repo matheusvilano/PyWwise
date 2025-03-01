@@ -1,10 +1,10 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (ECaseStyleSimple, EActionNamePosition, EFilterBehaviour, ELineEnding,
-                           ESoundBankDefinitionFormat, EFftWindowSize)
+from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EFftWindowSize, EFilterBehaviour, ELineEnding,
+                           ESoundBankDefinitionFormat)
+from pywwise.objects.types import WwiseObject
 
 
 class Language(WwiseObject):

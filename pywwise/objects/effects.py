@@ -3,9 +3,9 @@
 
 from collections.abc import Sequence as _Sequence
 
-from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.syncs import Rtpc
+from pywwise.objects.types import WwiseObject
 
 
 class Effect(WwiseObject):

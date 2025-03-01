@@ -1,9 +1,9 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import ESampleRate, ESampleRateConversionQuality, EChannelConversionSettings
+from pywwise.enums import EChannelConversionSettings, ESampleRate, ESampleRateConversionQuality
+from pywwise.objects.types import WwiseObject
 
 
 class Conversion(WwiseObject):

@@ -4,18 +4,17 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, ELoudnessNormalizationType,
-                           EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
-                           EVirtualVoiceQueueBehaviour, EFadeShape, EMarkerInputMode, EExternalAnalysisType,
-                           ESpeakerBitMask)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, EExternalAnalysisType, EFadeShape,
+                           ELoudnessNormalizationType, EMarkerInputMode, EMidiPlayOnNoteType, EOverLimitBehaviour,
+                           EScope, ESpeakerBitMask, EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
 from pywwise.objects.buses import AuxBus, Bus
 from pywwise.objects.conversions import Conversion
 from pywwise.objects.effects import EffectSlot
+from pywwise.objects.markers import Marker
 from pywwise.objects.positioning import Attenuation
 from pywwise.objects.syncs import Rtpc
 from pywwise.objects.types import WwiseObject
 from pywwise.primitives import GUID
-from pywwise.objects.markers import Marker
 
 
 class AudioSource(WwiseObject):
