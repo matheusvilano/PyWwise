@@ -2469,7 +2469,7 @@ class ELoudnessNormalizationType(_IntEnum):
     MOMENTARY_MAX = 1
 
 
-class EFFTWindowSize(_IntEnum):
+class EFftWindowSize(_IntEnum):
     """An Enumeration of valid FFT window sizes"""
     WS_64 = 64
     WS_128 = 128
