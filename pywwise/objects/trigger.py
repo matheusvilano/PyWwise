@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.objects.abc import WwiseObject
+from pywwise.descriptors import WwiseProperty
 
 
 class Trigger(WwiseObject):
@@ -10,3 +11,5 @@ class Trigger(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.TRIGGER`.
     """
+    colour = WwiseProperty[int]("Color", int)
+    override_colour = WwiseProperty[bool]("OverrideColor", bool)
