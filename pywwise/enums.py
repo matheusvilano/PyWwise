@@ -2188,6 +2188,12 @@ class EModulatorScope(_IntEnum):
     GLOBAL = 3
 
 
+class EModulatorScopeLimited(_IntEnum):
+    """An enumeration of the different scopes for a modulator (e.g. an LFO) with limited values."""
+    VOICE = 0
+    NOTE_OR_EVENT = 1
+
+
 class EEnvelopeTriggerOn(_IntEnum):
     """An enumeration of the different moments to trigger an envelope."""
     PLAY = 1
@@ -2461,5 +2467,83 @@ class ELoudnessNormalizationType(_IntEnum):
     """An enumeration of loudness normalization types."""
     INTEGRATED = 0
     MOMENTARY_MAX = 1
+
+
+class EFftWindowSize(_IntEnum):
+    """An Enumeration of valid FFT window sizes."""
+    WS_64 = 64
+    WS_128 = 128
+    WS_256 = 256
+    WS_512 = 512
+    WS_1024 = 1024
+    WS_2048 = 2048
+
+
+class EActionNamePosition(_IntEnum):
+    """An Enumeration of valid action name positions."""
+    PREFIX = 0
+    SUFFIX = 1
+
+
+class EFilterBehaviour(_IntEnum):
+    """An Enumeration of values for filter behaviour."""
+    SUM_ALL_VALUES = 0
+    USE_HIGHEST_VALUE = 1
+
+
+class ELineEnding(_IntEnum):
+    """An Enumeration of values for line ending options."""
+    LF = 0
+    CRLF = 1
+
+
+class ESoundBankDefinitionFormat(_IntEnum):
+    """Enumeration of valid SoundBank definition formats."""
+    FORMAT_0 = 0
+    FORMAT_1 = 1
+
+
+class EExternalAnalysisType(_IntEnum):
+    """Enumeration of valid analysis types for external source files."""
+    ANALYSIS_TYPE_0 = 0
+    ANALYSIS_TYPE_1 = 1
+    ANALYSIS_TYPE_2 = 2
+
+
+class ECaseStyleSimple(_IntEnum):
+    """Enumeration of limited set of simplified case styles."""
+    ALL_LOWERCASE = 0
+    ALL_UPPERCASE = 1
+
+
+class EFadeShape(_IntEnum):
+    """An Enumeration of available fade shape options."""
+    
+    LOG_3 = 0
+    """y = log2(1+x)/log2(3)"""
+    
+    SINE = 1
+    """y = sin((PI/2)x)"""
+    
+    LOG_1 = 2
+    """y = log2(1+x)"""
+    
+    INV_S_CURVE = 3
+    """y = 1 - (1-x)^2"""
+    
+    LINEAR = 4
+    """y = x"""
+    
+    S_CURVE = 6
+    """y = x^2 * (3-2x)"""
+    
+    EXP_1 = 7
+    """y = x^2"""
+    
+    SINE_RECIP = 8
+    """y = 1 - sin((PI/2)(1-x))"""
+    
+    EXP_3 = 9
+    """y = x^3"""
 
 # endregion
