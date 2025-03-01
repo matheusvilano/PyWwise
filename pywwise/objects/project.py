@@ -31,7 +31,7 @@ class Project(WwiseObject):
     the class represented by `EObjectType.PROJECT`.
     """
     always_save_media_ids_file = WwiseProperty[bool]("AlwaysSaveMediaIdsFile", bool)
-    auto_detect_fft_window_size = WwiseProperty[EFFTWindowSize]("AutoDetectFFTWindowSize", EFFTWindowSize)
+    auto_detect_fft_window_size = WwiseProperty[EFftWindowSize]("AutoDetectFFTWindowSize", EFftWindowSize)
     auto_detect_threshold_high = WwiseProperty[float]("AutoDetectThresholdHigh", float)
     auto_detect_threshold_low = WwiseProperty[float]("AutoDetectThresholdLow", float)
     auto_detect_threshold_medium = WwiseProperty[float]("AutoDetectThresholdMedium", float)
