@@ -66,6 +66,7 @@ class EFadeCurve(_IntEnum):
 
 class EFadeShape(_IntEnum):
     """An Enumeration of available fade shape options"""
+    
     LOG_3 = 0
     """y = log2(1+x)/log2(3)"""
     
