@@ -2470,7 +2470,7 @@ class ELoudnessNormalizationType(_IntEnum):
 
 
 class EFftWindowSize(_IntEnum):
-    """An Enumeration of valid FFT window sizes"""
+    """An Enumeration of valid FFT window sizes."""
     WS_64 = 64
     WS_128 = 128
     WS_256 = 256
@@ -2480,19 +2480,19 @@ class EFftWindowSize(_IntEnum):
 
 
 class EActionNamePosition(_IntEnum):
-    """An Enumeration of valid action name positions"""
+    """An Enumeration of valid action name positions."""
     PREFIX = 0
     SUFFIX = 1
 
 
 class EFilterBehaviour(_IntEnum):
-    """An Enumeration of values for filter behaviour"""
+    """An Enumeration of values for filter behaviour."""
     SUM_ALL_VALUES = 0
     USE_HIGHEST_VALUE = 1
 
 
 class ELineEnding(_IntEnum):
-    """An Enumeration of values for line ending options"""
+    """An Enumeration of values for line ending options."""
     LF = 0
     CRLF = 1
 
@@ -2517,7 +2517,7 @@ class ECaseStyleSimple(_IntEnum):
 
 
 class EFadeShape(_IntEnum):
-    """An Enumeration of available fade shape options"""
+    """An Enumeration of available fade shape options."""
     
     LOG_3 = 0
     """y = log2(1+x)/log2(3)"""
