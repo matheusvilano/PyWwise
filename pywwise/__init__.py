@@ -24,10 +24,11 @@ def new_object_connection(info: WwiseObjectInfo, ak: WwiseConnection) -> type[Ww
     are fundamentally different: `WwiseObject` is always up-to-date by querying Wwise for information whenever needed,
     while `WwiseObjectInfo` uses cached information and therefore is not guaranteed to be up-to-date. It is recommended
     to always use type hints for the variable storing the new object, to ensure the best linter and auto-completion
-    experience. Example: `sound: Sound = new_object_connection(info, ak)`. Please note that attempting to get/set data
-    after ending your connection will result in errors/exceptions.
+    experience. Example: `sound: Sound = new_object_connection(info, ak)`. Please note that you MUST use the syntax
+    `my_var: MyType` when storing the return value of this function or IntelliSense/auto-completion will NOT work.
+    data after ending your connection will result in errors/exceptions.
     :param info: The `WwiseObjectInfo` instance to use when creating the new `WwiseObject` instance.
-    :param ak: A connection to Wwise.
+    :param ak: A connection to Wwise. The connection must be active and running for this object to function properly.
     :return: A `WwiseObject` instance.
     """
     return info.type.get_class()(info.guid, ak)
