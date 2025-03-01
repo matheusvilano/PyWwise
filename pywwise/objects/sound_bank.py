@@ -1,20 +1,17 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
-from pywwise.objects.rtpc import Rtpc
 
 
-class Metadata(WwiseObject):
+class SoundBank(WwiseObject):
     """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_metadata.html \n
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_soundbank.html \n
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.METADATA`.
+    the class represented by `EObjectType.SOUND_BANK`.
     """
     colour = WwiseProperty[int]("Color", int)
-    inclusion = WwiseProperty[bool]("Inclusion", bool)
+    fill = WwiseProperty[bool]("Fill", bool)
+    maximum = WwiseProperty[int]("Maximum", int)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])

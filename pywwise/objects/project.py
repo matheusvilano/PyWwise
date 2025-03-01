@@ -4,24 +4,7 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EFftWindowSize, EFilterBehaviour, ELineEnding,
                            ESoundBankDefinitionFormat)
-from pywwise.objects.types import WwiseObject
-
-
-class Language(WwiseObject):
-    """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_language.html \n
-    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.LANGUAGE`.
-    """
-    volume_offset = WwiseProperty[float]("VolumeOffset", float)
-
-
-class Platform(WwiseObject):
-    """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_platform.html \n
-    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.PLATFORM`.
-    """
+from pywwise.objects.abc import WwiseObject
 
 
 class Project(WwiseObject):
@@ -91,11 +74,3 @@ class Project(WwiseObject):
     volume_threshold = WwiseProperty[float]("VolumeThreshold", float)
     wwise_console_load_user_settings = WwiseProperty[bool]("WwiseConsoleLoadUserSettings", bool)
     wwise_version_when_created = WwiseProperty[str]("WwiseVersionWhenCreated", str)
-
-
-class UserProjectSettings(WwiseObject):
-    """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_userprojectsettings.html \n
-    A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.USER_PROJECT_SETTINGS`.
-    """

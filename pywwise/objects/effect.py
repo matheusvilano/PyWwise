@@ -8,11 +8,11 @@ from pywwise.objects.abc import WwiseObject
 from pywwise.objects.rtpc import Rtpc
 
 
-class Metadata(WwiseObject):
+class Effect(WwiseObject):
     """
-    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_metadata.html \n
+    https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_effect.html \n
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.METADATA`.
+    the class represented by `EObjectType.EFFECT`.
     """
     colour = WwiseProperty[int]("Color", int)
     inclusion = WwiseProperty[bool]("Inclusion", bool)
