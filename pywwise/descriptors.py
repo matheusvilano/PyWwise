@@ -5,6 +5,7 @@ from enum import Enum as _Enum
 from typing import Generic as _Generic, Type as _Type, TypeVar as _TypeVar
 
 import pywwise.objects  # Requires full import to avoid circular import.
+from pywwise import SystemPath
 from pywwise.primitives import GUID
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
@@ -34,21 +35,27 @@ class WwiseProperty(_Generic[_T]):
         :return: The current value.
         """
         getter = getattr(instance, "get_property")
+        
         if getter is None:
-            raise TypeError(
-                "An object encapsulating a `WwiseProperty` must implement the `get_property` function.")
+            raise TypeError("Encapsulators of `WwiseProperty` must implement the `get_property` function.")
         
         ak = getattr(instance, "_ak")
+        
         if ak is None:
-            raise TypeError(
-                "An object encapsulating a `WwiseProperty` must define a protected `WwiseConnection` named `_ak`.")
+            raise TypeError("Encapsulators of `WwiseProperty` must define a protected `WwiseConnection` named `_ak`.")
         
         value = getter(self._name)
         
-        # If the return value is a WwiseObject, it will first be a JSON-like dictionary, which we need to process.
-        if issubclass(self._type, pywwise.objects.WwiseObject) and isinstance(value, dict):
-            return self._type(value.get("id", GUID.get_null()), ak)  # Return WwiseObject instead of dict.
-        return value if not issubclass(self._type, _Enum) else EnumStatics.from_value(self._type, value)
+        match self._type:  # Decide on what kind of object to return.
+            
+            case _ if issubclass(self._type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
+                return self._type(value.get("id", GUID.get_null()), ak)
+            
+            case _ if issubclass(self._type, _Enum):  # Any generic enum.Enum, but usually a pywwise.enums type.
+                return EnumStatics.from_value(self._type, value)
+            
+            case _:  # Anything else, including GUID, ProjectPath, GameObjectID, SystemPath, etc.
+                return self._type(value)  # PyCharm might throw a warning here about a missing `ak`; false negative.
     
     def __set__(self, instance, value: _T):
         """
@@ -57,10 +64,15 @@ class WwiseProperty(_Generic[_T]):
         :param value: The new value.
         """
         setter = getattr(instance, "set_property")
+        
         if setter is None:
-            raise TypeError("The owner of WwiseProperty must implement the `set_property` function.")
-        if issubclass(value.__class__, pywwise.objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
+            raise TypeError("Encapsulators of WwiseProperty must implement the `set_property` function.")
+        
+        if issubclass(self._type, SystemPath):  # pathlib.Path (SystemPath) is not JSON-serializable; convert to `str`.
+            value = str(value)
+        elif issubclass(value.__class__, pywwise.objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
             value = value.guid
+        
         instance.set_property(self._name, value, isinstance(value, GUID))
     
     @property
