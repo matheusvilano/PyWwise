@@ -6,7 +6,8 @@ from collections.abc import Sequence as _Sequence
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
-                           EVirtualVoiceQueueBehaviour, EFadeShape, EMarkerInputMode, EExternalAnalysisType)
+                           EVirtualVoiceQueueBehaviour, EFadeShape, EMarkerInputMode, EExternalAnalysisType,
+                           ESpeakerBitMask)
 from pywwise.objects.buses import AuxBus, Bus
 from pywwise.objects.conversions import Conversion
 from pywwise.objects.effects import EffectSlot
@@ -23,7 +24,7 @@ class AudioSource(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.AUDIO_SOURCE`.
     """
-    channel_config_override = WwiseProperty[int]("ChannelConfigOverride", int)
+    channel_config_override = WwiseProperty[ESpeakerBitMask]("ChannelConfigOverride", ESpeakerBitMask)
     colour = WwiseProperty[int]("Color", int)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     crossfade_duration = WwiseProperty[float]("CrossfadeDuration", float)
