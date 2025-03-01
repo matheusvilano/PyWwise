@@ -3,7 +3,7 @@
 
 from pywwise.objects.types import WwiseObject
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (ECaseStyleLimited, EActionNamePosition, EFilterBehaviour, ELineEnding,
+from pywwise.enums import (ECaseStyleSimple, EActionNamePosition, EFilterBehaviour, ELineEnding,
                            ESoundBankDefinitionFormat, EFFTWindowSize)
 
 
@@ -44,7 +44,7 @@ class Project(WwiseObject):
     copy_loose_streamed_media = WwiseProperty[bool]("CopyLooseStreamedMedia", bool)
     default_language = WwiseProperty[str]("DefaultLanguage", str)
     event_action_name_position = WwiseProperty[EActionNamePosition]("EventActionNamePosition", EActionNamePosition)
-    event_name_case_type = WwiseProperty[ECaseStyleLimited]("EventNameCaseType", ECaseStyleLimited)
+    event_name_case_type = WwiseProperty[ECaseStyleSimple]("EventNameCaseType", ECaseStyleSimple)
     event_name_modify_case = WwiseProperty[int]("EventNameModifyCase", int)
     external_sources_input_path = WwiseProperty[str]("ExternalSourcesInputPath", str)
     external_sources_output_path = WwiseProperty[str]("ExternalSourcesOutputPath", str)
