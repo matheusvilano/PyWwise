@@ -1,7 +1,7 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.enums import ESoundSeedChannelMask
+from pywwise.enums import ESoundSeedAirChannelMask
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 
@@ -16,7 +16,7 @@ class SoundSeedAirWind(WwiseObject):
     average_velocity = WwiseProperty[float]("AverageVelocity", float)
     average_velocity_automate = WwiseProperty[bool]("AverageVelocityAutomate", bool)
     average_velocity_random = WwiseProperty[float]("AverageVelocityRandom", float)
-    channel_mask = WwiseProperty[ESoundSeedChannelMask]("ChannelMask", ESoundSeedChannelMask)
+    channel_mask = WwiseProperty[ESoundSeedAirChannelMask]("ChannelMask", ESoundSeedAirChannelMask)
     direction = WwiseProperty[float]("Direction", float)
     direction_automate = WwiseProperty[bool]("DirectionAutomate", bool)
     direction_random = WwiseProperty[float]("DirectionRandom", float)

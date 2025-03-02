@@ -2608,18 +2608,124 @@ class EMotionChannelConfig(_IntEnum):
     DUAL_SENSE_TWO_CHANNEL = 9
 
 
-class ESoundSeedChannelMask(_IntEnum):
+class ESoundSeedAirChannelMask(_IntEnum):
     """An enumeration of the different channel masks for SoundSeed source plugins."""
     MONO = 0
     STEREO = 1
     QUAD = 2
-    
-    
-class ESoundSeedNoiseColour(_IntEnum):
+
+
+class ESoundSeedAirNoiseColour(_IntEnum):
     """An enumeration of the different noise colours for SoundSeed source plugins."""
     WHITE = 0
     PINK = 1
     RED = 2
     PURPLE = 3
+
+
+class ESoundSeedGrainQuantizationSimple(_IntEnum):
+    """An enumeration of the different grain quantization types for SoundSeed source plugins."""
+    NONE = 0
+    NEGATIVE_POSITIVE = 1
+    NEGATIVE_NEUTRAL_POSITIVE = 2
+
+
+class ESoundSeedGrainQuantization(_IntEnum):
+    """An enumeration of the different grain quantization types for SoundSeed source plugins."""
+    NONE = 0
+    NEGATIVE_POSITIVE = 1
+    NEGATIVE_NEUTRAL_POSITIVE = 2
+    CHROMATIC = 3
+    MAJOR = 4
+    MINOR = 5
+    PENTATONIC = 6
+
+
+class ESoundSeedGrainDurationLink(_IntEnum):
+    """An enumeration of the different grain duration link types for SoundSeed source plugins."""
+    DURATION_MULTIPLIER = 0
+    DURAITON = 1
+    MIDI_DURATION = 2
+
+
+class ESoundSeedGrainEnvelopeType(_IntEnum):
+    """An enumeration of the different grain envelope types for SoundSeed source plugins."""
+    LINEAR = 0
+    CONSTANT_POWER = 1
+    EXPONENTIAL = 2
+    RAISED_COSINE = 3
+
+
+class ESoundSeedGrainFilterType(_IntEnum):
+    """An enumeration of the different grain filter types for SoundSeed source plugins."""
+    LPF6 = 0
+    LPF12 = 1
+    HPF6 = 2
+    HPF12 = 3
+    BP = 4
+
+
+class ESoundSeedGrainSelection(_IntEnum):
+    """An enumeration of the different grain selection types for SoundSeed source plugins."""
+    PERIOD = 0
+    FREQUENCY = 1
+
+
+class ESoundSeedGrainWaveform(_IntEnum):
+    """An enumeration of the different grain waveform types for SoundSeed source plugins."""
+    SINE = 0
+    TRIANGLE = 1
+    SQUARE = 2
+    SAW_UP = 3
+    SAW_DOWN = 4
+    RANDOM = 5
+    SINE_PLUS = 6
+    TRIANGLE_PLUS = 7
+    SQUARE_PLUS = 8
+    SAW_UP_PLUS = 9
+    SAW_DOWN_PLUS = 10
+    RANDOM_PLUS = 11
+
+
+class ESoundSeedGrainChannelConfig(_IntEnum):
+    """An enumeration of the different channel configs for SoundSeed source plugins."""
+    MONO = 16641
+    STEREO = 12546
+    THREE = 28931
+    FOUR = 6304004
+    FIVE_ONE = 6353158
+    SEVEN_ONE = 6549768
+    FIVE_ONE_TWO = 90239240
+    FIVE_ONE_FOUR = 761327882
+    SEVEN_ONE_TWO = 90435850
+    SEVEN_ONE_FOUR = 761524492
+    AMBISONICS_FIRST_ORDER = 516
+    AMBISONICS_SECOND_ORDER = 521
+    AMBISONICS_THIRD_ORDER = 528
+    AMBISONICS_FOURTH_ORDER = 537
+    AMBISONICS_FIFTH_ORDER = 548
+    AURO_TEN_ONE = 1769716491
+    AURO_ELEVEN_ONE = 803270924
+    AURO_THIRTEEN_ONE = 803467534
+    LFE = 33025
+
+
+class ESoundSeedGrainPositioning(_IntEnum):
+    """An enumeration of the different positioning selection types for SoundSeed source plugins."""
+    DIRECT_SPEAKER_ASSIGNMENT = 0
+    SPATIALIZATION_3D = 1
+
+
+class ESoundSeedGrainFrequencyTime(_IntEnum):
+    """An enumeration of the different frequency time selection types for SoundSeed source plugins."""
+    TIME_BETWEEN_EMISSIONS = 0
+    EMISSIONS_PER_SECOND = 1
+    MIDI_EMISSIONS_PER_SECOND = 2
+
+
+class ESoundSeedGrainWindowMode(_IntEnum):
+    """An enumeration of the different windown mode selection types for SoundSeed source plugins."""
+    INDEPENDENT_ATTACK_AND_RELEASE = 0
+    RELEASE_SAME_AS_ATTACK = 1
 
 # endregion

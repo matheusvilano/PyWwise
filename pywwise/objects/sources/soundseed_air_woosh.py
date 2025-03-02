@@ -1,7 +1,7 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.enums import ESoundSeedChannelMask, ESoundSeedNoiseColour
+from pywwise.enums import ESoundSeedAirChannelMask, ESoundSeedAirNoiseColour
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 
@@ -13,7 +13,7 @@ class SoundSeedAirWoosh(WwiseObject):
     the class represented by `EObjectType.SOURCE_PLUGIN`.
     """
     attenuation_roll_of = WwiseProperty[float]("AttenuationRollOff", float)
-    channel_mask = WwiseProperty[ESoundSeedChannelMask]("ChannelMask", ESoundSeedChannelMask)
+    channel_mask = WwiseProperty[ESoundSeedAirChannelMask]("ChannelMask", ESoundSeedAirChannelMask)
     distance_attenuation = WwiseProperty[bool]("DistanceAttenuation", bool)
     duration = WwiseProperty[float]("Duration", float)
     duration_random = WwiseProperty[float]("DurationRandom", float)
@@ -24,7 +24,7 @@ class SoundSeedAirWoosh(WwiseObject):
     gain_offset_automate = WwiseProperty[bool]("GainOffsetAutomate", bool)
     gain_offset_random = WwiseProperty[float]("GainOffsetRandom", float)
     min_distance = WwiseProperty[float]("MinDistance", float)
-    noise_colour = WwiseProperty[ESoundSeedNoiseColour]("NoiseColour", ESoundSeedNoiseColour)
+    noise_colour = WwiseProperty[ESoundSeedAirNoiseColour]("NoiseColour", ESoundSeedAirNoiseColour)
     oversampling = WwiseProperty[int]("Oversampling", int)
     playback_rate = WwiseProperty[float]("PlaybackRate", float)
     q_factor_scale = WwiseProperty[float]("QFactorScale", float)
