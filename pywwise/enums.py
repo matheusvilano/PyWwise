@@ -2776,7 +2776,7 @@ class EToneGenWaveform(_IntEnum):
     PINK_NOISE = 5
 
 
-class EMasteringSuitePhaseMode(_IntEnum):
+class ETremoloPhaseMode(_IntEnum):
     """An enumeration of the different phase modes for Mastering Suiite source plugins."""
     LEFT_RIGHT = 0
     FRONT_REAR = 1
@@ -2784,12 +2784,49 @@ class EMasteringSuitePhaseMode(_IntEnum):
     RANDOM = 3
 
 
-class EMasteringSuiteWaveform(_IntEnum):
+class ETremoloWaveform(_IntEnum):
     """An enumeration of the different waveform types for Mastering Suiite source plugins."""
     SINE = 0
     SQUARE = 1
     TRIANGLE = 2
     SAW_UP = 3
     SAW_DOWN = 4
+    
+    
+class EMasteringSuiteLinkMode(_IntEnum):
+    """An enumeration of the different link modes for Mastering Suiite source plugins."""
+    NO_LINK = 0
+    ALL_CHANNELS = 1
+    PARTIAL_LINK = 2
+    
+    
+class EMasteringSuiteLimiterMode(_IntEnum):
+    """An enumeration of the different limiter modes for Mastering Suiite source plugins."""
+    SOFT = 0
+    HARD = 1
+    ADVANCED = 2
+    
+
+class EMasteringSuiteFilterMode(_IntEnum):
+    """An enumeration of the different filter modes for Mastering Suiite source plugins."""
+    LOW_PASS_RESONANT = 0
+    HIGH_PASS_RESONANT = 1
+    PEAK = 2
+    HIGH_SHELF = 3
+    LOW_SHELF = 4
+    ALL_PASS = 5
+    LPF_HPF = 6
+    
+    
+class ETimeStretchMode(_IntEnum):
+    """An enumeration of the different time stretch modes for Source Plugins."""
+    CLASSIC = 0
+    TRANSIENT_PRESERVING = 1
+    
+    
+class ETimeStretchStereoProcessing(_IntEnum):
+    """An enumeration of the different stereo processing modes for Source Plugins."""
+    LEFT_RIGHT = 0
+    CENTRE_CUT = 1
 
 # endregion
