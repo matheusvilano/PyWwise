@@ -3047,4 +3047,24 @@ class EReflectThresholdMode(_IntEnum):
     CONTINUOUS = 0
     STEP = 1
 
+
+class EStereoDelayFilterType(_IntEnum):
+    """An enumeration of the different harmonizer equalizer types for Stereo Delay effect plugins."""
+    NONE = 0
+    LOW_SHELF = 1
+    PEAKING = 2
+    HIGH_SHELF = 3
+    LOW_PASS = 4
+    HIGH_PASS = 5
+    BAND_PASS = 6
+    NOTCH = 7
+
+
+class EStereoDelayInput(_IntEnum):
+    """An enumeration of the different harmonizer input types for Stereo Delay effect plugins."""
+    LEFT = 0
+    CENTRE = 1
+    LEFT_AND_CENTRE = 2
+    NONE = 3
+
 # endregion
