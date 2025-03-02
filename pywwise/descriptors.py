@@ -14,7 +14,7 @@ _T = _TypeVar("_T")
 
 
 class WwiseProperty(_Generic[_T]):
-    """A descriptor for Wwise properties, references, and lists. Supports the `WwiseProperty[Type] syntax to allow
+    """A descriptor for Wwise properties, references, and lists. Supports the `WwiseProperty[Type]` syntax to allow
     auto-completion and suggestions in interactive environments."""
     
     def __init__(self, name: str, etype: _Type[_T]):

@@ -9,5 +9,5 @@ class SoundSeedAirWind(WwiseObject):
     """
      \n
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.SOUNDSEED_AIR_WIND`.
+    the class represented by `EObjectType.SOURCE_PLUGIN`.
     """

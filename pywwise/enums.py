@@ -2060,7 +2060,7 @@ class EWwiseBuildConfiguration(_StrEnum):
 
 # endregion
 
-# region Objects
+# region Types
 
 class ERandomOrSequence(_IntEnum):
     """An enumeration of random and sequence container types. A better alternative than using a `bool` or `int`."""
@@ -2577,5 +2577,34 @@ class EColour(_IntEnum):
     SOFT_PINK = 25
     SOFT_MAGENTA = 26
     SOFT_VIOLET = 27
+
+
+# endregion
+
+# region Sources
+
+class EMotionDriver(_IntEnum):
+    """An enumeration of the different motion channels."""
+    A = 0
+    B = 1
+    C = 2
+    D = 3
+    E = 4
+    F = 5
+    G = 6
+    H = 7
+
+
+class EMotionChannelConfig(_IntEnum):
+    ANDROID = 0
+    PLAY_STATION_MOVE = 1
+    DUAL_SHOCK_TWO_CHANNEL = 2
+    SWITCH_TWO_CHANNEL = 3
+    SWITCH_FOUR_CHANNEL = 4
+    XBOX_FOUR_CHANNEL = 5
+    GENERIC_ONE_CHANNEL = 6
+    GENERIC_TWO_CHANNEL = 7
+    GENERIC_FOUR_CHANNEL = 8
+    DUAL_SENSE_TWO_CHANNEL = 9
 
 # endregion
