@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EBuiltInParameter, EColour, EInterpolationMode
+from pywwise.enums import EBuiltInGameParameter, EColour, EInterpolationMode
 from pywwise.objects.abc import WwiseObject
 
 
@@ -12,7 +12,7 @@ class GameParameter(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.GAME_PARAMETER`.
     """
-    bind_to_built_in_param = WwiseProperty[EBuiltInParameter]("BindToBuiltInParam", EBuiltInParameter)
+    bind_to_built_in_param = WwiseProperty[EBuiltInGameParameter]("BindToBuiltInParam", EBuiltInGameParameter)
     colour = WwiseProperty[EColour]("Color", EColour)
     filter_time_down = WwiseProperty[float]("FilterTimeDown", float)
     filter_time_up = WwiseProperty[float]("FilterTimeUp", float)
