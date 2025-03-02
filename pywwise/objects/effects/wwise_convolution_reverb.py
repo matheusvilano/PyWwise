@@ -15,7 +15,7 @@ class WwiseConvolutionReverb(WwiseObject):
     """
     algo_type_select = WwiseProperty[EConvolutionReverbAlgorithm]("AlgoTypeSelect", EConvolutionReverbAlgorithm)
     centre_level = WwiseProperty[float]("CenterLevel", float)
-    channel_config_override = WwiseProperty[ESpeakerBitMask]("ChannelConfigOverride", ESpeakerBitMask)  # TODO
+    channel_config_override = WwiseProperty[ESpeakerBitMask]("ChannelConfigOverride", ESpeakerBitMask)
     dry_level = WwiseProperty[float]("DryLevel", float)
     front_level = WwiseProperty[float]("FrontLevel", float)
     front_rear_delay = WwiseProperty[float]("FrontRearDelay", float)
