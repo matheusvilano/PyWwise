@@ -2908,7 +2908,7 @@ class EGuitarDistortionFilterType(_IntEnum):
 
 
 class EHarmonizerInput(_IntEnum):
-    """An enumeration of the different harmonizer input types for Guitar source plugins."""
+    """An enumeration of the different harmonizer input types for Harmonizer source plugins."""
     AS_INPUT = 0
     MONO_CENTRE = 1
     STEREO = 2
@@ -2919,7 +2919,7 @@ class EHarmonizerInput(_IntEnum):
 
 
 class EHarmonizerFilterType(_IntEnum):
-    """An enumeration of the different harmonizer equalizer types for Guitar source plugins."""
+    """An enumeration of the different harmonizer equalizer types for Harmonizer source plugins."""
     NONE = 0
     LOW_SHELF = 1
     PEAKING = 2
@@ -2928,5 +2928,19 @@ class EHarmonizerFilterType(_IntEnum):
     HIGH_PASS = 5
     BAND_PASS = 6
     NOTCH = 7
+
+
+class EMatrixReverbDelayLengthsMode(_IntEnum):
+    """An enumeration of the different matrix reverb delay lengths modes for Matrix Reverb source plugins."""
+    DEFAULT_DELAY_LENGTHS = 0
+    CUSTOM_DELAY_LENGTHS = 1
+
+
+class EMatrixReverbDelayCount(_IntEnum):
+    """An enumeration of the different matrix reverb delay counts for Matrix Reverb source plugins."""
+    FAVOUR_PERFORMANCE = 4
+    BALANCE_QUALITY_AND_PERFORMANCE = 8
+    FAVOUR_QUALITY = 12
+    MAXIMIZE_QUALITY = 16
 
 # endregion
