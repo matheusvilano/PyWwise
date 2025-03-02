@@ -2607,4 +2607,11 @@ class EMotionChannelConfig(_IntEnum):
     GENERIC_FOUR_CHANNEL = 8
     DUAL_SENSE_TWO_CHANNEL = 9
 
+
+class ESoundSeedChannelMask(_IntEnum):
+    """An enumeration of the different channel masks for SoundSeed source plugins."""
+    MONO = 0
+    STEREO = 1
+    QUAD = 2
+
 # endregion
