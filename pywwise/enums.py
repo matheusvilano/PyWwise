@@ -2943,4 +2943,16 @@ class EMatrixReverbDelayCount(_IntEnum):
     FAVOUR_QUALITY = 12
     MAXIMIZE_QUALITY = 16
 
+
+class EMeterMode(_IntEnum):
+    """An enumeration of the different meter mode for Meter source plugins."""
+    PEAK = 0
+    RMS = 1
+    
+    
+class EMeterScope(_IntEnum):
+    """An enumeration of the different meter scope for Meter source plugins."""
+    GLOBAL = 0
+    GAME_OBJECT = 1
+
 # endregion
