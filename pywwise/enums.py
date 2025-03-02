@@ -2776,7 +2776,7 @@ class EToneGenWaveform(_IntEnum):
     PINK_NOISE = 5
 
 
-class ETremoloPhaseMode(_IntEnum):
+class EModPhaseMode(_IntEnum):
     """An enumeration of the different phase modes for Mastering Suiite source plugins."""
     LEFT_RIGHT = 0
     FRONT_REAR = 1
@@ -2784,7 +2784,7 @@ class ETremoloPhaseMode(_IntEnum):
     RANDOM = 3
 
 
-class ETremoloWaveform(_IntEnum):
+class EModWaveform(_IntEnum):
     """An enumeration of the different waveform types for Mastering Suiite source plugins."""
     SINE = 0
     SQUARE = 1
