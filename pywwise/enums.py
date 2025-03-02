@@ -2207,7 +2207,7 @@ class EInterpolationMode(_IntEnum):
     FILTERING_OVER_TIME = 2  # FOT
 
 
-class EBuiltInParameter(_IntEnum):
+class EBuiltInGameParameter(_IntEnum):
     """An enumeration of all built-in parameters."""
     NONE = 0
     DISTANCE = 1
