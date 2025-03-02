@@ -2855,4 +2855,35 @@ class ESystemAudioObjectsPolicy(_IntEnum):
     ALWAYS = 1
     NEVER = 2
 
+
+class EConvolutionReverbAlgorithm(_IntEnum):
+    """An enumeration of the different convolution reverb algorithms."""
+    REVERB = 0
+    FILTER = 1
+
+
+class EConvolutionReverbIrChannelSelection(_IntEnum):
+    """An enumeration of the different convolution reverb IR channel selections."""
+    STEREO = 0
+    MIXDOWN = 1
+    LEFT_ONLY = 2
+    RIGHT_ONLY = 3
+    AS_INPUT = 4
+
+
+class EConvolutionReverbIrLpfSlope(_IntEnum):
+    """An enumeration of the different convolution reverb IR LPF slopes."""
+    IRLPF_6 = 6
+    IRLPF_12 = 12
+    IRLPF_18 = 18
+    IRLPF_24 = 24
+
+
+class EConvolutionReverbBlockSize(_IntEnum):
+    """An enumeration of the different convolution reverb sound engine block sizes."""
+    BS_256 = 256
+    BS_512 = 512
+    BS_1024 = 1024
+    BS_2048 = 2048
+
 # endregion
