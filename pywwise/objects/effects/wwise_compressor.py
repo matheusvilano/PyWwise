@@ -5,9 +5,9 @@ from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 
 
-class Compressor(WwiseObject):
+class WwiseCompressor(WwiseObject):
     """
      \n
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
-    the class represented by `EObjectType.COMPRESSOR`.
+    the class represented by `EObjectType.WWISE_COMPRESSOR`.
     """

@@ -2,6 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.objects.abc import WwiseObject, WwiseObjectType
+from pywwise.objects.effects import (MasteringSuite, Wwise3DAudioBedMixer, WwiseCompressor, WwiseConvolutionReverb,
+                                     WwiseDelay, WwiseExpander, WwiseFlanger, WwiseGain, WwiseGuitarDistortion,
+                                     WwiseHarmonizer, WwiseMatrixReverb, WwiseMeter, WwiseParametricEq,
+                                     WwisePeakLimiter, WwisePitchShifter, WwiseRecorder, WwiseReflect, WwiseRoomVerb,
+                                     WwiseStereoDelay, WwiseTimeStretch, WwiseTremolo)
 from pywwise.objects.sources import (Impacter, MotionSource, SoundSeedAirWind, SoundSeedAirWoosh, SoundSeedGrain,
                                      WwiseSilence, WwiseSynthOne, WwiseToneGenerator)
 from pywwise.objects.types import (AcousticTexture, Action, ActionException, ActorMixer, Attenuation, AudioDevice,
