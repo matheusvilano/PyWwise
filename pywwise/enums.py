@@ -2775,4 +2775,21 @@ class EToneGenWaveform(_IntEnum):
     WHITE_NOISE = 4
     PINK_NOISE = 5
 
+
+class EMasteringSuitePhaseMode(_IntEnum):
+    """An enumeration of the different phase modes for Mastering Suiite source plugins."""
+    LEFT_RIGHT = 0
+    FRONT_REAR = 1
+    CIRCULAR = 2
+    RANDOM = 3
+
+
+class EMasteringSuiteWaveform(_IntEnum):
+    """An enumeration of the different waveform types for Mastering Suiite source plugins."""
+    SINE = 0
+    SQUARE = 1
+    TRIANGLE = 2
+    SAW_UP = 3
+    SAW_DOWN = 4
+
 # endregion
