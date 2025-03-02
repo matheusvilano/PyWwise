@@ -2579,6 +2579,20 @@ class EColour(_IntEnum):
     SOFT_VIOLET = 27
 
 
+class ENoiseColour(_IntEnum):
+    """An enumeration of the different noise colours plugins."""
+    WHITE = 0
+    PINK = 1
+    RED = 2
+    PURPLE = 3
+
+
+class EFrequencyMode(_IntEnum):
+    """An enumeration of different frequency modes, usually used in Source Plugins."""
+    BASE_FREQUENCY = 0
+    MIDI_NOTE = 1
+
+
 # endregion
 
 # region Sources
@@ -2613,14 +2627,6 @@ class ESoundSeedAirChannelMask(_IntEnum):
     MONO = 0
     STEREO = 1
     QUAD = 2
-
-
-class ESoundSeedAirNoiseColour(_IntEnum):
-    """An enumeration of the different noise colours for SoundSeed source plugins."""
-    WHITE = 0
-    PINK = 1
-    RED = 2
-    PURPLE = 3
 
 
 class ESoundSeedGrainQuantizationSimple(_IntEnum):
@@ -2727,5 +2733,19 @@ class ESoundSeedGrainWindowMode(_IntEnum):
     """An enumeration of the different windown mode selection types for SoundSeed source plugins."""
     INDEPENDENT_ATTACK_AND_RELEASE = 0
     RELEASE_SAME_AS_ATTACK = 1
+
+
+class ESynthOneOperationMode(_IntEnum):
+    """An enumeration of the different synth one operation modes for SoundSeed source plugins."""
+    MIX = 0
+    RING = 1
+
+
+class ESynthOneWaveform(_IntEnum):
+    """An enumeration of the different synth one waveform types for SoundSeed source plugins."""
+    SINE = 0
+    TRIANGLE = 1
+    SQUARE = 2
+    SAWTOOTH = 3
 
 # endregion
