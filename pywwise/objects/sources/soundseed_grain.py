@@ -95,18 +95,18 @@ class SoundSeedGrain(WwiseObject):
     elevation_mod4_quantization = WwiseProperty[ESoundSeedGrainQuantizationSimple](
         "ElevationMod4Quantization", ESoundSeedGrainQuantizationSimple)
     envelope_type = WwiseProperty[ESoundSeedGrainEnvelopeType]("EnvelopeType", ESoundSeedGrainEnvelopeType)
-    filter_freq = WwiseProperty[float]("FilterFreq", float)
-    filter_freq_mod1_depth = WwiseProperty[float]("FilterFreqMod1Depth", float)
-    filter_freq_mod1_quantization = WwiseProperty[ESoundSeedGrainQuantization](
+    filter_frequency = WwiseProperty[float]("FilterFreq", float)
+    filter_frequency_mod1_depth = WwiseProperty[float]("FilterFreqMod1Depth", float)
+    filter_frequency_mod1_quantization = WwiseProperty[ESoundSeedGrainQuantization](
         "FilterFreqMod1Quantization", ESoundSeedGrainQuantization)
-    filter_freq_mod2_depth = WwiseProperty[float]("FilterFreqMod2Depth", float)
-    filter_freq_mod2_quantization = WwiseProperty[ESoundSeedGrainQuantization](
+    filter_frequency_mod2_depth = WwiseProperty[float]("FilterFreqMod2Depth", float)
+    filter_frequency_mod2_quantization = WwiseProperty[ESoundSeedGrainQuantization](
         "FilterFreqMod2Quantization", ESoundSeedGrainQuantization)
-    filter_freq_mod3_depth = WwiseProperty[float]("FilterFreqMod3Depth", float)
-    filter_freq_mod3_quantization = WwiseProperty[ESoundSeedGrainQuantization](
+    filter_frequency_mod3_depth = WwiseProperty[float]("FilterFreqMod3Depth", float)
+    filter_frequency_mod3_quantization = WwiseProperty[ESoundSeedGrainQuantization](
         "FilterFreqMod3Quantization", ESoundSeedGrainQuantization)
-    filter_freq_mod4_depth = WwiseProperty[float]("FilterFreqMod4Depth", float)
-    filter_freq_mod4_quantization = WwiseProperty[ESoundSeedGrainQuantization](
+    filter_frequency_mod4_depth = WwiseProperty[float]("FilterFreqMod4Depth", float)
+    filter_frequency_mod4_quantization = WwiseProperty[ESoundSeedGrainQuantization](
         "FilterFreqMod4Quantization", ESoundSeedGrainQuantization)
     filter_q = WwiseProperty[float]("FilterQ", float)
     filter_q_mod1_depth = WwiseProperty[float]("FilterQMod1Depth", float)
@@ -214,7 +214,7 @@ class SoundSeedGrain(WwiseObject):
     release_mod4_depth = WwiseProperty[float]("ReleaseMod4Depth", float)
     release_mod4_quantization = WwiseProperty[ESoundSeedGrainQuantization](
         "ReleaseMod4Quantization", ESoundSeedGrainQuantization)
-    select_freq_time_grain = WwiseProperty[ESoundSeedGrainFrequencyTime](
+    select_frequency_time_grain = WwiseProperty[ESoundSeedGrainFrequencyTime](
         "SelectFreqTimeGrain", ESoundSeedGrainFrequencyTime)
     speed = WwiseProperty[float]("Speed", float)
     speed_mod1_depth = WwiseProperty[float]("SpeedMod1Depth", float)

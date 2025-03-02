@@ -2748,4 +2748,31 @@ class ESynthOneWaveform(_IntEnum):
     SQUARE = 2
     SAWTOOTH = 3
 
+
+class EToneGenChannelMask(_IntEnum):
+    """An enumeration of the different channel masks for tone generation plugins."""
+    MONO = 4
+    LFE = 8
+
+
+class EToneGenDurationMode(_IntEnum):
+    FIXED_DURATION = 0
+    ENVELOPE = 1
+
+
+class EToneGenSweepFrequencyType(_IntEnum):
+    """An enumeration of the different sweep frequency types for tone generation plugins."""
+    LINEAR = 0
+    LOGARITHMIC = 1
+
+
+class EToneGenWaveform(_IntEnum):
+    """An enumeration of the different tone generation waveform types for tone generation plugins."""
+    SINE = 0
+    SQUARE = 1
+    TRIANGLE = 2
+    SAW = 3
+    WHITE_NOISE = 4
+    PINK_NOISE = 5
+
 # endregion
