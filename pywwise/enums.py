@@ -2613,5 +2613,13 @@ class ESoundSeedChannelMask(_IntEnum):
     MONO = 0
     STEREO = 1
     QUAD = 2
+    
+    
+class ESoundSeedNoiseColour(_IntEnum):
+    """An enumeration of the different noise colours for SoundSeed source plugins."""
+    WHITE = 0
+    PINK = 1
+    RED = 2
+    PURPLE = 3
 
 # endregion
