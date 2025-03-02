@@ -2988,4 +2988,16 @@ class EPitchShifterFilterType(_IntEnum):
     BAND_PASS = 6
     NOTCH = 7
 
+
+class ERecorderAmbisonicsChannelOrdering(_IntEnum):
+    """An enumeration of the different ambisonics channel orderings for Recorder source plugins."""
+    AMBI_X = 0
+    FUMA = 1
+
+
+class ERecorderFormat(_IntEnum):
+    """An enumeration of file formats for Recorder source plugins."""
+    WAV = 0
+    WEM = 1
+
 # endregion
