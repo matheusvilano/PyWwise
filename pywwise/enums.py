@@ -2886,4 +2886,24 @@ class EConvolutionReverbBlockSize(_IntEnum):
     BS_1024 = 1024
     BS_2048 = 2048
 
+
+class EGuitarDistortionType(_IntEnum):
+    """An enumeration of the different distortion types for Guitar source plugins."""
+    NONE = 0
+    OVERDRIVE = 1
+    HEAVY = 2
+    FUZZ = 3
+    CLIP = 4
+    
+    
+class EGuitarDistortionEqType(_IntEnum):
+    """An enumeration of the different distortion equalizer types for Guitar source plugins."""
+    LOW_SHELF = 0
+    PEAKING = 1
+    HIGH_SHELF = 2
+    LOW_PASS = 3
+    HIGH_PASS = 4
+    BAND_PASS = 5
+    NOTCH = 6
+
 # endregion
