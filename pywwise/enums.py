@@ -2894,9 +2894,9 @@ class EGuitarDistortionType(_IntEnum):
     HEAVY = 2
     FUZZ = 3
     CLIP = 4
-    
-    
-class EGuitarDistortionEqType(_IntEnum):
+
+
+class EGuitarDistortionFilterType(_IntEnum):
     """An enumeration of the different distortion equalizer types for Guitar source plugins."""
     LOW_SHELF = 0
     PEAKING = 1
@@ -2905,5 +2905,28 @@ class EGuitarDistortionEqType(_IntEnum):
     HIGH_PASS = 4
     BAND_PASS = 5
     NOTCH = 6
+
+
+class EHarmonizerInput(_IntEnum):
+    """An enumeration of the different harmonizer input types for Guitar source plugins."""
+    AS_INPUT = 0
+    MONO_CENTRE = 1
+    STEREO = 2
+    L_R_C = 3
+    L_R_LS_RS = 4
+    L_R_C_LS_RS = 5
+    LEFT_ONLY = 6
+
+
+class EHarmonizerFilterType(_IntEnum):
+    """An enumeration of the different harmonizer equalizer types for Guitar source plugins."""
+    NONE = 0
+    LOW_SHELF = 1
+    PEAKING = 2
+    HIGH_SHELF = 3
+    LOW_PASS = 4
+    HIGH_PASS = 5
+    BAND_PASS = 6
+    NOTCH = 7
 
 # endregion
