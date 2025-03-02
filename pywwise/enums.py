@@ -2954,5 +2954,16 @@ class EMeterScope(_IntEnum):
     """An enumeration of the different meter scope for Meter source plugins."""
     GLOBAL = 0
     GAME_OBJECT = 1
+    
+    
+class EParametricEqFilterType(_IntEnum):
+    """An enumeration of the different parametric eq filter types for Parametric EQ source plugins."""
+    LOW_PASS = 0
+    HIGH_PASS = 1
+    BAND_PASS = 2
+    NOTCH = 3
+    LOW_SHELF = 4
+    HIGH_SHELF = 5
+    PEAKING = 6
 
 # endregion
