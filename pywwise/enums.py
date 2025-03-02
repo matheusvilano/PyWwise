@@ -2948,14 +2948,14 @@ class EMeterMode(_IntEnum):
     """An enumeration of the different meter mode for Meter source plugins."""
     PEAK = 0
     RMS = 1
-    
-    
+
+
 class EMeterScope(_IntEnum):
     """An enumeration of the different meter scope for Meter source plugins."""
     GLOBAL = 0
     GAME_OBJECT = 1
-    
-    
+
+
 class EParametricEqFilterType(_IntEnum):
     """An enumeration of the different parametric eq filter types for Parametric EQ source plugins."""
     LOW_PASS = 0
@@ -2965,5 +2965,27 @@ class EParametricEqFilterType(_IntEnum):
     LOW_SHELF = 4
     HIGH_SHELF = 5
     PEAKING = 6
+
+
+class EPitchShifterInput(_IntEnum):
+    """An enumeration of the different harmonizer input types for Pitch Shifter source plugins."""
+    AS_INPUT = 0
+    MONO_CENTRE = 1
+    STEREO = 2
+    L_R_C = 3
+    L_R_LS_RS = 4
+    L_R_C_LS_RS = 5
+
+
+class EPitchShifterFilterType(_IntEnum):
+    """An enumeration of the different harmonizer equalizer types for Pitch Shifter source plugins."""
+    NONE = 0
+    LOW_SHELF = 1
+    PEAKING = 2
+    HIGH_SHELF = 3
+    LOW_PASS = 4
+    HIGH_PASS = 5
+    BAND_PASS = 6
+    NOTCH = 7
 
 # endregion
