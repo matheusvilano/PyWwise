@@ -2756,6 +2756,7 @@ class EToneGenChannelMask(_IntEnum):
 
 
 class EToneGenDurationMode(_IntEnum):
+    """An enumeration of the different duration modes for tone generation plugins."""
     FIXED_DURATION = 0
     ENVELOPE = 1
 
@@ -2777,7 +2778,7 @@ class EToneGenWaveform(_IntEnum):
 
 
 class EModPhaseMode(_IntEnum):
-    """An enumeration of the different phase modes for Mastering Suiite source plugins."""
+    """An enumeration of the different phase modes for modulation source plugins."""
     LEFT_RIGHT = 0
     FRONT_REAR = 1
     CIRCULAR = 2
@@ -2785,7 +2786,7 @@ class EModPhaseMode(_IntEnum):
 
 
 class EModWaveform(_IntEnum):
-    """An enumeration of the different waveform types for Mastering Suiite source plugins."""
+    """An enumeration of the different waveform types for modulation effect plugins."""
     SINE = 0
     SQUARE = 1
     TRIANGLE = 2
@@ -2794,21 +2795,21 @@ class EModWaveform(_IntEnum):
 
 
 class EMasteringSuiteLinkMode(_IntEnum):
-    """An enumeration of the different link modes for Mastering Suiite source plugins."""
+    """An enumeration of the different link modes for Mastering Suite effect plugins."""
     NO_LINK = 0
     ALL_CHANNELS = 1
     PARTIAL_LINK = 2
 
 
 class EMasteringSuiteLimiterMode(_IntEnum):
-    """An enumeration of the different limiter modes for Mastering Suiite source plugins."""
+    """An enumeration of the different limiter modes for Mastering Suite effect plugins."""
     SOFT = 0
     HARD = 1
     ADVANCED = 2
 
 
 class EMasteringSuiteFilterMode(_IntEnum):
-    """An enumeration of the different filter modes for Mastering Suiite source plugins."""
+    """An enumeration of the different filter modes for Mastering Suite source plugins."""
     LOW_PASS_RESONANT = 0
     HIGH_PASS_RESONANT = 1
     PEAK = 2
@@ -2819,13 +2820,13 @@ class EMasteringSuiteFilterMode(_IntEnum):
 
 
 class ETimeStretchMode(_IntEnum):
-    """An enumeration of the different time stretch modes for Source Plugins."""
+    """An enumeration of the different time stretch modes for Time Stretch plugins."""
     CLASSIC = 0
     TRANSIENT_PRESERVING = 1
 
 
 class ETimeStretchStereoProcessing(_IntEnum):
-    """An enumeration of the different stereo processing modes for Source Plugins."""
+    """An enumeration of the different stereo processing modes for Time Stretch effect plugins."""
     LEFT_RIGHT = 0
     CENTRE_CUT = 1
 
@@ -2888,7 +2889,7 @@ class EConvolutionReverbBlockSize(_IntEnum):
 
 
 class EGuitarDistortionType(_IntEnum):
-    """An enumeration of the different distortion types for Guitar source plugins."""
+    """An enumeration of the different distortion types for Guitar effect plugins."""
     NONE = 0
     OVERDRIVE = 1
     HEAVY = 2
@@ -2897,7 +2898,7 @@ class EGuitarDistortionType(_IntEnum):
 
 
 class EGuitarDistortionFilterType(_IntEnum):
-    """An enumeration of the different distortion equalizer types for Guitar source plugins."""
+    """An enumeration of the different distortion equalizer types for Guitar effect plugins."""
     LOW_SHELF = 0
     PEAKING = 1
     HIGH_SHELF = 2
@@ -2908,7 +2909,7 @@ class EGuitarDistortionFilterType(_IntEnum):
 
 
 class EHarmonizerInput(_IntEnum):
-    """An enumeration of the different harmonizer input types for Harmonizer source plugins."""
+    """An enumeration of the different harmonizer input types for Harmonizer effect plugins."""
     AS_INPUT = 0
     MONO_CENTRE = 1
     STEREO = 2
@@ -2919,7 +2920,7 @@ class EHarmonizerInput(_IntEnum):
 
 
 class EHarmonizerFilterType(_IntEnum):
-    """An enumeration of the different harmonizer equalizer types for Harmonizer source plugins."""
+    """An enumeration of the different harmonizer equalizer types for Harmonizer effect plugins."""
     NONE = 0
     LOW_SHELF = 1
     PEAKING = 2
@@ -2931,13 +2932,13 @@ class EHarmonizerFilterType(_IntEnum):
 
 
 class EMatrixReverbDelayLengthsMode(_IntEnum):
-    """An enumeration of the different matrix reverb delay lengths modes for Matrix Reverb source plugins."""
+    """An enumeration of the different matrix reverb delay lengths modes for Matrix Reverb effect plugins."""
     DEFAULT_DELAY_LENGTHS = 0
     CUSTOM_DELAY_LENGTHS = 1
 
 
 class EMatrixReverbDelayCount(_IntEnum):
-    """An enumeration of the different matrix reverb delay counts for Matrix Reverb source plugins."""
+    """An enumeration of the different matrix reverb delay counts for Matrix Reverb effect plugins."""
     FAVOUR_PERFORMANCE = 4
     BALANCE_QUALITY_AND_PERFORMANCE = 8
     FAVOUR_QUALITY = 12
@@ -2945,19 +2946,19 @@ class EMatrixReverbDelayCount(_IntEnum):
 
 
 class EMeterMode(_IntEnum):
-    """An enumeration of the different meter mode for Meter source plugins."""
+    """An enumeration of the different meter mode for Meter effect plugins."""
     PEAK = 0
     RMS = 1
 
 
 class EMeterScope(_IntEnum):
-    """An enumeration of the different meter scope for Meter source plugins."""
+    """An enumeration of the different meter scope for Meter effect plugins."""
     GLOBAL = 0
     GAME_OBJECT = 1
 
 
 class EParametricEqFilterType(_IntEnum):
-    """An enumeration of the different parametric eq filter types for Parametric EQ source plugins."""
+    """An enumeration of the different parametric eq filter types for Parametric EQ effect plugins."""
     LOW_PASS = 0
     HIGH_PASS = 1
     BAND_PASS = 2
@@ -2968,7 +2969,7 @@ class EParametricEqFilterType(_IntEnum):
 
 
 class EPitchShifterInput(_IntEnum):
-    """An enumeration of the different harmonizer input types for Pitch Shifter source plugins."""
+    """An enumeration of the different harmonizer input types for Pitch Shifter effect plugins."""
     AS_INPUT = 0
     MONO_CENTRE = 1
     STEREO = 2
@@ -2978,7 +2979,7 @@ class EPitchShifterInput(_IntEnum):
 
 
 class EPitchShifterFilterType(_IntEnum):
-    """An enumeration of the different harmonizer equalizer types for Pitch Shifter source plugins."""
+    """An enumeration of the different harmonizer equalizer types for Pitch Shifter effect plugins."""
     NONE = 0
     LOW_SHELF = 1
     PEAKING = 2
@@ -2990,14 +2991,60 @@ class EPitchShifterFilterType(_IntEnum):
 
 
 class ERecorderAmbisonicsChannelOrdering(_IntEnum):
-    """An enumeration of the different ambisonics channel orderings for Recorder source plugins."""
+    """An enumeration of the different ambisonics channel orderings for Recorder effect plugins."""
     AMBI_X = 0
     FUMA = 1
 
 
 class ERecorderFormat(_IntEnum):
-    """An enumeration of file formats for Recorder source plugins."""
+    """An enumeration of file formats for Recorder effect plugins."""
     WAV = 0
     WEM = 1
+
+
+class EReflectAlgorithm(_IntEnum):
+    """An enumeration of the different reflect algorithm for Reflect effect plugins."""
+    PERFORMANCE = 0
+    QUALITY = 1
+
+
+class EReflectDecorrelationStrengthSource(_IntEnum):
+    """An enumeration of the different decorrelation strengths for Reflect effect plugins."""
+    TEXTURES = 0
+    REFLECT_UI_GLOBAL = 1
+
+
+class EReflectChannelConfig(_IntEnum):
+    """An enumeration of different channel configurations for Reflect effect plugins."""
+    PARENT_BUS = 0
+    MONO = 16641
+    STEREO = 12546
+    THREE_ZERO = 28931
+    FOUR_ZERO = 6304004
+    FIVE_ONE = 6353158
+    SEVEN_ONE = 6549768
+    FIVE_ONE_TWO = 90239240
+    FIVE_ONE_FOUR = 761327882
+    SEVEN_ONE_TWO = 90435850
+    SEVEN_ONE_FOUR = 761524492
+    AMBISONICS_FIRST_ORDER = 516
+    AMBISONICS_SECOND_ORDER = 521
+    AMBISONICS_THIRD_ORDER = 528
+    AURO_TEN_ONE = 1769716491
+    AURO_ELEVEN_ONE = 803270924
+    AURO_THIRTEEN_ONE = 803467534
+    LFE = 33025
+
+
+class EReflectFilterType(_IntEnum):
+    """An enumeration of the different filter types for Reflect effect plugins."""
+    IIR = 0
+    FIR = 1
+
+
+class EReflectThresholdMode(_IntEnum):
+    """An enumeration of the different threshold modes for Reflect effect plugins."""
+    CONTINUOUS = 0
+    STEP = 1
 
 # endregion
