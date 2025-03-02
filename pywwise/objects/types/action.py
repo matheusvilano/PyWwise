@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EActionType, EScope, ESeekType, ESetterType
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.effect import Effect
 from pywwise.objects.types.effect_slot import EffectSlot
 

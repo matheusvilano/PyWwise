@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.effect_slot import EffectSlot
 from pywwise.objects.types.rtpc import Rtpc
 

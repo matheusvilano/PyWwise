@@ -1,7 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.objects.types.abc import WwiseObject, WwiseObjectType
 from pywwise.objects.types.acoustic_texture import AcousticTexture
 from pywwise.objects.types.action import Action
 from pywwise.objects.types.action_exception import ActionException

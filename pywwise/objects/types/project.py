@@ -4,7 +4,7 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EColour, EFftWindowSize, EFilterBehaviour,
                            ELineEnding, ESoundBankDefinitionFormat)
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.primitives import ProjectPath
 
 

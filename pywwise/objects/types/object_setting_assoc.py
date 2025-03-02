@@ -1,7 +1,7 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 
 
 class ObjectSettingAssoc(WwiseObject):

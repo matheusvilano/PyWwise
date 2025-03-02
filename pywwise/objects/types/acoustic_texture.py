@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 
 
 class AcousticTexture(WwiseObject):

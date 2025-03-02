@@ -7,7 +7,7 @@ from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
                            EVirtualVoiceQueueBehaviour)
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus
 from pywwise.objects.types.bus import Bus

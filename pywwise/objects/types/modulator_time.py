@@ -5,7 +5,7 @@ from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EEnvelopeTriggerOn, EModulatorScopeLimited
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.rtpc import Rtpc
 
 

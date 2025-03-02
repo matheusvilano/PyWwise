@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EMatchMode
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.multi_switch_entry import MultiSwitchEntry
 from pywwise.objects.types.state_group import StateGroup
 from pywwise.objects.types.switch_group import SwitchGroup

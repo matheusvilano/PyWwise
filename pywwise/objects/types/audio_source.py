@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EFadeShape, EMarkerInputMode, ESpeakerBitMask
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.marker import Marker
 

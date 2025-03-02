@@ -3,7 +3,7 @@
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EChannelConversionSettings, EColour, ESampleRate, ESampleRateConversionQuality
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 
 
 class Conversion(WwiseObject):

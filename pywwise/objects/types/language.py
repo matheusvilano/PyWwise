@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.objects.types.abc import WwiseObject
+from pywwise.objects.abc import WwiseObject
 
 
 class Language(WwiseObject):
