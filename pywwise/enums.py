@@ -2791,21 +2791,21 @@ class ETremoloWaveform(_IntEnum):
     TRIANGLE = 2
     SAW_UP = 3
     SAW_DOWN = 4
-    
-    
+
+
 class EMasteringSuiteLinkMode(_IntEnum):
     """An enumeration of the different link modes for Mastering Suiite source plugins."""
     NO_LINK = 0
     ALL_CHANNELS = 1
     PARTIAL_LINK = 2
-    
-    
+
+
 class EMasteringSuiteLimiterMode(_IntEnum):
     """An enumeration of the different limiter modes for Mastering Suiite source plugins."""
     SOFT = 0
     HARD = 1
     ADVANCED = 2
-    
+
 
 class EMasteringSuiteFilterMode(_IntEnum):
     """An enumeration of the different filter modes for Mastering Suiite source plugins."""
@@ -2816,17 +2816,43 @@ class EMasteringSuiteFilterMode(_IntEnum):
     LOW_SHELF = 4
     ALL_PASS = 5
     LPF_HPF = 6
-    
-    
+
+
 class ETimeStretchMode(_IntEnum):
     """An enumeration of the different time stretch modes for Source Plugins."""
     CLASSIC = 0
     TRANSIENT_PRESERVING = 1
-    
-    
+
+
 class ETimeStretchStereoProcessing(_IntEnum):
     """An enumeration of the different stereo processing modes for Source Plugins."""
     LEFT_RIGHT = 0
     CENTRE_CUT = 1
+
+
+class EMainMixConfiguration(_IntEnum):
+    """An enumeration of the different main mix configuration modes."""
+    SAME_AS_AUDIO_DEVICE = 0
+    SEVEN_ONE = 6549768
+    SEVEN_ONE_FOUR = 761524492
+    AMBISONICS_FIRST_ORDER = 516
+    AMBISONICS_SECOND_ORDER = 521
+    AMBISONICS_THIRD_ORDER = 528
+    AMBISONICS_FOURTH_ORDER = 537
+    AMBISONICS_FIFTH_ORDER = 548
+
+
+class EPassthroughMixPolicy(_IntEnum):
+    """An enumeration of the different pass through mix policies."""
+    WHEN_AUDIO_DEVICE_SUPPORTS_IT = 0
+    ALWAYS = 1
+    NEVER = 2
+
+
+class ESystemAudioObjectsPolicy(_IntEnum):
+    """An enumeration of the different system audio objects policies."""
+    WHEN_AUDIO_DEVICE_SUPPORTS_IT = 0
+    ALWAYS = 1
+    NEVER = 2
 
 # endregion
