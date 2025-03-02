@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.objects.abc import WwiseObject, WwiseObjectType
+from pywwise.objects.sources import (Impacter, MotionSource, SoundSeedAirWind, SoundSeedAirWoosh, SoundSeedGrain,
+                                     WwiseSilence, WwiseSynthOne, WwiseToneGenerator)
 from pywwise.objects.types import (AcousticTexture, Action, ActionException, ActorMixer, Attenuation, AudioDevice,
                                    AudioSource, AuxBus, BlendContainer, BlendTrack, Bus, ControlSurfaceBinding,
                                    ControlSurfaceBindingGroup, ControlSurfaceSession, Conversion, Curve,
