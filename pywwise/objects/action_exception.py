@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import EColour
 from pywwise.objects.abc import WwiseObject
 
 
@@ -11,6 +12,6 @@ class ActionException(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.ACTION_EXCEPTION`
     """
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     target = WwiseProperty[WwiseObject]("Target", WwiseObject)

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import EColour
 from pywwise.objects.abc import WwiseObject
 
 
@@ -16,6 +17,6 @@ class AcousticTexture(WwiseObject):
     absorption_mid_high = WwiseProperty[float]("AbsorptionMidHigh", float)
     absorption_mid_low = WwiseProperty[float]("AbsorptionMidLow", float)
     absorption_offset = WwiseProperty[float]("AbsorptionOffset", float)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     scattering = WwiseProperty[float]("Scattering", float)

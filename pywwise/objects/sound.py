@@ -4,7 +4,7 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EDiscardBehaviour, ELoudnessNormalizationType,
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
                            EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
@@ -30,7 +30,7 @@ class Sound(WwiseObject):
     below_threshold_behaviour = WwiseProperty[EVirtualVoiceBehaviour]("BelowThresholdBehavior", EVirtualVoiceBehaviour)
     bypass_effect = WwiseProperty[bool]("BypassEffect", bool)
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     effects = WwiseProperty[_Sequence[EffectSlot]]("Effects", _Sequence[EffectSlot])
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)

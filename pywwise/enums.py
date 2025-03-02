@@ -2546,4 +2546,36 @@ class EFadeShape(_IntEnum):
     EXP_3 = 9
     """y = x^3"""
 
+
+class EColour(_IntEnum):
+    """An enumeration of colours. These are used for the color of the object."""
+    BOLD_GREY = 0  # Default.
+    BOLD_INDIGO = 1
+    BOLD_BLUE = 2
+    BOLD_TEAL = 3
+    BOLD_GREEN = 4
+    BOLD_MOSS = 5
+    BOLD_YELLOW = 6
+    BOLD_MUSTARD = 7
+    BOLD_ORANGE = 8
+    BOLD_SALMON = 9
+    BOLD_RED = 10
+    BOLD_PINK = 11
+    BOLD_MAGENTA = 12
+    BOLD_VIOLET = 13
+    SOFT_GREY = 14
+    SOFT_INDIGO = 15
+    SOFT_BLUE = 16
+    SOFT_TEAL = 17
+    SOFT_GREEN = 18
+    SOFT_MOSS = 19
+    SOFT_YELLOW = 20
+    SOFT_MUSTARD = 21
+    SOFT_ORANGE = 22
+    SOFT_SALMON = 23
+    SOFT_RED = 24
+    SOFT_PINK = 25
+    SOFT_MAGENTA = 26
+    SOFT_VIOLET = 27
+
 # endregion

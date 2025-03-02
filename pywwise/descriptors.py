@@ -5,7 +5,7 @@ from enum import Enum as _Enum
 from typing import Generic as _Generic, Type as _Type, TypeVar as _TypeVar
 
 import pywwise.objects  # Requires full import to avoid circular import.
-from pywwise import SystemPath
+from pywwise.aliases import SystemPath
 from pywwise.primitives import GUID
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo

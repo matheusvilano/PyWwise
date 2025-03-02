@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EFftWindowSize, EFilterBehaviour, ELineEnding,
-                           ESoundBankDefinitionFormat)
+from pywwise.enums import (EActionNamePosition, ECaseStyleSimple, EColour, EFftWindowSize, EFilterBehaviour,
+                           ELineEnding, ESoundBankDefinitionFormat)
 from pywwise.objects.abc import WwiseObject
 from pywwise.primitives import ProjectPath
 
@@ -21,7 +21,7 @@ class Project(WwiseObject):
     auto_detect_threshold_medium = WwiseProperty[float]("AutoDetectThresholdMedium", float)
     auto_sound_bank_all_events = WwiseProperty[bool]("AutoSoundBankAllEvents", bool)
     auto_sound_bank_enabled = WwiseProperty[bool]("AutoSoundBankEnabled", bool)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     comm_port_discovery_broadcast = WwiseProperty[int]("CommPortDiscoveryBroadcast", int)
     comm_port_discovery_response = WwiseProperty[int]("CommPortDiscoveryResponse", int)
     comm_serial_post_base = WwiseProperty[int]("CommSerialPostBase", int)

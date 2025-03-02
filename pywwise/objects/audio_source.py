@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EFadeShape, EMarkerInputMode, ESpeakerBitMask
+from pywwise.enums import EColour, EFadeShape, EMarkerInputMode, ESpeakerBitMask
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.conversion import Conversion
 from pywwise.objects.marker import Marker
@@ -15,7 +15,7 @@ class AudioSource(WwiseObject):
     the class represented by `EObjectType.AUDIO_SOURCE`.
     """
     channel_config_override = WwiseProperty[ESpeakerBitMask]("ChannelConfigOverride", ESpeakerBitMask)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     crossfade_duration = WwiseProperty[float]("CrossfadeDuration", float)
     crossfade_shape = WwiseProperty[EFadeShape]("CrossfadeShape", EFadeShape)

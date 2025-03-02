@@ -4,7 +4,7 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EModulatorScope, EWaveformInt
+from pywwise.enums import EColour, EModulatorScope, EWaveformInt
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.rtpc import Rtpc
 
@@ -15,7 +15,7 @@ class ModulatorLfo(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MODULATOR_LFO`.
     """
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     lfo_attack = WwiseProperty[float]("LfoAttack", float)
     lfo_depth = WwiseProperty[float]("LfoDepth", float)
     lfo_frequency = WwiseProperty[float]("LfoFrequency", float)

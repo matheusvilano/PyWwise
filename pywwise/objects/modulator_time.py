@@ -4,7 +4,7 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EEnvelopeTriggerOn, EModulatorScopeLimited
+from pywwise.enums import EColour, EEnvelopeTriggerOn, EModulatorScopeLimited
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.rtpc import Rtpc
 
@@ -15,7 +15,7 @@ class ModulatorTime(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MODULATOR_TIME`.
     """
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     envelope_stop_playback = WwiseProperty[bool]("EnvelopeStopPlayback", bool)
     envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
     modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)

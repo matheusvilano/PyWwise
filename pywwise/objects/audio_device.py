@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import EColour
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.effect_slot import EffectSlot
 from pywwise.objects.rtpc import Rtpc
@@ -14,7 +15,7 @@ class AudioDevice(WwiseObject):
     the class represented by `EObjectType.AUDIO_DEVICE`.
     """
     bypass_effect = WwiseProperty[bool]("BypassEffect", bool)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     effects = WwiseProperty[list[EffectSlot]]("Effects", list[EffectSlot])
     inclusion = WwiseProperty[bool]("Inclusion", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)

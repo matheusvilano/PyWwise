@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EMatchMode
+from pywwise.enums import EColour, EMatchMode
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.multi_switch_entry import MultiSwitchEntry
 from pywwise.objects.state_group import StateGroup
@@ -16,7 +16,7 @@ class DialogueEvent(WwiseObject):
     the class represented by `EObjectType.DIALOGUE_EVENT`.
     """
     arguments = WwiseProperty[list[SwitchGroup | StateGroup]]("Arguments", list[SwitchGroup | StateGroup])
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     entries = WwiseProperty[list[MultiSwitchEntry]]("Entries", list[MultiSwitchEntry])
     mode = WwiseProperty[EMatchMode]("Mode", EMatchMode)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)

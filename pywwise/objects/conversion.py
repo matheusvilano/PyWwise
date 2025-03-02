@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EChannelConversionSettings, ESampleRate, ESampleRateConversionQuality
+from pywwise.enums import EChannelConversionSettings, EColour, ESampleRate, ESampleRateConversionQuality
 from pywwise.objects.abc import WwiseObject
 
 
@@ -14,7 +14,7 @@ class Conversion(WwiseObject):
     """
     allow_channel_upmix = WwiseProperty[bool]("AllowChannelUpmix", bool)
     channels = WwiseProperty[EChannelConversionSettings]("Channels", EChannelConversionSettings)
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     lr_mix = WwiseProperty[float]("LRMix", float)
     max_sample_rate = WwiseProperty[ESampleRate]("MaxSampleRate", ESampleRate)
     min_sample_rate = WwiseProperty[ESampleRate]("MinSampleRate", ESampleRate)

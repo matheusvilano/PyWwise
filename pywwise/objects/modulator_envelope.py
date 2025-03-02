@@ -4,7 +4,7 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EEnvelopeTriggerOn, EModulatorScopeLimited
+from pywwise.enums import EColour, EEnvelopeTriggerOn, EModulatorScopeLimited
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.rtpc import Rtpc
 
@@ -15,7 +15,7 @@ class ModulatorEnvelope(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MODULATOR_ENVELOPE`.
     """
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     envelope_attack_curve = WwiseProperty[float]("EnvelopeAttackCurve", float)
     envelope_attack_time = WwiseProperty[float]("EnvelopeAttackTime", float)
     envelope_auto_release = WwiseProperty[bool]("EnvelopeAutoRelease", bool)

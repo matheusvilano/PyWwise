@@ -4,6 +4,7 @@
 from collections.abc import Sequence as _Sequence
 
 from pywwise.descriptors import WwiseProperty
+from pywwise.enums import EColour
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.rtpc import Rtpc
 
@@ -14,7 +15,7 @@ class Attenuation(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.ATTENUATION`.
     """
-    colour = WwiseProperty[int]("Color", int)
+    colour = WwiseProperty[EColour]("Color", EColour)
     cone_attenuation = WwiseProperty[float]("ConeAttenuation", float)
     cone_high_pass_filter_value = WwiseProperty[int]("ConeHighPassFilterAngle", int)
     cone_inner_angle = WwiseProperty[int]("ConeInnerAngle", int)
