@@ -2559,6 +2559,37 @@ class EFadeShape(_IntEnum):
     """y = x^3"""
 
 
+class EMusicFadeShape(_IntEnum):
+    """An Enumeration of available fade shape options. Usually used with functions related to music."""
+    
+    LOG_3 = 0
+    """y = log2(1+x)/log2(3)"""
+    
+    SINE = 1
+    """y = sin((PI/2)x)"""
+    
+    LOG_1 = 2
+    """y = log2(1+x)"""
+    
+    INV_S_CURVE = 3
+    """y = 1 - (1-x)^2"""
+    
+    LINEAR = 4
+    """y = x"""
+    
+    S_CURVE = 5
+    """y = x^2 * (3-2x)"""
+    
+    EXP_1 = 6
+    """y = x^2"""
+    
+    SINE_RECIP = 7
+    """y = 1 - sin((PI/2)(1-x))"""
+    
+    EXP_3 = 8
+    """y = x^3"""
+
+
 class EColour(_IntEnum):
     """An enumeration of colours. These are used for the color of the object."""
     BOLD_GREY = 0  # Default.
