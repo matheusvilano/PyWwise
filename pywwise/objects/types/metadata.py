@@ -16,4 +16,4 @@ class Metadata(WwiseObject):
     colour = WwiseProperty[EColour]("Color", EColour)
     inclusion = WwiseProperty[bool]("Inclusion", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)

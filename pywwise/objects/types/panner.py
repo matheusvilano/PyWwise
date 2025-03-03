@@ -15,4 +15,4 @@ class Panner(WwiseObject):
     pan_x = WwiseProperty[float]("PanX", float)
     pan_y = WwiseProperty[float]("PanY", float)
     pan_z = WwiseProperty[float]("PanZ", float)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)

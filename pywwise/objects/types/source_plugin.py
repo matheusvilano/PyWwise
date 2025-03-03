@@ -15,4 +15,4 @@ class SourcePlugin(WwiseObject):
     """
     colour = WwiseProperty[EColour]("Color", EColour)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
