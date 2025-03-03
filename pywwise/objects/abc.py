@@ -6,8 +6,8 @@ from enum import Enum as _Enum
 from types import NoneType as _NoneType
 from typing import Any as _Any, TypeVar as _TypeVar
 
-from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.enums import EObjectType
+from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.waapi.ak.ak import WwiseConnection
 
 
@@ -26,7 +26,7 @@ class WwiseObject(_ABC):
         """
         self._ak: WwiseConnection = ak
         self._guid: GUID = guid if isinstance(guid, GUID) else getattr(guid, "guid", GUID.get_null())
-        self._query: str = f"$ from object \"{self._guid}\""
+        self._query: str = f"$ from object \"{self._guid}\" take 1"
         self._platform = platform
     
     def get_property(self, name: str, default: _Any = None) -> _NoneType | bool | int | float | str | GUID | _Enum:
