@@ -16,6 +16,6 @@ class ExternalSourceFile(WwiseObject):
     analysis_type = WwiseProperty[EExternalAnalysisType]("AnalysisType", EExternalAnalysisType)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
     loudness_normalization_target = WwiseProperty[float]("LoudnessNormalizationTarget", float)
-    loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType]("LoudnessNormalizationType",
-                                                                            ELoudnessNormalizationType)
+    loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType](
+        "LoudnessNormalizationType", ELoudnessNormalizationType)
     override_conversion = WwiseProperty[bool]("OverrideConversion", bool)
