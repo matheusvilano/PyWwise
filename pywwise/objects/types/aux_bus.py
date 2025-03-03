@@ -68,12 +68,3 @@ class AuxBus(WwiseObject):
     user_aux_send_volume_2 = WwiseProperty[float]("UserAuxSendVolume2", float)
     user_aux_send_volume_3 = WwiseProperty[float]("UserAuxSendVolume3", float)
     voice_volume = WwiseProperty[float]("Volume", float)
-
-
-# `AuxBus` can point to other `AuxBus`, but the type is not available while the class is being defined. So we need to
-# replace `_Self` with `AuxBus` **after** the class is defined. Without this correction, the setter _might_ fail, but
-# getters will always fail to provide the correct type. DO NOT REMOVE THESE LINES.
-AuxBus.user_aux_send_0._type = AuxBus
-AuxBus.user_aux_send_0._type = AuxBus
-AuxBus.user_aux_send_0._type = AuxBus
-AuxBus.user_aux_send_0._type = AuxBus

@@ -2,8 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum as _Enum
-from inspect import isclass
-from typing import Generic as _Generic, Type as _Type, TypeVar as _TypeVar, Self as _Self
+from typing import Generic as _Generic, Self as _Self, Type as _Type, TypeVar as _TypeVar
 
 import pywwise.objects  # Requires full import to avoid circular import.
 from pywwise.aliases import SystemPath
@@ -47,16 +46,18 @@ class WwiseProperty(_Generic[_T]):
         
         value = getter(self._name)
         
-        match self._type:  # Decide on what kind of object to return.
+        _type = self._type if self._type is not _Self else instance.__class__  # Class is referencing itself.
+        
+        match _type:  # Decide on what kind of object to return.
             
-            case _ if issubclass(self._type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
-                return self._type(value.get("id", GUID.get_null()), ak)
+            case _ if issubclass(_type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
+                return _type(value.get("id", GUID.get_null()), ak)
             
-            case _ if issubclass(self._type, _Enum):  # Any generic enum.Enum, but usually a pywwise.enums type.
-                return EnumStatics.from_value(self._type, value)
+            case _ if issubclass(_type, _Enum):  # Any generic enum.Enum, but usually a pywwise.enums type.
+                return EnumStatics.from_value(_type, value)
             
             case _:  # Anything else, including GUID, ProjectPath, GameObjectID, SystemPath, etc.
-                return self._type(value)  # PyCharm might throw a warning here about a missing `ak`; false negative.
+                return _type(value)  # PyCharm might throw a warning here about a missing `ak`; false negative.
     
     def __set__(self, instance, value: _T):
         """
