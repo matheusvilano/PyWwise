@@ -7,6 +7,7 @@ from types import NoneType as _NoneType
 from typing import Any as _Any, TypeVar as _TypeVar
 
 from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.enums import EObjectType
 from pywwise.waapi.ak.ak import WwiseConnection
 
 
@@ -88,6 +89,14 @@ class WwiseObject(_ABC):
         if tokens[-1] == self.name:  # We only need the path up to the parent.
             path = tokens[:-1]  # Remove name.
         self._ak.wwise.core.object.move(self.guid, path)
+    
+    @property
+    def type(self) -> EObjectType:
+        """
+        Get type.
+        :return: The type.
+        """
+        return self._ak.wwise.core.object.get(self._query)[0].type
 
 
 WwiseObjectType = _TypeVar("WwiseObjectType", bound=WwiseObject)

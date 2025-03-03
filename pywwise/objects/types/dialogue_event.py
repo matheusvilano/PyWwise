@@ -15,9 +15,9 @@ class DialogueEvent(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.DIALOGUE_EVENT`.
     """
-    arguments = WwiseProperty[list[SwitchGroup | StateGroup]]("Arguments", list[SwitchGroup | StateGroup])
+    arguments = WwiseProperty[tuple[SwitchGroup | StateGroup, ...]]("Arguments", tuple)
     colour = WwiseProperty[EColour]("Color", EColour)
-    entries = WwiseProperty[list[MultiSwitchEntry]]("Entries", list[MultiSwitchEntry])
+    entries = WwiseProperty[tuple[MultiSwitchEntry, ...]]("Entries", tuple)
     mode = WwiseProperty[EMatchMode]("Mode", EMatchMode)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     probability = WwiseProperty[int]("Probability", int)

@@ -50,6 +50,15 @@ class WwiseProperty(_Generic[_T]):
         
         match _type:  # Decide on what kind of object to return.
             
+            case _ if (_type is list or _type is tuple) and (isinstance(value, list) or isinstance(value, tuple)):
+                objs = list[WwiseObjectInfo]()   # Get `WwiseObjectInfo` objs.
+                for obj in value:
+                    query = f"$ from object \"{obj.get("id", GUID.get_null())}\" take 1"
+                    obj = ak.wwise.core.object.get(query)  # Still a tuple, but we have to check validity first.
+                    if obj is not None and obj:  # Valid, not empty.
+                        objs.append(obj[0])
+                return tuple([obj.type.get_class()(obj.guid, ak)] for obj in objs)
+            
             case _ if issubclass(_type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
                 return _type(value.get("id", GUID.get_null()), ak)
             
