@@ -2163,6 +2163,34 @@ class EMusicalDuration(_IntEnum):
     THIRTYSECOND_DOTTED = 69
 
 
+class EMusicalGridFrequency(_IntEnum):
+    """An enumeration of the different grid frequencies (note durations)."""
+    
+    FOUR_BARS = 50
+    TWO_BARS = 51
+    ONE_BAR = 52
+    ONE_BEAT = 53
+    
+    WHOLE_NOTE = 54
+    HALF_NOTE = 55
+    QUARTER_NOTE = 56
+    EIGHTH_NOTE = 57
+    SIXTEENTH_NOTE = 64
+    THIRTYSECOND_NOTE = 67
+    
+    HALF_TRIPLET = 58
+    QUATER_TRIPLET = 59
+    EIGHTH_TRIPLET = 60
+    SIXTEENTH_TRIPLET = 65
+    THIRTYSECOND_TRIPLET = 68
+    
+    HALF_DOTTED = 61
+    QUATER_DOTTED = 62
+    EIGHTH_DOTTED = 63
+    SIXTEENTH_DOTTED = 66
+    THIRTYSECOND_DOTTED = 69
+
+
 class EFadeType(_IntEnum):
     """An enumeration of the fade types: \"in\" and \"out\"."""
     FADE_IN = 0
@@ -2634,6 +2662,16 @@ class EFrequencyMode(_IntEnum):
     """An enumeration of different frequency modes, usually used in Source Plugins."""
     BASE_FREQUENCY = 0
     MIDI_NOTE = 1
+
+
+class ETimeSignature(_IntEnum):
+    """An enumeration of different time signature values."""
+    TS_1 = 1
+    TS_2 = 2
+    TS_4 = 4
+    TS_8 = 8
+    TS_16 = 16
+    TS_32 = 32
 
 
 # endregion
