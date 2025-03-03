@@ -12,7 +12,7 @@ class MusicClip(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MUSIC_CLIP`.
     """
-    begin_trim_offset = WwiseProperty[float]("", float)
+    begin_trim_offset = WwiseProperty[float]("BeginTrimOffset", float)
     colour = WwiseProperty[EColour]("Color", EColour)
     end_trim_offset = WwiseProperty[float]("EndTrimOffset", float)
     fade_in_duration = WwiseProperty[float]("FadeInDuration", float)
