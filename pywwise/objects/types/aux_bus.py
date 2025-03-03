@@ -67,7 +67,7 @@ class AuxBus(WwiseObject):
     user_aux_send_volume_1 = WwiseProperty[float]("UserAuxSendVolume1", float)
     user_aux_send_volume_2 = WwiseProperty[float]("UserAuxSendVolume2", float)
     user_aux_send_volume_3 = WwiseProperty[float]("UserAuxSendVolume3", float)
-    volume = WwiseProperty[float]("Volume", float)
+    voice_volume = WwiseProperty[float]("Volume", float)
 
 
 # `AuxBus` can point to other `AuxBus`, but the type is not available while the class is being defined. So we need to

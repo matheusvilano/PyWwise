@@ -2062,6 +2062,12 @@ class EWwiseBuildConfiguration(_StrEnum):
 
 # region Types
 
+class EHdrReleaseTimeMode(_IntEnum):
+    """An enumeration of the release time mode."""
+    LINEAR = 0
+    EXPONENTIAL = 1
+
+
 class ERandomOrSequence(_IntEnum):
     """An enumeration of random and sequence container types. A better alternative than using a `bool` or `int`."""
     SEQUENCE = 0
