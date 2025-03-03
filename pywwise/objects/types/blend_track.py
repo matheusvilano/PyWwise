@@ -18,5 +18,5 @@ class BlendTrack(WwiseObject):
     lowpass = WwiseProperty[int]("Lowpass", int)
     make_up_gain = WwiseProperty[float]("MakeUpGain", float)
     pitch = WwiseProperty[int]("Pitch", int)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
     volume = WwiseProperty[float]("Volume", float)

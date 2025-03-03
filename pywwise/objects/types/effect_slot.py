@@ -15,5 +15,5 @@ class EffectSlot(WwiseObject):
     """
     bypass = WwiseProperty[bool]("Bypass", bool)
     effect = WwiseProperty[Effect]("Effect", Effect)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
     render = WwiseProperty[bool]("Render", bool)
