@@ -24,12 +24,12 @@ class MultiSwitchEntry(WwiseObject):
     """
     audio_node = WwiseProperty[RandomSequenceContainer | SwitchContainer | BlendContainer | Sound |
                                MusicPlaylistContainer | MusicSegment | MusicSwitchContainer]("AudioNode",
-                                                                                             RandomSequenceContainer |
-                                                                                             SwitchContainer |
-                                                                                             BlendContainer | Sound |
-                                                                                             MusicPlaylistContainer |
-                                                                                             MusicSegment |
-                                                                                             MusicSwitchContainer)
+                                                                                             (RandomSequenceContainer,
+                                                                                              SwitchContainer,
+                                                                                              BlendContainer, Sound,
+                                                                                              MusicPlaylistContainer,
+                                                                                              MusicSegment,
+                                                                                              MusicSwitchContainer))
     entry_path = WwiseProperty[tuple[SwitchGroup | Switch | StateGroup | State, ...]]("EntryPath", tuple)
     probability = WwiseProperty[int]("Probability", int)
     weight = WwiseProperty[int]("Weight", int)
