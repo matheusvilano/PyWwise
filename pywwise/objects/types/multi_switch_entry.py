@@ -1,7 +1,19 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
+from pywwise.objects.types.blend_container import BlendContainer
+from pywwise.objects.types.music_playlist_container import MusicPlaylistContainer
+from pywwise.objects.types.music_segment import MusicSegment
+from pywwise.objects.types.music_switch_container import MusicSwitchContainer
+from pywwise.objects.types.random_sequence_container import RandomSequenceContainer
+from pywwise.objects.types.sound import Sound
+from pywwise.objects.types.state import State
+from pywwise.objects.types.state_group import StateGroup
+from pywwise.objects.types.switch import Switch
+from pywwise.objects.types.switch_container import SwitchContainer
+from pywwise.objects.types.switch_group import SwitchGroup
 
 
 class MultiSwitchEntry(WwiseObject):
@@ -10,3 +22,14 @@ class MultiSwitchEntry(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MULTI_SWITCH_ENTRY`.
     """
+    audio_node = WwiseProperty[RandomSequenceContainer | SwitchContainer | BlendContainer | Sound |
+                               MusicPlaylistContainer | MusicSegment | MusicSwitchContainer]("AudioNode",
+                                                                                             (RandomSequenceContainer,
+                                                                                              SwitchContainer,
+                                                                                              BlendContainer, Sound,
+                                                                                              MusicPlaylistContainer,
+                                                                                              MusicSegment,
+                                                                                              MusicSwitchContainer))
+    entry_path = WwiseProperty[tuple[SwitchGroup | Switch | StateGroup | State, ...]]("EntryPath", tuple)
+    probability = WwiseProperty[int]("Probability", int)
+    weight = WwiseProperty[int]("Weight", int)
