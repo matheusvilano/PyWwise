@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
@@ -32,7 +30,7 @@ class Sound(WwiseObject):
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
     colour = WwiseProperty[EColour]("Color", EColour)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
-    effects = WwiseProperty[_Sequence[EffectSlot]]("Effects", _Sequence[EffectSlot])
+    effects = WwiseProperty[tuple[EffectSlot]]("Effects", tuple)
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)
     enable_diffraction = WwiseProperty[bool]("EnableDiffraction", bool)
     enable_loudness_normalization = WwiseProperty[bool]("EnableLoudnessNormalization", bool)
@@ -101,7 +99,7 @@ class Sound(WwiseObject):
     priority = WwiseProperty[int]("Priority", int)
     priority_distance_factor = WwiseProperty[bool]("PriorityDistanceFactor", bool)
     priority_distance_offset = WwiseProperty[int]("PriorityDistanceOffset", int)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     reflections_aux_send = WwiseProperty[AuxBus]("ReflectionsAuxSend", AuxBus)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)

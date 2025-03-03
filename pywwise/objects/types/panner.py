@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.rtpc import Rtpc
@@ -17,4 +15,4 @@ class Panner(WwiseObject):
     pan_x = WwiseProperty[float]("PanX", float)
     pan_y = WwiseProperty[float]("PanY", float)
     pan_z = WwiseProperty[float]("PanZ", float)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)

@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.rtpc import Rtpc
@@ -20,5 +18,5 @@ class BlendTrack(WwiseObject):
     lowpass = WwiseProperty[int]("Lowpass", int)
     make_up_gain = WwiseProperty[float]("MakeUpGain", float)
     pitch = WwiseProperty[int]("Pitch", int)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     volume = WwiseProperty[float]("Volume", float)

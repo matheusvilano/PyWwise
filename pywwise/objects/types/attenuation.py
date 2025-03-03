@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour
 from pywwise.objects.abc import WwiseObject
@@ -24,5 +22,5 @@ class Attenuation(WwiseObject):
     cone_use = WwiseProperty[bool]("ConeUse", bool)
     height_spread_enable = WwiseProperty[bool]("HeightSpreadEnable", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     radius_max = WwiseProperty[float]("RadiusMax", float)

@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.effect import Effect
@@ -17,5 +15,5 @@ class EffectSlot(WwiseObject):
     """
     bypass = WwiseProperty[bool]("Bypass", bool)
     effect = WwiseProperty[Effect]("Effect", Effect)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     render = WwiseProperty[bool]("Render", bool)

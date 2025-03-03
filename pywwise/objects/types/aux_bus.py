@@ -1,7 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
 from typing import Self as _Self
 
 from pywwise.descriptors import WwiseProperty
@@ -28,7 +27,7 @@ class AuxBus(WwiseObject):
     bypass_all_effects = WwiseProperty[bool]("BypassEffect", bool)
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
     colour = WwiseProperty[EColour]("Color", EColour)
-    effects = WwiseProperty[_Sequence[EffectSlot]]("Effects", _Sequence[EffectSlot])
+    effects = WwiseProperty[tuple[EffectSlot]]("Effects", tuple)
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)
     enable_diffraction = WwiseProperty[bool]("EnableDiffraction", bool)
     game_aux_send_hpf = WwiseProperty[int]("GameAuxSendHPF", int)
@@ -45,7 +44,7 @@ class AuxBus(WwiseObject):
     output_bus_volume = WwiseProperty[float]("OutputBusVolume", float)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     pitch = WwiseProperty[int]("Pitch", int)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     reflections_aux_send = WwiseProperty[_Self]("ReflectionsAuxSend", _Self)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)

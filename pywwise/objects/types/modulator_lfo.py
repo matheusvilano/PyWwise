@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EModulatorScope, EWaveformInt
 from pywwise.objects.abc import WwiseObject
@@ -25,4 +23,4 @@ class ModulatorLfo(WwiseObject):
     lfo_waveform = WwiseProperty[EWaveformInt]("LfoWaveform", EWaveformInt)
     modulator_scope = WwiseProperty[EModulatorScope]("ModulatorScope", EModulatorScope)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)

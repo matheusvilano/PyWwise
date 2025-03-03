@@ -20,8 +20,8 @@ class Conversion(WwiseObject):
     min_sample_rate = WwiseProperty[ESampleRate]("MinSampleRate", ESampleRate)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     remove_dc_offset = WwiseProperty[bool]("RemoveDCOffset", bool)
-    sr_conversion_quality = WwiseProperty[ESampleRateConversionQuality]("SRConversionQuality",
-                                                                        ESampleRateConversionQuality)
+    sr_conversion_quality = WwiseProperty[ESampleRateConversionQuality](
+        "SRConversionQuality", ESampleRateConversionQuality)
     sample_rate = WwiseProperty[ESampleRate]("SampleRate", ESampleRate)
     use_dither = WwiseProperty[bool]("UseDither", bool)
     use_filename_marker = WwiseProperty[bool]("UseFilenameMarker", bool)

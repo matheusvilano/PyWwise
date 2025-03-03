@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EBusChannelConfiguration, EColour, EDiscardBehaviour,
                            EHdrReleaseTimeMode, EOverLimitBehaviour)
@@ -32,7 +30,7 @@ class Bus(WwiseObject):
     bypass_all_effects = WwiseProperty[bool]("BypassEffect", bool)
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
     colour = WwiseProperty[EColour]("Color", EColour)
-    effects = WwiseProperty[_Sequence[EffectSlot]]("Effects", _Sequence[EffectSlot])
+    effects = WwiseProperty[tuple[EffectSlot]]("Effects", tuple)
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)
     enable_diffraction = WwiseProperty[bool]("EnableDiffraction", bool)
     game_aux_send_hpf = WwiseProperty[int]("GameAuxSendHPF", int)
@@ -63,7 +61,7 @@ class Bus(WwiseObject):
     over_limit_behaviour = WwiseProperty[EOverLimitBehaviour]("OverLimitBehavior", EOverLimitBehaviour)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     pitch = WwiseProperty[int]("Pitch", int)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
     recovery_time = WwiseProperty[float]("RecoveryTime", float)
     reflections_aux_send = WwiseProperty[AuxBus]("ReflectionsAuxSend", AuxBus)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)

@@ -1,8 +1,6 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from collections.abc import Sequence as _Sequence
-
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EPlayMode, ERandomOrSequence
 from pywwise.objects.abc import WwiseObject
@@ -20,9 +18,9 @@ class Position(WwiseObject):
     pan_y = WwiseProperty[float]("PanY", float)
     pan_z = WwiseProperty[float]("PanZ", float)
     play_mechanism_loop = WwiseProperty[bool]("PlayMechanismLoop", bool)
-    play_mechanism_random_or_sequence = WwiseProperty[ERandomOrSequence]("PlayMechanismRandomOrSequence",
-                                                                         ERandomOrSequence)
+    play_mechanism_random_or_sequence = WwiseProperty[ERandomOrSequence](
+        "PlayMechanismRandomOrSequence", ERandomOrSequence)
     play_mechanism_step_or_continuous = WwiseProperty[EPlayMode]("PlayMechanismStepOrContinuous", EPlayMode)
     play_mechanism_transition_time = WwiseProperty[float]("PlayMechanismTransitionTime", float)
     play_mechanism_transition_use = WwiseProperty[bool]("PlayMechanismTransitionUse", bool)
-    rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
+    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
