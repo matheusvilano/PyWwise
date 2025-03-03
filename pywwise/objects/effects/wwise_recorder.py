@@ -16,7 +16,7 @@ class WwiseRecorder(WwiseObject):
         "AmbisonicsChannelOrdering", ERecorderAmbisonicsChannelOrdering)
     apply_downstream_volume = WwiseProperty[bool]("ApplyDownstreamVolume", bool)
     authoring_filename = WwiseProperty[str]("AuthoringFilename", str)
-    centre = WwiseProperty[float]("Centre", float)
+    centre = WwiseProperty[float]("Center", float)
     downmix_to_stereo = WwiseProperty[bool]("DownmixToStereo", bool)
     format = WwiseProperty[ERecorderFormat]("Format", ERecorderFormat)
     game_filename = WwiseProperty[str]("GameFilename", str)

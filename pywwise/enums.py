@@ -3067,4 +3067,19 @@ class EStereoDelayInput(_IntEnum):
     LEFT_AND_CENTRE = 2
     NONE = 3
 
+
+class ERoomVerbFilterType(_IntEnum):
+    """An enumeration of the different room verb filter types for Room Verb effect plugins."""
+    LOW_SHELF = 0
+    PEAKING = 1
+    HIGH_SHELF = 2
+
+
+class ERoomVerbInsertPosition(_IntEnum):
+    """An enumeration of the different room verb insert positions for Room Verb effect plugins."""
+    OFF = 0
+    ER_ONLY = 1
+    REVERB_ONLY = 2
+    ER_AND_REVERB = 3
+
 # endregion
