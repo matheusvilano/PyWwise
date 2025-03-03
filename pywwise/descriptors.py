@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum as _Enum
-from typing import Generic as _Generic, Type as _Type, TypeVar as _TypeVar
+from inspect import isclass
+from typing import Generic as _Generic, Type as _Type, TypeVar as _TypeVar, Self as _Self
 
 import pywwise.objects  # Requires full import to avoid circular import.
 from pywwise.aliases import SystemPath

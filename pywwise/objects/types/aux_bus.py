@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from collections.abc import Sequence as _Sequence
+from typing import Self as _Self
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EBusChannelConfiguration, EColour)
@@ -45,15 +46,15 @@ class AuxBus(WwiseObject):
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     pitch = WwiseProperty[int]("Pitch", int)
     rtpc = WwiseProperty[_Sequence[Rtpc]]("RTPC", _Sequence[Rtpc])
-    reflections_aux_send = WwiseProperty[AuxBus]("ReflectionsAuxSend", AuxBus)
+    reflections_aux_send = WwiseProperty[_Self]("ReflectionsAuxSend", _Self)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
     speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
-    user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
-    user_aux_send_1 = WwiseProperty[AuxBus]("UserAuxSend1", AuxBus)
-    user_aux_send_2 = WwiseProperty[AuxBus]("UserAuxSend2", AuxBus)
-    user_aux_send_3 = WwiseProperty[AuxBus]("UserAuxSend3", AuxBus)
+    user_aux_send_0 = WwiseProperty[_Self]("UserAuxSend0", _Self)
+    user_aux_send_1 = WwiseProperty[_Self]("UserAuxSend1", _Self)
+    user_aux_send_2 = WwiseProperty[_Self]("UserAuxSend2", _Self)
+    user_aux_send_3 = WwiseProperty[_Self]("UserAuxSend3", _Self)
     user_aux_send_hpf_0 = WwiseProperty[int]("UserAuxSendHPF0", int)
     user_aux_send_hpf_1 = WwiseProperty[int]("UserAuxSendHPF1", int)
     user_aux_send_hpf_2 = WwiseProperty[int]("UserAuxSendHPF2", int)
@@ -67,3 +68,12 @@ class AuxBus(WwiseObject):
     user_aux_send_volume_2 = WwiseProperty[float]("UserAuxSendVolume2", float)
     user_aux_send_volume_3 = WwiseProperty[float]("UserAuxSendVolume3", float)
     volume = WwiseProperty[float]("Volume", float)
+
+
+# `AuxBus` can point to other `AuxBus`, but the type is not available while the class is being defined. So we need to
+# replace `_Self` with `AuxBus` **after** the class is defined. Without this correction, the setter _might_ fail, but
+# getters will always fail to provide the correct type. DO NOT REMOVE THESE LINES.
+AuxBus.user_aux_send_0._type = AuxBus
+AuxBus.user_aux_send_0._type = AuxBus
+AuxBus.user_aux_send_0._type = AuxBus
+AuxBus.user_aux_send_0._type = AuxBus
