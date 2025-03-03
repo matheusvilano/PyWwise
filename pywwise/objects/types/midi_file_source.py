@@ -10,3 +10,4 @@ class MidiFileSource(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MIDI_FILE_SOURCE`.
     """
+    pass  # There are no properties, currently.
