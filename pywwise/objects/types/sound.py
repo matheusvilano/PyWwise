@@ -59,8 +59,8 @@ class Sound(WwiseObject):
     listener_relative_routing = WwiseProperty[bool]("ListenerRelativeRouting", bool)
     loop_count = WwiseProperty[int]("LoopCount", int)
     loudness_normalization_target = WwiseProperty[float]("LoudnessNormalizationTarget", float)
-    loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType]("LoudnessNormalizationType",
-                                                                            ELoudnessNormalizationType)
+    loudness_normalization_type = WwiseProperty[ELoudnessNormalizationType](
+        "LoudnessNormalizationType", ELoudnessNormalizationType)
     lowpass = WwiseProperty[int]("Lowpass", int)
     make_up_gain = WwiseProperty[float]("MakeUpGain", float)
     max_reached_behaviour = WwiseProperty[EDiscardBehaviour]("MaxReachedBehavior", EDiscardBehaviour)
@@ -124,5 +124,7 @@ class Sound(WwiseObject):
     user_aux_send_volume_1 = WwiseProperty[float]("UserAuxSendVolume1", float)
     user_aux_send_volume_2 = WwiseProperty[float]("UserAuxSendVolume2", float)
     user_aux_send_volume_3 = WwiseProperty[float]("UserAuxSendVolume3", float)
-    virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour]("VirtualVoiceQueueBehavior",
-                                                                               EVirtualVoiceQueueBehaviour)
+    virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
+        "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
+    volume = WwiseProperty[float]("Volume", float)
+    weight = WwiseProperty[float]("Weight", float)
