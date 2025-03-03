@@ -17,7 +17,7 @@ class WwiseProperty(_Generic[_T]):
     """A descriptor for Wwise properties, references, and lists. Supports the `WwiseProperty[Type]` syntax to allow
     auto-completion and suggestions in interactive environments."""
     
-    def __init__(self, name: str, etype: _Type[_T]):
+    def __init__(self, name: str, etype: _Type[_T] | tuple[_Type[_T]]):
         """
         Initializer.
         :param name: The name of the property.
@@ -50,14 +50,22 @@ class WwiseProperty(_Generic[_T]):
         
         match _type:  # Decide on what kind of object to return.
             
+            case _ if isinstance(_type, tuple) and isinstance(value, dict):
+                query = f"$ from object \"{value.get("id", GUID.get_null())}\" take 1"
+                info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
+                if info_tuple is None or not info_tuple:  # Invalid or empty.
+                    raise ValueError(f"Invalid object returned for property `{self._name}`. Either `None` or empty.")
+                info_tuple: WwiseObjectInfo = info_tuple[0]  # Still a tuple; convert to single value (GUIDs are unique).
+                return info_tuple.type.get_class()(info_tuple.guid, ak)
+            
             case _ if (_type is list or _type is tuple) and (isinstance(value, list) or isinstance(value, tuple)):
-                objs = list[WwiseObjectInfo]()   # Get `WwiseObjectInfo` objs.
-                for obj in value:
-                    query = f"$ from object \"{obj.get("id", GUID.get_null())}\" take 1"
-                    obj = ak.wwise.core.object.get(query)  # Still a tuple, but we have to check validity first.
-                    if obj is not None and obj:  # Valid, not empty.
-                        objs.append(obj[0])
-                return tuple([obj.type.get_class()(obj.guid, ak)] for obj in objs)
+                info_list = list[WwiseObjectInfo]()   # Get `WwiseObjectInfo` objs.
+                for dictionary in value:
+                    query = f"$ from object \"{dictionary.get("id", GUID.get_null())}\" take 1"
+                    info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
+                    if info_tuple is not None and info_tuple:  # Valid, not empty.
+                        info_list.append(info_tuple[0])  # GUIDs are unique, so there is only one value in that tuple.
+                return tuple([info.type.get_class()(info.guid, ak)] for info in info_list)
             
             case _ if issubclass(_type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
                 return _type(value.get("id", GUID.get_null()), ak)
