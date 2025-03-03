@@ -65,7 +65,7 @@ class WwiseProperty(_Generic[_T]):
                     info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
                     if info_tuple is not None and info_tuple:  # Valid, not empty.
                         info_list.append(info_tuple[0])  # GUIDs are unique, so there is only one value in that tuple.
-                return tuple([info.type.get_class()(info.guid, ak)] for info in info_list)
+                return tuple(info.type.get_class()(info.guid, ak) for info in info_list)
             
             case _ if issubclass(_type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
                 return _type(value.get("id", GUID.get_null()), ak)
