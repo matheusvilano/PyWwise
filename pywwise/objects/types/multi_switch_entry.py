@@ -17,11 +17,11 @@ from pywwise.objects.types.switch import Switch
 from pywwise.objects.types.switch_container import SwitchContainer
 from pywwise.objects.types.switch_group import SwitchGroup
 
-AudioNodeType = _Union[
+_AudioNodeType = _Union[
     RandomSequenceContainer, SwitchContainer, BlendContainer, Sound, MusicPlaylistContainer, MusicSegment,
     MusicSwitchContainer]
 
-AudioNodeTypeTuple = (
+_AudioNodeTypeTuple = (
     RandomSequenceContainer, SwitchContainer, BlendContainer, Sound, MusicPlaylistContainer, MusicSegment,
     MusicSwitchContainer)
 
@@ -32,7 +32,7 @@ class MultiSwitchEntry(WwiseObject):
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets
     the class represented by `EObjectType.MULTI_SWITCH_ENTRY`.
     """
-    audio_node = WwiseProperty[AudioNodeType]("AudioNode", AudioNodeTypeTuple)
+    audio_node = WwiseProperty[_AudioNodeType]("AudioNode", _AudioNodeTypeTuple)
     entry_path = WwiseProperty[tuple[SwitchGroup | Switch | StateGroup | State, ...]]("EntryPath", tuple)
     probability = WwiseProperty[int]("Probability", int)
     weight = WwiseProperty[int]("Weight", int)
