@@ -2062,6 +2062,12 @@ class EWwiseBuildConfiguration(_StrEnum):
 
 # region Types
 
+class EBlendBehaviour(_IntEnum):
+    """An enumeration of blend container behaviours."""
+    STEP = 0
+    CONTINUOUS = 1
+
+
 class EHdrReleaseTimeMode(_IntEnum):
     """An enumeration of the release time mode."""
     LINEAR = 0
