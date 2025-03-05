@@ -699,11 +699,7 @@ class Profiler:
         :return: The time at the end of the capture, in milliseconds. If method fails to call, it will return -1.
         """
         result = self._client.call("ak.wwise.core.profiler.stopCapture", {})
-        
-        if result is not None:
-            return result.get("return")
-        else:
-            return -1
+        return result.get("return", -1) if result is not None else -1
     
     def unregister_meter(self, object_to_unregister: GUID | ProjectPath | str):
         """
