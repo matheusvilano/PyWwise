@@ -2312,6 +2312,18 @@ class EPlayMechanismSpecialTransitionsType(_IntEnum):
     TRIGGER_RATE = 3
 
 
+class EPlayMechanismLoopType(_IntEnum):
+    """An enumeration of the different loop types for play mechanisms."""
+    NUMBER_OF_LOOPS = 0
+    INFINITE = 1
+
+
+class EPlaylistRestartBehaviour(_IntEnum):
+    """An enumeration of the different behaviours for when a playlist is done (last item played)."""
+    PLAY_IN_REVERSE_ORDER = 0
+    RESTART = 1
+
+
 class EBusChannelConfiguration(_IntEnum):
     """An enumeration of the different channel configurations available in Wwise."""
     
