@@ -2106,6 +2106,18 @@ class ESegmentSyncPoint(_IntEnum):
     NEVER = 8  # Only available/valid for Music Tracks
 
 
+class ESegmentPlayPoint(_IntEnum):
+    """An enumeration of the different play points for music segments, usually stingers."""
+    IMMEDIATE = 0
+    NEXT_GRID = 1
+    NEXT_BAR = 2
+    NEXT_BEAT = 3
+    NEXT_CUE = 4
+    CUSTOM_CUE = 5
+    ENTRY_CUE = 6
+    EXIT_CUE = 7
+
+
 class EPlaylistItemType(_IntEnum):
     """An enumeration of the different types of playlist items."""
     GROUP = 0
@@ -3162,5 +3174,11 @@ class ERoomVerbInsertPosition(_IntEnum):
     ER_ONLY = 1
     REVERB_ONLY = 2
     ER_AND_REVERB = 3
+
+
+class EAllowStingerNext(_IntEnum):
+    """An enumeration of possible values for weather or not to allow a stinger to play in the next segment."""
+    NO = 0
+    YES = 1
 
 # endregion
