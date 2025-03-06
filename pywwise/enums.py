@@ -2132,6 +2132,14 @@ class EPlaylistMode(_IntEnum):
     RANDOM_STEP = 3
 
 
+class EMusicTrackType(_IntEnum):
+    """An enumeration of the different types of music tracks."""
+    NORMAL = 0
+    RANDOM_STEP = 1
+    SEQUENCE_STEP = 2
+    SWITCH = 3
+
+
 class ERandomType(_IntEnum):
     """An enumeration of the different behaviours for randomization."""
     SHUFFLE = 0
@@ -2687,9 +2695,15 @@ class ETimeSignature(_IntEnum):
 
 
 class EGroupType(_StrEnum):
-    """An enumeration of some of the different game sync group types, switch or state."""
+    """An enumeration of some of the different game sync group types, switch group or state group."""
     SWITCH_GROUP = "SwitchGroup"
     STATE_GROUP = "StateGroup"
+
+
+class ESwitchOrState(_StrEnum):
+    """An enumeration of some of the different game sync types, switch or state."""
+    SWITCH = "Switch"
+    STATE = "State"
 
 
 # endregion
