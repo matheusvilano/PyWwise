@@ -2706,6 +2706,13 @@ class ESwitchOrState(_StrEnum):
     STATE = "State"
 
 
+class EMusicClipType(_StrEnum):
+    """An enumeration of different music clip types."""
+    MUSIC_CLIP = "MusicClip"
+    MUSIC_CLIP_MIDI = "MusicClipMidi"
+    MUSIC_EVENT_CUE = "MusicEventCue"
+
+
 # endregion
 
 # region Sources
