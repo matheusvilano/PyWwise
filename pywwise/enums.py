@@ -2686,6 +2686,12 @@ class ETimeSignature(_IntEnum):
     TS_32 = 32
 
 
+class EGroupType(_StrEnum):
+    """An enumeration of some of the different game sync group types, switch or state."""
+    SWITCH_GROUP = "SwitchGroup"
+    STATE_GROUP = "StateGroup"
+
+
 # endregion
 
 # region Sources
