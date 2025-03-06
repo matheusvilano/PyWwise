@@ -4,7 +4,7 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
                            EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
-                           EVirtualVoiceQueueBehaviour, EBlendBehaviour)
+                           EVirtualVoiceQueueBehaviour, EContainerPlayMode)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus
@@ -26,7 +26,7 @@ class BlendContainer(WwiseObject):
     attenuation = WwiseProperty[Attenuation]("Attenuation", Attenuation)
     attenuation_distance_scaling = WwiseProperty[float]("AttenuationDistanceScaling", float)
     below_threshold_behaviour = WwiseProperty[EVirtualVoiceBehaviour]("BelowThresholdBehavior", EVirtualVoiceBehaviour)
-    blend_behaviour = WwiseProperty[EBlendBehaviour]("BlendBehavior", EBlendBehaviour)
+    blend_behaviour = WwiseProperty[EContainerPlayMode]("BlendBehavior", EContainerPlayMode)
     bypass_effect = WwiseProperty[bool]("BypassEffect", bool)
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
     colour = WwiseProperty[EColour]("Color", EColour)

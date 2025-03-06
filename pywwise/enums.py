@@ -2062,7 +2062,7 @@ class EWwiseBuildConfiguration(_StrEnum):
 
 # region Types
 
-class EBlendBehaviour(_IntEnum):
+class EContainerPlayMode(_IntEnum):
     """An enumeration of blend container behaviours."""
     STEP = 0
     CONTINUOUS = 1
@@ -2269,7 +2269,7 @@ class EControlSurfaceBindingTargetType(_IntEnum):
     COMMAND = 2
 
 
-class EPlayMode(_IntEnum):
+class EMechanismPlayMode(_IntEnum):
     """An enumeration of the different Play Modes (as used in, for example, Random and Sequence containers)."""
     CONTINUOUS = 0
     STEP = 1
