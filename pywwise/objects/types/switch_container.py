@@ -18,13 +18,13 @@ from pywwise.objects.types.state import State
 from pywwise.objects.types.switch import Switch
 from pywwise.primitives import GUID
 
-_SwitchOrState = _Union[Switch, State]
+_SwitchOrStateType = _Union[Switch, State]
 
-_SwitchOrStateTuple = (Switch, State)
+_SwitchOrStateTypeTuple = (Switch, State)
 
-_SwitchGroupOrStateGroup = _Union[tuple[Switch], tuple[State]]
+_SwitchGroupOrStateGroupType = _Union[tuple[Switch], tuple[State]]
 
-_SwitchGroupOrStateGroupTuple = (Switch, State)
+_SwitchGroupOrStateGroupTypeTuple = (Switch, State)
 
 
 class SwitchContainer(WwiseObject):
@@ -42,7 +42,7 @@ class SwitchContainer(WwiseObject):
     centre_percentage = WwiseProperty[float]("CenterPercentage", float)
     colour = WwiseProperty[EColour]("Color", EColour)
     conversion = WwiseProperty[Conversion]("Conversion", Conversion)
-    default_switch_or_state = WwiseProperty[_SwitchOrState]("DefaultSwitchOrState", _SwitchOrStateTuple)
+    default_switch_or_state = WwiseProperty[_SwitchOrStateType]("DefaultSwitchOrState", _SwitchOrStateTypeTuple)
     effects = WwiseProperty[tuple[EffectSlot]]("Effects", tuple)
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)
     enable_diffraction = WwiseProperty[bool]("EnableDiffraction", bool)
@@ -110,8 +110,8 @@ class SwitchContainer(WwiseObject):
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
     speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     switch_behaviour = WwiseProperty[EContainerPlayMode]("SwitchBehavior", EContainerPlayMode)
-    switch_group_or_state_group = WwiseProperty[_SwitchGroupOrStateGroup](
-        "SwitchGroupOrStateGroup", _SwitchGroupOrStateGroupTuple)
+    switch_group_or_state_group = WwiseProperty[_SwitchGroupOrStateGroupType](
+        "SwitchGroupOrStateGroup", _SwitchGroupOrStateGroupTypeTuple)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
