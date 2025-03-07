@@ -2742,6 +2742,26 @@ class EMusicClipType(_StrEnum):
     MUSIC_EVENT_CUE = "MusicEventCue"
 
 
+class ESearchCriteriaCurveType(_IntEnum):
+    """An enumeration of possible values for curve type."""
+    WET_VOLUME = 1
+    LFE = 2
+    LOW_PASS_FILTER = 3
+    SPREAD = 4
+
+
+class ESearchCriteriaContainerType(_IntEnum):
+    """An enumeration of possible container types, random or sequence, for search criteria."""
+    RANDOM_CONTAINER = 0
+    SEQUENCE_CONTAINER = 1
+
+
+class ESearchCriteriaSoundType(_IntEnum):
+    """An enumeration of possible values for sound type in a search criteria."""
+    SOUND_SFX = 0
+    SOUND_VOICE = 1
+
+
 # endregion
 
 # region Sources
@@ -3298,5 +3318,85 @@ class EObjectTypeQuery(_IntEnum):
     SWITCH_GROUP = 1010
     TRIGGER = 1100
     WORK_UNIT_PHYSICAL_FOLDER = 1800
+
+
+class ESearchCriteriaCurveUsage(_IntEnum):
+    """An enumeration of possible values for curve usage."""
+    NONE = 0
+    USE_DRY_VOLUME = 1
+    CUSTOM = 2
+
+
+class ESearchCriteriaSoundbankReferences(_IntEnum):
+    """An enumeration of possible values for the number of soundbanks an event is referenced in, generalized."""
+    NO_SOUNDBANK = 0
+    ONE_SOUNDBANK = 1
+    MANY_SOUNDBANKS = 2
+
+
+class ESearchCriteriaMode(_IntEnum):
+    """An enumeration of possible values for mode in search criteria."""
+    DEFINE_CUSTOM = 0
+    USE_SHARESETS = 1
+
+
+class ESearchCriteriaNumericOperator(_IntEnum):
+    """An enumeration of possible numeric operator values."""
+    EQUAL = 0
+    LESS_THAN = 1
+    GREATER_THAN = 2
+    NOT_EQUAL = 3
+    RANGE = 4
+
+
+class ESearchCriteriaRtpcOperator(_IntEnum):
+    """An enumeration of possible RTPC operator values for search criteria."""
+    HAS_RTPC_ON = 0
+    DOES_NOT_HAVE_RTPC_ON = 1
+
+
+class ESearchCriteriaLfeOption(_IntEnum):
+    """An enumeration of possible LFE option values for source channels in a search criteria."""
+    ALL = -1
+    ABSENT = 0
+    PRESENT = 1
+
+
+class ESearchCriteriaOtherChannelsCountOption(_IntEnum):
+    """An enumeration of possible other channels option values for source channels in a search criteria."""
+    ALL = -1
+    LESS = 0
+    LESS_OR_EQUAL = 1
+    EQUAL = 2
+    GREATER_OR_EQUAL = 3
+    GREATER = 4
+    NOT_EQUAL = 5
+
+
+class ESearchCriteriaSRConversionType(_IntEnum):
+    """An enumeration os possible values for sample rate conversion type in a search criteria."""
+    SR_CONVERSION_TYPE_0 = 0
+    SR_CONVERSION_TYPE_1 = 1
+    SR_CONVERSION_TYPE_2 = 2
+    SR_CONVERSION_TYPE_3 = 3
+
+
+class ESearchCriteriaStateProperty(_IntEnum):
+    """An enumeration of possible values for the state property usage in a search criteria."""
+    STATE_PROPERTY_0 = 0
+    STATE_PROPERTY_1 = 1
+    STATE_PROPERTY_2 = 2
+
+
+class ESearchCriteriaSwitchingOperator(_IntEnum):
+    """An enumeration of possible values for the switching operator in a search criteria."""
+    SWITCHING_OPERATOR_0 = 0
+    SWITCHING_OPERATOR_1 = 1
+
+
+class ESearchCriteriaUsingOperator(_IntEnum):
+    """An enumeration of possible values for using operators in the search criteria."""
+    IS_USING = 0
+    IS_NOT_USING = 1
 
 # endregion
