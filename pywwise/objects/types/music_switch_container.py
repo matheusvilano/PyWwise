@@ -1,7 +1,12 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Union as _Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union as _Union
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.music_transition import MusicTransition
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
@@ -108,6 +113,7 @@ class MusicSwitchContainer(WwiseObject):
     tempo = WwiseProperty[float]("Tempo", float)
     time_signature_lower = WwiseProperty[ETimeSignature]("TimeSignatureLower", ETimeSignature)
     timer_signature_upper = WwiseProperty[int]("TimeSignatureUpper", int)
+    transition_root: WwiseProperty[MusicTransition]  # Injected via __init__
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
@@ -129,7 +135,3 @@ class MusicSwitchContainer(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
-
-
-# Injections - defined in __init__.py
-# transition_root

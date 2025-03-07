@@ -1,7 +1,12 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Union as _Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union as _Union
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.multi_switch_entry import MultiSwitchEntry
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (EColour, ECustomCueJumpMatchMode, EDestinationContextType, EMusicDestinationJumpTo,
@@ -24,19 +29,20 @@ class MusicTransition(WwiseObject):
     colour = WwiseProperty[EColour]("Color", EColour)
     destination_context_object = WwiseProperty[_InteractiveMusic]("DestinationContextObject", _InteractiveMusic)
     destination_context_type = WwiseProperty[EDestinationContextType]("DestinationContextType", EDestinationContextType)
-    destination_jump_position_preset = WwiseProperty[EMusicDestinationSyncTo]("DestinationJumpPositionPreset",
-                                                                              EMusicDestinationSyncTo)
+    destination_jump_position_preset = WwiseProperty[EMusicDestinationSyncTo](
+        "DestinationJumpPositionPreset", EMusicDestinationSyncTo)
     destination_playlist_jump_to = WwiseProperty[EMusicDestinationJumpTo]("DestinationPlaylistJumpTo",
                                                                           EMusicDestinationJumpTo)
     enable_destination_fade_in = WwiseProperty[bool]("EnableDestinationFadeIn", bool)
     enable_source_fade_out = WwiseProperty[bool]("EnableSourceFadeOut", bool)
     enable_transition_fade_in = WwiseProperty[bool]("EnableTransitionFadeIn", bool)
     enable_transition_fade_out = WwiseProperty[bool]("EnableTransitionFadeOut", bool)
+    entries: WwiseProperty[tuple[MultiSwitchEntry, ...]]  # Injected via __init__
     exit_source_at = WwiseProperty[EMusicSourceExitPoint]("ExitSourceAt", EMusicSourceExitPoint)
     exit_source_custom_cue_match_name = WwiseProperty[str]("ExitSourceCustomCueMatchName", str)
     is_folder = WwiseProperty[bool]("IsFolder", bool)
-    jump_to_custom_cue_match_mode = WwiseProperty[ECustomCueJumpMatchMode]("JumpToCustomCueMatchMode",
-                                                                           ECustomCueJumpMatchMode)
+    jump_to_custom_cue_match_mode = WwiseProperty[ECustomCueJumpMatchMode](
+        "JumpToCustomCueMatchMode", ECustomCueJumpMatchMode)
     jump_to_custom_cue_match_name = WwiseProperty[str]("jumpToCustomCueMatchName", str)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     play_destination_pre_entry = WwiseProperty[bool]("PlayDestinationPreEntry", bool)
@@ -46,7 +52,3 @@ class MusicTransition(WwiseObject):
     source_context_object = WwiseProperty[_InteractiveMusic]("SourceContextObject", _InteractiveMusic)
     source_context_type = WwiseProperty[EDestinationContextType]("SourceContextType", EDestinationContextType)
     use_transition_object = WwiseProperty[bool]("UseTransitionObject", bool)
-
-
-# Injections - defined in __init__.py
-# entries

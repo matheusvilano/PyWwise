@@ -1,7 +1,12 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Union as _Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union as _Union
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.music_stinger import MusicStinger
 
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
@@ -103,6 +108,7 @@ class MusicSegment(WwiseObject):
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[ESpeakerPanning]("SpeakerPanning", ESpeakerPanning)
     speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
+    stingers: WwiseProperty[tuple[MusicStinger, ...]]  # Injected via __init__
     tempo = WwiseProperty[float]("Tempo", float)
     time_signature_lower = WwiseProperty[ETimeSignature]("TimeSignatureLower", ETimeSignature)
     timer_signature_upper = WwiseProperty[int]("TimeSignatureUpper", int)
@@ -127,7 +133,3 @@ class MusicSegment(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
-
-
-# Injections - defined in __init__.py
-# stingers

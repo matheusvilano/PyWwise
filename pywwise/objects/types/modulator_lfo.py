@@ -1,6 +1,13 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.rtpc import Rtpc
+
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EModulatorScope, EWaveformInt
 from pywwise.objects.abc import WwiseObject
@@ -22,6 +29,4 @@ class ModulatorLfo(WwiseObject):
     lfo_waveform = WwiseProperty[EWaveformInt]("LfoWaveform", EWaveformInt)
     modulator_scope = WwiseProperty[EModulatorScope]("ModulatorScope", EModulatorScope)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-
-# Injections - defined in __init__.py
-# rtpc
+    rtpc: WwiseProperty[tuple[Rtpc, ...]]  # Injected via __init__

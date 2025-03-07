@@ -1,6 +1,13 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union as _Union
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.music_segment import MusicSegment
+
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EMusicSegmentPlayPoint
 from pywwise.objects.abc import WwiseObject
@@ -19,7 +26,6 @@ class MusicStinger(WwiseObject):
     num_segment_advance = WwiseProperty[bool]("NumSegmentAdvance", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     play_segment_at = WwiseProperty[EMusicSegmentPlayPoint]("PlaySegmentAt", EMusicSegmentPlayPoint)
+    segment: WwiseProperty[MusicSegment]  # Injected via __init__
     trigger = WwiseProperty[Trigger]("Trigger", Trigger)
-
-# Injections - defined in __init__.py
-# segment
+    

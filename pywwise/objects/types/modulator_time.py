@@ -1,6 +1,13 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pywwise.objects.types.rtpc import Rtpc
+
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EEnvelopeTriggerOn, EModulatorScopeLimited
 from pywwise.objects.abc import WwiseObject
@@ -17,10 +24,8 @@ class ModulatorTime(WwiseObject):
     envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
     modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
+    rtpc: WwiseProperty[tuple[Rtpc, ...]]  # Injected via __init__
     time_mod_duration = WwiseProperty[float]("TimeModDuration", float)
     time_mod_initial_delay = WwiseProperty[float]("TimeModInitialDelay", float)
     time_mod_loops = WwiseProperty[int]("TimeModLoops", int)
     time_mod_playback_rate = WwiseProperty[float]("TimeModPlaybackRate", float)
-
-# Injections - defined in __init__.py
-# rtpc
