@@ -15,7 +15,6 @@ from pywwise.objects.types.bus import Bus
 from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.effect_slot import EffectSlot
 from pywwise.objects.types.music_cue import MusicCue
-from pywwise.objects.types.music_stinger import MusicStinger
 from pywwise.objects.types.random_sequence_container import RandomSequenceContainer
 from pywwise.objects.types.rtpc import Rtpc
 from pywwise.objects.types.sound import Sound
@@ -104,7 +103,6 @@ class MusicSegment(WwiseObject):
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[ESpeakerPanning]("SpeakerPanning", ESpeakerPanning)
     speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
-    stingers = WwiseProperty[tuple[MusicStinger, ...]]("Stingers", tuple)
     tempo = WwiseProperty[float]("Tempo", float)
     time_signature_lower = WwiseProperty[ETimeSignature]("TimeSignatureLower", ETimeSignature)
     timer_signature_upper = WwiseProperty[int]("TimeSignatureUpper", int)
@@ -129,3 +127,7 @@ class MusicSegment(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
+
+
+# Injections - defined in __init__.py
+# stingers

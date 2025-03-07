@@ -16,7 +16,6 @@ from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.effect_slot import EffectSlot
 from pywwise.objects.types.music_playlist_item import MusicPlaylistItem
 from pywwise.objects.types.music_stinger import MusicStinger
-from pywwise.objects.types.music_transition import MusicTransition
 from pywwise.objects.types.random_sequence_container import RandomSequenceContainer
 from pywwise.objects.types.rtpc import Rtpc
 from pywwise.objects.types.sound import Sound
@@ -110,7 +109,6 @@ class MusicPlaylistContainer(WwiseObject):
     tempo = WwiseProperty[float]("Tempo", float)
     time_signature_lower = WwiseProperty[ETimeSignature]("TimeSignatureLower", ETimeSignature)
     timer_signature_upper = WwiseProperty[int]("TimeSignatureUpper", int)
-    transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
@@ -132,3 +130,7 @@ class MusicPlaylistContainer(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
+    
+    
+# Injections - defined in __init__.py
+# transition_root

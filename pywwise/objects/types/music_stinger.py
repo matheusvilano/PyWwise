@@ -4,11 +4,8 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EMusicSegmentPlayPoint
 from pywwise.objects.abc import WwiseObject
-from pywwise.objects.types.music_segment import MusicSegment
 from pywwise.objects.types.trigger import Trigger
 
-
-# EAllowStingerNext
 
 class MusicStinger(WwiseObject):
     """
@@ -22,5 +19,7 @@ class MusicStinger(WwiseObject):
     num_segment_advance = WwiseProperty[bool]("NumSegmentAdvance", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     play_segment_at = WwiseProperty[EMusicSegmentPlayPoint]("PlaySegmentAt", EMusicSegmentPlayPoint)
-    segment = WwiseProperty[MusicSegment]("Segment", MusicSegment)
     trigger = WwiseProperty[Trigger]("Trigger", Trigger)
+
+# Injections - defined in __init__.py
+# segment

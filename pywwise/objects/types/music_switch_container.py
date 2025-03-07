@@ -15,9 +15,7 @@ from pywwise.objects.types.blend_container import BlendContainer
 from pywwise.objects.types.bus import Bus
 from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.effect_slot import EffectSlot
-from pywwise.objects.types.multi_switch_entry import MultiSwitchEntry
 from pywwise.objects.types.music_stinger import MusicStinger
-from pywwise.objects.types.music_transition import MusicTransition
 from pywwise.objects.types.random_sequence_container import RandomSequenceContainer
 from pywwise.objects.types.rtpc import Rtpc
 from pywwise.objects.types.sound import Sound
@@ -49,7 +47,6 @@ class MusicSwitchContainer(WwiseObject):
     enable_attenuation = WwiseProperty[bool]("EnableAttenuation", bool)
     enable_diffraction = WwiseProperty[bool]("EnableDiffraction", bool)
     enable_loudness_normalization = WwiseProperty[bool]("EnableLoudnessNormalization", bool)
-    entries = WwiseProperty[tuple[MultiSwitchEntry, ...]]("Entries", tuple)
     game_aux_send_hpf = WwiseProperty[int]("GameAuxSendHPF", int)
     game_aux_send_lpf = WwiseProperty[int]("GameAuxSendLPF", int)
     game_aux_send_volume = WwiseProperty[float]("GameAuxSendVolume", float)
@@ -111,7 +108,6 @@ class MusicSwitchContainer(WwiseObject):
     tempo = WwiseProperty[float]("Tempo", float)
     time_signature_lower = WwiseProperty[ETimeSignature]("TimeSignatureLower", ETimeSignature)
     timer_signature_upper = WwiseProperty[int]("TimeSignatureUpper", int)
-    transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
@@ -133,3 +129,7 @@ class MusicSwitchContainer(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
+
+
+# Injections - defined in __init__.py
+# transition_root

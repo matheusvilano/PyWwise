@@ -15,7 +15,6 @@ from pywwise.objects.types.bus import Bus
 from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.effect_slot import EffectSlot
 from pywwise.objects.types.music_track_sequence import MusicTrackSequence
-from pywwise.objects.types.music_transition import MusicTransition
 from pywwise.objects.types.random_sequence_container import RandomSequenceContainer
 from pywwise.objects.types.rtpc import Rtpc
 from pywwise.objects.types.sound import Sound
@@ -106,7 +105,6 @@ class MusicTrack(WwiseObject):
     speaker_panning = WwiseProperty[ESpeakerPanning]("SpeakerPanning", ESpeakerPanning)
     speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     switch_or_state_group = WwiseProperty[ESyncGroupType]("SwitchOrStateGroup", ESyncGroupType)
-    transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
@@ -128,3 +126,7 @@ class MusicTrack(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
+
+
+# Injections - defined in __init__.py
+# transition_root

@@ -46,3 +46,7 @@ class MusicTransition(WwiseObject):
     source_context_object = WwiseProperty[_InteractiveMusic]("SourceContextObject", _InteractiveMusic)
     source_context_type = WwiseProperty[EDestinationContextType]("SourceContextType", EDestinationContextType)
     use_transition_object = WwiseProperty[bool]("UseTransitionObject", bool)
+
+
+# Injections - defined in __init__.py
+# entries

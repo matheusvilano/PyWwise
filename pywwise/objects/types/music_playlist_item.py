@@ -4,7 +4,7 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EMusicPlaylistItemType, EPlaylistMode, ERandomType
 from pywwise.objects.abc import WwiseObject
-from pywwise.objects.types import MusicSegment
+from pywwise.objects.types.music_segment import MusicSegment
 
 
 class MusicPlaylistItem(WwiseObject):
