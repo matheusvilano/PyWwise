@@ -358,7 +358,7 @@ class Object:
         if results is None:
             return None
         
-        obj_info = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")  # force single match
+        obj_info = self.get(f"$ from object \"{results.get('id', GUID.get_null())}\" take 1")  # force single match
         return obj_info[0] if len(obj_info) > 0 else None  # WwiseObjectInfo has valid path and type attributes
     
     def create(self, name: Name | str, etype: EObjectType, parent: GUID | tuple[EObjectType, Name] | ProjectPath,
@@ -393,7 +393,7 @@ class Object:
         if results is None:
             return None
         
-        new_obj = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")
+        new_obj = self.get(f"$ from object \"{results.get('id', GUID.get_null())}\" take 1")
         return new_obj[0] if len(new_obj) > 0 else None
     
     def delete(self, obj: GUID | tuple[EObjectType, Name] | ProjectPath,
@@ -625,7 +625,7 @@ class Object:
         if results is None:
             return None
         
-        obj_info = self.get(f"$ from object \"{results.get("id", GUID.get_null())}\" take 1")  # force single match
+        obj_info = self.get(f"$ from object \"{results.get('id', GUID.get_null())}\" take 1")  # force single match
         return obj_info[0] if len(obj_info) > 0 else None  # WwiseObjectInfo has valid path and type attributes
     
     def paste_properties(self, source: GUID | tuple[EObjectType, Name] | ProjectPath,

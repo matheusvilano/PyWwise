@@ -22,5 +22,5 @@ class Attenuation(WwiseObject):
     cone_use = WwiseProperty[bool]("ConeUse", bool)
     height_spread_enable = WwiseProperty[bool]("HeightSpreadEnable", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
     radius_max = WwiseProperty[float]("RadiusMax", float)

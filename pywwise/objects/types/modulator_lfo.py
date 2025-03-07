@@ -23,4 +23,4 @@ class ModulatorLfo(WwiseObject):
     lfo_waveform = WwiseProperty[EWaveformInt]("LfoWaveform", EWaveformInt)
     modulator_scope = WwiseProperty[EModulatorScope]("ModulatorScope", EModulatorScope)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)

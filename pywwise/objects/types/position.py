@@ -23,4 +23,4 @@ class Position(WwiseObject):
     play_mechanism_step_or_continuous = WwiseProperty[EMechanismPlayMode]("PlayMechanismStepOrContinuous", EMechanismPlayMode)
     play_mechanism_transition_time = WwiseProperty[float]("PlayMechanismTransitionTime", float)
     play_mechanism_transition_use = WwiseProperty[bool]("PlayMechanismTransitionUse", bool)
-    rtpc = WwiseProperty[tuple[Rtpc]]("RTPC", tuple)
+    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)

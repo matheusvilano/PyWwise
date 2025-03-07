@@ -30,7 +30,7 @@ class WAQL:
     
     def __str__(self) -> str:
         """:return: The query (all statements), formatted as a string."""
-        return f"$ {" ".join(self._statements)}"
+        return f"$ {' '.join(self._statements)}"
     
     def __getitem__(self, index: int) -> str:
         """

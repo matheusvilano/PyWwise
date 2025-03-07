@@ -2163,6 +2163,34 @@ class EMusicalDuration(_IntEnum):
     THIRTYSECOND_DOTTED = 69
 
 
+class EMusicalGridFrequency(_IntEnum):
+    """An enumeration of the different grid frequencies (note durations)."""
+    
+    FOUR_BARS = 50
+    TWO_BARS = 51
+    ONE_BAR = 52
+    ONE_BEAT = 53
+    
+    WHOLE_NOTE = 54
+    HALF_NOTE = 55
+    QUARTER_NOTE = 56
+    EIGHTH_NOTE = 57
+    SIXTEENTH_NOTE = 64
+    THIRTYSECOND_NOTE = 67
+    
+    HALF_TRIPLET = 58
+    QUATER_TRIPLET = 59
+    EIGHTH_TRIPLET = 60
+    SIXTEENTH_TRIPLET = 65
+    THIRTYSECOND_TRIPLET = 68
+    
+    HALF_DOTTED = 61
+    QUATER_DOTTED = 62
+    EIGHTH_DOTTED = 63
+    SIXTEENTH_DOTTED = 66
+    THIRTYSECOND_DOTTED = 69
+
+
 class EFadeType(_IntEnum):
     """An enumeration of the fade types: \"in\" and \"out\"."""
     FADE_IN = 0
@@ -2559,6 +2587,37 @@ class EFadeShape(_IntEnum):
     """y = x^3"""
 
 
+class EMusicFadeShape(_IntEnum):
+    """An Enumeration of available fade shape options. Usually used with functions related to music."""
+    
+    LOG_3 = 0
+    """y = log2(1+x)/log2(3)"""
+    
+    SINE = 1
+    """y = sin((PI/2)x)"""
+    
+    LOG_1 = 2
+    """y = log2(1+x)"""
+    
+    INV_S_CURVE = 3
+    """y = 1 - (1-x)^2"""
+    
+    LINEAR = 4
+    """y = x"""
+    
+    S_CURVE = 5
+    """y = x^2 * (3-2x)"""
+    
+    EXP_1 = 6
+    """y = x^2"""
+    
+    SINE_RECIP = 7
+    """y = 1 - sin((PI/2)(1-x))"""
+    
+    EXP_3 = 8
+    """y = x^3"""
+
+
 class EColour(_IntEnum):
     """An enumeration of colours. These are used for the color of the object."""
     BOLD_GREY = 0  # Default.
@@ -2603,6 +2662,16 @@ class EFrequencyMode(_IntEnum):
     """An enumeration of different frequency modes, usually used in Source Plugins."""
     BASE_FREQUENCY = 0
     MIDI_NOTE = 1
+
+
+class ETimeSignature(_IntEnum):
+    """An enumeration of different time signature values."""
+    TS_1 = 1
+    TS_2 = 2
+    TS_4 = 4
+    TS_8 = 8
+    TS_16 = 16
+    TS_32 = 32
 
 
 # endregion
