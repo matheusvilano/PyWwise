@@ -26,9 +26,9 @@ from pywwise.objects.types.sound import Sound
 from pywwise.objects.types.switch_container import SwitchContainer
 from pywwise.primitives import GUID
 
-_MidiTarget = _Union[RandomSequenceContainer, SwitchContainer, BlendContainer, Sound]
+_MidiTargetType = _Union[RandomSequenceContainer, SwitchContainer, BlendContainer, Sound]
 
-_MidiTargetTuple = (RandomSequenceContainer, SwitchContainer, BlendContainer, Sound)
+_MidiTargetTypeTuple = (RandomSequenceContainer, SwitchContainer, BlendContainer, Sound)
 
 
 class MusicTrack(WwiseObject):
@@ -76,7 +76,7 @@ class MusicTrack(WwiseObject):
     max_reached_behaviour = WwiseProperty[EDiscardBehaviour]("MaxReachedBehavior", EDiscardBehaviour)
     max_sound_per_instance = WwiseProperty[int]("MaxSoundPerInstance", int)
     metadata = WwiseProperty[GUID]("Metadata", GUID)
-    midi_target = WwiseProperty[_MidiTarget]("MidiTarget", _MidiTargetTuple)
+    midi_target = WwiseProperty[_MidiTargetType]("MidiTarget", _MidiTargetTypeTuple)
     midi_tempo_source = WwiseProperty[EMidiTempoSource]("MidiTempoSource", EMidiTempoSource)
     music_track_type = WwiseProperty[EMusicTrackType]("MusicTrackType", EMusicTrackType)
     output_bus = WwiseProperty[Bus]("OutputBus", Bus)

@@ -21,7 +21,7 @@ from pywwise.objects.types.sound import Sound
 from pywwise.objects.types.switch_container import SwitchContainer
 from pywwise.primitives import GUID
 
-_PlaylistTarget = _Union[_Self, SwitchContainer, BlendContainer, Sound]
+_PlaylistTargetType = _Union[_Self, SwitchContainer, BlendContainer, Sound]
 
 
 class RandomSequenceContainer(WwiseObject):
@@ -110,7 +110,7 @@ class RandomSequenceContainer(WwiseObject):
     play_mechanism_special_transitions_value = WwiseProperty[float]("PlayMechanismSpecialTransitionsValue", float)
     play_mechanism_step_or_continuous = WwiseProperty[EContainerPlayMode](
         "PlayMechanismStepOrContinuous", EContainerPlayMode)
-    playlist = WwiseProperty[tuple[_PlaylistTarget, ...]]("Playlist", tuple)
+    playlist = WwiseProperty[tuple[_PlaylistTargetType, ...]]("Playlist", tuple)
     priority = WwiseProperty[int]("Priority", int)
     priority_distance_factor = WwiseProperty[bool]("PriorityDistanceFactor", bool)
     priority_distance_offset = WwiseProperty[int]("PriorityDistanceOffset", int)

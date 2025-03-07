@@ -17,7 +17,9 @@ from pywwise.objects.types.music_segment import MusicSegment
 from pywwise.objects.types.music_switch_container import MusicSwitchContainer
 from pywwise.objects.types.music_track import MusicTrack
 
-_InteractiveMusic = _Union[MusicPlaylistContainer, MusicSegment, MusicSwitchContainer, MusicTrack]
+_InteractiveMusicType = _Union[MusicPlaylistContainer, MusicSegment, MusicSwitchContainer, MusicTrack]
+
+_InteractiveMusicTypeTuple = (MusicPlaylistContainer, MusicSegment, MusicSwitchContainer, MusicTrack)
 
 
 class MusicTransition(WwiseObject):
@@ -27,7 +29,8 @@ class MusicTransition(WwiseObject):
     the class represented by `EObjectType.MUSIC_TRANSITION`.
     """
     colour = WwiseProperty[EColour]("Color", EColour)
-    destination_context_object = WwiseProperty[_InteractiveMusic]("DestinationContextObject", _InteractiveMusic)
+    destination_context_object = WwiseProperty[_InteractiveMusicType]("DestinationContextObject",
+                                                                      _InteractiveMusicTypeTuple)
     destination_context_type = WwiseProperty[EDestinationContextType]("DestinationContextType", EDestinationContextType)
     destination_jump_position_preset = WwiseProperty[EMusicDestinationSyncTo](
         "DestinationJumpPositionPreset", EMusicDestinationSyncTo)
@@ -37,7 +40,8 @@ class MusicTransition(WwiseObject):
     enable_source_fade_out = WwiseProperty[bool]("EnableSourceFadeOut", bool)
     enable_transition_fade_in = WwiseProperty[bool]("EnableTransitionFadeIn", bool)
     enable_transition_fade_out = WwiseProperty[bool]("EnableTransitionFadeOut", bool)
-    entries: WwiseProperty[tuple[MultiSwitchEntry, ...]]  # Injected via __init__
+    entries: WwiseProperty[tuple[MultiSwitchEntry, ...]] = WwiseProperty(
+        "Entries", tuple)  # Using `:` to avoid circular imports.
     exit_source_at = WwiseProperty[EMusicSourceExitPoint]("ExitSourceAt", EMusicSourceExitPoint)
     exit_source_custom_cue_match_name = WwiseProperty[str]("ExitSourceCustomCueMatchName", str)
     is_folder = WwiseProperty[bool]("IsFolder", bool)
@@ -49,6 +53,6 @@ class MusicTransition(WwiseObject):
     play_post_exit = WwiseProperty[bool]("PlayPostExit", bool)
     play_transition_post_Exit = WwiseProperty[bool]("PlayTransitionPostExit", bool)
     play_transition_pre_entry = WwiseProperty[bool]("PlayTransitionPreEntry", bool)
-    source_context_object = WwiseProperty[_InteractiveMusic]("SourceContextObject", _InteractiveMusic)
+    source_context_object = WwiseProperty[_InteractiveMusicType]("SourceContextObject", _InteractiveMusicTypeTuple)
     source_context_type = WwiseProperty[EDestinationContextType]("SourceContextType", EDestinationContextType)
     use_transition_object = WwiseProperty[bool]("UseTransitionObject", bool)

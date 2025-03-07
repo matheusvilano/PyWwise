@@ -15,7 +15,9 @@ from pywwise.objects.types.conversion import Conversion
 from pywwise.objects.types.effect_slot import EffectSlot
 from pywwise.objects.types.rtpc import Rtpc
 from pywwise.objects.types.state import State
+from pywwise.objects.types.state_group import StateGroup
 from pywwise.objects.types.switch import Switch
+from pywwise.objects.types.switch_group import SwitchGroup
 from pywwise.primitives import GUID
 
 _SwitchOrStateType = _Union[Switch, State]
@@ -24,7 +26,7 @@ _SwitchOrStateTypeTuple = (Switch, State)
 
 _SwitchGroupOrStateGroupType = _Union[tuple[Switch], tuple[State]]
 
-_SwitchGroupOrStateGroupTypeTuple = (Switch, State)
+_SwitchGroupOrStateGroupTypeTuple = (SwitchGroup, StateGroup)
 
 
 class SwitchContainer(WwiseObject):

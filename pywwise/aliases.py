@@ -6,6 +6,8 @@ from re import Pattern as _Pattern
 from typing import (List as _List, Set as _Set, Tuple as _Tuple, TypeAlias as _TypeAlias, TypeVar as _TypeVar,
                     Union as _Union)
 
+# region BuiltIn
+
 SystemPath: _TypeAlias = _Path
 """Represents a filesystem path."""
 
@@ -20,3 +22,11 @@ ListOrTuple: _TypeAlias = _Union[_List[UnionType], _Tuple[UnionType, ...]]
 
 ListOrTupleOrSet: _TypeAlias = _Union[_List[UnionType], _Tuple[UnionType, ...], _Set[UnionType]]
 """Custom type representing `List`, `Tuple`, and `Set`."""
+
+# endregion
+
+# region PyWwise
+
+
+
+# endregion

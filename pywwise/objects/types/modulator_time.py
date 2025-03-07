@@ -24,7 +24,7 @@ class ModulatorTime(WwiseObject):
     envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
     modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc: WwiseProperty[tuple[Rtpc, ...]]  # Injected via __init__
+    rtpc: WwiseProperty[tuple[Rtpc, ...]] = WwiseProperty("RTPC", tuple)  # Using `:` to avoid circular imports.
     time_mod_duration = WwiseProperty[float]("TimeModDuration", float)
     time_mod_initial_delay = WwiseProperty[float]("TimeModInitialDelay", float)
     time_mod_loops = WwiseProperty[int]("TimeModLoops", int)
