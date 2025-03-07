@@ -9,7 +9,7 @@ description = "A comprehensive Wwise Authoring API wrapper - fully documented, w
 authors = [{ name = "Matheus Vilano" }]
 license = { file = "LICENSE" }
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 keywords = ["audiokinetic", "wwise", "waapi", "game", "audio", "sound", "automation", "scripting", "asset", "pipeline"]
 
 classifiers = [
