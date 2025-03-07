@@ -4,9 +4,9 @@
 from typing import Union as _Union
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, EGroupType,
-                           ELoudnessNormalizationType, EMidiTempoSource, EMusicTrackType, EOverLimitBehaviour, EScope,
-                           ESpeakerPanning, ESwitchOrState, EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
+                           EMidiTempoSource, EMusicTrackType, EOverLimitBehaviour, EScope, ESpeakerPanning,
+                           ESwitchOrState, ESyncGroupType, EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus
@@ -105,7 +105,7 @@ class MusicTrack(WwiseObject):
     sequences = WwiseProperty[tuple[MusicTrackSequence, ...]]("Sequences", tuple)
     speaker_panning = WwiseProperty[ESpeakerPanning]("SpeakerPanning", ESpeakerPanning)
     speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
-    switch_or_state_group = WwiseProperty[EGroupType]("SwitchOrStateGroup", EGroupType)
+    switch_or_state_group = WwiseProperty[ESyncGroupType]("SwitchOrStateGroup", ESyncGroupType)
     transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)

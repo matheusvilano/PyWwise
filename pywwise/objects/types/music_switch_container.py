@@ -4,10 +4,10 @@
 from typing import Union as _Union
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, EGroupType,
-                           ELoudnessNormalizationType, EMatchMode, EMidiTempoSource, EMusicalDuration,
-                           EMusicalGridFrequency, EOverLimitBehaviour, EScope, ESpeakerPanning, ETimeSignature,
-                           EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
+                           EMatchMode, EMidiTempoSource, EMusicalDuration, EMusicalGridFrequency, EOverLimitBehaviour,
+                           EScope, ESpeakerPanning, ESyncGroupType, ETimeSignature, EVirtualVoiceBehaviour,
+                           EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus
@@ -37,7 +37,7 @@ class MusicSwitchContainer(WwiseObject):
     """
     position_3d = WwiseProperty[E3DPosition]("3DPosition", E3DPosition)
     spatialization_3d = WwiseProperty[E3DSpatialization]("3DSpatialization", E3DSpatialization)
-    arguments = WwiseProperty[tuple[EGroupType, ...]]("Arguments", tuple)
+    arguments = WwiseProperty[tuple[ESyncGroupType, ...]]("Arguments", tuple)
     attenuation = WwiseProperty[Attenuation]("Attenuation", Attenuation)
     attenuation_distance_scaling = WwiseProperty[float]("AttenuationDistanceScaling", float)
     below_threshold_behaviour = WwiseProperty[EVirtualVoiceBehaviour]("BelowThresholdBehavior", EVirtualVoiceBehaviour)

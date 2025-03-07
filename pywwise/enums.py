@@ -2106,7 +2106,7 @@ class ESegmentSyncPoint(_IntEnum):
     NEVER = 8  # Only available/valid for Music Tracks
 
 
-class ESourceExitPoint(_IntEnum):
+class EMusicSourceExitPoint(_IntEnum):
     """An enumeration of the different sync points for music segments."""
     IMMEDIATE = 0
     NEXT_GRID = 1
@@ -2118,7 +2118,7 @@ class ESourceExitPoint(_IntEnum):
     NEVER = 8  # Only available/valid for Music Tracks
 
 
-class ESegmentPlayPoint(_IntEnum):
+class EMusicSegmentPlayPoint(_IntEnum):
     """An enumeration of the different play points for music segments, usually stingers."""
     IMMEDIATE = 0
     NEXT_GRID = 1
@@ -2130,7 +2130,7 @@ class ESegmentPlayPoint(_IntEnum):
     EXIT_CUE = 7
 
 
-class EDestinationSyncTo(_IntEnum):
+class EMusicDestinationSyncTo(_IntEnum):
     """An enumeration of things to sync to at the destination of a music transition."""
     ENTRY_CUE = 0
     SAME_TIME_AS_PLAYING_SEGMENT = 1
@@ -2139,7 +2139,7 @@ class EDestinationSyncTo(_IntEnum):
     LAST_EXIT_POSITION = 4
 
 
-class EDestinationJumpTo(_IntEnum):
+class EMusicDestinationJumpTo(_IntEnum):
     """An enumeration of places to jump to at the destination of a music transition."""
     START_OF_PLAYLIST = 0
     SPECIFIC_PLAYLIST_ITEM = 1
@@ -2147,7 +2147,7 @@ class EDestinationJumpTo(_IntEnum):
     NEXT_SEGMENT = 3
 
 
-class EPlaylistItemType(_IntEnum):
+class EMusicPlaylistItemType(_IntEnum):
     """An enumeration of the different types of playlist items."""
     GROUP = 0
     SEGMENT = 1
@@ -2723,7 +2723,7 @@ class ETimeSignature(_IntEnum):
     TS_32 = 32
 
 
-class EGroupType(_StrEnum):
+class ESyncGroupType(_StrEnum):
     """An enumeration of some of the different game sync group types, switch group or state group."""
     SWITCH_GROUP = "SwitchGroup"
     STATE_GROUP = "StateGroup"

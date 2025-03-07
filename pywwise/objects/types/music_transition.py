@@ -4,8 +4,8 @@
 from typing import Union as _Union
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EColour, ECustomCueJumpMatchMode, EDestinationContextType, EDestinationJumpTo, \
-    EDestinationSyncTo, ESourceExitPoint
+from pywwise.enums import (EColour, ECustomCueJumpMatchMode, EDestinationContextType, EMusicDestinationJumpTo,
+                           EMusicDestinationSyncTo, EMusicSourceExitPoint)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.music_playlist_container import MusicPlaylistContainer
 from pywwise.objects.types.music_segment import MusicSegment
@@ -24,14 +24,15 @@ class MusicTransition(WwiseObject):
     colour = WwiseProperty[EColour]("Color", EColour)
     destination_context_object = WwiseProperty[_InteractiveMusic]("DestinationContextObject", _InteractiveMusic)
     destination_context_type = WwiseProperty[EDestinationContextType]("DestinationContextType", EDestinationContextType)
-    destination_jump_position_preset = WwiseProperty[EDestinationSyncTo]("DestinationJumpPositionPreset",
-                                                                         EDestinationSyncTo)
-    destination_playlist_jump_to = WwiseProperty[EDestinationJumpTo]("DestinationPlaylistJumpTo", EDestinationJumpTo)
+    destination_jump_position_preset = WwiseProperty[EMusicDestinationSyncTo]("DestinationJumpPositionPreset",
+                                                                              EMusicDestinationSyncTo)
+    destination_playlist_jump_to = WwiseProperty[EMusicDestinationJumpTo]("DestinationPlaylistJumpTo",
+                                                                          EMusicDestinationJumpTo)
     enable_destination_fade_in = WwiseProperty[bool]("EnableDestinationFadeIn", bool)
     enable_source_fade_out = WwiseProperty[bool]("EnableSourceFadeOut", bool)
     enable_transition_fade_in = WwiseProperty[bool]("EnableTransitionFadeIn", bool)
     enable_transition_fade_out = WwiseProperty[bool]("EnableTransitionFadeOut", bool)
-    exit_source_at = WwiseProperty[ESourceExitPoint]("ExitSourceAt", ESourceExitPoint)
+    exit_source_at = WwiseProperty[EMusicSourceExitPoint]("ExitSourceAt", EMusicSourceExitPoint)
     exit_source_custom_cue_match_name = WwiseProperty[str]("ExitSourceCustomCueMatchName", str)
     is_folder = WwiseProperty[bool]("IsFolder", bool)
     jump_to_custom_cue_match_mode = WwiseProperty[ECustomCueJumpMatchMode]("JumpToCustomCueMatchMode",
