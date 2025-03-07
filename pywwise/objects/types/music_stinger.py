@@ -2,11 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EAllowStingerNext, EColour, EMusicSegmentPlayPoint
+from pywwise.enums import EColour, EMusicSegmentPlayPoint
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.music_segment import MusicSegment
 from pywwise.objects.types.trigger import Trigger
 
+
+# EAllowStingerNext
 
 class MusicStinger(WwiseObject):
     """
@@ -17,7 +19,7 @@ class MusicStinger(WwiseObject):
     colour = WwiseProperty[EColour]("Color", EColour)
     custom_cue_match_name = WwiseProperty[str]("CustomCueMatchName", str)
     dont_play_again_time = WwiseProperty[float]("DontPlayAgainTime", float)
-    num_segment_advance = WwiseProperty[EAllowStingerNext]("NumSegmentAdvance", EAllowStingerNext)
+    num_segment_advance = WwiseProperty[bool]("NumSegmentAdvance", bool)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     play_segment_at = WwiseProperty[EMusicSegmentPlayPoint]("PlaySegmentAt", EMusicSegmentPlayPoint)
     segment = WwiseProperty[MusicSegment]("Segment", MusicSegment)
