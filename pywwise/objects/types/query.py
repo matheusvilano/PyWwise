@@ -1,9 +1,9 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise.objects.abc import WwiseObject
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EColour, ELogicalOperator, EPlatformOption, EObjectTypeQuery
+from pywwise.enums import EColour, ELogicalOperator, EObjectTypeQuery, EPlatformOption
+from pywwise.objects.abc import WwiseObject
 
 
 class Query(WwiseObject):
