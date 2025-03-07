@@ -4,7 +4,6 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EEnvelopeTriggerOn, EModulatorScopeLimited
 from pywwise.objects.abc import WwiseObject
-from pywwise.objects.types.rtpc import Rtpc
 
 
 class ModulatorEnvelope(WwiseObject):
@@ -25,4 +24,6 @@ class ModulatorEnvelope(WwiseObject):
     envelope_trigger_on = WwiseProperty[EEnvelopeTriggerOn]("EnvelopeTriggerOn", EEnvelopeTriggerOn)
     modulator_scope = WwiseProperty[EModulatorScopeLimited]("ModulatorScope", EModulatorScopeLimited)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
+
+# Injections - defined in __init__.py
+# rtpc

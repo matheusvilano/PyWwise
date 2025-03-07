@@ -5,10 +5,10 @@ from typing import Self as _Self, Union as _Union
 
 from pywwise import EPlaylistRestartBehaviour, ERandomOrSequence
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
-                           EMidiPlayOnNoteType, EOverLimitBehaviour, EPlayMechanismLoopType,
-                           EPlayMechanismSpecialTransitionsType, EPlayMode, ERandomType, EScope,
-                           EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EContainerPlayMode, EDiscardBehaviour,
+                           ELoudnessNormalizationType, EMidiPlayOnNoteType, EOverLimitBehaviour, EPlayMechanismLoopType,
+                           EPlayMechanismSpecialTransitionsType, ERandomType, EScope, EVirtualVoiceBehaviour,
+                           EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus
@@ -108,7 +108,8 @@ class RandomSequenceContainer(WwiseObject):
     play_mechanism_special_transitions_type = WwiseProperty[EPlayMechanismSpecialTransitionsType](
         "PlayMechanismSpecialTransitionsType", EPlayMechanismSpecialTransitionsType)
     play_mechanism_special_transitions_value = WwiseProperty[float]("PlayMechanismSpecialTransitionsValue", float)
-    play_mechanism_step_or_continuous = WwiseProperty[EPlayMode]("PlayMechanismStepOrContinuous", EPlayMode)
+    play_mechanism_step_or_continuous = WwiseProperty[EContainerPlayMode](
+        "PlayMechanismStepOrContinuous", EContainerPlayMode)
     playlist = WwiseProperty[tuple[_PlaylistTarget, ...]]("Playlist", tuple)
     priority = WwiseProperty[int]("Priority", int)
     priority_distance_factor = WwiseProperty[bool]("PriorityDistanceFactor", bool)

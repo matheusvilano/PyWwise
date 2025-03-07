@@ -4,7 +4,6 @@
 from pywwise.descriptors import WwiseProperty
 from pywwise.enums import EColour, EModulatorScope, EWaveformInt
 from pywwise.objects.abc import WwiseObject
-from pywwise.objects.types.rtpc import Rtpc
 
 
 class ModulatorLfo(WwiseObject):
@@ -23,4 +22,6 @@ class ModulatorLfo(WwiseObject):
     lfo_waveform = WwiseProperty[EWaveformInt]("LfoWaveform", EWaveformInt)
     modulator_scope = WwiseProperty[EModulatorScope]("ModulatorScope", EModulatorScope)
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
-    rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
+
+# Injections - defined in __init__.py
+# rtpc

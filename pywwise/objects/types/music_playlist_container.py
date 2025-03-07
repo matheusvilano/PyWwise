@@ -130,7 +130,6 @@ class MusicPlaylistContainer(WwiseObject):
     virtual_voice_queue_behaviour = WwiseProperty[EVirtualVoiceQueueBehaviour](
         "VirtualVoiceQueueBehavior", EVirtualVoiceQueueBehaviour)
     volume = WwiseProperty[float]("Volume", float)
-    
-    
+
 # Injections - defined in __init__.py
 # transition_root

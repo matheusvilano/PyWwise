@@ -77,6 +77,9 @@ from pywwise.objects.types.work_unit import WorkUnit
 
 
 # Injections - solution for circular imports; add as needed, as a last resort. Also document in class.
+ModulatorEnvelope.rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
+ModulatorLfo.rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
+ModulatorTime.rtpc = WwiseProperty[tuple[Rtpc, ...]]("RTPC", tuple)
 MusicPlaylistContainer.transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
 MusicSegment.stingers = WwiseProperty[tuple[MusicStinger, ...]]("Stingers", tuple)
 MusicStinger.segment = WwiseProperty[MusicSegment]("Segment", MusicSegment)
