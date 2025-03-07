@@ -2106,7 +2106,48 @@ class ESegmentSyncPoint(_IntEnum):
     NEVER = 8  # Only available/valid for Music Tracks
 
 
-class EPlaylistItemType(_IntEnum):
+class EMusicSourceExitPoint(_IntEnum):
+    """An enumeration of the different sync points for music segments."""
+    IMMEDIATE = 0
+    NEXT_GRID = 1
+    NEXT_BAR = 2
+    NEXT_BEAT = 3
+    NEXT_CUE = 4
+    CUSTOM_CUE = 5
+    EXIT_CUE = 7
+    NEVER = 8  # Only available/valid for Music Tracks
+
+
+class EMusicSegmentPlayPoint(_IntEnum):
+    """An enumeration of the different play points for music segments, usually stingers."""
+    IMMEDIATE = 0
+    NEXT_GRID = 1
+    NEXT_BAR = 2
+    NEXT_BEAT = 3
+    NEXT_CUE = 4
+    CUSTOM_CUE = 5
+    ENTRY_CUE = 6
+    EXIT_CUE = 7
+
+
+class EMusicDestinationSyncTo(_IntEnum):
+    """An enumeration of things to sync to at the destination of a music transition."""
+    ENTRY_CUE = 0
+    SAME_TIME_AS_PLAYING_SEGMENT = 1
+    RANDOM_CUE = 2
+    RANDOM_CUSTOM_CUE = 3
+    LAST_EXIT_POSITION = 4
+
+
+class EMusicDestinationJumpTo(_IntEnum):
+    """An enumeration of places to jump to at the destination of a music transition."""
+    START_OF_PLAYLIST = 0
+    SPECIFIC_PLAYLIST_ITEM = 1
+    LAST_PLAYED_SEGMENT = 2
+    NEXT_SEGMENT = 3
+
+
+class EMusicPlaylistItemType(_IntEnum):
     """An enumeration of the different types of playlist items."""
     GROUP = 0
     SEGMENT = 1
@@ -2118,6 +2159,14 @@ class EPlaylistMode(_IntEnum):
     SEQUENCE_STEP = 1
     RANDOM_CONTINUOUS = 2
     RANDOM_STEP = 3
+
+
+class EMusicTrackType(_IntEnum):
+    """An enumeration of the different types of music tracks."""
+    NORMAL = 0
+    RANDOM_STEP = 1
+    SEQUENCE_STEP = 2
+    SWITCH = 3
 
 
 class ERandomType(_IntEnum):
@@ -2686,6 +2735,45 @@ class ETimeSignature(_IntEnum):
     TS_32 = 32
 
 
+class ESyncGroupType(_StrEnum):
+    """An enumeration of some of the different game sync group types, switch group or state group."""
+    SWITCH_GROUP = "SwitchGroup"
+    STATE_GROUP = "StateGroup"
+
+
+class ESwitchOrState(_StrEnum):
+    """An enumeration of some of the different game sync types, switch or state."""
+    SWITCH = "Switch"
+    STATE = "State"
+
+
+class EMusicClipType(_StrEnum):
+    """An enumeration of different music clip types."""
+    MUSIC_CLIP = "MusicClip"
+    MUSIC_CLIP_MIDI = "MusicClipMidi"
+    MUSIC_EVENT_CUE = "MusicEventCue"
+
+
+class ESearchCriteriaCurveType(_IntEnum):
+    """An enumeration of possible values for curve type."""
+    WET_VOLUME = 1
+    LFE = 2
+    LOW_PASS_FILTER = 3
+    SPREAD = 4
+
+
+class ESearchCriteriaContainerType(_IntEnum):
+    """An enumeration of possible container types, random or sequence, for search criteria."""
+    RANDOM_CONTAINER = 0
+    SEQUENCE_CONTAINER = 1
+
+
+class ESearchCriteriaSoundType(_IntEnum):
+    """An enumeration of possible values for sound type in a search criteria."""
+    SOUND_SFX = 0
+    SOUND_VOICE = 1
+
+
 # endregion
 
 # region Sources
@@ -3174,5 +3262,153 @@ class ERoomVerbInsertPosition(_IntEnum):
     ER_ONLY = 1
     REVERB_ONLY = 2
     ER_AND_REVERB = 3
+
+
+class EAllowStingerNext(_IntEnum):
+    """An enumeration of possible values for weather or not to allow a stinger to play in the next segment."""
+    NO = 0
+    YES = 1
+
+
+class ELogicalOperator(_IntEnum):
+    """An enumeration of possible logical operator values."""
+    AND = 0
+    OR = 1
+
+
+class EPlatformOption(_IntEnum):
+    """An enumeration of possible platforms to be used for query."""
+    ALL = 0
+    CURRENT = 1
+
+
+class EObjectTypeQuery(_IntEnum):
+    """An enumeration of possible object types for a query."""
+    ALL_OBJECTS = 0
+    WAQL_QUERY = 10
+    ACTOR_MIXER = 100
+    ACTOR_MIXER_HIERARCHY = 200
+    ACOUSTIC_TEXTURE = 2200
+    ARGUMENT = 1300
+    ARGUMENT_VALUE = 1400
+    ATTENUATION = 250
+    AUDIO_BUS = 500
+    AUDIO_DEVICE = 740
+    AUXILIARY_BUS = 502
+    AUDIO_SOURCE = 300
+    BLEND_CONTAINER = 400
+    CONVERSION_SETTINGS = 1500
+    DIALOGUE_EVENT = 1200
+    EFFECT = 550
+    EVENT = 600
+    EXTERNAL_SOURCE = 1600
+    VIRTUAL_FOLDER = 1700
+    INTERACTIVE_MUSIC_HIERARCHY = 620
+    INTERACTIVE_MUSIC_HIERARCHY_BEHAVIOUR = 621
+    METADATA = 2400
+    MODULATOR_ENVELOPE = 1900
+    MODULATOR_LFO = 2000
+    MODULATOR_TIME = 2300
+    MODULATORS = 2100
+    MUSIC_CLIP = 667
+    MUSIC_CLIP_MIDI = 669
+    MUSIC_CUE = 668
+    MUSIC_EVENT_CUE = 671
+    MUSIC_FADE = 630
+    MUSIC_PLAYLIST_ITEM = 640
+    MUSIC_PLAYLIST_CONTAINER = 645
+    MUSIC_SEGMENT = 650
+    MUSIC_STINGER = 655
+    MUSIC_SWITCH_CONTAINER = 660
+    MUSIC_TRACK = 665
+    MUSIC_TRACK_SEQUENCE = 666
+    MUSIC_TRANSITION = 670
+    RANDOM_SEQUENCE_CONTAINER = 700
+    SOUND = 800
+    SOUNDBANK = 900
+    SWITCH_CONTAINER = 1000
+    SWITCH_GROUP = 1010
+    TRIGGER = 1100
+    WORK_UNIT_PHYSICAL_FOLDER = 1800
+
+
+class ESearchCriteriaCurveUsage(_IntEnum):
+    """An enumeration of possible values for curve usage."""
+    NONE = 0
+    USE_DRY_VOLUME = 1
+    CUSTOM = 2
+
+
+class ESearchCriteriaSoundbankReferences(_IntEnum):
+    """An enumeration of possible values for the number of soundbanks an event is referenced in, generalized."""
+    NO_SOUNDBANK = 0
+    ONE_SOUNDBANK = 1
+    MANY_SOUNDBANKS = 2
+
+
+class ESearchCriteriaMode(_IntEnum):
+    """An enumeration of possible values for mode in search criteria."""
+    DEFINE_CUSTOM = 0
+    USE_SHARESETS = 1
+
+
+class ESearchCriteriaNumericOperator(_IntEnum):
+    """An enumeration of possible numeric operator values."""
+    EQUAL = 0
+    LESS_THAN = 1
+    GREATER_THAN = 2
+    NOT_EQUAL = 3
+    RANGE = 4
+
+
+class ESearchCriteriaRtpcOperator(_IntEnum):
+    """An enumeration of possible RTPC operator values for search criteria."""
+    HAS_RTPC_ON = 0
+    DOES_NOT_HAVE_RTPC_ON = 1
+
+
+class ESearchCriteriaLfeOption(_IntEnum):
+    """An enumeration of possible LFE option values for source channels in a search criteria."""
+    ALL = -1
+    ABSENT = 0
+    PRESENT = 1
+
+
+class ESearchCriteriaOtherChannelsCountOption(_IntEnum):
+    """An enumeration of possible other channels option values for source channels in a search criteria."""
+    ALL = -1
+    LESS = 0
+    LESS_OR_EQUAL = 1
+    EQUAL = 2
+    GREATER_OR_EQUAL = 3
+    GREATER = 4
+    NOT_EQUAL = 5
+
+
+class ESearchCriteriaSRConversionType(_IntEnum):
+    """An enumeration os possible values for sample rate conversion type in a search criteria."""
+    SR_CONVERSION_TYPE_0 = 0
+    SR_CONVERSION_TYPE_1 = 1
+    SR_CONVERSION_TYPE_2 = 2
+    SR_CONVERSION_TYPE_3 = 3
+
+
+class ESearchCriteriaStateProperty(_IntEnum):
+    """An enumeration of possible values for the state property usage in a search criteria."""
+    STATE_PROPERTY_0 = 0
+    STATE_PROPERTY_1 = 1
+    STATE_PROPERTY_2 = 2
+
+
+class ESearchCriteriaSwitchingOperator(_IntEnum):
+    """An enumeration of possible values for the switching operator in a search criteria."""
+    SWITCHING_OPERATOR_0 = 0
+    SWITCHING_OPERATOR_1 = 1
+
+
+class ESearchCriteriaUsingOperator(_IntEnum):
+    """An enumeration of possible values for using operators in the search criteria."""
+    IS_USING = 0
+    IS_NOT_USING = 1
 
 # endregion

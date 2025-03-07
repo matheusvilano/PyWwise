@@ -1,6 +1,7 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from pywwise.descriptors import WwiseProperty
 from pywwise.objects.types.acoustic_texture import AcousticTexture
 from pywwise.objects.types.action import Action
 from pywwise.objects.types.action_exception import ActionException
@@ -73,3 +74,12 @@ from pywwise.objects.types.switch_group import SwitchGroup
 from pywwise.objects.types.trigger import Trigger
 from pywwise.objects.types.user_project_settings import UserProjectSettings
 from pywwise.objects.types.work_unit import WorkUnit
+
+
+# Injections - solution for circular imports; add as needed, as a last resort. Also document in class.
+MusicPlaylistContainer.transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
+MusicSegment.stingers = WwiseProperty[tuple[MusicStinger, ...]]("Stingers", tuple)
+MusicStinger.segment = WwiseProperty[MusicSegment]("Segment", MusicSegment)
+MusicSwitchContainer.transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
+MusicTrack.transition_root = WwiseProperty[MusicTransition]("TransitionRoot", MusicTransition)
+MusicTransition.entries = WwiseProperty[tuple[MultiSwitchEntry, ...]]("Entries", tuple)
