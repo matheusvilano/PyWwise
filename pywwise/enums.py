@@ -2106,6 +2106,18 @@ class ESegmentSyncPoint(_IntEnum):
     NEVER = 8  # Only available/valid for Music Tracks
 
 
+class ESourceExitPoint(_IntEnum):
+    """An enumeration of the different sync points for music segments."""
+    IMMEDIATE = 0
+    NEXT_GRID = 1
+    NEXT_BAR = 2
+    NEXT_BEAT = 3
+    NEXT_CUE = 4
+    CUSTOM_CUE = 5
+    EXIT_CUE = 7
+    NEVER = 8  # Only available/valid for Music Tracks
+
+
 class ESegmentPlayPoint(_IntEnum):
     """An enumeration of the different play points for music segments, usually stingers."""
     IMMEDIATE = 0
@@ -2116,6 +2128,23 @@ class ESegmentPlayPoint(_IntEnum):
     CUSTOM_CUE = 5
     ENTRY_CUE = 6
     EXIT_CUE = 7
+
+
+class EDestinationSyncTo(_IntEnum):
+    """An enumeration of things to sync to at the destination of a music transition."""
+    ENTRY_CUE = 0
+    SAME_TIME_AS_PLAYING_SEGMENT = 1
+    RANDOM_CUE = 2
+    RANDOM_CUSTOM_CUE = 3
+    LAST_EXIT_POSITION = 4
+
+
+class EDestinationJumpTo(_IntEnum):
+    """An enumeration of places to jump to at the destination of a music transition."""
+    START_OF_PLAYLIST = 0
+    SPECIFIC_PLAYLIST_ITEM = 1
+    LAST_PLAYED_SEGMENT = 2
+    NEXT_SEGMENT = 3
 
 
 class EPlaylistItemType(_IntEnum):
