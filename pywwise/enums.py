@@ -3237,4 +3237,66 @@ class EAllowStingerNext(_IntEnum):
     NO = 0
     YES = 1
 
+
+class ELogicalOperator(_IntEnum):
+    """An enumeration of possible logical operator values."""
+    AND = 0
+    OR = 1
+
+
+class EPlatformOption(_IntEnum):
+    """An enumeration of possible platforms to be used for query."""
+    ALL = 0
+    CURRENT = 1
+
+
+class EObjectTypeQuery(_IntEnum):
+    """An enumeration of possible object types for a query."""
+    ALL_OBJECTS = 0
+    WAQL_QUERY = 10
+    ACTOR_MIXER = 100
+    ACTOR_MIXER_HIERARCHY = 200
+    ACOUSTIC_TEXTURE = 2200
+    ARGUMENT = 1300
+    ARGUMENT_VALUE = 1400
+    ATTENUATION = 250
+    AUDIO_BUS = 500
+    AUDIO_DEVICE = 740
+    AUXILIARY_BUS = 502
+    AUDIO_SOURCE = 300
+    BLEND_CONTAINER = 400
+    CONVERSION_SETTINGS = 1500
+    DIALOGUE_EVENT = 1200
+    EFFECT = 550
+    EVENT = 600
+    EXTERNAL_SOURCE = 1600
+    VIRTUAL_FOLDER = 1700
+    INTERACTIVE_MUSIC_HIERARCHY = 620
+    INTERACTIVE_MUSIC_HIERARCHY_BEHAVIOUR = 621
+    METADATA = 2400
+    MODULATOR_ENVELOPE = 1900
+    MODULATOR_LFO = 2000
+    MODULATOR_TIME = 2300
+    MODULATORS = 2100
+    MUSIC_CLIP = 667
+    MUSIC_CLIP_MIDI = 669
+    MUSIC_CUE = 668
+    MUSIC_EVENT_CUE = 671
+    MUSIC_FADE = 630
+    MUSIC_PLAYLIST_ITEM = 640
+    MUSIC_PLAYLIST_CONTAINER = 645
+    MUSIC_SEGMENT = 650
+    MUSIC_STINGER = 655
+    MUSIC_SWITCH_CONTAINER = 660
+    MUSIC_TRACK = 665
+    MUSIC_TRACK_SEQUENCE = 666
+    MUSIC_TRANSITION = 670
+    RANDOM_SEQUENCE_CONTAINER = 700
+    SOUND = 800
+    SOUNDBANK = 900
+    SWITCH_CONTAINER = 1000
+    SWITCH_GROUP = 1010
+    TRIGGER = 1100
+    WORK_UNIT_PHYSICAL_FOLDER = 1800
+
 # endregion
