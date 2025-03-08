@@ -1,9 +1,15 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import Any, Any as _Any, Self as _Self, TYPE_CHECKING as _TYPE_CHECKING
+
+if _TYPE_CHECKING:
+    from pywwise.descriptors import WwiseProperty
+
 from dataclasses import dataclass as _dataclass, field as _field
 from types import NoneType as _NoneType
-from typing import Any, Any as _Any, Self as _Self
 
 from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
@@ -1340,3 +1346,95 @@ class WwiseProjectInfo:
     
     default_conversion: WwiseObjectInfo
     """The default Conversion Settings object."""
+
+
+@_dataclass
+class SetImportNode:
+    """A node defining an audio import. Can be for SFX or Voice assets. This class is intended to be used in combination
+    with **SetObjectNode** and **SetOperation**."""
+    
+    audio_file_path: SystemPath
+    """Path to media file to import. This path must be accessible from Wwise."""
+    
+    originals_path: OriginalsPath = None
+    """The path to the subfolder where to import the files. In this case, **omit** the "SFX" and "Voice" default
+    folders. Although not required, specifying a subfolder here is highly recommended."""
+    
+    language: Name = None
+    """If importing a voice asset, specify the name of the target language."""
+    
+    def dict(self):
+        """
+        Convert this data structure to a JSON-like dictionary.
+        :return: The dictionary, in a JSON-like format.
+        """
+        return {"audioFile": str(self.audio_file_path),
+                **({"originalsSubFolder": str(self.audio_file_path)} if self.audio_file_path is not None else {}),
+                **({"language": self.language} if self.language is not None else {})}
+
+
+@_dataclass
+class SetObjectNode:
+    """A node defining the creation or modification of an object. This is intended to be used as the data type for
+    children nodes in **ObjectSetOperation**, which serves as a root node."""
+    
+    type: EObjectType
+    """The type of the new object to create. Not all types are supported in all cases. Refer to the Wwise documentation
+    if unsure."""
+    
+    name: str | Name
+    """The name of the new object to create."""
+    
+    properties: ListOrTuple[tuple[WwiseProperty | str, Any]] = _field(default_factory=tuple)
+    """The properties to set. This is a **list** or **tuple** of property-value pairs (a **tuple** of size 2).
+    **Example: [(Sound.position_3d, E3DPosition.EMITTER), (Sound.volume, -6.0)]**"""
+    
+    children: ListOrTuple[_Self] = _field(default_factory=tuple)
+    """The children objects to create. Setting properties is possible too."""
+    
+    audio_imports: ListOrTuple[SetImportNode] = None
+    """The audio assets to import. This also created Sound objects (SFX or Voice)."""
+    
+    notes: str = ""
+    """The notes or comments for this objects, which are displayed in the "Notes" box in Wwise."""
+    
+    def dict(self) -> dict:
+        """
+        Convert this data structure to a JSON-like dictionary.
+        :return: The dictionary, in a JSON-like format.
+        """
+        _dict = {"type": self.type.get_type_name(),
+                 "name": self.name,
+                 "notes": self.notes,
+                 "children": [child.dict() for child in self.children] if self.children else None,
+                 "import": {"files": [file.dict() for file in self.audio_imports]} if self.audio_imports else None}
+        for prop in self.properties:
+            _dict[f"@{prop[0]}"] = prop[1]
+        return {k: v for k, v in _dict.items() if v is not None and (k != "import" or v.get("files", None))}
+
+
+@_dataclass
+class SetOperation:
+    """A structure used for setting and/or modifying objects in batches. Behaves like a unidirectional linked-list,
+    where the instance of this class is the root of the list."""
+    
+    root: GUID | ProjectPath
+    """The GUID or project path of the existing object on which to set the name, notes, properties or references and
+    under which to create children or create objects in a list. If using a path, use the format: **'/Actor-Mixer
+    Hierarchy/Default Work Unit/New Sound SFX'**.'"""
+    
+    children: ListOrTuple[SetObjectNode] = None
+    """The children objects to create. Setting properties is possible too."""
+    
+    audio_imports: ListOrTuple[AudioImportEntry] = None
+    """The audio assets to import. This also created Sound objects (SFX or Voice)."""
+    
+    def dict(self) -> dict:
+        """
+        Convert this data structure to a JSON-like dictionary.
+        :return: The dictionary, in a JSON-like format.
+        """
+        _dict = {"object": self.root,
+                 "children": [child.dict() for child in self.children] if self.children else None,
+                 "import": {"files": [file.dict() for file in self.audio_imports]} if self.audio_imports else None}
+        return {k: v for k, v in _dict.items() if v is not None}

@@ -13,7 +13,8 @@ from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAtten
                            ENameConflictStrategy, EObjectType, EPropertyPasteMode, EReturnOptions, ERtpcMode)
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
-from pywwise.structs import AttenuationCurve, GraphPoint2D, PropertyInfo, Vector2, WwiseObjectInfo, WwiseObjectWatch
+from pywwise.structs import (AttenuationCurve, GraphPoint2D, PropertyInfo, SetOperation, Vector2, WwiseObjectInfo,
+                             WwiseObjectWatch)
 from pywwise.waql import WAQL
 
 
@@ -664,7 +665,7 @@ class Object:
         
         return self._client.call("ak.wwise.core.object.pasteProperties", args) is not None
     
-    def set(self, operations: ListOrTuple[dict[str, _Any]],
+    def set(self, operations: ListOrTuple[SetOperation],
             platform: GUID | Name = None,
             on_name_conflict: ENameConflictStrategy = ENameConflictStrategy.FAIL,
             list_mode: EListMode = EListMode.APPEND,
@@ -674,13 +675,8 @@ class Object:
         Allows for batch processing of the following operations: Object creation in a child hierarchy, Object creation
         in a list, Setting name, notes, properties and references. See the official Audiokinetic documentation for
         details and complex examples.
-        :param operations: A JSON-like dictionary defining the operations to execute. Example operation:
-                           `{"object": "\\Actor-Mixer Hierarchy\\Default Work Unit\\MySound",
-                           "name": "MyCoolSound",
-                           "notes": "Sound object modified by a Python script.",
-                           "@Volume": -6.0,
-                           "@OutputBus": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master\\Sfx\\Environment"
-                           }`.
+        :param operations: A data structure describing the operations to execute. This involves creating and modifying
+                           objects.
         :param platform: If targeting a specific platform, you must specify its GUID or unique Name.
         :param on_name_conflict: The strategy to use when solving name conflicts.
         :param list_mode: The strategy to use when an object already exists in a list.
@@ -688,7 +684,7 @@ class Object:
                                          edited in version control. Only supported in Wwise 2023 or above.
         :return: Whether the call succeeded.
         """
-        args = {"objects": operations,
+        args = {"objects": [operation.dict() for operation in operations],
                 "onNameConflict": on_name_conflict,
                 "listMode": list_mode,
                 **({"platform": platform} if platform is not None else {}),
