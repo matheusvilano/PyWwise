@@ -4,11 +4,13 @@
 from enum import Enum as _Enum
 from typing import Generic as _Generic, Self as _Self, Type as _Type, TypeVar as _TypeVar
 
-import pywwise.objects  # Requires full import to avoid circular import.
 from pywwise.aliases import SystemPath
+from pywwise.modules import LazyModule
 from pywwise.primitives import GUID
 from pywwise.statics import EnumStatics
 from pywwise.structs import WwiseObjectInfo
+
+_pywwise_objects = LazyModule("pywwise.objects")
 
 _T = _TypeVar("_T")
 
@@ -27,13 +29,16 @@ class WwiseProperty(_Generic[_T]):
         self._name = name
         self._type = etype
     
-    def __get__(self, instance, owner) -> _T:
+    def __get__(self, instance, owner) -> _T | str:
         """
         Getter.
         :param instance: The caller.
-        :param owner: The owner.
+        :param owner: The owner class.
         :return: The current value.
         """
+        if instance is None:
+            return self._name
+        
         getter = getattr(instance, "get_property")
         
         if getter is None:
@@ -51,23 +56,24 @@ class WwiseProperty(_Generic[_T]):
         match _type:  # Decide on what kind of object to return.
             
             case _ if isinstance(_type, tuple) and isinstance(value, dict):
-                query = f"$ from object \"{value.get("id", GUID.get_null())}\" take 1"
+                query = f"$ from object \"{value.get('id', GUID.get_null())}\" take 1"
                 info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
                 if info_tuple is None or not info_tuple:  # Invalid or empty.
                     raise ValueError(f"Invalid object returned for property `{self._name}`. Either `None` or empty.")
-                info_tuple: WwiseObjectInfo = info_tuple[0]  # Still a tuple; convert to single value (GUIDs are unique).
+                info_tuple: WwiseObjectInfo = info_tuple[
+                    0]  # Still a tuple; convert to single value (GUIDs are unique).
                 return info_tuple.type.get_class()(info_tuple.guid, ak)
             
             case _ if (_type is list or _type is tuple) and (isinstance(value, list) or isinstance(value, tuple)):
-                info_list = list[WwiseObjectInfo]()   # Get `WwiseObjectInfo` objs.
+                info_list = list[WwiseObjectInfo]()  # Get `WwiseObjectInfo` objs.
                 for dictionary in value:
-                    query = f"$ from object \"{dictionary.get("id", GUID.get_null())}\" take 1"
+                    query = f"$ from object \"{dictionary.get('id', GUID.get_null())}\" take 1"
                     info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
                     if info_tuple is not None and info_tuple:  # Valid, not empty.
                         info_list.append(info_tuple[0])  # GUIDs are unique, so there is only one value in that tuple.
                 return tuple(info.type.get_class()(info.guid, ak) for info in info_list)
             
-            case _ if issubclass(_type, pywwise.objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
+            case _ if issubclass(_type, _pywwise_objects.WwiseObject) and isinstance(value, dict):  # WwiseObject
                 return _type(value.get("id", GUID.get_null()), ak)
             
             case _ if issubclass(_type, _Enum):  # Any generic enum.Enum, but usually a pywwise.enums type.
@@ -89,7 +95,7 @@ class WwiseProperty(_Generic[_T]):
         
         if issubclass(self._type, SystemPath):  # pathlib.Path (SystemPath) is not JSON-serializable; convert to `str`.
             value = str(value)
-        elif issubclass(value.__class__, pywwise.objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
+        elif issubclass(value.__class__, _pywwise_objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
             value = value.guid
         
         instance.set_property(self._name, value, isinstance(value, GUID))
