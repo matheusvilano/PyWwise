@@ -66,6 +66,65 @@ class _PyWwiseStr(str, _PyWwiseType):
         return cls("\0")
 
 
+class _PyWwisePath(_PyWwiseStr):
+    
+    def __new__(cls, path: str, windows_style: bool = True) -> _Self:
+        """
+        Creates a new path-like object using a `str` as the container. By default, any path will be automatically
+        converted to a Windows-style path. Example: `"/Actor-Mixer Hierarchy/Default Work Unit"` will be converted to
+        `"\\Actor-Mixer Hierarchy\\Default Work Unit"`. This behaviour can be overridden.
+        :param path: The path string.
+        :param windows_style: Whether the path should be forced to a Windows-style format. Example: if `True`,
+                              `"/Actor-Mixer Hierarchy/Default Work Unit"` will be converted to
+                              `"\\Actor-Mixer Hierarchy\\Default Work Unit"`.
+        :return: A new `PyWwisePath` object.
+        :raise ValueError: If the path is empty.
+        """
+        delimiter = "\\" if windows_style else "/"
+        
+        if path == "\0":
+            path = super().__new__(cls, path)
+            path._delimiter = delimiter
+            return path
+        
+        if windows_style:
+            path = path.replace("/", "\\")
+        else:
+            path = path.replace("\\", "/")
+        
+        if not path:  # Empty!
+            raise ValueError("The provided path is invalid or empty. Must be a valid path-like string.")
+        
+        if path[0] != delimiter:
+            path = f"{delimiter}{path}"
+        
+        if path[-1] == delimiter:
+            path = path[:-1]
+        
+        path = super().__new__(cls, path)
+        path._delimiter = delimiter
+        return path
+    
+    def __getitem__(self, item: int | slice) -> str | list[str]:
+        """
+        Gets one or more components from the path.
+        :param item: The index or slice to use.
+        :return: One or more components from the path.
+        """
+        return self.split(self._delimiter)[1:][item]
+    
+    def __truediv__(self, path: str) -> _Self:
+        """
+        Build or extend a path using the `/` operator.
+        :param path: The path, as a string.
+        :return: The new path.
+        """
+        if isinstance(path, str):
+            return self.__class__(f"{self}{self._delimiter}{path.lstrip('/')}")
+        else:
+            raise TypeError(f"Unsupported type for path join: {type(path)}")
+
+
 class Name(_PyWwiseStr):
     """A Wwise object Name. This is usually intended to be used with unique objects (e.g. State Groups)."""
     
@@ -117,63 +176,37 @@ class GUID(_PyWwiseStr):
             return False
 
 
-class ProjectPath(_PyWwiseStr):
+class ProjectPath(_PyWwisePath):
     """A project path (e.g. `"\\Actor-Mixer Hierarchy\\Default Work Unit\\MyActorMixer"`)."""
     
-    def __new__(cls, path: str, windows_style: bool = True) -> _Self:
+    def __new__(cls, path: str, windows_style: bool = True):
         """
-        Creates a new ProjectPath. You can think of this as a path-like string container. By default, any path will be
-        automatically converted to a Windows-style path. Example: `"/Actor-Mixer Hierarchy/Default Work Unit"` will be
-        converted to `"\\Actor-Mixer Hierarchy\\Default Work Unit"`. This behaviour can be overridden.
-        :param path: The project path of the Wwise object.
+        Creates a new path-like object using a `str` as the container. By default, any path will be automatically
+        converted to a Windows-style path. Example: `"/Actor-Mixer Hierarchy/Default Work Unit"` will be converted to
+        `"\\Actor-Mixer Hierarchy\\Default Work Unit"`. This behaviour can be overridden.
+        :param path: The path string.
         :param windows_style: Whether the path should be forced to a Windows-style format. Example: if `True`,
                               `"/Actor-Mixer Hierarchy/Default Work Unit"` will be converted to
                               `"\\Actor-Mixer Hierarchy\\Default Work Unit"`.
-        :return: A new ProjectPath.
+        :return: A new `PyWwisePath` object.
         :raise ValueError: If the path is empty.
         """
-        if len(path) <= 0:
-            raise ValueError("The provided path is empty. Must be a valid path-like string.")
-        
-        delimiter = "\\" if windows_style else "/"
-        
-        if windows_style:
-            path = path.replace("/", "\\")
-        else:
-            path = path.replace("\\", "/")
-        
-        if path[0] != delimiter:
-            path = f"{delimiter}{path}"
-        
-        if path[-1] == delimiter:
-            path = path[:-1]
-        
-        path = str.__new__(cls, path)
-        path._delimiter = delimiter
-        return path
-    
-    def __getitem__(self, item: int | slice) -> str | list[str]:
-        """
-        Gets one or more components from the path.
-        :param item: The index or slice to use.
-        :return: One or more components from the path.
-        """
-        return self.split(self._delimiter)[1:][item]
+        return super().__new__(cls, path)
 
 
-class OriginalsPath(_PyWwiseStr):
+class OriginalsPath(_PyWwisePath):
     """A source file path, relative to the Originals folder. Note: the Originals path can be customized in Wwise."""
     
-    def __new__(cls, path: str) -> _Self:
+    def __new__(cls, path: str, windows_style: bool = True) -> _Self:
         """
         Creates a new OriginalsPath. You can think of this as a string container.
         :param path: The source file path, relative to the Originals folder.
+        :param windows_style: Whether the path should be forced to a Windows-style format. Example: if `True`,
+                      `"/SFX/Ambience"` will be converted to `"\\SFX\\Ambience"`.
         :return: A new OriginalsPath.
         :raise ValueError: If the path is empty.
         """
-        if len(path) <= 0:
-            raise ValueError("The provided path is empty. Must be a valid path-like string.")
-        return str.__new__(cls, path)
+        return super().__new__(cls, path)
 
 
 class GameObjectID(_PyWwiseID):
