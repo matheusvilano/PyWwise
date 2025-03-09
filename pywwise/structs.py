@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Any as _Any, Self as _Self, TYPE_CHECKING as _TYPE_CHECKING
+from typing import Any as _Any, Self as _Self, TYPE_CHECKING as _TYPE_CHECKING
 
 if _TYPE_CHECKING:
     from pywwise.descriptors import WwiseProperty
@@ -1180,7 +1180,7 @@ class AudioImportEntry:
     associated object) or `@@` (a reference to the source of override)."""
     
     @property
-    def dictionary(self) -> dict[str, str | int | float | bool | Any | None]:
+    def dictionary(self) -> dict[str, str | int | float | bool | _Any | None]:
         """:return: The instance represented as a dictionary"""
         return {**({"objectPath": self.object_path} if self.object_path is not None else {}),
                 **({"importLocation": self.root_path} if self.root_path is not None else {}),
@@ -1385,7 +1385,7 @@ class SetObjectNode:
     name: str | Name
     """The name of the new object to create."""
     
-    properties: ListOrTuple[tuple[WwiseProperty | str, Any]] = _field(default_factory=tuple)
+    properties: ListOrTuple[tuple[WwiseProperty | str, _Any]] = _field(default_factory=tuple)
     """The properties to set. This is a **list** or **tuple** of property-value pairs (a **tuple** of size 2).
     **Example: [(Sound.position_3d, E3DPosition.EMITTER), (Sound.volume, -6.0)]**"""
     
