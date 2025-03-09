@@ -120,7 +120,8 @@ class _PyWwisePath(_PyWwiseStr):
         :return: The new path.
         """
         if isinstance(path, str):
-            return self.__class__(f"{self}{self._delimiter}{path.lstrip('/')}")
+            path = self.__class__(f"{self}{self._delimiter}{path.lstrip('/')}")
+            return path.replace("/" if self._delimiter == "\\" else "/", self._delimiter)
         else:
             raise TypeError(f"Unsupported type for path join: {type(path)}")
 
@@ -192,6 +193,195 @@ class ProjectPath(_PyWwisePath):
         :raise ValueError: If the path is empty.
         """
         return super().__new__(cls, path)
+    
+    @classmethod
+    def actor_mixer_hierarchy(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Actor-" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Actor-Mixer Hierarchy' or '\\Actor-Mixer Hierarchy\\Default Work Unit'.
+        """
+        return cls(rf"\Actor-Mixer Hierarchy\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def attenuations(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Attenuations'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Attenuations' or '\\Attenuations\\Default Work Unit'.
+        """
+        return cls(rf"\Attenuations\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def conversion_settings(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Conversion Settings" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Conversion Settings' or '\\Conversion Settings\\Default Work Unit'.
+        """
+        return cls(rf"\Conversion Settings\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def audio_devices(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Audio Devices" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Audio Devices' or '\\Audio Devices\\Default Work Unit'.
+        """
+        return cls(rf"\Audio Devices\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def control_surface_sessions(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Control Surface" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Control Surface Sessions' or '\\Control Surface Sessions\\Default Work Unit'.
+        """
+        return cls(rf"\Control Surface Sessions\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def dynamic_dialogue(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Dynamic Dialogue" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Dynamic Dialogue' or '\\Dynamic Dialogue\\Default Work Unit'.
+        """
+        return cls(rf"\Dynamic Dialogue\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def effects(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Effects'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Effects' or '\\Effects\\Default Work Unit'.
+        """
+        return cls(rf"\Effects\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def events(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Events'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Events' or '\\Events\\Default Work Unit'.
+        """
+        return cls(rf"\Events\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def game_parameters(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Game Parameters" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Game Parameters' or '\\Game Parameters\\Default Work Unit'.
+        """
+        return cls(rf"\Game Parameters\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def interactive_music_hierarchy(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Interactive Music" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Interactive Music Hierarchy' or '\\Interactive Music Hierarchy\\Default Work Unit'.
+        """
+        return cls(rf"\Interactive Music Hierarchy\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def master_mixer_hierarchy(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Master-" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Master-Mixer Hierarchy' or '\\Master-Mixer Hierarchy\\Default Work Unit'.
+        """
+        return cls(rf"\Master-Mixer Hierarchy\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def metadata(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Metadata'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Metadata' or '\\Metadata\\Default Work Unit'.
+        """
+        return cls(rf"\Metadata\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def mixing_sessions(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Mixing Sessions" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Mixing Sessions' or '\\Mixing Sessions\\Default Work Unit'.
+        """
+        return cls(rf"\Mixing Sessions\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def modulators(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Modulators'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Modulators' or '\\Modulators\\Default Work Unit'.
+        """
+        return cls(rf"\Modulators\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def queries(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Queries'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Queries' or '\\Queries\\Default Work Unit'.
+        """
+        return cls(rf"\Queries\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def sound_banks(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "SoundBanks'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\SoundBanks' or '\\SoundBanks\\Default Work Unit'.
+        """
+        return cls(rf"\SoundBanks\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def soundcaster_sessions(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Soundcaster Sessions" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Soundcaster Sessions' or '\\Soundcaster Sessions\\Default Work Unit'.
+        """
+        return cls(rf"\Soundcaster Sessions\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def states(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "States'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\States' or '\\States\\Default Work Unit'.
+        """
+        return cls(rf"\States\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def switches(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Switches'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Switches' or '\\Switches\\Default Work Unit'.
+        """
+        return cls(rf"\Switches\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def triggers(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Triggers'" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Triggers' or '\\Triggers\\Default Work Unit'.
+        """
+        return cls(rf"\Triggers\{'Default Work Unit' if default_work_unit else ''}")
+    
+    @classmethod
+    def virtual_acoustics(cls, default_work_unit: bool = False) -> _Self:
+        """
+        Get path to the default "Virtual Acoustics" folder. May include the Default Work Unit.
+        :param default_work_unit: Whether to include the Default Work Unit in the path.
+        :return: '\\Virtual Acoustics' or '\\Virtual Acoustics\\Default Work Unit'.
+        """
+        return cls(rf"\Virtual Acoustics\{'Default Work Unit' if default_work_unit else ''}")
 
 
 class OriginalsPath(_PyWwisePath):
@@ -207,6 +397,22 @@ class OriginalsPath(_PyWwisePath):
         :raise ValueError: If the path is empty.
         """
         return super().__new__(cls, path)
+    
+    @classmethod
+    def default_sfx(cls) -> _Self:
+        """
+        Get path to the default "SFX'" folder.
+        :return: '\\SFX'.
+        """
+        return cls(rf"\SFX")
+    
+    @classmethod
+    def default_voices(cls) -> _Self:
+        """
+        Get path to the default "Voices'" folder.
+        :return: '\\Voices'.
+        """
+        return cls(rf"\Voices")
 
 
 class GameObjectID(_PyWwiseID):
