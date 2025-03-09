@@ -15,7 +15,7 @@ from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import (AttenuationCurve, GraphPoint2D, PropertyInfo, SetOperation, Vector2, WwiseObjectInfo,
                              WwiseObjectWatch)
-from pywwise.waql import Waql
+from pywwise.waqlquery import WaqlQuery
 
 
 class Object:
@@ -431,7 +431,7 @@ class Object:
         results = self._client.call("ak.wwise.core.object.diff", args)
         return results.get("properties", tuple[str]()), results.get("lists", tuple[str]())
     
-    def get(self, waql: Waql | str, returns_and_properties: tuple[EReturnOptions | str, ...] = ()) -> tuple[
+    def get(self, waql: WaqlQuery | str, returns_and_properties: tuple[EReturnOptions | str, ...] = ()) -> tuple[
         WwiseObjectInfo, ...]:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_object_get.html \n
