@@ -129,7 +129,7 @@ with new_waapi_connection() as ak:  # the default URL is "ws://127.0.0.1:8080/wa
     
     # Get and set Volume property
     property_name = Sound.volume  # Accessing the property from the class instead of instance returns the property name
-    print(f"Current Volume: {sound_obj.volume}")  # 0.0
+    print(f"Current {property_name}: {sound_obj.volume}")  # 0.0
     sound_obj.volume = -6.0  # Will call either ak.wwise.core.object.set_property or ak.wwise.core.object.set_reference
-    print(f"New Volume: {sound_obj.volume}")  # -6.0
+    print(f"New {property_name}: {sound_obj.volume}")  # -6.0
 ```
