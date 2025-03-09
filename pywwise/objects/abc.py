@@ -1,10 +1,16 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
+from typing import Any as _Any, TYPE_CHECKING as _TYPE_CHECKING, TypeVar as _TypeVar
+
+if _TYPE_CHECKING:
+    from pywwise.structs import WwiseObjectInfo
+
 from abc import ABC as _ABC
 from enum import Enum as _Enum
 from types import NoneType as _NoneType
-from typing import Any as _Any, TypeVar as _TypeVar
 
 from pywwise.enums import EObjectType
 from pywwise.primitives import GUID, Name, ProjectPath
@@ -17,7 +23,7 @@ class WwiseObject(_ABC):
     The base class for any class that serves as interface for getting/setting properties on Wwise objects.
     """
     
-    def __init__(self, guid: GUID, ak: WwiseConnection,
+    def __init__(self, guid: GUID | WwiseObjectInfo, ak: WwiseConnection,
                  platform: GUID | Name | _NoneType = None):
         """
         Uses a GUID to initialize a strongly-typed dynamic object, capable of fetching information from Wwise as needed.
