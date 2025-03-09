@@ -2606,9 +2606,9 @@ class ESoundBankDefinitionFormat(_IntEnum):
 
 class EExternalAnalysisType(_IntEnum):
     """Enumeration of valid analysis types for external source files."""
-    ANALYSIS_TYPE_0 = 0
-    ANALYSIS_TYPE_1 = 1
-    ANALYSIS_TYPE_2 = 2
+    TYPE_0 = 0
+    TYPE_1 = 1
+    TYPE_2 = 2
 
 
 class ECaseStyleSimple(_IntEnum):
@@ -3385,12 +3385,12 @@ class ESearchCriteriaOtherChannelsCountOption(_IntEnum):
     NOT_EQUAL = 5
 
 
-class ESearchCriteriaSRConversionType(_IntEnum):
+class ESearchCriteriaSampleRateConversionType(_IntEnum):
     """An enumeration os possible values for sample rate conversion type in a search criteria."""
-    SR_CONVERSION_TYPE_0 = 0
-    SR_CONVERSION_TYPE_1 = 1
-    SR_CONVERSION_TYPE_2 = 2
-    SR_CONVERSION_TYPE_3 = 3
+    CONVERSION_0 = 0
+    CONVERSION_1 = 1
+    CONVERSION_2 = 2
+    CONVERSION_3 = 3
 
 
 class ESearchCriteriaStateProperty(_IntEnum):

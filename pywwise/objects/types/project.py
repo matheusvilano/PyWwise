@@ -48,8 +48,8 @@ class Project(WwiseObject):
     override_colour = WwiseProperty[bool]("OverrideColor", bool)
     remove_unused_generated_files = WwiseProperty[bool]("RemoveUnusedGeneratedFiles", bool)
     sound_bank_allow_exceeding_sb = WwiseProperty[bool]("SoundBankAllowExceedingSB", bool)
-    sound_bank_definition_file_format = WwiseProperty[ESoundBankDefinitionFormat]("SoundBankDefinitionFileFormat",
-                                                                                  ESoundBankDefinitionFormat)
+    sound_bank_definition_file_format = WwiseProperty[ESoundBankDefinitionFormat](
+        "SoundBankDefinitionFileFormat", ESoundBankDefinitionFormat)
     sound_bank_generate_definition_file = WwiseProperty[bool]("SoundBankGenerateDefinitionFile", bool)
     sound_bank_generate_estimated_duration = WwiseProperty[bool]("SoundBankGenerateEstimatedDuration", bool)
     sound_bank_generate_header_file = WwiseProperty[bool]("SoundBankGenerateHeaderFile", bool)
@@ -61,8 +61,8 @@ class Project(WwiseObject):
     sound_bank_header_file_path = WwiseProperty[ProjectPath]("SoundBankHeaderFilePath", ProjectPath)
     sound_bank_include_soundbank_names_strings = WwiseProperty[bool]("SoundBankIncludeSoundbankNamesStrings", bool)
     sound_bank_paths = WwiseProperty[str]("SoundBankPaths", str)
-    sound_bank_post_generate_custom_cmd_description = WwiseProperty[str]("SoundBankPostGenerateCustomCmdDescription",
-                                                                         str)
+    sound_bank_post_generate_custom_cmd_description = WwiseProperty[str](
+        "SoundBankPostGenerateCustomCmdDescription", str)
     sound_bank_post_generate_custom_cmd_lines = WwiseProperty[str]("SoundBankPostGenerateCustomCmdLines", str)
     sound_bank_pre_generate_custom_cmd_description = WwiseProperty[str]("SoundBankPreGenerateCustomCmdDescription", str)
     sound_bank_pre_generate_custom_cmd_lines = WwiseProperty[str]("SoundBankPreGenerateCustomCmdLines", str)
