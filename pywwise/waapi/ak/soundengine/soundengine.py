@@ -53,8 +53,8 @@ class SoundEngine:
         results = self._client.call("ak.soundengine.getState", args).get("return")
         return results.get("name"), results.get("id")
     
-    def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath, game_object: GameObjectID) -> tuple[
-        str, str]:
+    def get_switch(self, switch_group: Name | ShortID | GUID | ProjectPath,
+                   game_object: GameObjectID) -> tuple[str, str]:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_getswitch.html \n
         Gets the current state of a Switch Group for a given Game Object.

@@ -1960,6 +1960,18 @@ class EWaqlSelectExpression(_StrEnum):
     Container context objects hold settings about the Switch Container associations."""
 
 
+class EWaqlLogicalOperator(_StrEnum):
+    """An enumeration of boolean operators available in the Wwise Authoring Query Language, for the purpose of building
+    a simple boolean expression with the format .Property Operator Value/Reference/Regex' (e.g. 'Volume != 0.0')."""
+    EQUAL = "="
+    NOT_EQUAL = "!="
+    LESS_THAN = "<"
+    LESS_OR_EQUAL = "<="
+    GREATER = ">"
+    GREATER_OR_EQUAL = ">="
+    CONTAINS = ":"
+
+
 class EAttenuationCurveUsage(_StrEnum):
     """An enumeration of different "usage states" for an attenuation curve."""
     
