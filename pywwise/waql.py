@@ -8,7 +8,7 @@ from pywwise.enums import EObjectType, EWaqlLogicalOperator, EWaqlSelectExpressi
 from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 
 
-class WAQL:
+class Waql:
     """
     A helper class for building WAQL queries. Queries may be built without this class, which is actually preferred;
     but if you are unfamiliar with WAQL, this class can be a time-saver. Useful features:\n
