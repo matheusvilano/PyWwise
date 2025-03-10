@@ -3,9 +3,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union as _Union
+from typing import TYPE_CHECKING as _TYPE_CHECKING
 
-if TYPE_CHECKING:
+if _TYPE_CHECKING:
     from pywwise.objects.types.music_segment import MusicSegment
 
 from pywwise.descriptors import WwiseProperty

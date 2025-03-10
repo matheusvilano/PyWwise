@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
-                           EMidiPlayOnNoteType, EOverLimitBehaviour, EScope, EVirtualVoiceBehaviour,
-                           EVirtualVoiceQueueBehaviour, EContainerPlayMode)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EContainerPlayMode, EDiscardBehaviour,
+                           ELoudnessNormalizationType, EMidiPlayOnNoteType, EOverLimitBehaviour, EScope,
+                           EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus

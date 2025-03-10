@@ -11,7 +11,7 @@ if _TYPE_CHECKING:
 from dataclasses import dataclass as _dataclass, field as _field
 from types import NoneType as _NoneType
 
-from pywwise.aliases import ListOrTuple, RegexPattern, SystemPath
+from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,

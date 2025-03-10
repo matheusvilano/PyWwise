@@ -24,9 +24,3 @@ ListOrTupleOrSet: _TypeAlias = _Union[_List[UnionType], _Tuple[UnionType, ...], 
 """Custom type representing `List`, `Tuple`, and `Set`."""
 
 # endregion
-
-# region PyWwise
-
-
-
-# endregion
