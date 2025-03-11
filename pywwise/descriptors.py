@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum as _Enum
-from typing import Generic as _Generic, Self as _Self, Type as _Type, TypeVar as _TypeVar
+from typing import Any as _Any, Generic as _Generic, Self as _Self, Type as _Type, TypeVar as _TypeVar
 
 from pywwise.aliases import SystemPath
 from pywwise.modules import LazyModule
@@ -60,8 +60,7 @@ class WwiseProperty(_Generic[_T]):
                 info_tuple: tuple[WwiseObjectInfo, ...] = ak.wwise.core.object.get(query)
                 if info_tuple is None or not info_tuple:  # Invalid or empty.
                     raise ValueError(f"Invalid object returned for property `{self._name}`. Either `None` or empty.")
-                info_tuple: WwiseObjectInfo = info_tuple[
-                    0]  # Still a tuple; convert to single value (GUIDs are unique).
+                info_tuple: WwiseObjectInfo = info_tuple[0]  # Still tuple; convert to single value (GUIDs are unique).
                 return info_tuple.type.get_class()(info_tuple.guid, ak)
             
             case _ if (_type is list or _type is tuple) and (isinstance(value, list) or isinstance(value, tuple)):
@@ -82,7 +81,7 @@ class WwiseProperty(_Generic[_T]):
             case _:  # Anything else, including GUID, ProjectPath, GameObjectID, SystemPath, etc.
                 return _type(value)  # PyCharm might throw a warning here about a missing `ak`; false negative.
     
-    def __set__(self, instance, value: _T):
+    def __set__(self, instance: _Any, value: _T):
         """
         Setter.
         :param instance: The caller.
@@ -93,12 +92,12 @@ class WwiseProperty(_Generic[_T]):
         if setter is None:
             raise TypeError("Encapsulators of WwiseProperty must implement the `set_property` function.")
         
-        if issubclass(self._type, SystemPath):  # pathlib.Path (SystemPath) is not JSON-serializable; convert to `str`.
+        if self._type == SystemPath:  # pathlib.Path (SystemPath) is not JSON-serializable; convert to `str`.
             value = str(value)
         elif issubclass(value.__class__, _pywwise_objects.WwiseObject) or isinstance(value, WwiseObjectInfo):
             value = value.guid
         
-        instance.set_property(self._name, value, isinstance(value, GUID))
+        instance.set_property(self._name, value, isinstance(value, GUID) or value is None)
     
     @property
     def type(self) -> _Type[_T]:
