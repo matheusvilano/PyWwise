@@ -24,7 +24,7 @@ _SwitchOrStateType = _Union[Switch, State]
 
 _SwitchOrStateTypeTuple = (Switch, State)
 
-_SwitchGroupOrStateGroupType = _Union[tuple[Switch], tuple[State]]
+_SwitchGroupOrStateGroupType = _Union[Switch, State]
 
 _SwitchGroupOrStateGroupTypeTuple = (SwitchGroup, StateGroup)
 
