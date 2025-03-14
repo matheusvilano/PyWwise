@@ -11,7 +11,7 @@ from pywwise.objects import *
 from pywwise.primitives import *
 from pywwise.structs import *
 from pywwise.waapi.ak import Ak as _Ak, WwiseConnection
-from pywwise.waqlquery import *
+from pywwise.waql import *
 
 _getLogger("waapi").setLevel(_LEVEL_CRITICAL)
 

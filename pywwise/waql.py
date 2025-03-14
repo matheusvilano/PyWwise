@@ -192,14 +192,14 @@ class WaqlQuery:
     
     def open_bracket(self):
         """
-        Insert an open round bracket ("(") into your query. Use this in combination with **expression**,
+        Insert an open round bracket **("(")** into your query. Use this in combination with **expression**,
         **and_expression**, **or_expression**, **open_bracket**, and **close_bracket** to create compound expressions.
         """
         self._components.append("(")
     
     def close_bracket(self):
         """
-        Insert an open round bracket (")") into your query. Use this in combination with **expression**,
+        Insert an open round bracket **(")")** into your query. Use this in combination with **expression**,
         **and_expression**, **or_expression**, **open_bracket**, and **close_bracket** to create compound expressions.
         """
         self._components.append(")")

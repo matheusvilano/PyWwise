@@ -15,7 +15,7 @@ from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import (AttenuationCurve, GraphPoint2D, PropertyInfo, SetOperation, Vector2, WwiseObjectInfo,
                              WwiseObjectWatch)
-from pywwise.waqlquery import WaqlQuery
+from pywwise.waql import WaqlQuery
 
 
 class Object:
