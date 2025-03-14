@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from waapi import WaapiClient as _WaapiClient
-from pywwise.enums import EGameParameterValueChangeAction
 
+from pywwise.enums import EGameParameterValueChangeAction
 from pywwise.primitives import GUID, Name, ProjectPath
 
 
