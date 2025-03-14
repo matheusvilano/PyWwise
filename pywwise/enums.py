@@ -2070,6 +2070,19 @@ class EWwiseBuildConfiguration(_StrEnum):
     """Debug build configuration."""
 
 
+class EGeneratedSoundBankType(_StrEnum):
+    """An enumeration of generated sound banks types."""
+    
+    USER = "User"
+    """User-defined."""
+    
+    EVENT = "Event"
+    """Auto-defined (based on an Event)."""
+    
+    BUS = "Bus"
+    """Auto-defined (based on a Bus)."""
+
+
 # endregion
 
 # region Types

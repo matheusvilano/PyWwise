@@ -4,13 +4,14 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 
+from pywwise import EGeneratedSoundBankType, ShortID
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
 from pywwise.enums import EInclusionFilter, EInclusionOperation, ELogSeverity, EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.statics import EnumStatics
 from pywwise.structs import (ExternalSourceInfo, LogItem, SoundBankData, SoundBankGenerationInfo, SoundBankInclusion,
-                             SoundBankInfo, WwiseObjectInfo)
+                             SoundBankInfo)
 
 
 class SoundBank:
@@ -56,16 +57,31 @@ class SoundBank:
         :param event: The event to broadcast.
         :param kwargs: The event data.
         """
-        sound_bank = WwiseObjectInfo.from_dict(kwargs["soundbank"])
-        platform = Name(kwargs["platform"]["name"])
-        language = Name(kwargs["language"]) if kwargs.get("language") is not None else Name.get_null()
+        
+        # soundBank
+        obj_guid = GUID(kwargs.get("id", GUID.get_null()))
+        obj_name = Name(kwargs.get("name", Name.get_null()))
+        obj_short = ShortID(kwargs.get("shortId", ShortID.get_null()))
+        obj_path = ProjectPath(kwargs.get("path", ProjectPath.get_null()))
+        platform = Name(kwargs.get("platform", dict()).get("name", Name.get_null()))
+        language = Name(kwargs.get("language", Name.get_null()))
+        
+        # soundBankInfo
+        info = kwargs.get("bankInfo", dict())
+        file_guid = GUID(info.get("GUID", GUID.get_null()))
+        file_name = Name(info.get("ShortName", Name.get_null()))
+        file_short = ShortID(info.get("Id", ShortID.get_null()))
+        file_path = SystemPath(info["Path"]) if info.get("Path") is not None else None
+        bank_type = EnumStatics.from_value(EGeneratedSoundBankType, info.get("Type", ""))
+        
+        # bankData
         bank_data = kwargs.get("bankData", dict())
         bank_data = SoundBankData(bank_data.get("data", ""), bank_data.get("size", 0))
-        banks_info = kwargs.get("bankInfo", list())
-        plugins_info = kwargs.get("pluginInfo", dict())
+        
+        # TODO: get media info and plugin info
         error_message = kwargs.get("error", "")
-        event(SoundBankGenerationInfo(sound_bank, platform, language, bank_data,
-                                      banks_info, plugins_info, error_message))
+        event(SoundBankGenerationInfo(obj_guid, obj_name, obj_short, obj_path, platform, language, file_guid, file_name,
+                                      file_short, file_path, bank_type, bank_data, error_message))
     
     @callback
     def _on_generation_done(self, event: _RefEvent, **kwargs):

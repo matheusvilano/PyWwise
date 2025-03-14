@@ -13,7 +13,8 @@ from types import NoneType as _NoneType
 
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAttenuationCurveUsage, EAudioObjectOptions,
-                           EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity, EInclusionFilter,
+                           EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity,
+                           EGeneratedSoundBankType, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
                            EVoicePipelineReturnOptions, EWwiseBuildConfiguration, EWwiseBuildPlatform)
 from pywwise.primitives import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
@@ -491,24 +492,43 @@ class SoundBankData:
 class SoundBankGenerationInfo:
     """Contains information about a SoundBank's generation."""
     
-    sound_bank: WwiseObjectInfo
-    """The generated SoundBank."""
+    obj_guid: GUID
+    """The GUID of the generated SoundBank object in Wwise."""
+    
+    obj_name: Name
+    """The short name of the SoundBank object in Wwise."""
+    
+    obj_short: ShortID
+    """The short ID of the SoundBank object in Wwise."""
+    
+    obj_path: ProjectPath
+    """The project path to the SoundBank object in Wwise."""
     
     platform: Name
     """The name of the platform for which the SoundBank was generated."""
     
-    language: Name = Name.get_null()
+    language: Name
     """The name of the language for which the SoundBank was generated. Only present when generating a SoundBank for a
     specific language."""
     
+    file_guid: GUID
+    """The GUID of the generated SoundBank (BNK) file."""
+    
+    file_name: Name
+    """The short name of the file. This is the name of the BNK file."""
+    
+    file_short: ShortID
+    """The short ID of the generated SoundBank (BNK) file."""
+    
+    file_path: SystemPath
+    """The system path to the BNK file."""
+    
+    bank_type: EGeneratedSoundBankType
+    """The type of SoundBank generated. Most banks are Auto-Defined SoundBanks, if your project has the feature
+    enabled."""
+    
     bank_data: SoundBankData = _field(default=SoundBankData)
-    """SoundBank data object containing the actual data encoded in base64 and the size."""
-    
-    banks_info: list[dict[str, _Any]] = _field(default_factory=list)
-    """All the info for the generated SoundBank."""
-    
-    plugins_info: dict[str, str | list[dict[str, str]]] = _field(default_factory=dict)
-    """PluginInfo file info."""
+    """The bank data."""
     
     error_message: str = ""
     """The error message, if an error occurred. Only present if an error occurred."""
