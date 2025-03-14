@@ -5,7 +5,7 @@ from pywwise.descriptors import WwiseProperty
 from pywwise.objects.abc import WwiseObject
 
 
-class Path2d(WwiseObject):
+class Path2D(WwiseObject):
     """
     https://www.audiokinetic.com/en/library/edge/?source=SDK&id=wwiseobject_path2d.html \n
     A class serving as an interface for getting/setting properties on Wwise objects. This type specifically targets

@@ -53,7 +53,7 @@ from pywwise.objects.types.music_track_sequence import MusicTrackSequence
 from pywwise.objects.types.music_transition import MusicTransition
 from pywwise.objects.types.object_setting_assoc import ObjectSettingAssoc
 from pywwise.objects.types.panner import Panner
-from pywwise.objects.types.path_2d import Path2d
+from pywwise.objects.types.path_2d import Path2D
 from pywwise.objects.types.platform import Platform
 from pywwise.objects.types.plugin_data_source import PluginDataSource
 from pywwise.objects.types.position import Position

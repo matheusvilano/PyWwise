@@ -578,7 +578,7 @@ class EObjectType(tuple[int, int, str], _Enum):
     MUSIC_TRANSITION = 37, 2424848, "MusicTransition"
     OBJECT_SETTING_ASSOC = 24, 1572880, "ObjectSettingAssociation"  # "ObjectSettingAssoc" in docs
     PANNER = 42, 2752528, "Panner"
-    PATH_2D = 11, 720912, "Path2d"
+    PATH_2D = 11, 720912, "Path2D"
     PLATFORM = 69, 4522000, "Platform"
     PLUGIN_DATA_SOURCE = 54, 3538960, "PluginDataSource"
     POSITION = 12, 786448, "Position"
