@@ -13,6 +13,7 @@ from pywwise.structs import (LanguageInfo, PlatformInfo, WwiseGlobalDirectories,
                              WwiseObjectWatch, WwiseProjectInfo, WwiseVersionInfo)
 from pywwise.waapi.ak.wwise.core.audio import Audio as _Audio
 from pywwise.waapi.ak.wwise.core.audio_source_peaks import AudioSourcePeaks as _AudioSourcePeaks
+from pywwise.waapi.ak.wwise.core.game_parameter import GameParameter as _GameParameter
 from pywwise.waapi.ak.wwise.core.log import Log as _Log
 from pywwise.waapi.ak.wwise.core.object import Object as _Object
 from pywwise.waapi.ak.wwise.core.profiler import Profiler as _Profiler
@@ -39,6 +40,7 @@ class Core:
         self._client = client
         self.audio = _Audio(client)
         self.audio_source_peaks = _AudioSourcePeaks(client)
+        self.game_parameter = _GameParameter(client)
         self.log = _Log(client)
         self.object = _Object(client, watch_list)
         self.profiler = _Profiler(client)

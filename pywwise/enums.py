@@ -2324,7 +2324,7 @@ class EInterpolationMode(_IntEnum):
 class EGameParameterValueChangeAction(_StrEnum):
     """An enumeration of the possible change value actions when modifying a game parameter's Min and Max values."""
     
-    STRETCH = "Stretch"
+    STRETCH = "stretch"
     """All items are kept but their X positions might change as the curve/blend track is stretched or compressed to
     match the new range in X. Values of Set Game Parameter actions are also scaled."""
     

@@ -1,9 +1,10 @@
 # Copyright 2024 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Any as _Any
 from waapi import WaapiClient as _WaapiClient
-from pywwise import EGameParameterValueChangeAction, GUID, Name, ProjectPath
+from pywwise.enums import EGameParameterValueChangeAction
+
+from pywwise.primitives import GUID, Name, ProjectPath
 
 
 class GameParameter:
@@ -15,7 +16,7 @@ class GameParameter:
         :param client: The WAAPI client to use.
         """
         self._client = client
-        
+    
     def set_range(self, game_parameter: GUID | Name | ProjectPath, min_value: float, max_value: float,
                   on_curve_update: EGameParameterValueChangeAction) -> bool:
         """
@@ -27,11 +28,10 @@ class GameParameter:
         :param max_value: The maximum value of the Game Parameter.
         :param on_curve_update: Modifying the Min or Max value of a Game Parameter affects the RTPC curves and blend
                                 tracks that use that Game Parameter for their X axis. Two actions are possible, Stretch
-                                or PreserveX. These actions are defined via the Enum: EGameParameterValueChangeAction
+                                or PreserveX.
         :return: True if the call was successful, False otherwise.
         """
         args = {"object": game_parameter, "minValue": min_value, "maxValue": max_value,
                 "onCurveUpdate": on_curve_update}
         
         return self._client.call("ak.wwise.core.gameParameter.setRange", args) is not None
-    

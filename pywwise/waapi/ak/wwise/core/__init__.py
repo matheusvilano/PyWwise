@@ -5,6 +5,7 @@ from pywwise.waapi.ak.wwise.core.audio import Audio
 from pywwise.waapi.ak.wwise.core.audio_source_peaks import AudioSourcePeaks
 from pywwise.waapi.ak.wwise.core.capture_log import CaptureLog
 from pywwise.waapi.ak.wwise.core.core import Core
+from pywwise.waapi.ak.wwise.core.game_parameter import GameParameter
 from pywwise.waapi.ak.wwise.core.log import Log
 from pywwise.waapi.ak.wwise.core.object import Object
 from pywwise.waapi.ak.wwise.core.profiler import Profiler
