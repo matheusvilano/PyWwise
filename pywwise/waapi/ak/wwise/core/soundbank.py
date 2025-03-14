@@ -4,11 +4,11 @@
 from simplevent import RefEvent as _RefEvent
 from waapi import WaapiClient as _WaapiClient
 
-from pywwise import EGeneratedSoundBankType, ShortID
 from pywwise.aliases import ListOrTuple, SystemPath
 from pywwise.decorators import callback
-from pywwise.enums import EInclusionFilter, EInclusionOperation, ELogSeverity, EObjectType, EReturnOptions
-from pywwise.primitives import GUID, Name, ProjectPath
+from pywwise.enums import (EGeneratedSoundBankType, EInclusionFilter, EInclusionOperation, ELogSeverity, EObjectType,
+                           EReturnOptions)
+from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
 from pywwise.structs import (ExternalSourceInfo, LogItem, SoundBankData, SoundBankGenerationInfo, SoundBankInclusion,
                              SoundBankInfo)
