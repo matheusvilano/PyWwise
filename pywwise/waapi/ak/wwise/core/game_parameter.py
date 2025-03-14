@@ -31,7 +31,7 @@ class GameParameter:
                                 or PreserveX.
         :return: True if the call was successful, False otherwise.
         """
-        args = {"object": game_parameter, "minValue": min_value, "maxValue": max_value,
+        args = {"object": game_parameter, "min": min_value, "max": max_value,
                 "onCurveUpdate": on_curve_update}
         
         return self._client.call("ak.wwise.core.gameParameter.setRange", args) is not None
