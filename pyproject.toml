@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pywwise"
-version = "0.2.1"
+version = "0.2.2"
 description = "A comprehensive Wwise Authoring API wrapper - fully documented, with auto-completion in mind."
 authors = [{ name = "Matheus Vilano" }]
 license = { file = "LICENSE" }
@@ -22,7 +22,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "simplevent~=2.1.3",
+    "simplevent~=2.2.0",
     "waapi-client~=0.7.2"
 ]
 
