@@ -2321,6 +2321,18 @@ class EInterpolationMode(_IntEnum):
     FILTERING_OVER_TIME = 2  # FOT
 
 
+class EGameParameterValueChangeAction(_StrEnum):
+    """An enumeration of the possible change value actions when modifying a game parameter's Min and Max values."""
+    
+    STRETCH = "Stretch"
+    """All items are kept but their X positions might change as the curve/blend track is stretched or compressed to
+    match the new range in X. Values of Set Game Parameter actions are also scaled."""
+    
+    PRESERVE_X = "preserveX"
+    """Maintains the X position of all the items, but those that fall outside the new range are deleted. Values of Set
+    Game Parameter actions are clamped."""
+    
+
 class EBuiltInGameParameter(_IntEnum):
     """An enumeration of all built-in parameters."""
     NONE = 0
