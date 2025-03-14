@@ -18,7 +18,7 @@ from pywwise.objects.types import (AcousticTexture, Action, ActionException, Act
                                    ModulatorLfo, ModulatorTime, MultiSwitchEntry, MusicClip, MusicClipMidi,
                                    MusicCue, MusicEventCue, MusicFade, MusicPlaylistContainer, MusicPlaylistItem,
                                    MusicSegment, MusicStinger, MusicSwitchContainer, MusicTrack, MusicTrackSequence,
-                                   MusicTransition, ObjectSettingAssoc, Panner, Path2d, Platform, PluginDataSource,
+                                   MusicTransition, ObjectSettingAssoc, Panner, Path2D, Platform, PluginDataSource,
                                    Position, Project, Query, RandomSequenceContainer, Rtpc, SearchCriteria, Sound,
                                    SoundBank, SoundcasterSession, SourcePlugin, State, StateGroup, Switch,
                                    SwitchContainer, SwitchGroup, Trigger, UserProjectSettings, WorkUnit)
