@@ -66,7 +66,7 @@ class Bus(WwiseObject):
     reflections_aux_send = WwiseProperty[AuxBus]("ReflectionsAuxSend", AuxBus)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
-    speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
+    speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     used_for_background_music = WwiseProperty[bool]("UsedForBackgroundMusic", bool)

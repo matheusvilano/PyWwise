@@ -48,7 +48,7 @@ class AuxBus(WwiseObject):
     reflections_aux_send = WwiseProperty[_Self]("ReflectionsAuxSend", _Self)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
-    speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
+    speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     user_aux_send_0 = WwiseProperty[_Self]("UserAuxSend0", _Self)
     user_aux_send_1 = WwiseProperty[_Self]("UserAuxSend1", _Self)

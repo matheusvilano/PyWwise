@@ -110,7 +110,7 @@ class SwitchContainer(WwiseObject):
     reflections_aux_send = WwiseProperty[AuxBus]("ReflectionsAuxSend", AuxBus)
     reflections_volume = WwiseProperty[float]("ReflectionsVolume", float)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
-    speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
+    speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     switch_behaviour = WwiseProperty[EContainerPlayMode]("SwitchBehavior", EContainerPlayMode)
     switch_group_or_state_group = WwiseProperty[_SwitchGroupOrStateGroupType](
         "SwitchGroupOrStateGroup", _SwitchGroupOrStateGroupTypeTuple)

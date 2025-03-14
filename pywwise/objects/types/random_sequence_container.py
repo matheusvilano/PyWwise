@@ -123,7 +123,7 @@ class RandomSequenceContainer(WwiseObject):
     restart_beginning_or_backward = WwiseProperty[EPlaylistRestartBehaviour](
         "RestartBeginningOrBackward", EPlaylistRestartBehaviour)
     speaker_panning = WwiseProperty[int]("SpeakerPanning", int)
-    speaker_panning_3d_spatialization_mid = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
+    speaker_panning_3d_spatialization_mix = WwiseProperty[int]("SpeakerPanning3DSpatializationMix", int)
     use_game_aux_sends = WwiseProperty[bool]("UseGameAuxSends", bool)
     use_max_sound_per_instance = WwiseProperty[bool]("UseMaxSoundPerInstance", bool)
     user_aux_send_0 = WwiseProperty[AuxBus]("UserAuxSend0", AuxBus)
