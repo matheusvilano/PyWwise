@@ -10,8 +10,8 @@ from pywwise.enums import (EGeneratedSoundBankType, EInclusionFilter, EInclusion
                            EReturnOptions)
 from pywwise.primitives import GUID, Name, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
-from pywwise.structs import (ExternalSourceInfo, LogItem, SoundBankData, SoundBankGenerationInfo, SoundBankInclusion,
-                             SoundBankInfo)
+from pywwise.structs import (ExternalSourceInfo, LogItem, PluginLibraryInfo, SoundBankData, SoundBankGenerationInfo,
+                             SoundBankInclusion, SoundBankInfo)
 
 
 class SoundBank:
@@ -57,31 +57,76 @@ class SoundBank:
         :param event: The event to broadcast.
         :param kwargs: The event data.
         """
+        # Key: soundBank
+        print(kwargs)
+        bank = kwargs.get("soundbank", dict())
+        guid = GUID(bank.get("id", GUID.get_null()))
+        name = Name(bank.get("name", Name.get_null()))
+        path = ProjectPath(bank.get("path", ProjectPath.get_null()))
         
-        # soundBank
-        obj_guid = GUID(kwargs.get("id", GUID.get_null()))
-        obj_name = Name(kwargs.get("name", Name.get_null()))
-        obj_short = ShortID(kwargs.get("shortId", ShortID.get_null()))
-        obj_path = ProjectPath(kwargs.get("path", ProjectPath.get_null()))
-        platform = Name(kwargs.get("platform", dict()).get("name", Name.get_null()))
-        language = Name(kwargs.get("language", Name.get_null()))
+        # Key: bankInfo
+        info = kwargs.get("bankInfo", list[str]())
+        info = info[0] if info else dict()
+        short = ShortID(info.get("Id", ShortID.get_null()))
+        file = str(info.get("Path", ""))
+        btype = EnumStatics.from_value(EGeneratedSoundBankType, info.get("Type", ""))
+        bhash = GUID(info.get("Hash", GUID.get_null()))
         
-        # soundBankInfo
-        info = kwargs.get("bankInfo", dict())
-        file_guid = GUID(info.get("GUID", GUID.get_null()))
-        file_name = Name(info.get("ShortName", Name.get_null()))
-        file_short = ShortID(info.get("Id", ShortID.get_null()))
-        file_path = SystemPath(info["Path"]) if info.get("Path") is not None else None
-        bank_type = EnumStatics.from_value(EGeneratedSoundBankType, info.get("Type", ""))
+        # Key: bankInfo.Media
+        media = info.get("Media", dict())
         
-        # bankData
+        # Key: bankInfo.ExternalSources
+        externals = info.get("ExternalSources", dict())
+        
+        # Key: bankInfo.Plugins
+        plugins = info.get("Plugins", dict())
+        
+        # Key: bankInfo.Events
+        events = info.get("Events", dict())
+        
+        # Key: bankInfo.DialogueEvents
+        dialogues = info.get("DialogueEvents", dict())
+        
+        # Key: bankInfo.Busses
+        busses = info.get("Busses", dict())
+        
+        # Key: bankInfo.AuxBusses
+        auxes = info.get("AuxBusses", dict())
+        
+        # Key: bankInfo.GameParameters
+        parameters = info.get("GameParameters", dict())
+        
+        # Key: bankInfo.Triggers
+        triggers = info.get("Triggers", dict())
+        
+        # Key: bankInfo.StateGroups
+        states = info.get("StateGroups", dict())
+        
+        # Key: bankInfo.SwitchGroups
+        switches = info.get("SwitchGroups", dict())
+        
+        # Key: bankInfo.AcousticTextures
+        textures = info.get("AcousticTextures", dict())
+        
+        # Key: pluginInfo
+        libs = kwargs.get("pluginInfo", dict()).get("PluginLibs", list[dict]())
+        libs = [PluginLibraryInfo(str(lib.get("LibName", "")), ShortID(lib.get("LibId", ShortID.get_null())),
+                                  str(lib.get("Type", "")), str(lib.get("DLL", "")), str(lib.get("StaticLib", "")))
+                for lib in libs]
+        libs = tuple(libs)
+        
+        # Key: bankData
         bank_data = kwargs.get("bankData", dict())
         bank_data = SoundBankData(bank_data.get("data", ""), bank_data.get("size", 0))
         
-        # TODO: get media info and plugin info
+        # Other data
         error_message = kwargs.get("error", "")
-        event(SoundBankGenerationInfo(obj_guid, obj_name, obj_short, obj_path, platform, language, file_guid, file_name,
-                                      file_short, file_path, bank_type, bank_data, error_message))
+        platform = Name(kwargs.get("platform", dict()).get("name", Name.get_null()))
+        language = Name(kwargs.get("language", Name.get_null()))
+        
+        event(SoundBankGenerationInfo(guid, name, path, file, short, bhash, btype, platform, language, media, externals,
+                                      plugins, events, dialogues, busses, auxes, parameters, triggers, states, switches,
+                                      textures, bank_data, libs, error_message))
     
     @callback
     def _on_generation_done(self, event: _RefEvent, **kwargs):

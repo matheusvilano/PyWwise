@@ -489,20 +489,51 @@ class SoundBankData:
 
 
 @_dataclass
+class PluginLibraryInfo:
+    """A dataclass containing information about a plugin library."""
+    
+    name: str
+    """The display name of the plugin."""
+    
+    short: ShortID
+    """The short ID of the plugin."""
+    
+    type: str
+    """A string describing the type of plugin."""
+    
+    dll: str
+    """The name of the DLL for this plugin."""
+    
+    static: str
+    """The name of the Static Lib for this plugin."""
+    
+
+@_dataclass
 class SoundBankGenerationInfo:
     """Contains information about a SoundBank's generation."""
     
-    obj_guid: GUID
+    guid: GUID
     """The GUID of the generated SoundBank object in Wwise."""
     
-    obj_name: Name
+    name: Name
     """The short name of the SoundBank object in Wwise."""
     
-    obj_short: ShortID
+    path: ProjectPath
+    """The project path to the SoundBank object in Wwise."""
+    
+    file: str
+    """The name of the BNK file - usually the Short ID with the **.bnk** extension at the end (e.g. 89627304.bnk)"""
+    
+    short: ShortID
     """The short ID of the SoundBank object in Wwise."""
     
-    obj_path: ProjectPath
-    """The project path to the SoundBank object in Wwise."""
+    hash: GUID
+    """Hash value (128-bit) written to the associated SoundBank .bnk file. Used during SoundBank generation to check
+    existing .bnk files for changes."""
+    
+    type: EGeneratedSoundBankType
+    """The type of SoundBank generated. Most banks are Auto-Defined SoundBanks, if your project has the feature
+    enabled."""
     
     platform: Name
     """The name of the platform for which the SoundBank was generated."""
@@ -511,24 +542,47 @@ class SoundBankGenerationInfo:
     """The name of the language for which the SoundBank was generated. Only present when generating a SoundBank for a
     specific language."""
     
-    file_guid: GUID
-    """The GUID of the generated SoundBank (BNK) file."""
+    media: dict
+    """JSON object containing information about Media."""
     
-    file_name: Name
-    """The short name of the file. This is the name of the BNK file."""
+    external_sources: dict
+    """JSON object containing information about External Sources."""
     
-    file_short: ShortID
-    """The short ID of the generated SoundBank (BNK) file."""
+    plugins: dict
+    """JSON object containing information about Plugins."""
     
-    file_path: SystemPath
-    """The system path to the BNK file."""
+    events: dict
+    """JSON object containing information about Events."""
     
-    bank_type: EGeneratedSoundBankType
-    """The type of SoundBank generated. Most banks are Auto-Defined SoundBanks, if your project has the feature
-    enabled."""
+    dialogue_events: dict
+    """JSON object containing information about Dialogue Events."""
     
-    bank_data: SoundBankData = _field(default=SoundBankData)
+    audio_busses: dict
+    """JSON object containing information about Audio Busses."""
+    
+    aux_busses: dict
+    """JSON object containing information about Aux Busses."""
+    
+    game_parameters: dict
+    """JSON object containing information about Game Parameters."""
+    
+    triggers: dict
+    """JSON object containing information about Triggers."""
+    
+    state_groups: dict
+    """JSON object containing information about State Groups."""
+    
+    switch_groups: dict
+    """JSON object containing information about Switch Groups."""
+    
+    acoustic_textures: dict
+    """JSON object containing information about Acoustic Textures."""
+    
+    bank_data: SoundBankData = _field(default_factory=SoundBankData)
     """The bank data."""
+    
+    plugin_data: tuple[PluginLibraryInfo, ...] = _field(default_factory=tuple)
+    """The plugin libs data."""
     
     error_message: str = ""
     """The error message, if an error occurred. Only present if an error occurred."""

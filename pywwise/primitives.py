@@ -33,6 +33,7 @@ class _PyWwiseID(int, _PyWwiseType):
         :return: The new ID.
         :raise ValueError: If the ID is less than `0` and not `-1`.
         """
+        value = int(value)  # Sometimes the number is a string. In that case, try converting.
         if value < 0 and value != -1:
             raise ValueError("ID value must be non-negative (or -1, if representing an invalid ID).")
         return int.__new__(cls, value)
