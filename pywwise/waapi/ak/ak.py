@@ -14,6 +14,9 @@ from pywwise.waapi.ak.wwise import Wwise as _Wwise
 class Ak:
     """ak"""
     
+    _connections = list[_Self]()
+    """List of all active connections to Wwise."""
+    
     def __init__(self, url: str = "ws://127.0.0.1:8080/waapi", allow_exception: bool = False,
                  callback_executor: CallbackExecutor = SequentialThreadExecutor,
                  is_debug_build: bool = False, is_console_instance: bool = False,
@@ -32,6 +35,12 @@ class Ak:
         self._client = _WaapiClient(url, allow_exception, callback_executor)
         self.soundengine = _SoundEngine(self._client)
         self.wwise = _Wwise(self._client, is_debug_build, is_console_instance, watch_list)
+        self._connections.append(self)
+    
+    def __del__(self):
+        """Disconnect, then delete this connection object."""
+        if self.is_connected():
+            self.disconnect()
     
     def __enter__(self) -> _Self:
         """
@@ -40,7 +49,7 @@ class Ak:
         """
         return self
     
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> bool:
         """
         Exit the context (re: `with` statement).
         :param exc_type: The exception type, if any.
@@ -48,19 +57,36 @@ class Ak:
         :param traceback: The traceback, if any exception(s) were raised.
         :return: Whether an exception was raised.
         """
-        self._client.disconnect()
+        if self.is_connected():
+            self._client.disconnect()
         return bool(exc_type)
     
-    def is_connected(self):
+    @classmethod
+    def get_connections(cls) -> tuple[_Self, ...]:
+        """
+        Get all active connections to Wwise. Intended only for internal use or debugging. Avoid using this function
+        in your logic. If you need to check if this connection is ative, use **is_connected** instead, or **disconnect**
+        if you are trying to delete this connection.
+        :return: The currently active connections to Wwise, in a `tuple`. This container will NOT be updated as
+                 connections are created/destroyed. Also, keep in mind that connections cannot be modified this way.
+        """
+        return tuple(cls._connections)
+    
+    def is_connected(self) -> bool:
         """
         Check if this instance is connected to Wwise.
         :return: Whether this instance is connected to Wwise.
         """
         return self._client.is_connected()
     
-    def disconnect(self):
-        """Disconnect from Wwise."""
-        self._client.disconnect()
+    def disconnect(self) -> bool:
+        """
+        Disconnect from Wwise.
+        :return: Whether the disconnection was successful.
+        """
+        if self in self._connections:
+            self._connections.remove(self)
+        return self._client.disconnect()
 
 
 WwiseConnection: _TypeAlias = Ak  # This cannot exist in aliases.py due to a circular import issue.

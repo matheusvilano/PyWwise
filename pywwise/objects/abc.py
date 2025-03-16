@@ -14,7 +14,7 @@ from types import NoneType as _NoneType
 
 from pywwise.enums import EObjectType
 from pywwise.primitives import GUID, Name, ProjectPath
-from pywwise.waapi.ak.ak import WwiseConnection
+from pywwise.waapi.ak.ak import WwiseConnection, Ak
 
 
 class WwiseObject(_ABC):
@@ -23,17 +23,19 @@ class WwiseObject(_ABC):
     The base class for any class that serves as interface for getting/setting properties on Wwise objects.
     """
     
-    def __init__(self, guid: GUID | WwiseObjectInfo, ak: WwiseConnection,
+    def __init__(self, guid: GUID | WwiseObjectInfo, ak: WwiseConnection = None,
                  platform: GUID | Name | _NoneType = None):
         """
         Uses a GUID to initialize a strongly-typed dynamic object, capable of fetching information from Wwise as needed.
         :param guid: If you may also pass a `WwiseObjectInfo` instance - this function will extract only the GUID.
+        :param ak: If you want to use a specific connection, specify it here. If not, the most recent connection will
+                   be used.
         :param platform: If you want your object to only be used on a specific platform, specify which one here.
         """
-        self._ak: WwiseConnection = ak
+        self._ak: WwiseConnection = ak if ak is not None else Ak.get_connections()[-1]
         self._guid: GUID = guid if isinstance(guid, GUID) else getattr(guid, "guid", GUID.get_null())
         self._query: str = f"$ from object \"{self._guid}\" take 1"
-        self._platform = platform
+        self._platform: GUID | Name | _NoneType = platform
     
     def get_property(self, name: str, default: _Any = None) -> _NoneType | bool | int | float | str | GUID | _Enum:
         """
@@ -50,6 +52,14 @@ class WwiseObject(_ABC):
             self._ak.wwise.core.object.set_property(self._guid, name, value, self._platform)
         else:
             self._ak.wwise.core.object.set_reference(self._guid, name, value, self._platform)
+    
+    @property
+    def is_connected(self) -> bool:
+        """
+        Checks if this instance is connected to Wwise.
+        :return: True if connected, False otherwise.
+        """
+        return self._ak.is_connected() if self._ak is not None else False
     
     @property
     def guid(self) -> GUID:
