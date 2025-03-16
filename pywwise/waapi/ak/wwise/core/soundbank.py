@@ -58,7 +58,6 @@ class SoundBank:
         :param kwargs: The event data.
         """
         # Key: soundBank
-        print(kwargs)
         bank = kwargs.get("soundbank", dict())
         guid = GUID(bank.get("id", GUID.get_null()))
         name = Name(bank.get("name", Name.get_null()))
