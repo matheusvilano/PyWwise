@@ -3,12 +3,11 @@
 
 from typing import Self as _Self, Union as _Union
 
-from pywwise import EPlaylistRestartBehaviour, ERandomOrSequence
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour,
-                           ELoudnessNormalizationType, EMechanismPlayMode, EMidiPlayOnNoteType, EOverLimitBehaviour,
-                           EPlayMechanismLoopType, EPlayMechanismSpecialTransitionsType, ERandomType, EScope,
-                           EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
+from pywwise.enums import (E3DPosition, E3DSpatialization, EColour, EDiscardBehaviour, ELoudnessNormalizationType,
+                           EMechanismPlayMode, EMidiPlayOnNoteType, EOverLimitBehaviour, EPlaylistRestartBehaviour,
+                           EPlayMechanismLoopType, EPlayMechanismSpecialTransitionsType, ERandomOrSequence, ERandomType,
+                           EScope, EVirtualVoiceBehaviour, EVirtualVoiceQueueBehaviour)
 from pywwise.objects.abc import WwiseObject
 from pywwise.objects.types.attenuation import Attenuation
 from pywwise.objects.types.aux_bus import AuxBus

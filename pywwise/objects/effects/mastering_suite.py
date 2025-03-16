@@ -1,9 +1,8 @@
 # Copyright 2025 Matheus Vilano
 # SPDX-License-Identifier: Apache-2.0
 
-from pywwise import EMasteringSuiteLinkMode
 from pywwise.descriptors import WwiseProperty
-from pywwise.enums import EMasteringSuiteFilterMode, EMasteringSuiteLimiterMode
+from pywwise.enums import EMasteringSuiteFilterMode, EMasteringSuiteLimiterMode, EMasteringSuiteLinkMode
 from pywwise.objects.abc import WwiseObject
 
 
