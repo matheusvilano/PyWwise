@@ -64,7 +64,7 @@ class SoundBank:
         path = ProjectPath(bank.get("path", ProjectPath.get_null()))
         
         # Key: bankInfo
-        info = kwargs.get("bankInfo", list[str]())
+        info = kwargs.get("bankInfo", list[dict]())
         info = info[0] if info else dict()
         short = ShortID(info.get("Id", ShortID.get_null()))
         file = str(info.get("Path", ""))
