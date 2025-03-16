@@ -14,6 +14,7 @@ from pywwise.enums import EObjectType, EReturnOptions
 from pywwise.primitives import GUID, Name, ProjectPath
 from pywwise.structs import Rect, WwiseObjectInfo
 from pywwise.waapi.ak.wwise.ui.commands import Commands as _Commands
+from pywwise.waapi.ak.wwise.ui.layout import Layout as _Layout
 from pywwise.waapi.ak.wwise.ui.project import Project as _Project
 
 
@@ -28,6 +29,7 @@ class UI:
         self._client = client
         
         self.commands = _Commands(client)
+        self.layout = _Layout(client)
         self.project = _Project(client)
         
         self.selection_changed = _RefEvent(tuple[WwiseObjectInfo, ...])
