@@ -3448,4 +3448,12 @@ class ESearchCriteriaUsingOperator(_IntEnum):
     IS_USING = 0
     IS_NOT_USING = 1
 
+
+class EDockViewSides(_StrEnum):
+    """An enumeration of the possible sides where to dock a floating view on the target"""
+    LEFT = "left"
+    RIGHT = "right"
+    TOP = "top"
+    BOTTOM = "bottom"
+
 # endregion

@@ -1441,3 +1441,81 @@ class SetOperation:
                  "children": [child.dict() for child in self.children] if self.children else None,
                  "import": {"files": [file.dict() for file in self.audio_imports]} if self.audio_imports else None}
         return {k: v for k, v in _dict.items() if v is not None}
+
+
+@_dataclass
+class LayoutObject:
+    """A layout entity and all of its related data"""
+
+
+@_dataclass
+class LayoutRectangle:
+    """Data type that holds all data of an allocated rectangle of a layout element"""
+    
+    left: float
+    """The left position of the element."""
+    
+    top: float
+    """The top position of the element."""
+    
+    right: float
+    """The right position of the element."""
+    
+    bottom: float
+    """The bottom position of the element."""
+    
+    @staticmethod
+    def get_zero():
+        """:return: A CaptureRect instance with x, y, width, and height all set to 0."""
+        return Rect(0, 0, 0, 0)
+
+
+@_dataclass
+class ViewInstance:
+    """Data type that holds all data of a Wwise view instance part of a layout."""
+    
+    view_name: Name
+    """Name of the view instance."""
+    
+    view_id: GUID
+    """GUID of the view instance."""
+    
+    view_is_docked: bool
+    """Whether or not the view is docked."""
+    
+    view_display_name: Name
+    """Display name of the view instance."""
+    
+    def dict(self) -> dict:
+        """
+        Converts the object attributes into a dictionary
+        :returns: The dictionary, in a JSON-like format.
+        """
+        return {
+            "viewName": self.view_name,
+            "viewID": self.view_id,
+            "viewIsDocked": self.view_is_docked,
+            "viewDisplayName": self.view_display_name
+        }
+    
+
+@_dataclass
+class ViewType:
+    """Data type that holds the association between a view name and its display name."""
+    
+    view_name: Name
+    """The type name of the view."""
+    
+    view_display_name: Name
+    """The display name of the view."""
+    
+    def dict(self) -> dict:
+        """
+        Converts the object attributes into a dictionary
+        :returns: The dictionary, in a JSON-like format.
+        """
+        return {
+            "viewName": self.view_name,
+            "viewDisplayName": self.view_display_name
+        }
+    
