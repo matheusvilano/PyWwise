@@ -2083,6 +2083,19 @@ class EGeneratedSoundBankType(_StrEnum):
     """Auto-defined (based on a Bus)."""
 
 
+class EWindowPlacementShowCommand(_StrEnum):
+    """An enumeration of showCmd for the window placement."""
+    NORMAL = "Normal"
+    MAXIMIZED = "Maximized"
+    MINIMIZED = "Minimized"
+
+
+class EStackPanelOrientation(_StrEnum):
+    """An enumeration of stack panel orientations."""
+    VERTICAL = "Vertical"
+    HORIZONTAL = "Horizontal"
+
+
 # endregion
 
 # region Types

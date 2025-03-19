@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import Any as _Any, Self as _Self, TYPE_CHECKING as _TYPE_CHECKING
 
+from pywwise import EStackPanelOrientation
+
 if _TYPE_CHECKING:
     from pywwise.descriptors import WwiseProperty
 
@@ -16,7 +18,8 @@ from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAtten
                            EBasePlatform, EBusOptions, ECaptureLogItemType, ECaptureLogSeverity,
                            EGeneratedSoundBankType, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
-                           EVoicePipelineReturnOptions, EWwiseBuildConfiguration, EWwiseBuildPlatform)
+                           EVoicePipelineReturnOptions, EWindowPlacementShowCommand, EWwiseBuildConfiguration,
+                           EWwiseBuildPlatform)
 from pywwise.primitives import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
 
@@ -1444,10 +1447,130 @@ class SetOperation:
 
 
 @_dataclass
+class WindowPlacementInformation:
+    """Dataclass representing the information of the positions of a window of a view."""
+    
+    type: str
+    """The type of ViewPosition. Only possible value is ViewPosition. Extracted via @ modifier to extract values
+    from properties."""
+    
+    name: Name
+    """The name of the View."""
+    
+    window_placement_flags: str
+    """The flags of the window placement"""
+    
+    window_placement_min_pos_x: str
+    """The minimum X position of the window."""
+    
+    window_placement_min_pos_y: str
+    """The minimum Y position of the window."""
+    
+    window_placement_max_pos_x: str
+    """The maximum X position of the window."""
+    
+    window_placement_max_pos_y: str
+    """The maximum Y position of the window."""
+    
+    window_placement_normal_pos_left: str
+    """The normal left position of the window."""
+    
+    window_placement_normal_pos_top: str
+    """The normal top position of the window."""
+    
+    window_placement_normal_pos_right: str
+    """The normal right position of the window."""
+    
+    window_placement_normal_pos_bottom: str
+    """The normal bottom position of the window."""
+    
+    window_placement_show_command: EWindowPlacementShowCommand = EWindowPlacementShowCommand.NORMAL
+    """The last showCmd for the window placement. Defaults to Normal if no command is selected."""
+
+
+@_dataclass
+class StackPanelInformation:
+    """Dataclass representing the information of a stack panel in a layout."""
+    
+    name: Name
+    """The name of the StackPanel."""
+    
+    id: str
+    """The identifier of the stack panel."""
+    
+    orientation: EStackPanelOrientation
+    """The orientation of the stack panel."""
+    
+    children: ListOrTuple[_Any]
+    """List of UI elements in the stack panel. Extracted via @ modifier to extract values from
+    properties."""
+    
+    type: str = ""
+    """The type of StackPanel. Only possible value is StackPanel. Extracted via @ modifier to extract values from
+    properties."""
+    
+    width: str = ""
+    """The width of the stack panel."""
+    
+    height: str = ""
+    """The height of the stack panel."""
+    
+
+@_dataclass(WindowPlacementInformation)
+class UndockedWindowInformation:
+    """Dataclass representing the information of a view holder for a floating window."""
+    
+    stack_panel: StackPanelInformation = None
+    
+
+@_dataclass
+class _LayoutObject:
+    """A layout entity and all of its related data"""
+    
+    name: Name
+    """The name of the layout"""
+    
+    audio_device_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last view positions."""
+    
+    effect_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last tab positions for effects."""
+    
+    fallback_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """Fallback of the list of last tab position."""
+    
+    last_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last tab position."""
+    
+    metadata_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last tab position for metadata."""
+    
+    object_type_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last positions for object type."""
+    
+    plugin_inner_object_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last position for plugin inner object."""
+    
+    source_plugin_last_tab_positions: ListOrTuple[WindowPlacementInformation]() = None
+    """List of last tab position for source plugin."""
+    
+    stack_panel: StackPanelInformation = None
+    """Stack panel in a layout."""
+    
+    undocked: UndockedWindowInformation = None
+    
+    
+@_dataclass
 class LayoutObject:
     """A layout entity and all of its related data"""
-
-
+    
+    name: Name
+    """The name of the layout"""
+    
+    layout_object: _LayoutObject
+    """The layout object in JSON format."""
+    
+    
 @_dataclass
 class LayoutRectangle:
     """Data type that holds all data of an allocated rectangle of a layout element"""
