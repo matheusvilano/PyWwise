@@ -5,8 +5,6 @@ from __future__ import annotations
 
 from typing import Any as _Any, Self as _Self, TYPE_CHECKING as _TYPE_CHECKING
 
-from pywwise import EStackPanelOrientation
-
 if _TYPE_CHECKING:
     from pywwise.descriptors import WwiseProperty
 
@@ -19,7 +17,7 @@ from pywwise.enums import (EAttenuationCurveShape, EAttenuationCurveType, EAtten
                            EGeneratedSoundBankType, EInclusionFilter,
                            ELogSeverity, EObjectType, EReturnOptions, ERtpcMode, EStartMode,
                            EVoicePipelineReturnOptions, EWindowPlacementShowCommand, EWwiseBuildConfiguration,
-                           EWwiseBuildPlatform)
+                           EWwiseBuildPlatform, EStackPanelOrientation)
 from pywwise.primitives import GameObjectID, GUID, Name, OriginalsPath, PlayingID, ProjectPath, ShortID
 from pywwise.statics import EnumStatics
 
@@ -1514,14 +1512,14 @@ class StackPanelInformation:
     
     height: str = ""
     """The height of the stack panel."""
-    
+
 
 @_dataclass(WindowPlacementInformation)
 class UndockedWindowInformation:
     """Dataclass representing the information of a view holder for a floating window."""
     
     stack_panel: StackPanelInformation = None
-    
+
 
 @_dataclass
 class _LayoutObject:
@@ -1558,8 +1556,8 @@ class _LayoutObject:
     """Stack panel in a layout."""
     
     undocked: UndockedWindowInformation = None
-    
-    
+
+
 @_dataclass
 class LayoutObject:
     """A layout entity and all of its related data"""
@@ -1569,8 +1567,8 @@ class LayoutObject:
     
     layout_object: _LayoutObject
     """The layout object in JSON format."""
-    
-    
+
+
 @_dataclass
 class LayoutRectangle:
     """Data type that holds all data of an allocated rectangle of a layout element"""
@@ -1620,7 +1618,7 @@ class ViewInstance:
             "viewIsDocked": self.view_is_docked,
             "viewDisplayName": self.view_display_name
         }
-    
+
 
 @_dataclass
 class ViewType:
@@ -1641,4 +1639,3 @@ class ViewType:
             "viewName": self.view_name,
             "viewDisplayName": self.view_display_name
         }
-    
