@@ -969,6 +969,7 @@ class PlayingVoiceProperties:
         return hash(self.object_guid)
 
 
+@_dataclass
 class WwiseObjectWatch:
     """Represents a watch. Used for setting up the `ak.wwise.core.object.property_changed` event. For the specified
     GUID, changes to any of the specified properties will trigger the event."""
