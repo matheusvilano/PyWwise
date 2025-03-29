@@ -236,8 +236,8 @@ class SoundEngine:
                 "channelConfig": channel_config.value, "volumeOffsets": volume_offsets}
         return self._client.call("ak.soundengine.setListenerSpatialization", args) is not None
     
-    def set_multiple_positions(self, game_obj: GameObjectID, orientation_front: ListOrTuple[Vector3],
-                               orientation_top: ListOrTuple[Vector3], position: ListOrTuple[Vector3],
+    def set_multiple_positions(self, game_obj: GameObjectID, orientations_front: ListOrTuple[Vector3],
+                               orientations_top: ListOrTuple[Vector3], positions: ListOrTuple[Vector3],
                                multi_position_type: EMultiPositionType) -> bool:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_soundengine_setmultiplepositions.html \n
@@ -253,16 +253,27 @@ class SoundEngine:
         :raise ValueError: If the lengths of orientation_front, orientation_top, and position are not equal.
         :return: Whether the call succeeded.
         """
-        if len({orientation_front, orientation_top, position}) != 1:  # 1 means different lengths, in this context
-            raise ValueError("The amount of values in `orientation_front`, `orientation_top`, "
-                             "and `position` must be equal.")
-        
+        if len(orientations_front) != len(orientations_top) != len(positions):
+            raise ValueError("Amount of orientations and positions should match.")
+
         args = {"gameObject": game_obj,
                 "multiPositionType": multi_position_type,
-                "positions": [{"orientationFront": orientation_front[i],
-                               "orientationTop": orientation_top[i],
-                               "position": position[i]} for i in range(len(position))]}
-        
+                "positions": []}
+
+        for i in range(len(positions)):
+            orientation_front = {"x": orientations_front[i].x,
+                                 "y": orientations_front[i].y,
+                                 "z": orientations_front[i].z}
+            orientation_top = {"x": orientations_top[i].x,
+                               "y": orientations_top[i].y,
+                               "z": orientations_top[i].z}
+            position = {"x": positions[i].x,
+                        "y": positions[i].y,
+                        "z": positions[i].z}
+            args["positions"].append({"position": {"position": position,
+                                                   "orientationFront": orientation_front,
+                                                   "orientationTop": orientation_top}})
+
         return self._client.call("ak.soundengine.setMultiplePositions", args) is not None
     
     def set_object_obstruction_and_occlusion(self, emitter: GameObjectID, listener: GameObjectID,
