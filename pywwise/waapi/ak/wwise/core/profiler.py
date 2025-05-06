@@ -299,14 +299,14 @@ class Profiler:
         
         return tuple(stats)
     
-    def get_cursor_time(self, time: ETimeCursor) -> int:
+    def get_cursor_time(self, cursor: ETimeCursor) -> int:
         """
         https://www.audiokinetic.com/library/edge/?source=SDK&id=ak_wwise_core_profiler_getcursortime.html \n
         Returns the current time of the specified profiler cursor, in milliseconds.
-        :param time: Time Cursor from which to acquire the time.
+        :param cursor: Time Cursor from which to acquire the time.
         :return: The current position of the specified Time Cursor, in ms. If function fails, it returns -1.
         """
-        args = {"time": time}
+        args = {"cursor": cursor}
         
         result = self._client.call("ak.wwise.core.profiler.getCursorTime", args)
         result = result.get("return")
