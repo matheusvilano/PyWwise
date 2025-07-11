@@ -15,6 +15,8 @@ install it via `pip`. Using CMD,
 Terminal, PowerShell, or any command-line interface of your choice, run the command `pip install pywwise` to install
 the latest version of PyWwise.
 
+_**PyWwise is intended to be used with Wwise versions 2021 and above.**_ 
+
 ## Usage
 
 Getting started with PyWwise is easy: the first step is always to import `pywwise` and initialize a WAAPI connection to
