@@ -1487,6 +1487,10 @@ class SetOperation:
     audio_imports: ListOrTuple[AudioImportEntry] = None
     """The audio assets to import. This also created Sound objects (SFX or Voice)."""
     
+    properties: ListOrTuple[tuple[WwiseProperty | str, _Any]] = _field(default_factory=tuple)
+    """The properties to set. This is a **list** or **tuple** of property-value pairs (a **tuple** of size 2).
+    **Example: [(Sound.position_3d, E3DPosition.EMITTER), (Sound.volume, -6.0)]**"""
+    
     def dict(self) -> dict:
         """
         Convert this data structure to a JSON-like dictionary.
@@ -1495,4 +1499,6 @@ class SetOperation:
         _dict = {"object": self.root,
                  "children": [child.dict() for child in self.children] if self.children else None,
                  "import": {"files": [file.dict() for file in self.audio_imports]} if self.audio_imports else None}
+        for prop in self.properties:
+            _dict[f"@{prop[0]}"] = prop[1]
         return {k: v for k, v in _dict.items() if v is not None}
